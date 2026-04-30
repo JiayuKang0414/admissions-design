@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Academics — Undergraduate Admissions | University of Maryland</title>
+  <title>Student Life — Undergraduate Admissions | University of Maryland</title>
 
   <!-- ============================================================
        UMD Critical CSS — MUST precede cdn.js
@@ -903,263 +903,142 @@ umd-element-card-overlay.size-large {
     </nav>
   </umd-element-navigation-header>
 
-  <!-- 3. HERO — small background -->
+  <!-- 3. HERO — small background, mirrors academics hero pattern -->
   <section class="umd-layout-vertical-landing">
     <umd-element-hero data-layout-height="small" data-layout-text="center">
-      <img slot="image" src="../images/academics/academics-hero_2023-04-03-163443_qvqg-3117fef3.jpg" alt="Students wearing virtual reality headsets" />
-      <h1 slot="headline">Academics</h1>
-      <div slot="text"><p>The University of Maryland (UMD) is consistently recognized as one of the preeminent public research universities in the United States.</p></div>
+      <img slot="image" src="../images/student-life/female-students-outside-hero.jpg" alt="Students outside" />
+      <h1 slot="headline">Student Life</h1>
+      <div slot="text"><p>We want you to feel at home at the University of Maryland (UMD). We're committed to fostering a campus environment that supports a healthy mind, body and spirit for all members of the university community.</p></div>
     </umd-element-hero>
   </section>
 
-  <!-- 4. STUDY HERE — eyebrow headline + rich text + CTA pulled from hero -->
+  <!-- 4. MAKE UMD YOURS — eyebrow + rich text intro, mirrors academics study-here pattern -->
   <section class="umd-layout-vertical-landing study-here-section">
     <div class="study-here-chevron" aria-hidden="true">
       <umd-element-brand-logo-animation></umd-element-brand-logo-animation>
     </div>
     <div class="umd-layout-space-horizontal-small study-here-content">
       <hr style="border:none;border-top:1px solid #000000;margin:0 0 24px 0;" />
-      <p class="umd-sans-large mb-md" style="text-transform:uppercase;">Study Here</p>
+      <p class="umd-sans-large mb-md" style="text-transform:uppercase;">Make UMD Yours</p>
       <div class="umd-text-rich-advanced">
-        <p>Our Terps are fearless innovators across every discipline — Nobel laureates, Pulitzer Prize winners, members of the national academies, MacArthur Fellows, and Pell Scholars among them. Whether your passion is computer science, journalism, public health, or the performing arts, you'll find faculty mentors and classmates pushing the boundaries of what's possible.</p>
-      </div>
-      <div style="margin-top:24px;">
-        <umd-element-call-to-action data-display="primary">
-          <a href="https://academiccatalog.umd.edu/undergraduate/programs-degrees/">Explore All Programs</a>
-        </umd-element-call-to-action>
+        <p>You'll make the most of your UMD experience not just in the classroom, but beyond. Opportunities to get involved, have fun and make a difference are as rich and diverse as the homemade ice cream flavors at the Maryland Dairy! You won't only make your home here, you'll be part of a close-knit community.</p>
+        <p>Bond with your roommate, meet up with friends at the Food Court in the Stamp. Work up a sweat by playing Ultimate Frisbee or learning to ballroom dance. Pledge a service fraternity, join one club—or 10! Attend a concert or movie screening on campus, belt out the Maryland fight song at a football game. No matter what you want to do, you can find it at UMD.</p>
       </div>
     </div>
   </section>
 
-  <!-- 5. BY THE NUMBERS — stat cards in a grid -->
+  <!-- 5. STUDENTS IN ACTION — section intro + wide image carousel -->
   <section class="umd-layout-vertical-landing">
     <div class="umd-layout-space-horizontal-larger umd-layout-vertical-landing-child">
-      <h2 class="umd-sans-largest-uppercase" style="margin-bottom: 40px;">By the Numbers</h2>
-      <div class="umd-layout-grid-gap-three">
-        <umd-element-stat data-display="block" class="umd-layout-grid-child-fill-height">
-          <span slot="stat">100+</span>
-          <p slot="text">Undergraduate Majors</p>
-        </umd-element-stat>
-        <umd-element-stat data-display="block" class="umd-layout-grid-child-fill-height">
-          <span slot="stat">18:1</span>
-          <p slot="text">Student-to-Faculty Ratio</p>
-        </umd-element-stat>
-        <umd-element-stat data-display="block" class="umd-layout-grid-child-fill-height">
-          <span slot="stat">69</span>
-          <p slot="text">Colleges, schools and programs ranked in the top 25 nationwide</p>
-          <p slot="sub-text">2025 U.S. News &amp; World Report</p>
-        </umd-element-stat>
-      </div>
+      <umd-element-section-intro>
+        <h2 slot="headline">Students in Action</h2>
+        <div slot="text"><p>You'll make the most of your UMD experience not just in the classroom, but beyond. You won't only make your home here, you'll be part of a close-knit community.</p></div>
+      </umd-element-section-intro>
     </div>
-  </section>
-
-  <!-- 6. CHOOSING A MAJOR — pathway, image left -->
-  <section class="umd-layout-vertical-landing">
-    <umd-element-pathway data-layout-image-position="left">
-      <img slot="image" src="../images/academics/students-studying-table-c5f3b2f9.jpg" alt="Students studying together at a table" />
-      <h2 slot="headline">Choosing a Major</h2>
-      <div slot="text">
-        <p>With more than 100 majors across 12 colleges and schools, choosing a path at UMD is an act of discovery. Talk to advisors, sit in on classes, and meet the faculty doing work that excites you — your major isn't a label, it's the start of how you'll shape your career.</p>
+    <umd-element-carousel-image-wide title="Students in Action">
+      <div slot="slides">
+        <figure>
+          <img src="../images/student-life/service-day-farm-image-carousel.jpg" alt="Day of service at UMD farm" />
+          <div data-text>Service Day at the Farm at UMD</div>
+        </figure>
+        <figure>
+          <img src="../images/student-life/testudo-sports-image-carousel.jpg" alt="Testudo and sports fans" />
+          <div data-text>Sports fans and the University of Maryland mascot, Testudo, getting into the spirit</div>
+        </figure>
+        <figure>
+          <img src="../images/student-life/alumni-cup-image-carousel.jpg" alt="Alumni Cup" />
+          <div data-text>Friendly competition at the Alumni Cup</div>
+        </figure>
+        <figure>
+          <img src="../images/student-life/outdoor-class-image-carousel.jpg" alt="Ag outdoor classroom" />
+          <div data-text>Agriculture students enjoy an outdoor classroom day</div>
+        </figure>
+        <figure>
+          <img src="../images/student-life/Students-Yoga-Carousel.jpg" alt="UMD students participating in yoga." />
+          <div data-text>Students participating in yoga.</div>
+        </figure>
       </div>
-    </umd-element-pathway>
+    </umd-element-carousel-image-wide>
   </section>
 
-  <!-- 7. TWO-COLUMN NAV CARDS — Browse Programs / Colleges & Schools
-       Icon cards with default link icon (matches promise.html footer-link pattern). -->
-  <section class="umd-layout-vertical-landing">
-    <div class="umd-layout-space-horizontal-larger">
-      <div class="umd-layout-grid-gap-two">
-        <umd-element-card-icon>
-          <img slot="image" src="../page-builder/images/icons/icon-link.svg" alt="" />
-          <h3 slot="headline">
-            <a href="https://academiccatalog.umd.edu/undergraduate/programs-degrees/">Browse All Programs</a>
-          </h3>
-          <div slot="text">
-            <p>The full undergraduate catalog — every major, minor, and certificate offered across UMD's 12 colleges and schools, with course requirements and degree paths.</p>
-          </div>
-        </umd-element-card-icon>
-        <umd-element-card-icon>
-          <img slot="image" src="../page-builder/images/icons/icon-link.svg" alt="" />
-          <h3 slot="headline">
-            <a href="https://www.umd.edu/colleges-schools">Get to Know UMD's Colleges &amp; Schools</a>
-          </h3>
-          <div slot="text">
-            <p>Twelve schools, one university — explore the colleges that make up UMD, from Engineering and Business to Public Policy, Public Health, and the Arts &amp; Humanities.</p>
-          </div>
-        </umd-element-card-icon>
-      </div>
-    </div>
-  </section>
-
-  <!-- 8. BEYOND THE CLASSROOM — dark band, intro + 3 cards -->
+  <!-- 6. GETTING INVOLVED — dark section-intro (with CTAs) + aligned 3-card grid -->
   <section class="umd-layout-background-full-dark umd-layout-vertical-landing">
     <div class="umd-layout-space-horizontal-larger">
       <umd-element-section-intro data-theme="dark" class="umd-layout-vertical-landing-child">
-        <h2 slot="headline">Beyond the Classroom</h2>
-        <div slot="text"><p>Research, internships, and education abroad turn ideas into experience — and Terps into the kind of graduates employers and grad schools come looking for.</p></div>
+        <h2 slot="headline">Getting Involved</h2>
+        <div slot="text"><p>Looking for a fencing club, a cappella singing group, mock trial team or Buddhist thought and meditation group? We have you covered on this and more.</p></div>
+        <div slot="actions">
+          <umd-element-call-to-action data-display="secondary" data-theme="dark">
+            <a href="https://admissions.umd.edu/student/get-involved">Getting Involved on Campus</a>
+          </umd-element-call-to-action>
+          <umd-element-call-to-action data-display="secondary" data-theme="dark">
+            <a href="https://calendar.umd.edu/" target="_blank" rel="noopener">Events Calendar</a>
+          </umd-element-call-to-action>
+        </div>
       </umd-element-section-intro>
-
       <div class="umd-layout-grid-gap-three">
-        <umd-element-card data-theme="dark" data-aligned>
-          <a slot="image" href="https://ugresearch.umd.edu/"><img src="../images/academics/field-researcher-card-2b2a07e3.jpg" alt="Student conducting field research" /></a>
-          <h3 slot="headline"><a href="https://ugresearch.umd.edu/">Research</a></h3>
-          <p slot="text">Join faculty-led research from your first year. The Office of Undergraduate Research connects students with labs, archives, studios, and grants across every college.</p>
+        <umd-element-card data-visual-image-aligned="true" data-visual-transparent="true" data-theme="dark" class="umd-layout-grid-child-fill-height">
+          <img slot="image" src="../images/student-life/stamp-card.jpg" alt="STAMP — view from front" />
+          <h3 slot="headline">800+ Clubs</h3>
+          <div slot="text"><p>With more than 800 clubs, fraternities/sororities and sports, getting involved at UMD couldn't be easier.</p></div>
         </umd-element-card>
-        <umd-element-card data-theme="dark" data-aligned>
-          <a slot="image" href="https://careers.umd.edu/students/internships"><img src="../images/academics/students-talking-hallway-card-aaf5f334.jpg" alt="Students talking in a hallway" /></a>
-          <h3 slot="headline"><a href="https://careers.umd.edu/students/internships">Internships</a></h3>
-          <p slot="text">From DC consulting firms to Maryland startups, the University Career Center helps Terps land internships that turn into careers.</p>
+        <umd-element-card data-visual-image-aligned="true" data-visual-transparent="true" data-theme="dark" class="umd-layout-grid-child-fill-height">
+          <img slot="image" src="../images/student-life/intramural-sports@2x.jpg" alt="Intramural sports" />
+          <h3 slot="headline">Athletics</h3>
+          <div slot="text"><p>Fear the Turtle! It's the rallying cry at the University of Maryland, which has one of the country's most comprehensive and successful athletic programs. From intramural and club sports to our Division I teams, Terps are active.</p></div>
         </umd-element-card>
-        <umd-element-card data-theme="dark" data-aligned>
-          <a slot="image" href="https://globalmaryland.umd.edu/offices/education-abroad"><img src="../images/academics/Education-Abroad-bridge-355d65ff.jpg" alt="Education abroad bridge in Taiwan" /></a>
-          <h3 slot="headline"><a href="https://globalmaryland.umd.edu/offices/education-abroad">Education Abroad</a></h3>
-          <p slot="text">Study in 70+ countries through the #TerpsAbroad program. Short faculty-led trips, semester exchanges, and full-year immersions — there's a fit for every major.</p>
+        <umd-element-card data-visual-image-aligned="true" data-visual-transparent="true" data-theme="dark" class="umd-layout-grid-child-fill-height">
+          <img slot="image" src="../images/student-life/terp-art-card.jpg" alt="Terp art" />
+          <h3 slot="headline">Always things to do</h3>
+          <div slot="text"><p>Discover events happening on campus or in the area.</p></div>
         </umd-element-card>
       </div>
     </div>
   </section>
 
-  <!-- 9. LIVING-LEARNING PROGRAMS — pathway -->
+  <!-- 7. FINDING COMMUNITY — pathway, image left -->
   <section class="umd-layout-vertical-landing">
-    <umd-element-pathway>
-      <img slot="image" src="../images/academics/Scholars-Students-d2a6bf3e.PNG" alt="Scholars program students" />
-      <h2 slot="headline">Living-Learning Programs</h2>
-      <div slot="text">
-        <p>About half of UMD's first-year students join a living-learning program — small academic communities that share a residence hall, take a few classes together, and pursue a common interest, from entrepreneurship to global public health.</p>
-      </div>
+    <umd-element-pathway data-layout-image-position="left">
+      <img slot="image" src="../images/student-life/Education-Abroad-fields_2023-06-06-200744_ksck.jpg" alt="Terps studying abroad" />
+      <h2 slot="headline">Finding Community</h2>
+      <div slot="text"><p>With so many ways to get involved on-campus and in the community, it's easy to find your people—Terps who share your interests and hobbies. You'll form lifelong friendships and networks you can rely on beyond college.</p></div>
       <div slot="actions">
         <umd-element-call-to-action data-display="primary">
-          <a href="https://www.scholarship.umd.edu/living-learning">Learn about living-learning programs</a>
+          <a href="https://admissions.umd.edu/student/find-community">Find Your Community at UMD</a>
         </umd-element-call-to-action>
       </div>
     </umd-element-pathway>
   </section>
 
-  <!-- 10. NOTABLE ALUMNI — section intro + thumbnail carousel -->
+  <!-- 8. HOUSING & DINING — pathway, image right -->
   <section class="umd-layout-vertical-landing">
-    <div class="umd-layout-space-horizontal-larger">
-      <umd-element-section-intro class="umd-layout-vertical-landing-child">
-        <h2 slot="headline">Notable Alumni</h2>
-        <div slot="text"><p>Terps go on to lead, build, perform, report, and invent across every field. A few of the names you may know.</p></div>
-      </umd-element-section-intro>
-    </div>
-
-    <div class="umd-layout-space-horizontal-larger">
-    <umd-element-carousel-thumbnail>
-      <div slot="blocks">
-        <umd-element-card data-visual-transparent="true" data-visual-image-aligned="true" data-thumbnail="../images/academics/KevinPlank-e307fe2f.jpg">
-          <img slot="image" src="../images/academics/KevinPlank-e307fe2f.jpg" alt="Kevin Plank" />
-          <p slot="headline">Kevin Plank '96</p>
-          <div slot="text"><p>Founder, Under Armour</p></div>
-        </umd-element-card>
-        <umd-element-card data-visual-transparent="true" data-visual-image-aligned="true" data-thumbnail="../images/academics/GayleKing-2a8d8edb.jpg">
-          <img slot="image" src="../images/academics/GayleKing-2a8d8edb.jpg" alt="Gayle King" />
-          <p slot="headline">Gayle King '76</p>
-          <div slot="text"><p>Co-host, CBS Mornings</p></div>
-        </umd-element-card>
-        <umd-element-card data-visual-transparent="true" data-visual-image-aligned="true" data-thumbnail="../images/academics/JimHenson-e0a44238.jpg">
-          <img slot="image" src="../images/academics/JimHenson-e0a44238.jpg" alt="Jim Henson" />
-          <p slot="headline">Jim Henson '60</p>
-          <div slot="text"><p>Creator, The Muppets</p></div>
-        </umd-element-card>
-        <umd-element-card data-visual-transparent="true" data-visual-image-aligned="true" data-thumbnail="../images/academics/ConnieChung-2637d0a1.jpg">
-          <img slot="image" src="../images/academics/ConnieChung-2637d0a1.jpg" alt="Connie Chung" />
-          <p slot="headline">Connie Chung '69</p>
-          <div slot="text"><p>Journalist and news anchor</p></div>
-        </umd-element-card>
-        <umd-element-card data-visual-transparent="true" data-visual-image-aligned="true" data-thumbnail="../images/academics/DominiqueDawes-fdd4924f.jpg">
-          <img slot="image" src="../images/academics/DominiqueDawes-fdd4924f.jpg" alt="Dominique Dawes" />
-          <p slot="headline">Dominique Dawes '02</p>
-          <div slot="text"><p>Olympic gold medalist, gymnastics</p></div>
-        </umd-element-card>
-        <umd-element-card data-visual-transparent="true" data-visual-image-aligned="true" data-thumbnail="../images/academics/BrendanIribe-0aa7950a.jpg">
-          <img slot="image" src="../images/academics/BrendanIribe-0aa7950a.jpg" alt="Brendan Iribe" />
-          <p slot="headline">Brendan Iribe</p>
-          <div slot="text"><p>Co-founder, Oculus VR</p></div>
-        </umd-element-card>
-        <umd-element-card data-visual-transparent="true" data-visual-image-aligned="true" data-thumbnail="../images/academics/LarryDavid-52d4a0d7.jpg">
-          <img slot="image" src="../images/academics/LarryDavid-52d4a0d7.jpg" alt="Larry David" />
-          <p slot="headline">Larry David '69</p>
-          <div slot="text"><p>Co-creator, Seinfeld; creator, Curb Your Enthusiasm</p></div>
-        </umd-element-card>
-        <umd-element-card data-visual-transparent="true" data-visual-image-aligned="true" data-thumbnail="../images/academics/AaronMcgruder-e72860b6.jpg">
-          <img slot="image" src="../images/academics/AaronMcgruder-e72860b6.jpg" alt="Aaron McGruder" />
-          <p slot="headline">Aaron McGruder '96</p>
-          <div slot="text"><p>Creator, The Boondocks</p></div>
-        </umd-element-card>
-        <umd-element-card data-visual-transparent="true" data-visual-image-aligned="true" data-thumbnail="../images/academics/JasmineSnead-b3dddfde.jpg">
-          <img slot="image" src="../images/academics/JasmineSnead-b3dddfde.jpg" alt="Jasmine Snead" />
-          <p slot="headline">Jasmine Snead '15</p>
-          <div slot="text"><p>Engineer and STEM advocate</p></div>
-        </umd-element-card>
-        <umd-element-card data-visual-transparent="true" data-visual-image-aligned="true" data-thumbnail="../images/academics/GailBerman_2023-06-07-183600_vkkt-e966a0a0.jpg">
-          <img slot="image" src="../images/academics/GailBerman_2023-06-07-183600_vkkt-e966a0a0.jpg" alt="Gail Berman" />
-          <p slot="headline">Gail Berman '78</p>
-          <div slot="text"><p>Television and film executive</p></div>
-        </umd-element-card>
-        <umd-element-card data-visual-transparent="true" data-visual-image-aligned="true" data-thumbnail="../images/academics/RobertBriskman-f8d9de42.jpg">
-          <img slot="image" src="../images/academics/RobertBriskman-f8d9de42.jpg" alt="Robert Briskman" />
-          <p slot="headline">Robert Briskman '54</p>
-          <div slot="text"><p>Co-founder, Sirius Satellite Radio</p></div>
-        </umd-element-card>
-        <umd-element-card data-visual-transparent="true" data-visual-image-aligned="true" data-thumbnail="../images/academics/EthanBrown-1e3392f5.jpg">
-          <img slot="image" src="../images/academics/EthanBrown-1e3392f5.jpg" alt="Ethan Brown" />
-          <p slot="headline">Ethan Brown '04</p>
-          <div slot="text"><p>Founder, Beyond Meat</p></div>
-        </umd-element-card>
-        <umd-element-card data-visual-transparent="true" data-visual-image-aligned="true" data-thumbnail="../images/academics/DianneWiest-092f676e.jpg">
-          <img slot="image" src="../images/academics/DianneWiest-092f676e.jpg" alt="Dianne Wiest" />
-          <p slot="headline">Dianne Wiest '69</p>
-          <div slot="text"><p>Two-time Academy Award–winning actress</p></div>
-        </umd-element-card>
-        <umd-element-card data-visual-transparent="true" data-visual-image-aligned="true" data-thumbnail="../images/academics/JasonReynolds-9ab96f46.jpg">
-          <img slot="image" src="../images/academics/JasonReynolds-9ab96f46.jpg" alt="Jason Reynolds" />
-          <p slot="headline">Jason Reynolds '05</p>
-          <div slot="text"><p>Award-winning author of young adult fiction</p></div>
-        </umd-element-card>
-        <umd-element-card data-visual-transparent="true" data-visual-image-aligned="true" data-thumbnail="../images/academics/JeffKinney-7f768c66.jpg">
-          <img slot="image" src="../images/academics/JeffKinney-7f768c66.jpg" alt="Jeff Kinney" />
-          <p slot="headline">Jeff Kinney '93</p>
-          <div slot="text"><p>Author, Diary of a Wimpy Kid</p></div>
-        </umd-element-card>
-        <umd-element-card data-visual-transparent="true" data-visual-image-aligned="true" data-thumbnail="../images/academics/RobertBasham-1ca2a6e3.jpg">
-          <img slot="image" src="../images/academics/RobertBasham-1ca2a6e3.jpg" alt="Robert Basham" />
-          <p slot="headline">Robert Basham '70</p>
-          <div slot="text"><p>Co-founder, Outback Steakhouse</p></div>
-        </umd-element-card>
+    <umd-element-pathway data-layout-image-position="right">
+      <img slot="image" src="../images/student-life/students-dorm@2x.jpg" alt="Scene from a dorm" />
+      <h2 slot="headline">Housing &amp; Dining</h2>
+      <div slot="text"><p>College is a big adjustment. Knowing where you'll call home and where you can find a home cooked meal is important. There are many options for living on- or off-campus and students can grab a bite at a dining hall, food court or cafe across campus.</p></div>
+      <div slot="actions">
+        <umd-element-call-to-action data-display="primary">
+          <a href="https://admissions.umd.edu/student/housing-and-dining">Discover housing &amp; dining at UMD</a>
+        </umd-element-call-to-action>
       </div>
-    </umd-element-carousel-thumbnail>
-    </div>
+    </umd-element-pathway>
   </section>
 
-  <!-- 11. RESOURCES — card carousel (full-bleed; component has its own lock + black bg) -->
+  <!-- 9. STUDENT SUPPORT & SAFETY — pathway, image left -->
   <section class="umd-layout-vertical-landing">
-    <umd-element-carousel-cards>
-      <h2 slot="headline">Resources for current and prospective Terps</h2>
-      <div slot="cards">
-        <umd-element-card-overlay data-theme="dark">
-          <p slot="headline"><a href="https://academiccatalog.umd.edu/"><span>Undergraduate Catalog</span></a></p>
-          <div slot="text"><p>The complete listing of UMD's undergraduate programs, requirements, and policies — your reference for everything academic.</p></div>
-          <div slot="actions">
-            <umd-element-call-to-action data-display="secondary" data-theme="dark" data-visual-size="standard">
-              <a href="https://academiccatalog.umd.edu/"><span>View the catalog</span></a>
-            </umd-element-call-to-action>
-          </div>
-        </umd-element-card-overlay>
-        <umd-element-card-overlay data-theme="dark">
-          <p slot="headline"><a href="https://careers.umd.edu/students"><span>Career Center</span></a></p>
-          <div slot="text"><p>Career counseling, internship placement, employer connections, and the tools to turn your degree into a meaningful first job.</p></div>
-          <div slot="actions">
-            <umd-element-call-to-action data-display="secondary" data-theme="dark" data-visual-size="standard">
-              <a href="https://careers.umd.edu/students"><span>Visit the Career Center</span></a>
-            </umd-element-call-to-action>
-          </div>
-        </umd-element-card-overlay>
+    <umd-element-pathway data-layout-image-position="left">
+      <img slot="image" src="../images/student-life/safety@2x.jpg" alt="Safety" />
+      <h2 slot="headline">Student Support &amp; Safety</h2>
+      <div slot="text"><p>UMD is committed to ensuring our students well-being and success. We offer a variety of services to help students master their classes, stay active and to make campus a safe place to navigate.</p></div>
+      <div slot="actions">
+        <umd-element-call-to-action data-display="primary">
+          <a href="https://admissions.umd.edu/student/student-support">Learn about support &amp; safety at UMD</a>
+        </umd-element-call-to-action>
       </div>
-    </umd-element-carousel-cards>
+    </umd-element-pathway>
   </section>
 
-  <!-- 12. STAY CONNECTED — banner-promo (gold default) inside larger lock -->
+  <!-- 10. STAY IN TOUCH — banner-promo, mirrors academics Stay Connected pattern -->
   <section class="umd-layout-vertical-landing">
     <div class="umd-layout-space-horizontal-larger">
       <umd-element-banner-promo>
@@ -1167,10 +1046,10 @@ umd-element-card-overlay.size-large {
         <p slot="text">Let's stay in touch!</p>
         <div slot="actions" class="banner-promo-actions">
           <umd-element-call-to-action data-display="primary">
-            <a href="https://admissions.umd.edu/connect/mailing-list">Join the Mailing List</a>
+            <a href="https://apply.umd.edu/register/request-info" target="_blank" rel="noopener">Join Our Mailing List</a>
           </umd-element-call-to-action>
           <umd-element-call-to-action data-display="secondary">
-            <a href="https://admissions.umd.edu/connect">Connect</a>
+            <a href="https://admissions.umd.edu/connect" target="_blank" rel="noopener">Connect</a>
           </umd-element-call-to-action>
         </div>
       </umd-element-banner-promo>

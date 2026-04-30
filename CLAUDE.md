@@ -32,11 +32,30 @@ Do **not** write to `examples/` or `test/` — those exist in the page-builder r
 
 When `images-index.json` is needed, read `page-builder/images/images-index.json`.
 
-## Shared chrome
+## Shared chrome and reference pages
 
-All admissions pages should render the same header stack and footer. The chrome lives inline in each page for now (see `pages/admissions.html` lines ~445–515 and ~975–982 for the canonical header/footer). When adding a new page, copy the chrome blocks from an existing page rather than reinventing them.
+Every page within a single design project must use the **same site header, navigation, logo, and footer**. Pages in this project should look like a coherent site — they should not invent their own chrome, nav items, or logo treatment.
 
-A future task will extract the chrome into `shared/header.html` / `shared/footer.html` and add a build script to inline them.
+### Reference page for this project
+
+For admissions-design, the canonical reference is **`pages/academics.html`** — it is the established landing-page design for this project. When building a new page in this repo:
+
+1. Open `pages/academics.html` and copy verbatim:
+   - The full header stack (`umd-element-navigation-utility` + `umd-element-utility-header` + `umd-element-navigation-header` with the project nav items)
+   - The footer block (`umd-element-footer data-display="visual"`)
+   - End-of-body shadow-injection scripts (pathway aspect ratio, banner-promo gap, nav-header logo width, etc.)
+2. Use the same logo paths, the same nav item set, and the same footer image — do not substitute or reorder.
+3. Only the `<main>` content between the header and footer is page-specific.
+
+### Projects that don't yet have a reference page
+
+Not every design project will start with an existing reference page. In that case, the **first page built becomes the reference** — establish header/nav/logo/footer choices intentionally, document them, and treat that page as authoritative for every subsequent page in the project.
+
+### Reference pages are project-scoped
+
+Reference pages live in this repo only — never copy this project's chrome into the `page-builder/` submodule, and never assume a different design project (e.g. a future `engineering-design` repo) will share these specific nav items, logos, or footer image. The submodule provides the components; each design project owns its own chrome composition.
+
+A future task will extract this project's chrome into `shared/header.html` / `shared/footer.html` and add a build script to inline them.
 
 ## Logos
 
