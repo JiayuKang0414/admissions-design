@@ -1113,6 +1113,83 @@ umd-element-card-overlay.size-large {
         setTimeout(applyAll, 250);
       });
     })();
+
+    // GRID ENTRY ANIMATIONS — auto-applied to layout grids. Mirrors the
+    // upstream observeGridAnimations() logic but expands the selector
+    // set to all umd-layout-grid-* containers so authors don't need to
+    // add umd-animation-grid manually. (This block is also in
+    // page-builder/TEMPLATE.html — every new page gets it for free.)
+    (function () {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var GRID_SELECTORS = [
+        '.umd-layout-grid-gap-two',
+        '.umd-layout-grid-gap-three',
+        '.umd-layout-grid-gap-stacked',
+        '.umd-layout-grid-columns-four',
+        '.umd-layout-grid-masonry',
+        '.umd-layout-grid-inline-tablet-rows',
+        '.umd-animation-grid',
+        '.umd-grid-animation'
+      ].join(',');
+      var FADE_CLASS = 'umd-animation-transition-fade-bottom';
+      var OFFSET_ATTR = 'data-animation';
+
+      var style = document.createElement('style');
+      style.textContent =
+        '@keyframes fade-in-from-bottom{from{opacity:0;transform:translateY(50px)}to{opacity:1;transform:translateY(0)}}' +
+        '@media (prefers-reduced-motion: no-preference){' +
+          ':where(' + GRID_SELECTORS + ') > *{opacity:0;transform:translateY(50px)}' +
+          '.' + FADE_CLASS + '{animation:fade-in-from-bottom 1s forwards;opacity:0;transform:translateY(50px)}' +
+        '}';
+      document.head.appendChild(style);
+
+      function init() {
+        var children = [];
+        document.querySelectorAll(GRID_SELECTORS).forEach(function (grid) {
+          Array.prototype.push.apply(children, grid.children);
+        });
+        if (!children.length) return;
+
+        function setRowOffsets() {
+          var prevTop = null;
+          children.forEach(function (el) {
+            var top = el.getBoundingClientRect().top;
+            if (prevTop !== null && Math.abs(top - prevTop) < 1) {
+              el.setAttribute(OFFSET_ATTR, 'offset');
+            } else {
+              el.removeAttribute(OFFSET_ATTR);
+              prevTop = top;
+            }
+          });
+        }
+
+        var observer = new IntersectionObserver(function (entries) {
+          var delay = 0;
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var el = entry.target;
+            if (el.getAttribute(OFFSET_ATTR) === 'offset') {
+              delay += 350;
+            } else {
+              delay = 0;
+            }
+            el.style.animationDelay = delay + 'ms';
+            el.classList.add(FADE_CLASS);
+            observer.unobserve(el);
+          });
+        }, { rootMargin: '0px', threshold: [0.35] });
+
+        children.forEach(function (el) { observer.observe(el); });
+        setRowOffsets();
+        window.addEventListener('resize', setRowOffsets);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
   </script>
 
 </body>
