@@ -23,7 +23,7 @@ The page-builder's own `CLAUDE.md` (`page-builder/CLAUDE.md`) defines the canoni
 - New admissions images → `images/academics/`, `images/admissions/`, or a new `images/<page>/` folder per page
 - Briefs / source notes → `briefs/<page-name>.md`
 
-Do **not** write to `examples/` or `test/` — those exist in the page-builder repo, not here.
+Do **not** write to `examples/` or `test/` — test/qa fixtures live in the page-builder repo, and demo/example pages live in the separate `page-builder-examples` repo, not here.
 
 ## Image paths
 
