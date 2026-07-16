@@ -6,6 +6,24 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "4173"],
       "port": 4173
+    },
+    {
+      "name": "strategic-plan-static",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4174", "--directory", "/Users/zjocson/repos/strategic-plan-design"],
+      "port": 4174
+    },
+    {
+      "name": "belonging-static",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4175", "--directory", "/Users/zjocson/repos/belonging-design"],
+      "port": 4175
+    },
+    {
+      "name": "page-builder-static",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4176", "--directory", "/Users/zjocson/repos/design-system-page-builder"],
+      "port": 4176
     }
   ]
 }
