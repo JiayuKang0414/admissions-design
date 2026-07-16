@@ -24,6 +24,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "4176", "--directory", "/Users/zjocson/repos/design-system-page-builder"],
       "port": 4176
+    },
+    {
+      "name": "examples-static",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4177", "--directory", "/Users/zjocson/repos/page-builder-examples"],
+      "port": 4177
     }
   ]
 }
