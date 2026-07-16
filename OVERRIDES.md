@@ -8,25 +8,25 @@ Admissions-specific shadow-DOM injections, class overrides, and utility classes 
 
 Source: `pages/admissions.html` and `pages/academics.html` end-of-body scripts.
 
-Pages using this: `pages/admissions.html`, `pages/academics.html`, `pages/student-life.html`.
+Pages using this: `pages/admissions.html`, `pages/academics.html`, `pages/student-life.html`, `pages/tuition.html`.
 
 ## Pathway 1:1 image aspect ratio
 
 `umd-element-pathway` has no CSS variable / `::part` hook for the image container; the design calls for a 1:1 image crop, so we shadow-inject `.pathway-image-container, .image-container, .umd-asset-image-wrapper-scaled { aspect-ratio: 1/1 !important; height: auto !important }` plus an `object-fit: cover` rule on the inner `<img>`.
 
-Pages using this: `pages/academics.html`, `pages/student-life.html`.
+Pages using this: `pages/academics.html`, `pages/student-life.html`, `pages/tuition.html`.
 
 ## Banner-promo stacked actions
 
 `umd-element-banner-promo` reprojects `slot="actions"` into its shadow DOM under `.banner-promo-actions` with no gap when actions stack. Shadow-inject `display:flex; flex-direction:column; align-items:flex-end; gap:8px` so primary + secondary CTAs stack with 8px spacing.
 
-Pages using this: `pages/academics.html`, `pages/student-life.html`.
+Pages using this: `pages/academics.html`, `pages/student-life.html`, `pages/tuition.html`.
 
 ## Study-here / eyebrow + rich-text intro section
 
 Custom `.study-here-section` / `.study-here-content` / `.study-here-chevron` layout — pairs a `umd-element-brand-logo-animation` chevron, anchored full-bleed and offset upward into the hero above, with an HR rule + uppercase eyebrow + rich-text body inside `umd-layout-space-horizontal-small`. Hidden below tablet to avoid single-column crowding. Used as the canonical "intro under the hero" pattern for landing pages in this project.
 
-Pages using this: `pages/academics.html`, `pages/student-life.html`.
+Pages using this: `pages/academics.html`, `pages/student-life.html`, `pages/tuition.html`.
 
 ## Quote + brand chevron overlap
 
