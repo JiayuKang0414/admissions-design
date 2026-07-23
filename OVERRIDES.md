@@ -53,3 +53,46 @@ Pages using this: `pages/admissions.html`.
 ## Deadlines table
 
 `.deadlines-table` — simple two-column rich-text table for the Important Dates section. Admissions-specific.
+
+## Small pathway zig-zag — responsive image + balanced grid
+
+Hand-composed "Small pathway style zig zag" rich-text sections (`umd-layout-space-horizontal-small` → `umd-layout-grid-gap-two` → text column + `figure.umd-layout-alignment-block-stacked` image column, alternating column order for the zig-zag). Modeled on the QA design-team `/components/images-and-media` sections `section-60493` / `section-60498`.
+
+Two gotchas required page-level CSS (the inlined `critical.css` subset has no global responsive-image rule):
+
+```css
+/* Let the 1fr tracks shrink; otherwise a wide image's min-content forces
+   its grid track to the image's intrinsic width and unbalances the columns. */
+.umd-layout-grid-gap-two > * { min-width: 0; }
+.umd-layout-grid-gap-two figure.umd-layout-alignment-block-stacked img {
+  display: block; width: 100%; height: auto;
+}
+```
+
+Also: a true large headline (`umd-sans-extralarge-bold`, 32px) must sit **outside** the `umd-text-rich-advanced` wrapper — `.umd-text-rich-advanced > * { font-size: 18px }` flattens every `umd-sans-*` class inside it (weight still applies). Put the `<h2>` as a sibling above the rich-text block with `umd-layout-space-vertical-headline-large` for spacing.
+
+Divider rule under the headline (1px black, as in the source): the inlined critical CSS gives `<hr>` no styling (default UA border is an inset ~2px grey). Add `<hr>` as the **first child** of the rich-text block so its 24px above/below spacing comes from `.umd-text-rich-advanced`, and style it:
+
+```css
+.umd-layout-grid-gap-two .umd-text-rich-advanced hr {
+  border: 0; border-top: 1px solid #000; height: 0;
+}
+```
+
+Pages using this: `pages/student-life.html`.
+
+## Real design-system layout styles (`layout.min.css`)
+
+All four pages now load the DS layout stylesheet in `<head>`, **before** the inline critical CSS:
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/layout.min.css">
+```
+
+`layout.min.css` is self-contained (no `var(--token)` dependencies — literal values), so it loads safely on its own without the other CDN bundles. It's placed before the inline `<style>` so the hand-rolled inline layout rules still **win** wherever they exist — adding the link is therefore non-disruptive (identical rendering; the DS sheet just becomes the base/fallback). This matches the load order the canonical `TEMPLATE.html` uses (CDN links → inline subset → `cdn.js`).
+
+`student-life.html` removed its local `.umd-layout-grid-gap-two` block so the DS owns it — this fixed a mobile bug: the hand-rolled copy only applied `gap` at ≥650px, dropping the 32px gap between stacked columns on mobile; `layout.min.css` correctly applies `@media (max-width:649px){gap:32px}`.
+
+**Not stripped (deliberate):** the other inline layout duplicates (horizontal/vertical spacing, other grid classes) were kept. They already match the DS values exactly (verified: horizontal padding 24→48→64px, landing margins 56→80→120px), some carry page-specific extras the DS lacks (e.g. `.umd-layout-space-horizontal-larger` adds `container-type: inline-size; isolation: isolate`), and they use interwoven shared selectors (`[class^="umd-layout-space-horizontal-"]`). A blanket strip is maintainability-only with real regression risk and no functional gain, so it was deferred to a careful, per-breakpoint-verified pass.
+
+Pages: `pages/academics.html`, `pages/admissions.html`, `pages/student-life.html`, `pages/tuition.html`.

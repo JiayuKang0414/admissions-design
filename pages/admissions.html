@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Undergraduate Admissions — University of Maryland</title>
 
+  <!-- Real design-system layout classes (grids, gaps, spacing helpers).
+       Loaded before the inline critical CSS so hand-rolled overrides below
+       still win where present — prefer these DS styles over local copies. -->
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/layout.min.css">
+
   <!-- ============================================================
        UMD Critical CSS — verbatim copy of styles/critical.css
        MUST precede cdn.js (load order: <style> -> <script> cdn.js)

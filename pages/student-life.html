@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Life — Undergraduate Admissions | University of Maryland</title>
 
+  <!-- Real design-system layout classes (grids, gaps, spacing helpers).
+       Loaded before the inline critical CSS so hand-rolled overrides below
+       still win where present — prefer these DS styles over local copies. -->
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/layout.min.css">
+
   <!-- ============================================================
        UMD Critical CSS — MUST precede cdn.js
        Verbatim copy of styles/critical.css (single source of truth).
@@ -304,18 +309,9 @@ p, li, label, input, textarea, select {
    ============================================================ */
 
 /* Two-column grid */
-.umd-layout-grid-gap-two {
-  display: grid;
-}
-@media (min-width: 650px) {
-  .umd-layout-grid-gap-two {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px;
-  }
-}
-@media (min-width: 1024px) {
-  .umd-layout-grid-gap-two { gap: 40px; }
-}
+/* .umd-layout-grid-gap-two — provided by layout.min.css (real DS styles):
+   grid; 32px gap at all breakpoints, widening to 40px at 1024px. No local
+   copy — see the CDN <link> in <head>. */
 
 /* Three-column gap grid */
 .umd-layout-grid-gap-three {
@@ -836,6 +832,27 @@ umd-element-card-overlay.size-large {
     @media (max-width: 1023px) {
       .study-here-chevron { display: none; }
     }
+
+    /* Small pathway zig-zag sections — the inlined critical CSS has no global
+       responsive-image rule, so figure images render at intrinsic width. Left
+       unconstrained, a wide image's min-content forces its 1fr grid track to
+       the image's natural width and unbalances the two columns. Constrain the
+       images to fill their column and let the tracks shrink (min-width: 0). */
+    .umd-layout-grid-gap-two > * { min-width: 0; }
+    .umd-layout-grid-gap-two figure.umd-layout-alignment-block-stacked img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    /* Divider rule under each zig-zag headline — 1px black, as in the source.
+       The inlined critical CSS gives <hr> no styling; the default UA border is
+       an inset ~2px grey. Sits as the first child of the rich-text block, so
+       vertical spacing is handled by .umd-text-rich-advanced. */
+    .umd-layout-grid-gap-two .umd-text-rich-advanced hr {
+      border: 0;
+      border-top: 1px solid #000;
+      height: 0;
+    }
   </style>
 </head>
 <body>
@@ -996,46 +1013,79 @@ umd-element-card-overlay.size-large {
     </div>
   </section>
 
-  <!-- 7. FINDING COMMUNITY — pathway, image left -->
+  <!-- 7. FINDING COMMUNITY — small pathway zig-zag, text left / image right -->
   <section class="umd-layout-vertical-landing">
-    <umd-element-pathway data-layout-image-position="left">
-      <img slot="image" src="../images/student-life/Education-Abroad-fields_2023-06-06-200744_ksck.jpg" alt="Terps studying abroad" />
-      <h2 slot="headline">Finding Community</h2>
-      <div slot="text"><p>With so many ways to get involved on-campus and in the community, it's easy to find your people—Terps who share your interests and hobbies. You'll form lifelong friendships and networks you can rely on beyond college.</p></div>
-      <div slot="actions">
-        <umd-element-call-to-action data-display="primary">
-          <a href="https://admissions.umd.edu/student/find-community">Find Your Community at UMD</a>
-        </umd-element-call-to-action>
+    <div class="umd-layout-space-horizontal-small">
+      <div class="umd-layout-grid-gap-two">
+        <div>
+          <h2 class="text-black umd-sans-extralarge-bold umd-layout-space-vertical-headline-large">Finding Community</h2>
+          <div class="umd-text-rich-advanced">
+            <hr>
+            <p>With so many ways to get involved on-campus and in the community, it's easy to find your people—Terps who share your interests and hobbies. You'll form lifelong friendships and networks you can rely on beyond college.</p>
+            <div class="umd-layout-grid-inline-tablet-rows">
+              <umd-element-call-to-action data-display="primary">
+                <a href="https://admissions.umd.edu/student/find-community">Find Your Community at UMD</a>
+              </umd-element-call-to-action>
+            </div>
+          </div>
+        </div>
+        <div class="umd-text-rich-advanced">
+          <figure class="umd-layout-alignment-block-stacked">
+            <img src="../images/student-life/Education-Abroad-fields_2023-06-06-200744_ksck.jpg" alt="Terps studying abroad" />
+          </figure>
+        </div>
       </div>
-    </umd-element-pathway>
+    </div>
   </section>
 
-  <!-- 8. HOUSING & DINING — pathway, image right -->
+  <!-- 8. HOUSING & DINING — small pathway zig-zag, image left / text right -->
   <section class="umd-layout-vertical-landing">
-    <umd-element-pathway data-layout-image-position="right">
-      <img slot="image" src="../images/student-life/students-dorm@2x.jpg" alt="Scene from a dorm" />
-      <h2 slot="headline">Housing &amp; Dining</h2>
-      <div slot="text"><p>College is a big adjustment. Knowing where you'll call home and where you can find a home cooked meal is important. There are many options for living on- or off-campus and students can grab a bite at a dining hall, food court or cafe across campus.</p></div>
-      <div slot="actions">
-        <umd-element-call-to-action data-display="primary">
-          <a href="https://admissions.umd.edu/student/housing-and-dining">Discover housing &amp; dining at UMD</a>
-        </umd-element-call-to-action>
+    <div class="umd-layout-space-horizontal-small">
+      <div class="umd-layout-grid-gap-two">
+        <div class="umd-text-rich-advanced">
+          <figure class="umd-layout-alignment-block-stacked">
+            <img src="../images/student-life/students-dorm@2x.jpg" alt="Scene from a dorm" />
+          </figure>
+        </div>
+        <div>
+          <h2 class="text-black umd-sans-extralarge-bold umd-layout-space-vertical-headline-large">Housing &amp; Dining</h2>
+          <div class="umd-text-rich-advanced">
+            <hr>
+            <p>College is a big adjustment. Knowing where you'll call home and where you can find a home cooked meal is important. There are many options for living on- or off-campus and students can grab a bite at a dining hall, food court or cafe across campus.</p>
+            <div class="umd-layout-grid-inline-tablet-rows">
+              <umd-element-call-to-action data-display="primary">
+                <a href="https://admissions.umd.edu/student/housing-and-dining">Discover housing &amp; dining at UMD</a>
+              </umd-element-call-to-action>
+            </div>
+          </div>
+        </div>
       </div>
-    </umd-element-pathway>
+    </div>
   </section>
 
-  <!-- 9. STUDENT SUPPORT & SAFETY — pathway, image left -->
+  <!-- 9. STUDENT SUPPORT & SAFETY — small pathway zig-zag, text left / image right -->
   <section class="umd-layout-vertical-landing">
-    <umd-element-pathway data-layout-image-position="left">
-      <img slot="image" src="../images/student-life/safety@2x.jpg" alt="Safety" />
-      <h2 slot="headline">Student Support &amp; Safety</h2>
-      <div slot="text"><p>UMD is committed to ensuring our students well-being and success. We offer a variety of services to help students master their classes, stay active and to make campus a safe place to navigate.</p></div>
-      <div slot="actions">
-        <umd-element-call-to-action data-display="primary">
-          <a href="https://admissions.umd.edu/student/student-support">Learn about support &amp; safety at UMD</a>
-        </umd-element-call-to-action>
+    <div class="umd-layout-space-horizontal-small">
+      <div class="umd-layout-grid-gap-two">
+        <div>
+          <h2 class="text-black umd-sans-extralarge-bold umd-layout-space-vertical-headline-large">Student Support &amp; Safety</h2>
+          <div class="umd-text-rich-advanced">
+            <hr>
+            <p>UMD is committed to ensuring our students well-being and success. We offer a variety of services to help students master their classes, stay active and to make campus a safe place to navigate.</p>
+            <div class="umd-layout-grid-inline-tablet-rows">
+              <umd-element-call-to-action data-display="primary">
+                <a href="https://admissions.umd.edu/student/student-support">Learn about support &amp; safety at UMD</a>
+              </umd-element-call-to-action>
+            </div>
+          </div>
+        </div>
+        <div class="umd-text-rich-advanced">
+          <figure class="umd-layout-alignment-block-stacked">
+            <img src="../images/student-life/safety@2x.jpg" alt="Safety" />
+          </figure>
+        </div>
       </div>
-    </umd-element-pathway>
+    </div>
   </section>
 
   <!-- 10. STAY IN TOUCH — banner-promo, mirrors academics Stay Connected pattern -->
@@ -1068,17 +1118,6 @@ umd-element-card-overlay.size-large {
        SHADOW OVERRIDES
   ============================================================ -->
   <script>
-    // umd-element-pathway — force 1:1 image aspect ratio.
-    // No CSS variable / ::part hook for the pathway image container; inject
-    // shadow CSS to override intrinsic image ratio.
-    customElements.whenDefined('umd-element-pathway').then(() => {
-      document.querySelectorAll('umd-element-pathway').forEach(el => {
-        const style = document.createElement('style');
-        style.textContent = '.pathway-image-container,.image-container,.umd-asset-image-wrapper-scaled{aspect-ratio:1/1!important;height:auto!important}.pathway-image-container img,.image-container img,.umd-asset-image-wrapper-scaled img{width:100%!important;height:100%!important;object-fit:cover!important}';
-        el.shadowRoot && el.shadowRoot.appendChild(style);
-      });
-    });
-
     // umd-element-banner-promo — stack actions vertically with 8px gap.
     // Banner-promo reprojects slot="actions" into shadow DOM under
     // .banner-promo-actions with no gap when stacked.
