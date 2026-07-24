@@ -81,18 +81,35 @@ Divider rule under the headline (1px black, as in the source): the inlined criti
 
 Pages using this: `pages/student-life.html`.
 
-## Real design-system layout styles (`layout.min.css`)
+## CDN-bundle architecture (migrated from self-contained inline CSS)
 
-All four pages now load the DS layout stylesheet in `<head>`, **before** the inline critical CSS:
+All four pages were migrated from the old **self-contained** model (a hand-rolled ~1.18.2-era critical.css inlined in full, no CDN CSS) to the canonical **`TEMPLATE.html` model**: the 9 DS CSS bundles loaded from unpkg, then the current Local-Only `critical.css` inlined, then `cdn.js`.
 
 ```html
-<link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/layout.min.css">
+<link ... css/font-faces.min.css>  <link ... css/tokens.min.css>       <link ... css/base.min.css>
+<link ... css/typography.min.css>  <link ... css/element.min.css>      <link ... css/web-components.min.css>
+<link ... css/layout.min.css>      <link ... css/animation.min.css>    <link ... css/accessibility.min.css>
+<style> …verbatim styles/critical.css (header stripped)… </style>
+<script src="…web-components-library@1.18.12/dist/cdn.js"></script>
 ```
 
-`layout.min.css` is self-contained (no `var(--token)` dependencies — literal values), so it loads safely on its own without the other CDN bundles. It's placed before the inline `<style>` so the hand-rolled inline layout rules still **win** wherever they exist — adding the link is therefore non-disruptive (identical rendering; the DS sheet just becomes the base/fallback). This matches the load order the canonical `TEMPLATE.html` uses (CDN links → inline subset → `cdn.js`).
+Load order (CDN links → inline critical → `cdn.js`) matters: browsers block on stylesheet fetches before the script, so all CSS applies before elements upgrade. `cdn.js` was bumped `1.18.2 → 1.18.12` to align the component JS with the CSS bundles. This retired the hand-rolled carousel FOUC guards — `web-components.min.css` now ships the carousel host rules (`display`/`container-type`) + placeholder sizing; do **not** re-add a local `content-visibility: hidden` (it loads after the CDN link at equal specificity and reintroduces layout shift).
 
-`student-life.html` removed its local `.umd-layout-grid-gap-two` block so the DS owns it — this fixed a mobile bug: the hand-rolled copy only applied `gap` at ≥650px, dropping the 32px gap between stacked columns on mobile; `layout.min.css` correctly applies `@media (max-width:649px){gap:32px}`.
+### Page-specific CSS preserved outside `critical.css`
 
-**Not stripped (deliberate):** the other inline layout duplicates (horizontal/vertical spacing, other grid classes) were kept. They already match the DS values exactly (verified: horizontal padding 24→48→64px, landing margins 56→80→120px), some carry page-specific extras the DS lacks (e.g. `.umd-layout-space-horizontal-larger` adds `container-type: inline-size; isolation: isolate`), and they use interwoven shared selectors (`[class^="umd-layout-space-horizontal-"]`). A blanket strip is maintainability-only with real regression risk and no functional gain, so it was deferred to a careful, per-breakpoint-verified pass.
+The old inline block mixed critical CSS with project-specific rules. Those NOT in the CDN bundles or `critical.css` were moved to each page's second `<style>` block:
+
+- **Utility-navigation flat links (all four pages).** These pages use plain `<a>` links in `div[slot="utility-navigation"]` (Visit UMD / Connect), **not** the DS `umd-shell-utility-item` pattern that `critical.css` §11 now targets. §11 scopes `umd-element-navigation-header div[slot="utility-navigation"] { gap: 0 }`, which jams flat links together. Fix: re-declare the flat-link `display:flex; gap:24px` + link styling at the **same** scoped specificity (`umd-element-navigation-header div[slot="utility-navigation"]`) in the page's second `<style>` so it wins by source order. (Future option: migrate the markup to the shell-utility-item pattern instead.)
+- **`admissions.html` extras:** `.quote-with-chevron` / `.chevron-overlap`, `.deadlines-table`, `umd-element-hero-grid` height guard, `.banner-promo-actions`, rich-text heading specificity overrides, and `.umd-layout-grid-cards-no-gap` (used only on admissions; absent from CDN + critical.css) — preserved in a second `<style>` block appended after `cdn.js`.
+
+`.umd-layout-grid-tuition-two` and `.umd-action-outline-block` live in `critical.css` (kept upstream), so they were not re-added except where already bundled in the admissions preserve block.
 
 Pages: `pages/academics.html`, `pages/admissions.html`, `pages/student-life.html`, `pages/tuition.html`.
+
+## Post-migration regression fixes
+
+Two things regressed when the pages moved to the CDN-bundle architecture (the DS bundles differ from the old self-contained CSS):
+
+**Rich-text eyebrow/header color.** The `umd-sans-*` typography classes set no color; `base.min.css` defaults paragraph text to the DS gray `#454545`, so section eyebrows ("Study Here", "Make UMD Yours", "College Is a Major Investment") rendered muddy gray instead of black. Fix: add `text-black` to the eyebrow `<p>` (light bg) — `.text-black` ships in `critical.css` and beats the base `p` color. Documented as a reusable pattern in `page-builder/RULES.md §18` and the `evaluate-design` component-risk list.
+
+**"Information For" outline buttons (admissions).** Previously plain `<a class="umd-action-outline-block">` in a no-gap `umd-layout-grid-columns-four` (no spacing). Now the DS component: `umd-element-call-to-action[data-display="outline" data-theme="dark"]` in `umd-layout-grid-gap-four` (32px gap, 1→2→4 cols). The component's inner anchor is `inline-block` with a shadow-DOM `max-width:380px`, so it won't fill the cell — a shadow injection (see end-of-body script, keyed off `.information-for-actions`) forces the inner `[class*="umd-action-outline"]` to `width:100%; max-width:none; display:block; text-align:center`. Host filled via light-DOM `.information-for-actions umd-element-call-to-action { display:block; width:100% }`.
