@@ -148,6 +148,10 @@
     @media (min-width: 1200px) {
       .umd-layout-background-full-dark { padding: 104px 0; }
     }
+    /* Drop the bottom padding when a dark section is chained directly onto
+       another dark section below — the lower section's own top padding already
+       supplies the breathing room, so keeping both doubles the black band. */
+    .umd-layout-background-full-dark-no-bottom { padding-bottom: 0; }
 
 
     /* ============================================================
@@ -637,7 +641,7 @@
        dark class. Add overflow: hidden to the dark section if its
        content bleeds into this gap.
        ============================================================ */
-    .umd-layout-background-full-dark + section:not(.umd-layout-background-full-dark) {
+    .umd-layout-background-full-dark + section:not(.umd-layout-background-full-dark):not(.quote-with-chevron) {
       margin-top: 120px;
     }
 
@@ -874,7 +878,7 @@
     .deadlines-table { width: 100%; border-collapse: collapse; }
     .deadlines-table td {
       padding: 12px 0;
-      border-bottom: 1px solid #e6e6e6;
+      border-bottom: 1px solid #000;
       vertical-align: top;
     }
     .deadlines-table td:last-child {
@@ -883,6 +887,16 @@
       font-weight: 700;
     }
     .deadlines-table tr:last-child td { border-bottom: 0; }
+    /* Neutralize the styles-package rich-text table treatment (alternating row
+       backgrounds, grey row borders, and 24px first-child left padding) so this
+       stays a clean label/date list with black rules. */
+    .umd-text-rich-advanced .deadlines-table tr,
+    .umd-text-rich-advanced .deadlines-table tr:nth-child(even) {
+      background: transparent;
+      border-top: 0;
+    }
+    .umd-text-rich-advanced .deadlines-table td:first-child { padding-left: 0; }
+    .umd-text-rich-advanced .deadlines-table td:last-child { padding-right: 0; }
   </style>
 </head>
 <body>
@@ -1061,7 +1075,7 @@
        black band). Per RULES §19, drop umd-layout-vertical-landing
        here so there's no white gap between the two black bands.
   ======================================== -->
-  <section class="umd-layout-background-full-dark umd-layout-background-full-dark-arrow-right">
+  <section class="umd-layout-background-full-dark umd-layout-background-full-dark-arrow-right umd-layout-background-full-dark-no-bottom">
     <div class="umd-layout-space-horizontal-larger">
       <p class="umd-text-line-trailing-dark"><span>Information For</span></p>
       <div class="umd-layout-grid-gap-four information-for-actions">
