@@ -56,28 +56,7 @@ Pages using this: `pages/admissions.html`.
 
 ## Small pathway zig-zag — responsive image + balanced grid
 
-Hand-composed "Small pathway style zig zag" rich-text sections (`umd-layout-space-horizontal-small` → `umd-layout-grid-gap-two` → text column + `figure.umd-layout-alignment-block-stacked` image column, alternating column order for the zig-zag). Modeled on the QA design-team `/components/images-and-media` sections `section-60493` / `section-60498`.
-
-Two gotchas required page-level CSS (the inlined `critical.css` subset has no global responsive-image rule):
-
-```css
-/* Let the 1fr tracks shrink; otherwise a wide image's min-content forces
-   its grid track to the image's intrinsic width and unbalances the columns. */
-.umd-layout-grid-gap-two > * { min-width: 0; }
-.umd-layout-grid-gap-two figure.umd-layout-alignment-block-stacked img {
-  display: block; width: 100%; height: auto;
-}
-```
-
-Also: a true large headline (`umd-sans-extralarge-bold`, 32px) must sit **outside** the `umd-text-rich-advanced` wrapper — `.umd-text-rich-advanced > * { font-size: 18px }` flattens every `umd-sans-*` class inside it (weight still applies). Put the `<h2>` as a sibling above the rich-text block with `umd-layout-space-vertical-headline-large` for spacing.
-
-Divider rule under the headline (1px black, as in the source): the inlined critical CSS gives `<hr>` no styling (default UA border is an inset ~2px grey). Add `<hr>` as the **first child** of the rich-text block so its 24px above/below spacing comes from `.umd-text-rich-advanced`, and style it:
-
-```css
-.umd-layout-grid-gap-two .umd-text-rich-advanced hr {
-  border: 0; border-top: 1px solid #000; height: 0;
-}
-```
+Two-column image + text (zig-zag) rich-text sections — **now generalized in `page-builder/LAYOUT-PATTERNS.md`** ("Light background — two-column image + text (zig-zag)"), including the responsive-image / balanced-grid and `<hr>` border CSS; the headline-flattening gotcha (a true 32px headline must sit outside the `umd-text-rich-advanced` wrapper) lives in `page-builder/RULES.md §18`. Modeled on the QA design-team `/components/images-and-media` sections `section-60493` / `section-60498`.
 
 Pages using this: `pages/student-life.html`.
 
