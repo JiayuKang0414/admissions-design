@@ -28,13 +28,16 @@ def e(s):
     return html.escape(s, quote=True)
 
 # ---------------------------------------------------------------- head
-# TEMPLATE lines 1..723 (index 0..722) = <!DOCTYPE> through the last shared
-# CSS rule, i.e. everything before "  </style>" on line 724.
-assert tpl[723].strip() == '</style>', tpl[723]
-assert 'cdn.js' in tpl[725], tpl[725]
-assert tpl[726].strip() == '</head>', tpl[726]
-head_top = '\n'.join(tpl[:723])
-head_tail = '\n'.join(tpl[723:727])   # </style> .. </head>
+# Everything before TEMPLATE's closing </style> is the inlined critical.css
+# block, copied verbatim (page-builder/CLAUDE.md: never trim it).
+# Boundaries are located by content, NOT by line number — TEMPLATE.html grows
+# whenever critical.css does, and hardcoded indices break silently on the next
+# upstream edit.
+crit_end = next(i for i, l in enumerate(tpl) if l.strip() == '</style>')
+head_close = next(i for i, l in enumerate(tpl) if l.strip() == '</head>' and i > crit_end)
+head_top = '\n'.join(tpl[:crit_end])
+head_tail = '\n'.join(tpl[crit_end:head_close + 1])   # </style> .. </head>
+assert 'cdn.js' in head_tail, 'TEMPLATE head is missing the cdn.js script tag'
 
 head_top = head_top.replace(
     '<title>{{PAGE_TITLE}} — {{SITE_NAME}} | University of Maryland</title>',
