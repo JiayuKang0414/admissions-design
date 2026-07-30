@@ -732,45 +732,6 @@
     .umd-filter-item[hidden] { display: none !important; }
 
     /* ============================================================
-       24. PROJECT CHROME COMPANIONS
-       Harvested verbatim by scripts/build-colleges-schools.py from the
-       page-specific <style> block of pages/programs.html — the same file the
-       header/footer markup is copied from. These rules are NOT in
-       page-builder/TEMPLATE.html, so a head built from TEMPLATE alone renders
-       the chrome unstyled. Do not hand-edit; fix the reference page instead.
-       ============================================================ */
-    /* Utility-navigation flat links. These pages use plain <a> links in the
-       utility slot (Visit UMD / Connect), NOT the DS umd-shell-utility-item
-       pattern that critical.css §11 now targets — its scoped `gap: 0` would
-       jam the links together. Restore flat-link flex spacing + styling at
-       matching specificity (loads after the inline critical block, so wins). */
-    umd-element-navigation-header div[slot="utility-navigation"] {
-      display: flex;
-      justify-content: flex-end;
-      gap: 24px;
-    }
-
-    umd-element-navigation-header div[slot="utility-navigation"] a {
-      font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif;
-      font-size: 14px;
-      font-weight: 400;
-      color: #242424;
-      text-decoration: none;
-      line-height: 1.25;
-      transition: color 0.3s ease-in-out;
-    }
-
-    umd-element-navigation-header div[slot="utility-navigation"] a:hover,
-    umd-element-navigation-header div[slot="utility-navigation"] a:focus {
-      color: #E21833;
-      text-decoration: underline;
-    }
-
-    /* scroll-to-top — pin 24px from the viewport bottom-right
-       (DS default for [data-layout-fixed] is right:40px; bottom:10vh) */
-    umd-element-scroll-top[data-layout-fixed="true"] { right:24px; bottom:24px; }
-
-    /* ============================================================
        25. COLLEGES & SCHOOLS — expandable card grid
        Page-built pattern (no DS equivalent). A responsive grid of
        bordered college tiles; activating a tile's toggle opens a
@@ -1056,15 +1017,73 @@
   </style>
 
   <script src="https://unpkg.com/@universityofmaryland/web-components-library@1.18.12/dist/cdn.js"></script>
+  <!-- SHARED:chrome-css:START — generated from shared/chrome.css; do not edit here -->
+  <style>
+/* ============================================================
+   SHARED CHROME — CSS companions
+   Inlined into every page by scripts/build-chrome.py.
+   Edit here, not in pages/*.html.
+
+   These rules are NOT in page-builder/TEMPLATE.html. They pair with the
+   markup in shared/header.html and shared/footer.html, and a page that
+   carries the chrome markup without them renders SILENTLY wrong — no
+   console error, no broken layout, just unstyled.
+
+   This block must be emitted AFTER the inlined critical.css so it wins at
+   equal specificity.
+   ============================================================ */
+
+/* ---- Utility navigation: flat-link pattern ----
+   This project's chrome puts plain <a> children in the utility slot
+   (Visit UMD / Connect) rather than the DS .umd-shell-utility-item
+   pattern. critical.css §11's BASE layer styles
+   `.umd-shell-utility-item a`, which never matches a bare <a>, so
+   without these rules the projected links render browser-default blue
+   and underlined.
+
+   The display/justify/gap rule is belt-and-braces: since the upstream
+   fix (design-system-page-builder be3ea6c) gated §11's `gap: 0` on
+   :has(.umd-shell-utility-item), the component's own shadow
+   ::slotted(*) already supplies flex + 24px here. Stating it explicitly
+   keeps the intended layout readable and survives a shadow change. */
+umd-element-navigation-header div[slot="utility-navigation"] {
+  display: flex;
+  justify-content: flex-end;
+  gap: 24px;
+}
+umd-element-navigation-header div[slot="utility-navigation"] a {
+  font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #242424;
+  text-decoration: none;
+  line-height: 1.25;
+  transition: color 0.3s ease-in-out;
+}
+umd-element-navigation-header div[slot="utility-navigation"] a:hover,
+umd-element-navigation-header div[slot="utility-navigation"] a:focus {
+  color: #E21833;
+  text-decoration: underline;
+}
+
+/* ---- Scroll-to-top pin ----
+   Opt-in per page (only the long directory pages use the element), but
+   the pin lives here so it is styled consistently wherever it appears.
+   Harmless on pages with no umd-element-scroll-top.
+   DS default for [data-layout-fixed] is right:40px; bottom:10vh. */
+umd-element-scroll-top[data-layout-fixed="true"] {
+  right: 24px;
+  bottom: 24px;
+}
+  </style>
+  <!-- SHARED:chrome-css:END -->
 </head>
 <body>
 
-  <!-- 1. GLOBAL UNIVERSITY HEADER + 2. SITE NAVIGATION HEADER
-       Copied verbatim from pages/programs.html (project chrome). -->
+  <!-- SHARED:header:START — generated from shared/header.html; do not edit here -->
   <umd-element-navigation-utility data-alert-off="true" role="navigation" aria-label="Utility navigation"></umd-element-navigation-utility>
   <umd-element-utility-header></umd-element-utility-header>
 
-  <!-- 2. SITE NAVIGATION HEADER -->
   <umd-element-navigation-header
     sticky
     class="umd-layout-space-horizontal-full"
@@ -1122,6 +1141,7 @@
       </umd-element-nav-item>
     </nav>
   </umd-element-navigation-header>
+  <!-- SHARED:header:END -->
 
   <!-- 3. HERO — small background, left-aligned text + CTA.
        Same recipe as pages/programs.html. -->
@@ -2434,43 +2454,32 @@
     </div>
   </section>
 
-  <!-- SCROLL TO TOP — fixed 24px from viewport bottom-right -->
+  <!-- SCROLL TO TOP — fixed 24px from viewport bottom-right (pin lives in shared/chrome.css) -->
   <umd-element-scroll-top data-layout-fixed="true"></umd-element-scroll-top>
 
-  <!-- 13. FOOTER — visual (uses default specially-formatted footer image) -->
+  <!-- SHARED:footer:START — generated from shared/footer.html; do not edit here -->
   <umd-element-footer data-display="visual">
-    <a slot="logo" href="https://admissions.umd.edu/">
+    <a slot="logo" href="admissions.html">
       <img src="../images/logos/footer-logo.svg" alt="University of Maryland" />
     </a>
     <img slot="image" src="../page-builder/images/large/campus/footer-campus.jpg" alt="University of Maryland campus" />
   </umd-element-footer>
+  <!-- SHARED:footer:END -->
 
+  <!-- SHARED:chrome-scripts:START — generated from shared/chrome-scripts.html; do not edit here -->
   <!-- ============================================================
-       SHADOW OVERRIDES
+       SHARED CHROME — shadow injections
+       Inlined into every page by scripts/build-chrome.py.
+       Edit here, not in pages/*.html.
+
+       ONLY chrome-driven injections belong in this file. The other
+       shadow injections used in this project (umd-element-pathway
+       aspect ratio, umd-element-banner-promo stacked actions,
+       call-to-action and card-overlay tweaks) are driven by PAGE
+       CONTENT, not by the header/footer, so they stay in the page that
+       needs them — see OVERRIDES.md.
   ============================================================ -->
   <script>
-    // umd-element-pathway — force 1:1 image aspect ratio.
-    // No CSS variable / ::part hook for the pathway image container; inject
-    // shadow CSS to override intrinsic image ratio.
-    customElements.whenDefined('umd-element-pathway').then(() => {
-      document.querySelectorAll('umd-element-pathway').forEach(el => {
-        const style = document.createElement('style');
-        style.textContent = '.pathway-image-container,.image-container,.umd-asset-image-wrapper-scaled{aspect-ratio:1/1!important;height:auto!important}.pathway-image-container img,.image-container img,.umd-asset-image-wrapper-scaled img{width:100%!important;height:100%!important;object-fit:cover!important}';
-        el.shadowRoot && el.shadowRoot.appendChild(style);
-      });
-    });
-
-    // umd-element-banner-promo — stack actions vertically with 8px gap.
-    // Banner-promo reprojects slot="actions" into shadow DOM under
-    // .banner-promo-actions with no gap when stacked.
-    customElements.whenDefined('umd-element-banner-promo').then(() => {
-      document.querySelectorAll('umd-element-banner-promo').forEach(el => {
-        const style = document.createElement('style');
-        style.textContent = '.banner-promo-actions{display:flex!important;flex-direction:column!important;align-items:flex-end!important;gap:8px!important}';
-        el.shadowRoot && el.shadowRoot.appendChild(style);
-      });
-    });
-
     // NAV-HEADER LOGO WIDTH — navigation-header shadow CSS hard-codes
     // .element-header-logo img { max-width: 240px } at tablet+ with no
     // CSS variable hook. The admissions logo is wider than the default
@@ -2495,6 +2504,7 @@
       });
     })();
   </script>
+  <!-- SHARED:chrome-scripts:END -->
 
   <!-- Canonical grid-entry animations (page-builder/CLAUDE.md: never inline). -->
   <script src="../page-builder/scripts/grid-animations.js"></script>

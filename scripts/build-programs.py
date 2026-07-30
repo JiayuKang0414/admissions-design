@@ -2,91 +2,75 @@
 """Regenerate pages/programs.html.
 
 Sources
-  briefs/programs-data.json     203 programs, as harvested from the admissions
-                                Craft GraphQL endpoint (raw response shape)
-  page-builder/TEMPLATE.html    <head> + inlined critical.css (verbatim)
-  pages/academics.html          project chrome: header stack (the canonical
-                                reference page named in CLAUDE.md)
+  briefs/programs-data.json           203 programs, as harvested from the
+                                      admissions Craft GraphQL endpoint
+  page-builder/TEMPLATE.html          <head> + inlined critical.css (verbatim)
+  shared/ (via scripts/_chrome.py)    header stack, footer, chrome CSS,
+                                      chrome shadow injections
 
-Everything else -- the two page-specific <style> blocks, the hero, the filter
-rail / A-Z directory markup, and the filter JS -- is embedded below as literal
-blocks, because pages/programs.html is itself the only source for them.
+Everything else -- the page-specific <style> blocks, the hero, the filter rail
+and A-Z directory markup, the pathway/banner-promo shadow injections, and the
+filter JS -- is the BODY literal below, because this page is their only source.
 
-Edit briefs/programs-data.json or the literal blocks and re-run:
+Run after editing briefs/programs-data.json, shared/, or the BODY literal:
     python3 scripts/build-programs.py
 Do not hand-edit the generated HTML - it is overwritten wholesale.
 
-NOTE ON THE LITERAL BLOCKS: they contain CSS/JS backslash escapes (\2212,
-\u201c), so every one is a RAW triple-quoted string. Keep them raw, or the
-escapes are reinterpreted by Python and the output is silently corrupted.
+BODY is a RAW string: it carries CSS/JS backslash escapes (\\2212, \\u201c)
+that Python would otherwise reinterpret, corrupting the output silently.
 """
-import json, re, os
+import json, os, re, sys
 import html as _html
 
-# Repo root = parent of this script's directory, so the generator is portable.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import _chrome
+
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TEMPLATE  = os.path.join(REPO, 'page-builder/TEMPLATE.html')
-ACADEMICS = os.path.join(REPO, 'pages/academics.html')
-DATA      = os.path.join(REPO, 'briefs/programs-data.json')
-OUT       = os.path.join(REPO, 'pages/programs.html')
+TEMPLATE = os.path.join(REPO, 'page-builder/TEMPLATE.html')
+DATA     = os.path.join(REPO, 'briefs/programs-data.json')
+OUT      = os.path.join(REPO, 'pages/programs.html')
 
 TITLE = 'Explore Our Programs \u2014 Undergraduate Admissions | University of Maryland'
 
 # ---------------------------------------------------------------- head
-# Everything in TEMPLATE.html before its closing </style> is the inlined
-# critical.css block, copied verbatim (page-builder/CLAUDE.md: never trim it).
+# Everything before TEMPLATE's closing </style> is the inlined critical.css
+# block, copied verbatim (page-builder/CLAUDE.md: never trim it). Located by
+# content, not line number -- TEMPLATE grows whenever critical.css does.
 tpl = open(TEMPLATE, encoding='utf-8').read().split('\n')
 crit_end = next(i for i, l in enumerate(tpl) if l.strip() == '</style>')
-head_top = '\n'.join(tpl[:crit_end])
-head_top = re.sub(r'<title>.*?</title>', '<title>' + TITLE + '</title>', head_top, count=1)
-assert '{{' not in head_top, 'unreplaced placeholder in TEMPLATE head'
+head = '\n'.join(tpl[:crit_end])
+head = re.sub(r'<title>.*?</title>', '<title>' + TITLE + '</title>', head, count=1)
+assert '{{' not in head, 'unreplaced placeholder in TEMPLATE head'
 
-# ---------------------------------------------------------------- chrome
-# Header stack from the canonical reference page. Asserted identical to what
-# this page previously carried, so drift in academics.html surfaces here.
-aca = open(ACADEMICS, encoding='utf-8').read().split('\n')
-a = next(i for i, l in enumerate(aca)
-         if 'umd-element-navigation-utility' in l and 'data-alert-off' in l)
-b = next(i for i, l in enumerate(aca) if l.strip() == '</umd-element-navigation-header>')
-CHROME = '\n'.join(aca[a:b + 1])
-assert 'div slot="utility-navigation"' in CHROME, 'chrome lost the utility nav'
-assert 'colleges-schools.html' in CHROME, 'chrome lost the Colleges & Schools nav link'
+# ---------------------------------------------------------------- data
+# The inline PROGRAMS array is a compacted projection of the raw GraphQL
+# response: short keys, descriptions reduced to plain text. The three
+# description steps are ORDER-SENSITIVE -- strip tags, THEN unescape entities,
+# THEN collapse whitespace. Any other order changes the bytes (a stray double
+# space where a tag was removed, or "&amp;" surviving as-is).
+raw = json.load(open(DATA, encoding='utf-8'))['data']['programsEntries']
 
-# ---------------------------------------------------------------- literal blocks
-# closing </style> for the critical block, then cdn.js
-HEAD_MID = r'''  </style>
+def plain(desc):
+    return re.sub(r'\s+', ' ', _html.unescape(re.sub(r'<[^>]+>', '', desc or ''))).strip()
+
+records = [{
+    'n': r['title'],
+    'u': r['titleLink'],
+    't': [x['title'] for x in r['types']],
+    'c': [x['title'] for x in r['colleges']],
+    'i': [x['title'] for x in r['interests']],
+    'd': plain(r['description']),
+} for r in raw]
+
+# Compact separators keep the inlined array near 129KB instead of 132KB.
+programs_json = json.dumps(records, ensure_ascii=False, separators=(',', ':'))
+
+# ---------------------------------------------------------------- body
+BODY = r'''  </style>
 
   <script src="https://unpkg.com/@universityofmaryland/web-components-library@1.18.12/dist/cdn.js"></script>
-'''
 
-# Chrome companions: utility-nav flat links + study-here chevron.
-# The flat-link rules are what critical.css §11 does NOT cover for bare <a>.
-CHROME_CSS = r'''  <style>
-    /* Utility-navigation flat links. These pages use plain <a> links in the
-       utility slot (Visit UMD / Connect), NOT the DS umd-shell-utility-item
-       pattern that critical.css §11 now targets — its scoped `gap: 0` would
-       jam the links together. Restore flat-link flex spacing + styling at
-       matching specificity (loads after the inline critical block, so wins). */
-    umd-element-navigation-header div[slot="utility-navigation"] {
-      display: flex;
-      justify-content: flex-end;
-      gap: 24px;
-    }
-    umd-element-navigation-header div[slot="utility-navigation"] a {
-      font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif;
-      font-size: 14px;
-      font-weight: 400;
-      color: #242424;
-      text-decoration: none;
-      line-height: 1.25;
-      transition: color 0.3s ease-in-out;
-    }
-    umd-element-navigation-header div[slot="utility-navigation"] a:hover,
-    umd-element-navigation-header div[slot="utility-navigation"] a:focus {
-      color: #E21833;
-      text-decoration: underline;
-    }
-
+  <style>
     /* Brand chevron animation flanking the Study Here rich text and
        overlapping ~120px up into the hero above. Hidden below tablet
        to avoid crowding the single-column stacked content. */
@@ -95,10 +79,12 @@ CHROME_CSS = r'''  <style>
       overflow: visible;
       z-index: 100;
     }
+
     .study-here-content {
       position: relative;
       z-index: 2;
     }
+
     /* The brand-logo-animation hardcodes its inner container to
        width:100vw, height:50vw and anchors chevrons to right:0. So
        the host must span full width — sizing/clipping won't work. */
@@ -112,6 +98,7 @@ CHROME_CSS = r'''  <style>
       z-index: 1;
       overflow: visible;
     }
+
     .study-here-chevron > umd-element-brand-logo-animation {
       position: absolute;
       top: 0;
@@ -119,15 +106,13 @@ CHROME_CSS = r'''  <style>
       right: 0;
       display: block;
     }
+
     @media (max-width: 1023px) {
       .study-here-chevron { display: none; }
     }
-  </style>'''
-
-GAP_23 = r'''  <!-- Programs explorer — page-specific styles -->'''
-
-# Programs explorer: filter rail, search bar, pills, A-Z, scroll-top pin.
-PAGE_CSS = r'''  <style>
+  </style>
+  <!-- Programs explorer — page-specific styles -->
+  <style>
     :root { --umd-red: #e21833; }
 
     .sr-only {
@@ -137,10 +122,12 @@ PAGE_CSS = r'''  <style>
 
     /* two-column layout: filter rail + results */
     .programs-layout { display:block; }
+
     @media (min-width:1020px) {
       .programs-layout { display:flex; align-items:flex-start; gap:64px; }
       .programs-filters { width:30%; min-width:260px; max-width:360px; position:sticky; top:110px; }
     }
+
     .programs-results { flex:1; min-width:0; }
 
     /* mobile filter toggle */
@@ -149,11 +136,15 @@ PAGE_CSS = r'''  <style>
       width:100%; padding:14px 16px; margin-bottom:16px; cursor:pointer;
       background:#000; color:#fff; border:0; font-weight:700;
     }
+
     .pf-mobile-toggle::after { content:"+"; font-size:22px; line-height:1; }
+
     .pf-mobile-toggle[aria-expanded="true"]::after { content:"\2212"; }
+
     @media (min-width:1020px) { .pf-mobile-toggle { display:none; } }
 
     #pf-form { display:block; }
+
     @media (max-width:1019px) {
       #pf-form { display:none; }
       #pf-form.is-open { display:block; }
@@ -161,100 +152,127 @@ PAGE_CSS = r'''  <style>
 
     /* search bar — lifted from the experts page (input + red square submit) */
     .pf-search-bar { margin:0 0 32px; }
+
     .pf-search-row { display:flex; gap:8px; align-items:center; }
+
     .pf-search-row input {
       flex:1 1 auto; min-width:0; height:48px; padding:12px 16px;
       border:1px solid #e6e6e6; border-radius:0; background:#fff;
       font:inherit; font-size:16px; -webkit-appearance:none; appearance:none;
     }
+
     .pf-search-row input:focus-visible { outline:2px solid var(--umd-red); outline-offset:1px; border-color:var(--umd-red); }
+
     .pf-search-submit {
       flex:0 0 auto; width:48px; height:48px; border:0; border-radius:0; cursor:pointer;
       background:var(--umd-red); display:flex; align-items:center; justify-content:center;
       transition:background-color .5s;
     }
+
     .pf-search-submit:hover, .pf-search-submit:focus-visible { background:#a90007; }
+
     .pf-search-submit svg { width:20px; height:20px; fill:#fff; }
 
     /* accordion filter groups (adapted from the experts REFINE rail) */
     .pf-group { border-bottom:1px solid #000; margin-bottom:24px; padding-bottom:24px; }
+
     .pf-group:last-of-type { border-bottom:0; }
+
     .pf-group > button {
       display:flex; position:relative; justify-content:space-between; align-items:center;
       gap:16px; width:100%; padding:0 24px 0 0; background:none; border:0; cursor:pointer;
       font:inherit; font-weight:700; font-size:18px; text-align:left; color:#000;
       transition:color .3s;
     }
+
     .pf-group > button:hover, .pf-group > button:focus-visible { color:var(--umd-red); }
+
     .pf-group > button::before, .pf-group > button::after {
       content:""; position:absolute; top:calc(50% - 1px); right:0;
       width:12px; height:2px; background:currentColor; transition:transform .3s;
     }
+
     .pf-group > button::after { transform:rotate(90deg); }
+
     .pf-group.open > button::after { transform:rotate(0); }
 
     .pf-body { display:grid; grid-template-rows:0fr; transition:grid-template-rows .3s ease; }
+
     .pf-group.open .pf-body { grid-template-rows:1fr; }
+
     .pf-body > div { min-height:0; overflow:hidden; }
+
     .pf-body fieldset {
       border:0; margin:0; padding:18px 0 2px; display:flex; flex-direction:column; gap:14px;
       max-height:320px; overflow-y:auto;
     }
+
     /* option rows use the DS .umd-field-checkbox-wrapper (font-weight:400 — the
-       DS-native counter to the global label{font-weight:700} rule) so only the
+       DS-native counter to the global label{font-weight:700}
+
+    rule) so only the
        group header stays bold. */
     .pf-body .umd-field-checkbox-wrapper { align-items:flex-start; gap:12px; margin-bottom:0; line-height:1.3; }
+
     .pf-body input[type="checkbox"] { margin:.15em 0 0; width:18px; height:18px; accent-color:var(--umd-red); flex:0 0 auto; }
+
     .pf-count { color:#767676; font-variant-numeric:tabular-nums; }
 
     .pf-actions { margin-top:24px; }
 
     /* A–Z quick-nav (umd-campaign-extrasmall provides the italic Barlow face) */
     .az-nav { display:flex; flex-wrap:wrap; gap:6px 18px; margin:0 0 40px; padding-bottom:24px; border-bottom:2px solid var(--umd-red); }
+
     .az-nav a { color:var(--umd-red); text-decoration:none; line-height:1; transition:opacity .2s; }
+
     .az-nav a:hover, .az-nav a:focus-visible { text-decoration:underline; }
+
     .az-nav .az-off { color:#d3d3d3; line-height:1; pointer-events:none; }
 
     /* active-filter pills */
     .pf-pills { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:24px; }
+
     .pf-pills-label { font-weight:700; margin-right:4px; }
+
     /* active-filter pills use the DS .umd-pill-list chip (#FAFAFA, 12px);
        neutralize its wrapping-margin hack and use flex gap instead. */
     .pf-pill-cluster.umd-pill-list { margin-top:0; display:inline-flex; flex-wrap:wrap; gap:8px; }
+
     .pf-pills .umd-pill-list > * { margin-top:0; border:0; cursor:pointer; color:#000; }
+
     .pf-pills .umd-pill-list > button:hover,
     .pf-pills .umd-pill-list > button:focus-visible { background-color:#FFD200; }
+
     .pf-clear {
       background:none; border:0; padding:0 0 0 6px; cursor:pointer; color:#000;
       text-decoration:underline; text-underline-offset:.15em;
     }
+
     .pf-clear:hover { color:var(--umd-red); }
 
     .pf-count-line { margin:0 0 24px; }
+
     .pf-empty { font-size:18px; }
 
     /* letter sections + rows */
     .az-section { scroll-margin-top:120px; margin-bottom:40px; }
+
     .az-letter { color:var(--umd-red); margin:0 0 8px; }
+
     @media (min-width:1024px) { .az-letter { margin-bottom:24px; } }
+
     .program-row { display:block; }
+
     .program-row + .program-row { margin-top:0; }
+  </style>
 
-    /* scroll-to-top — pin 24px from the viewport bottom-right
-       (DS default for [data-layout-fixed] is right:40px; bottom:10vh) */
-    umd-element-scroll-top[data-layout-fixed="true"] { right:24px; bottom:24px; }
-  </style>'''
+@@CHROME:chrome-css@@
+</head>
+<body>
 
-GAP_3H = r'''
-</head>'''
+  <!-- 1. GLOBAL UNIVERSITY HEADER -->
+@@CHROME:header@@
 
-BODY_PRE = r'''<body>
-
-  <!-- 1. GLOBAL UNIVERSITY HEADER -->'''
-
-# Hero, filter rail + A-Z directory markup, footer, shadow overrides,
-# inline grid-animations, and the filter JS. @@PROGRAMS@@ is the data slot.
-BODY_POST = r'''
   <!-- 3. HERO — small background -->
   <section class="umd-layout-vertical-landing">
     <umd-element-hero data-layout-height="small">
@@ -320,12 +338,7 @@ BODY_POST = r'''
   <umd-element-scroll-top data-layout-fixed="true"></umd-element-scroll-top>
 
   <!-- 13. FOOTER — visual (uses default specially-formatted footer image) -->
-  <umd-element-footer data-display="visual">
-    <a slot="logo" href="https://admissions.umd.edu/">
-      <img src="../images/logos/footer-logo.svg" alt="University of Maryland" />
-    </a>
-    <img slot="image" src="../page-builder/images/large/campus/footer-campus.jpg" alt="University of Maryland campus" />
-  </umd-element-footer>
+@@CHROME:footer@@
 
   <!-- ============================================================
        SHADOW OVERRIDES
@@ -353,29 +366,6 @@ BODY_POST = r'''
       });
     });
 
-    // NAV-HEADER LOGO WIDTH — navigation-header shadow CSS hard-codes
-    // .element-header-logo img { max-width: 240px } at tablet+ with no
-    // CSS variable hook. The admissions logo is wider than the default
-    // primary wordmark; override to 320px via shadow injection.
-    (function () {
-      const NAV_HEADER_LOGO_CSS =
-        '.element-header-logo img{max-width:320px!important}';
-      function inject(el) {
-        if (!el.shadowRoot || el.__navHeaderLogoInjected) return;
-        const style = document.createElement('style');
-        style.textContent = NAV_HEADER_LOGO_CSS;
-        el.shadowRoot.appendChild(style);
-        el.__navHeaderLogoInjected = true;
-      }
-      function applyAll() {
-        document.querySelectorAll('umd-element-navigation-header').forEach(inject);
-      }
-      customElements.whenDefined('umd-element-navigation-header').then(() => {
-        applyAll();
-        setTimeout(applyAll, 0);
-        setTimeout(applyAll, 250);
-      });
-    })();
 
     // GRID ENTRY ANIMATIONS — auto-applied to layout grids. Mirrors the
     // upstream observeGridAnimations() logic but expands the selector
@@ -654,43 +644,20 @@ BODY_POST = r'''
   })();
   </script>
 
+@@CHROME:chrome-scripts@@
 </body>
 </html>
 '''
 
-
-# ---------------------------------------------------------------- data
-# The inline PROGRAMS array is a compacted projection of the raw GraphQL
-# response: short keys, and descriptions reduced to plain text. The three
-# description steps are order-sensitive -- strip tags, THEN unescape entities,
-# THEN collapse whitespace. Any other order changes the output (e.g. a stray
-# double space where a tag was removed, or "&amp;" surviving as-is).
-raw = json.load(open(DATA, encoding='utf-8'))['data']['programsEntries']
-
-def plain(desc):
-    return re.sub(r'\s+', ' ', _html.unescape(re.sub(r'<[^>]+>', '', desc or ''))).strip()
-
-records = [{
-    'n': r['title'],
-    'u': r['titleLink'],
-    't': [x['title'] for x in r['types']],
-    'c': [x['title'] for x in r['colleges']],
-    'i': [x['title'] for x in r['interests']],
-    'd': plain(r['description']),
-} for r in raw]
-
-# Compact separators keep the inlined array to ~129KB rather than ~132KB.
-programs_json = json.dumps(records, ensure_ascii=False, separators=(',', ':'))
-assert '@@PROGRAMS@@' in BODY_POST
-body_post = BODY_POST.replace('@@PROGRAMS@@', programs_json)
-
 # ---------------------------------------------------------------- assemble
-# The two page-specific <style> blocks sit AFTER cdn.js on purpose: several of
-# their rules (the utility-nav flat-link restore, the scroll-top pin) override
-# critical.css at equal specificity and must win on source order.
-page = '\n'.join([head_top, HEAD_MID, CHROME_CSS, GAP_23, PAGE_CSS, GAP_3H,
-                  BODY_PRE, CHROME, body_post])
+body = BODY.replace('@@PROGRAMS@@', programs_json)
+for key in _chrome.keys():
+    token = '@@CHROME:%s@@' % key
+    assert token in body, 'BODY lost the %s slot' % key
+    body = body.replace(token, _chrome.block(key))
+assert '@@' not in body, 'unsubstituted token remains'
 
+page = head + '\n' + body
 open(OUT, 'w', encoding='utf-8').write(page)
 print('wrote', OUT, len(page.split('\n')), 'lines')
 print('programs', len(records))

@@ -1,0 +1,37 @@
+  <!-- ============================================================
+       SHARED CHROME — shadow injections
+       Inlined into every page by scripts/build-chrome.py.
+       Edit here, not in pages/*.html.
+
+       ONLY chrome-driven injections belong in this file. The other
+       shadow injections used in this project (umd-element-pathway
+       aspect ratio, umd-element-banner-promo stacked actions,
+       call-to-action and card-overlay tweaks) are driven by PAGE
+       CONTENT, not by the header/footer, so they stay in the page that
+       needs them — see OVERRIDES.md.
+  ============================================================ -->
+  <script>
+    // NAV-HEADER LOGO WIDTH — navigation-header shadow CSS hard-codes
+    // .element-header-logo img { max-width: 240px } at tablet+ with no
+    // CSS variable hook. The admissions logo is wider than the default
+    // primary wordmark; override to 320px via shadow injection.
+    (function () {
+      const NAV_HEADER_LOGO_CSS =
+        '.element-header-logo img{max-width:320px!important}';
+      function inject(el) {
+        if (!el.shadowRoot || el.__navHeaderLogoInjected) return;
+        const style = document.createElement('style');
+        style.textContent = NAV_HEADER_LOGO_CSS;
+        el.shadowRoot.appendChild(style);
+        el.__navHeaderLogoInjected = true;
+      }
+      function applyAll() {
+        document.querySelectorAll('umd-element-navigation-header').forEach(inject);
+      }
+      customElements.whenDefined('umd-element-navigation-header').then(() => {
+        applyAll();
+        setTimeout(applyAll, 0);
+        setTimeout(applyAll, 250);
+      });
+    })();
+  </script>

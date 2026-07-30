@@ -6,9 +6,9 @@ Admissions-specific shadow-DOM injections, class overrides, and utility classes 
 
 `umd-element-navigation-header` shadow CSS hard-codes `.element-header-logo img { max-width: 240px }` at tablet+. The admissions wordmark is wider than the default UMD primary wordmark, so we shadow-inject `max-width: 320px`.
 
-Source: `pages/admissions.html` and `pages/academics.html` end-of-body scripts.
+Source: **`shared/chrome-scripts.html`** — this is the one shadow injection driven by the chrome rather than by page content, so it ships with the header. Inlined into every page by `scripts/build-chrome.py`; do not copy it into a page.
 
-Pages using this: `pages/admissions.html`, `pages/academics.html`, `pages/student-life.html`, `pages/tuition.html`.
+Pages using this: all seven (verified rendering at `max-width: 320px`).
 
 ## Pathway 1:1 image aspect ratio
 
@@ -156,3 +156,23 @@ New page recreating <https://admissions.umd.edu/programs/colleges-schools> in th
 - **Verify the utility nav at ≥1024px.** The DS hides the utility slot below desktop, so it measures 0×0 at tablet width — a narrow viewport masks this bug entirely. (An earlier check in this session recorded `utilityNavGap: "0px"` and it was mistaken for normal.)
 
 No shadow injections introduced. The page references the canonical `../page-builder/scripts/grid-animations.js` by `src` rather than inlining it (per `page-builder/CLAUDE.md`); the older sibling pages still inline that block.
+
+## Shared chrome (`shared/` + `scripts/build-chrome.py`)
+
+The site chrome — header stack, footer, its CSS companions, and its shadow injection — was copy-pasted into all seven pages, with the CSS living in a different place from the markup. That split caused two silent regressions while building `pages/colleges-schools.html` (unstyled utility nav; scroll-top falling back to the DS `right:40px; bottom:10vh`), so it is now extracted.
+
+- **Source of truth is `shared/`**: `header.html`, `footer.html`, `chrome.css`, `chrome-scripts.html`. `scripts/_chrome.py` wraps each in `SHARED:<key>:START` / `:END` markers; `scripts/build-chrome.py` splices them into every page in `pages/`. The two page generators emit the identical blocks via the same module, so running any of the three converges — no ordering dependency. `--check` exits non-zero if a page is stale.
+- **Migration is content-located, not marker-dependent.** On a page with no markers the script finds the existing chrome by content and wraps it, so a new page needs no setup. A zero-width insertion slot (chrome CSS before `</head>`, chrome scripts before `</body>`) must emit its own trailing newline — without it the block runs straight into the following tag (`<!-- SHARED:chrome-css:END --></head>`).
+- **Only chrome-driven injections are shared.** `shared/chrome-scripts.html` holds just the nav-header logo width. The pathway aspect-ratio, banner-promo stacked-actions, call-to-action and card-overlay injections are driven by page **content** and stay with the page — verified by usage: `student-life.html` has zero `umd-element-pathway` and correctly carries no pathway injection.
+- **Two drifts were normalised**, both confirmed with the user rather than assumed: the footer logo now points at `admissions.html` on all seven pages (it was `https://admissions.umd.edu/` on six and `/` on one, so clicking it left the prototype for production, while the header logo was already relative), and `admissions.html` gained the `line-height: 1.25` on utility links that the other six already had.
+- **Scroll-to-top stays opt-in** (only the two long directory pages use the element), but its pin lives in `shared/chrome.css` so it is styled consistently wherever it appears.
+
+### Known remaining drift — the inlined `critical.css` block
+
+`build-chrome.py` deliberately does **not** touch the inlined critical block. Against the current `page-builder/TEMPLATE.html`: `programs.html` is in sync; `colleges-schools.html` differs only by its own appended page CSS; the four other hand-authored pages differ only by the §11 `:has()` gate; and **`admissions.html` carries two intentional page-specific edits inside that block** — an extra `.umd-layout-background-full-dark-no-bottom` utility, and a `:not(.quote-with-chevron)` exclusion on the dark→light transition selector.
+
+Those two are why a blanket refresh from TEMPLATE would be wrong — it would silently clobber them. Rendering is unaffected by the §11 lag either way, because `shared/chrome.css` sets the flat-link `gap: 24px` explicitly on every page. Refreshing critical blocks is a separate task that has to preserve the `admissions.html` edits.
+
+### Pre-existing, not introduced
+
+`pages/admissions.html` has ~64px of horizontal overflow at 1440px. Measured on the pre-migration file as well (64px before, 63px after), with no light-DOM offenders, so it originates in a shadow root or a decorative absolutely-positioned element. Unrelated to the chrome extraction.

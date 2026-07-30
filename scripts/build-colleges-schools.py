@@ -4,24 +4,25 @@
 Sources
   briefs/colleges-schools-data.json   13 colleges / 203 programs (verbatim copy)
   page-builder/TEMPLATE.html          <head> + inlined critical.css (verbatim)
-  pages/programs.html                 project chrome: header stack, footer,
-                                      shadow-override scripts
+  shared/ (via scripts/_chrome.py)    header stack, footer, chrome CSS,
+                                      chrome shadow injections
 
 Edit the JSON or the PAGE_CSS / PAGE_JS blocks below and re-run:
     python3 scripts/build-colleges-schools.py
 Do not hand-edit the generated HTML - it is overwritten wholesale.
 """
-import json, html, re, os
+import json, html, re, os, sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import _chrome
 
 # Repo root = parent of this script's directory, so the generator is portable.
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE = os.path.join(REPO, 'page-builder/TEMPLATE.html')
-PROGRAMS = os.path.join(REPO, 'pages/programs.html')
 DATA = os.path.join(REPO, 'briefs/colleges-schools-data.json')
 OUT = os.path.join(REPO, 'pages/colleges-schools.html')
 
 tpl = open(TEMPLATE, encoding='utf-8').read().split('\n')
-prog = open(PROGRAMS, encoding='utf-8').read().split('\n')
 colleges = json.load(open(DATA, encoding='utf-8'))
 
 def e(s):
@@ -36,8 +37,10 @@ def e(s):
 crit_end = next(i for i, l in enumerate(tpl) if l.strip() == '</style>')
 head_close = next(i for i, l in enumerate(tpl) if l.strip() == '</head>' and i > crit_end)
 head_top = '\n'.join(tpl[:crit_end])
-head_tail = '\n'.join(tpl[crit_end:head_close + 1])   # </style> .. </head>
-assert 'cdn.js' in head_tail, 'TEMPLATE head is missing the cdn.js script tag'
+# </style> .. cdn.js, WITHOUT </head> — the shared chrome-CSS block is emitted
+# after it (so it wins at equal specificity) and this file closes </head> itself.
+head_tail_open = '\n'.join(tpl[crit_end:head_close])
+assert 'cdn.js' in head_tail_open, 'TEMPLATE head is missing the cdn.js script tag'
 
 head_top = head_top.replace(
     '<title>{{PAGE_TITLE}} — {{SITE_NAME}} | University of Maryland</title>',
@@ -46,89 +49,15 @@ if '{{' in head_top:
     raise SystemExit('unreplaced placeholder in head: ' + re.findall(r'\{\{\w+\}\}', head_top)[0])
 
 # ---------------------------------------------------------------- chrome
-# programs.html lines 913..973 (index 912..972) = header stack.
-hdr_start = next(i for i, l in enumerate(prog) if 'umd-element-navigation-utility' in l and 'data-alert-off' in l)
-hdr_end = next(i for i, l in enumerate(prog) if l.strip() == '</umd-element-navigation-header>')
-header = '\n'.join(prog[hdr_start:hdr_end + 1])
-# Point the Colleges & Schools nav link at the new local page.
-header = header.replace(
-    '<a href="https://admissions.umd.edu/programs/colleges-schools">Colleges &amp; Schools</a>',
-    '<a href="colleges-schools.html">Colleges &amp; Schools</a>')
-assert 'colleges-schools.html' in header
-
-# scroll-top + footer (shared shadow-override scripts are re-emitted below)
-ft_start = next(i for i, l in enumerate(prog) if l.strip().startswith('<umd-element-scroll-top'))
-ft_end = next(i for i, l in enumerate(prog) if l.strip() == '</umd-element-footer>')
-assert ft_start < ft_end and ft_start > hdr_end, (ft_start, ft_end)
-footer = '\n'.join(prog[ft_start - 1:ft_end + 1])
-assert '<body>' not in footer and '</style>' not in footer, 'footer slice overshot'
-
-# shadow-override script block: from the SHADOW OVERRIDES banner through the
-# end of the nav-header-logo IIFE (the grid-animation block that follows is
-# replaced by a <script src> reference per page-builder/CLAUDE.md).
-so_start = next(i for i, l in enumerate(prog) if 'SHADOW OVERRIDES' in l) - 1
-so_end = next(i for i, l in enumerate(prog) if 'GRID ENTRY ANIMATIONS' in l) - 1
-shadow = '\n'.join(prog[so_start:so_end]).rstrip()
-shadow += '\n  </script>'
-assert 'NAV-HEADER LOGO WIDTH' in shadow
-
-# ---------------------------------------------------------------- chrome CSS
-# Some of the project chrome's CSS lives in pages/programs.html's PAGE-SPECIFIC
-# <style> block, NOT in TEMPLATE.html's critical block:
-#   * utility-navigation flat links — critical.css §11 targets the DS
-#     .umd-shell-utility-item pattern and scopes `gap: 0`; this chrome uses
-#     plain <a> children, so without the restore the links jam together unstyled
-#   * umd-element-scroll-top[data-layout-fixed] — pinned 24px/24px instead of
-#     the DS default right:40px / bottom:10vh
-# Building a head from TEMPLATE.html alone therefore ships the chrome markup
-# without the CSS it depends on, and the regression is silent. Harvest both from
-# the same reference page so they cannot drift apart.
-def _css_rules(css):
-    """Split a stylesheet into top-level rules, keeping any leading comment."""
-    out, depth, buf = [], 0, ''
-    for ch in css:
-        buf += ch
-        if ch == '{':
-            depth += 1
-        elif ch == '}':
-            depth -= 1
-            if depth == 0:
-                out.append(buf.strip())
-                buf = ''
-    return out
-
-def _selector(rule):
-    return re.sub(r'/\*.*?\*/', '', rule.split('{')[0], flags=re.S).strip()
-
-CHROME_CSS_SELECTORS = ('utility-navigation', 'umd-element-scroll-top')
-_style_blocks = re.findall(r'(?s)<style>(.*?)</style>', '\n'.join(prog))
-assert len(_style_blocks) > 1, 'reference page has no page-specific <style> block'
-chrome_css = '\n\n'.join(
-    # _css_rules strips the rule's first line; restore the 4-space gutter the
-    # surrounding critical block uses. Later lines keep their source indent.
-    '    ' + r
-    for r in _css_rules('\n'.join(_style_blocks[1:]))
-    if any(k in _selector(r) for k in CHROME_CSS_SELECTORS))
-
-# Tie the harvested CSS to the markup that needs it — if either side moves, fail
-# the build rather than shipping a silently unstyled header.
-assert '<div slot="utility-navigation">' in header, 'chrome markup lost the utility nav'
-assert 'gap: 24px' in chrome_css, 'utility-nav flat-link spacing not harvested'
-assert 'div[slot="utility-navigation"] a' in chrome_css, 'utility-nav link styling not harvested'
-assert '<umd-element-scroll-top' in footer, 'chrome markup lost the scroll-top'
-assert 'umd-element-scroll-top[data-layout-fixed' in chrome_css, 'scroll-top pin not harvested'
-
-CHROME_CSS = f'''
-    /* ============================================================
-       24. PROJECT CHROME COMPANIONS
-       Harvested verbatim by scripts/build-colleges-schools.py from the
-       page-specific <style> block of pages/programs.html — the same file the
-       header/footer markup is copied from. These rules are NOT in
-       page-builder/TEMPLATE.html, so a head built from TEMPLATE alone renders
-       the chrome unstyled. Do not hand-edit; fix the reference page instead.
-       ============================================================ */
-{chrome_css}
-'''
+# Header, footer, chrome CSS and chrome scripts all come from shared/ via
+# scripts/_chrome.py, emitted inside SHARED:<key> markers. scripts/build-chrome.py
+# splices the identical blocks into hand-authored pages, so running either tool
+# converges on the same bytes.
+#
+# The other shadow injections this project uses (pathway aspect ratio,
+# banner-promo stacked actions) are driven by page CONTENT, and this page has
+# neither element -- verified zero umd-element-pathway and zero
+# umd-element-banner-promo in the markup below -- so they are not emitted here.
 
 # ---------------------------------------------------------------- page CSS
 PAGE_CSS = '''
@@ -621,12 +550,12 @@ PAGE_JS = '''  <!-- ============================================================
 
 # ---------------------------------------------------------------- assemble
 page = f'''{head_top}
-{CHROME_CSS}{PAGE_CSS}{head_tail}
+{PAGE_CSS}{head_tail_open}
+{_chrome.block('chrome-css')}
+</head>
 <body>
 
-  <!-- 1. GLOBAL UNIVERSITY HEADER + 2. SITE NAVIGATION HEADER
-       Copied verbatim from pages/programs.html (project chrome). -->
-{header}
+{_chrome.block('header')}
 
   <!-- 3. HERO — small background, left-aligned text + CTA.
        Same recipe as pages/programs.html. -->
@@ -670,9 +599,12 @@ page = f'''{head_top}
     </div>
   </section>
 
-{footer}
+  <!-- SCROLL TO TOP — fixed 24px from viewport bottom-right (pin lives in shared/chrome.css) -->
+  <umd-element-scroll-top data-layout-fixed="true"></umd-element-scroll-top>
 
-{shadow}
+{_chrome.block('footer')}
+
+{_chrome.block('chrome-scripts')}
 
   <!-- Canonical grid-entry animations (page-builder/CLAUDE.md: never inline). -->
   <script src="../page-builder/scripts/grid-animations.js"></script>

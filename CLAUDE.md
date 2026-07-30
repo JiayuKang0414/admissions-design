@@ -40,44 +40,50 @@ When shrinking oversized images (the `/optimize-images` skill or ad-hoc), only t
 
 Every page within a single design project must use the **same site header, navigation, logo, and footer**. Pages in this project should look like a coherent site — they should not invent their own chrome, nav items, or logo treatment.
 
-### Reference page for this project
+### The chrome lives in `shared/` — never copy it between pages
 
-For admissions-design, the canonical reference is **`pages/academics.html`** — it is the established landing-page design for this project. When building a new page in this repo:
+| File | What it holds |
+|---|---|
+| `shared/header.html` | Header stack: `umd-element-navigation-utility` + `umd-element-utility-header` + `umd-element-navigation-header` with the project nav items and logo |
+| `shared/footer.html` | `umd-element-footer data-display="visual"` |
+| `shared/chrome.css` | CSS companions the chrome markup depends on (see below) |
+| `shared/chrome-scripts.html` | Chrome-driven shadow injections (nav-header logo width) |
 
-1. Open `pages/academics.html` and copy verbatim:
-   - The full header stack (`umd-element-navigation-utility` + `umd-element-utility-header` + `umd-element-navigation-header` with the project nav items)
-   - The footer block (`umd-element-footer data-display="visual"`)
-   - End-of-body shadow-injection scripts (pathway aspect ratio, banner-promo gap, nav-header logo width, etc.)
-   - **The chrome's CSS companions — see the warning below.**
-2. Use the same logo paths, the same nav item set, and the same footer image — do not substitute or reorder.
-3. Only the `<main>` content between the header and footer is page-specific.
+**Edit `shared/`, then run the inliner:**
 
-### ⚠️ Chrome markup alone is not enough — it has CSS companions outside TEMPLATE.html
+```bash
+python3 scripts/build-chrome.py          # splices shared/ into every page in pages/
+python3 scripts/build-chrome.py --check  # exits non-zero if any page is stale (CI-friendly)
+```
 
-**`page-builder/TEMPLATE.html` does not contain every rule the project chrome needs.** Some live in the *page-specific* `<style>` block of the reference pages, after the inlined `critical.css`. Copy the chrome markup from a reference page but build the `<head>` from TEMPLATE alone and the chrome renders **silently unstyled** — no console error, no layout break, just wrong.
+Each region sits between `SHARED:<key>:START` / `:END` markers in the page. **Do not hand-edit anything between those markers** — the next run overwrites it. On a page that has no markers yet, the script finds the existing chrome by content and wraps it, so adding a new page needs no special setup.
 
-Known companions (grep a reference page's second `<style>` block for the current list):
+The two generated pages (`scripts/build-programs.py`, `scripts/build-colleges-schools.py`) emit the *same* blocks via `scripts/_chrome.py`, so running any of the three converges on identical bytes — there is no ordering dependency between them.
+
+Only the content between the header and footer is page-specific.
+
+### ⚠️ Why the CSS and scripts live with the markup
+
+**`page-builder/TEMPLATE.html` does not contain every rule the chrome needs.** Before the extraction these rules sat in a page-specific `<style>` block while the markup was copied from a sibling page — so building a `<head>` from TEMPLATE while copying markup from a page silently dropped them. No console error, no layout break, just unstyled chrome. That happened twice.
 
 | Rule | Why TEMPLATE isn't enough |
 |---|---|
-| `umd-element-navigation-header div[slot="utility-navigation"]` (+ ` a`, ` a:hover/:focus`) | `critical.css` §11 targets the DS `.umd-shell-utility-item` dropdown pattern and scopes `gap: 0`. This project's chrome uses plain `<a>` children, so §11 jams them together with no styling. The companion restores `display:flex; gap:24px` and the link type/colour at matching specificity — it must load **after** the critical block to win. |
-| `umd-element-scroll-top[data-layout-fixed="true"]` | Pins to `right:24px; bottom:24px`; the DS default is `right:40px; bottom:10vh`. |
+| `umd-element-navigation-header div[slot="utility-navigation"] a` | `critical.css` §11's BASE layer styles `.umd-shell-utility-item a`, which never matches this project's plain `<a>` children — they render browser-default blue and underlined without it. Must load **after** the critical block to win at equal specificity. |
+| `umd-element-scroll-top[data-layout-fixed="true"]` | Pins to `right:24px; bottom:24px`; the DS default is `right:40px; bottom:10vh`. Opt-in per page, but styled from `shared/` wherever used. |
 
-**When building a new page:** harvest the chrome CSS from the same reference page you took the chrome markup from, and keep them together. `scripts/build-colleges-schools.py` does this automatically (see its `CHROME_CSS` block) and asserts at build time that the markup and its CSS are both present — copy that approach rather than hand-copying rules.
+**Chrome vs. page-level shadow injections.** Only injections driven by the *chrome* belong in `shared/chrome-scripts.html` — currently just the nav-header logo width. The pathway aspect-ratio, banner-promo stacked-actions, call-to-action and card-overlay injections are driven by **page content** and stay in the page that uses them. Don't move them to `shared/`; a page with no `umd-element-pathway` should not carry the pathway injection.
 
-**When verifying:** assert utility-nav `gap: 24px` **at ≥1024px** — the DS hides the utility slot below desktop, so it measures 0×0 at tablet width and a narrow viewport will mask the bug. Also check `umd-element-scroll-top` computes `right/bottom: 24px`.
-
-The durable fix is the `shared/header.html` / `shared/footer.html` extraction noted at the end of this section — chrome markup, chrome CSS, and chrome scripts should live in one place and be inlined by a build script.
+**When verifying:** assert utility-nav `gap: 24px` **at ≥1024px** — the DS hides the utility slot below desktop, so it measures 0×0 at tablet width and a narrow viewport masks the bug entirely. Also check `umd-element-scroll-top` computes `right/bottom: 24px` and that the nav logo's shadow `max-width` is `320px`.
 
 ### Projects that don't yet have a reference page
 
-Not every design project will start with an existing reference page. In that case, the **first page built becomes the reference** — establish header/nav/logo/footer choices intentionally, document them, and treat that page as authoritative for every subsequent page in the project.
+Not every design project will start with an existing `shared/` chrome. In that case, the **first page built establishes it** — make the header/nav/logo/footer choices intentionally, extract them into `shared/` straight away, and treat that as authoritative for every subsequent page in the project.
 
-### Reference pages are project-scoped
+### The chrome is project-scoped
 
-Reference pages live in this repo only — never copy this project's chrome into the `page-builder/` submodule, and never assume a different design project (e.g. a future `engineering-design` repo) will share these specific nav items, logos, or footer image. The submodule provides the components; each design project owns its own chrome composition.
+`shared/` lives in this repo only — never copy this project's chrome into the `page-builder/` submodule, and never assume a different design project (e.g. a future `engineering-design` repo) will share these specific nav items, logos, or footer image. The submodule provides the components; each design project owns its own chrome composition.
 
-A future task will extract this project's chrome into `shared/header.html` / `shared/footer.html` and add a build script to inline them.
+That scoping is why `shared/chrome.css` is not upstreamed: the flat-`<a>` utility-nav treatment is *this project's* composition choice, not a design-system default. The one genuinely generic bug it exposed — `critical.css` §11 zeroing the slot gap unconditionally — was fixed upstream instead (`design-system-page-builder` `be3ea6c`).
 
 ## Logos
 

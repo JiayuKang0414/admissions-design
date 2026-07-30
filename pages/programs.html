@@ -735,31 +735,6 @@
   <script src="https://unpkg.com/@universityofmaryland/web-components-library@1.18.12/dist/cdn.js"></script>
 
   <style>
-    /* Utility-navigation flat links. These pages use plain <a> links in the
-       utility slot (Visit UMD / Connect), NOT the DS umd-shell-utility-item
-       pattern that critical.css §11 now targets — its scoped `gap: 0` would
-       jam the links together. Restore flat-link flex spacing + styling at
-       matching specificity (loads after the inline critical block, so wins). */
-    umd-element-navigation-header div[slot="utility-navigation"] {
-      display: flex;
-      justify-content: flex-end;
-      gap: 24px;
-    }
-    umd-element-navigation-header div[slot="utility-navigation"] a {
-      font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif;
-      font-size: 14px;
-      font-weight: 400;
-      color: #242424;
-      text-decoration: none;
-      line-height: 1.25;
-      transition: color 0.3s ease-in-out;
-    }
-    umd-element-navigation-header div[slot="utility-navigation"] a:hover,
-    umd-element-navigation-header div[slot="utility-navigation"] a:focus {
-      color: #E21833;
-      text-decoration: underline;
-    }
-
     /* Brand chevron animation flanking the Study Here rich text and
        overlapping ~120px up into the hero above. Hidden below tablet
        to avoid crowding the single-column stacked content. */
@@ -768,10 +743,12 @@
       overflow: visible;
       z-index: 100;
     }
+
     .study-here-content {
       position: relative;
       z-index: 2;
     }
+
     /* The brand-logo-animation hardcodes its inner container to
        width:100vw, height:50vw and anchors chevrons to right:0. So
        the host must span full width — sizing/clipping won't work. */
@@ -785,6 +762,7 @@
       z-index: 1;
       overflow: visible;
     }
+
     .study-here-chevron > umd-element-brand-logo-animation {
       position: absolute;
       top: 0;
@@ -792,6 +770,7 @@
       right: 0;
       display: block;
     }
+
     @media (max-width: 1023px) {
       .study-here-chevron { display: none; }
     }
@@ -807,10 +786,12 @@
 
     /* two-column layout: filter rail + results */
     .programs-layout { display:block; }
+
     @media (min-width:1020px) {
       .programs-layout { display:flex; align-items:flex-start; gap:64px; }
       .programs-filters { width:30%; min-width:260px; max-width:360px; position:sticky; top:110px; }
     }
+
     .programs-results { flex:1; min-width:0; }
 
     /* mobile filter toggle */
@@ -819,11 +800,15 @@
       width:100%; padding:14px 16px; margin-bottom:16px; cursor:pointer;
       background:#000; color:#fff; border:0; font-weight:700;
     }
+
     .pf-mobile-toggle::after { content:"+"; font-size:22px; line-height:1; }
+
     .pf-mobile-toggle[aria-expanded="true"]::after { content:"\2212"; }
+
     @media (min-width:1020px) { .pf-mobile-toggle { display:none; } }
 
     #pf-form { display:block; }
+
     @media (max-width:1019px) {
       #pf-form { display:none; }
       #pf-form.is-open { display:block; }
@@ -831,98 +816,188 @@
 
     /* search bar — lifted from the experts page (input + red square submit) */
     .pf-search-bar { margin:0 0 32px; }
+
     .pf-search-row { display:flex; gap:8px; align-items:center; }
+
     .pf-search-row input {
       flex:1 1 auto; min-width:0; height:48px; padding:12px 16px;
       border:1px solid #e6e6e6; border-radius:0; background:#fff;
       font:inherit; font-size:16px; -webkit-appearance:none; appearance:none;
     }
+
     .pf-search-row input:focus-visible { outline:2px solid var(--umd-red); outline-offset:1px; border-color:var(--umd-red); }
+
     .pf-search-submit {
       flex:0 0 auto; width:48px; height:48px; border:0; border-radius:0; cursor:pointer;
       background:var(--umd-red); display:flex; align-items:center; justify-content:center;
       transition:background-color .5s;
     }
+
     .pf-search-submit:hover, .pf-search-submit:focus-visible { background:#a90007; }
+
     .pf-search-submit svg { width:20px; height:20px; fill:#fff; }
 
     /* accordion filter groups (adapted from the experts REFINE rail) */
     .pf-group { border-bottom:1px solid #000; margin-bottom:24px; padding-bottom:24px; }
+
     .pf-group:last-of-type { border-bottom:0; }
+
     .pf-group > button {
       display:flex; position:relative; justify-content:space-between; align-items:center;
       gap:16px; width:100%; padding:0 24px 0 0; background:none; border:0; cursor:pointer;
       font:inherit; font-weight:700; font-size:18px; text-align:left; color:#000;
       transition:color .3s;
     }
+
     .pf-group > button:hover, .pf-group > button:focus-visible { color:var(--umd-red); }
+
     .pf-group > button::before, .pf-group > button::after {
       content:""; position:absolute; top:calc(50% - 1px); right:0;
       width:12px; height:2px; background:currentColor; transition:transform .3s;
     }
+
     .pf-group > button::after { transform:rotate(90deg); }
+
     .pf-group.open > button::after { transform:rotate(0); }
 
     .pf-body { display:grid; grid-template-rows:0fr; transition:grid-template-rows .3s ease; }
+
     .pf-group.open .pf-body { grid-template-rows:1fr; }
+
     .pf-body > div { min-height:0; overflow:hidden; }
+
     .pf-body fieldset {
       border:0; margin:0; padding:18px 0 2px; display:flex; flex-direction:column; gap:14px;
       max-height:320px; overflow-y:auto;
     }
+
     /* option rows use the DS .umd-field-checkbox-wrapper (font-weight:400 — the
-       DS-native counter to the global label{font-weight:700} rule) so only the
+       DS-native counter to the global label{font-weight:700}
+
+    rule) so only the
        group header stays bold. */
     .pf-body .umd-field-checkbox-wrapper { align-items:flex-start; gap:12px; margin-bottom:0; line-height:1.3; }
+
     .pf-body input[type="checkbox"] { margin:.15em 0 0; width:18px; height:18px; accent-color:var(--umd-red); flex:0 0 auto; }
+
     .pf-count { color:#767676; font-variant-numeric:tabular-nums; }
 
     .pf-actions { margin-top:24px; }
 
     /* A–Z quick-nav (umd-campaign-extrasmall provides the italic Barlow face) */
     .az-nav { display:flex; flex-wrap:wrap; gap:6px 18px; margin:0 0 40px; padding-bottom:24px; border-bottom:2px solid var(--umd-red); }
+
     .az-nav a { color:var(--umd-red); text-decoration:none; line-height:1; transition:opacity .2s; }
+
     .az-nav a:hover, .az-nav a:focus-visible { text-decoration:underline; }
+
     .az-nav .az-off { color:#d3d3d3; line-height:1; pointer-events:none; }
 
     /* active-filter pills */
     .pf-pills { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-bottom:24px; }
+
     .pf-pills-label { font-weight:700; margin-right:4px; }
+
     /* active-filter pills use the DS .umd-pill-list chip (#FAFAFA, 12px);
        neutralize its wrapping-margin hack and use flex gap instead. */
     .pf-pill-cluster.umd-pill-list { margin-top:0; display:inline-flex; flex-wrap:wrap; gap:8px; }
+
     .pf-pills .umd-pill-list > * { margin-top:0; border:0; cursor:pointer; color:#000; }
+
     .pf-pills .umd-pill-list > button:hover,
     .pf-pills .umd-pill-list > button:focus-visible { background-color:#FFD200; }
+
     .pf-clear {
       background:none; border:0; padding:0 0 0 6px; cursor:pointer; color:#000;
       text-decoration:underline; text-underline-offset:.15em;
     }
+
     .pf-clear:hover { color:var(--umd-red); }
 
     .pf-count-line { margin:0 0 24px; }
+
     .pf-empty { font-size:18px; }
 
     /* letter sections + rows */
     .az-section { scroll-margin-top:120px; margin-bottom:40px; }
-    .az-letter { color:var(--umd-red); margin:0 0 8px; }
-    @media (min-width:1024px) { .az-letter { margin-bottom:24px; } }
-    .program-row { display:block; }
-    .program-row + .program-row { margin-top:0; }
 
-    /* scroll-to-top — pin 24px from the viewport bottom-right
-       (DS default for [data-layout-fixed] is right:40px; bottom:10vh) */
-    umd-element-scroll-top[data-layout-fixed="true"] { right:24px; bottom:24px; }
+    .az-letter { color:var(--umd-red); margin:0 0 8px; }
+
+    @media (min-width:1024px) { .az-letter { margin-bottom:24px; } }
+
+    .program-row { display:block; }
+
+    .program-row + .program-row { margin-top:0; }
   </style>
 
+  <!-- SHARED:chrome-css:START — generated from shared/chrome.css; do not edit here -->
+  <style>
+/* ============================================================
+   SHARED CHROME — CSS companions
+   Inlined into every page by scripts/build-chrome.py.
+   Edit here, not in pages/*.html.
+
+   These rules are NOT in page-builder/TEMPLATE.html. They pair with the
+   markup in shared/header.html and shared/footer.html, and a page that
+   carries the chrome markup without them renders SILENTLY wrong — no
+   console error, no broken layout, just unstyled.
+
+   This block must be emitted AFTER the inlined critical.css so it wins at
+   equal specificity.
+   ============================================================ */
+
+/* ---- Utility navigation: flat-link pattern ----
+   This project's chrome puts plain <a> children in the utility slot
+   (Visit UMD / Connect) rather than the DS .umd-shell-utility-item
+   pattern. critical.css §11's BASE layer styles
+   `.umd-shell-utility-item a`, which never matches a bare <a>, so
+   without these rules the projected links render browser-default blue
+   and underlined.
+
+   The display/justify/gap rule is belt-and-braces: since the upstream
+   fix (design-system-page-builder be3ea6c) gated §11's `gap: 0` on
+   :has(.umd-shell-utility-item), the component's own shadow
+   ::slotted(*) already supplies flex + 24px here. Stating it explicitly
+   keeps the intended layout readable and survives a shadow change. */
+umd-element-navigation-header div[slot="utility-navigation"] {
+  display: flex;
+  justify-content: flex-end;
+  gap: 24px;
+}
+umd-element-navigation-header div[slot="utility-navigation"] a {
+  font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #242424;
+  text-decoration: none;
+  line-height: 1.25;
+  transition: color 0.3s ease-in-out;
+}
+umd-element-navigation-header div[slot="utility-navigation"] a:hover,
+umd-element-navigation-header div[slot="utility-navigation"] a:focus {
+  color: #E21833;
+  text-decoration: underline;
+}
+
+/* ---- Scroll-to-top pin ----
+   Opt-in per page (only the long directory pages use the element), but
+   the pin lives here so it is styled consistently wherever it appears.
+   Harmless on pages with no umd-element-scroll-top.
+   DS default for [data-layout-fixed] is right:40px; bottom:10vh. */
+umd-element-scroll-top[data-layout-fixed="true"] {
+  right: 24px;
+  bottom: 24px;
+}
+  </style>
+  <!-- SHARED:chrome-css:END -->
 </head>
 <body>
 
   <!-- 1. GLOBAL UNIVERSITY HEADER -->
+  <!-- SHARED:header:START — generated from shared/header.html; do not edit here -->
   <umd-element-navigation-utility data-alert-off="true" role="navigation" aria-label="Utility navigation"></umd-element-navigation-utility>
   <umd-element-utility-header></umd-element-utility-header>
 
-  <!-- 2. SITE NAVIGATION HEADER -->
   <umd-element-navigation-header
     sticky
     class="umd-layout-space-horizontal-full"
@@ -980,6 +1055,7 @@
       </umd-element-nav-item>
     </nav>
   </umd-element-navigation-header>
+  <!-- SHARED:header:END -->
 
   <!-- 3. HERO — small background -->
   <section class="umd-layout-vertical-landing">
@@ -1046,12 +1122,14 @@
   <umd-element-scroll-top data-layout-fixed="true"></umd-element-scroll-top>
 
   <!-- 13. FOOTER — visual (uses default specially-formatted footer image) -->
+  <!-- SHARED:footer:START — generated from shared/footer.html; do not edit here -->
   <umd-element-footer data-display="visual">
-    <a slot="logo" href="https://admissions.umd.edu/">
+    <a slot="logo" href="admissions.html">
       <img src="../images/logos/footer-logo.svg" alt="University of Maryland" />
     </a>
     <img slot="image" src="../page-builder/images/large/campus/footer-campus.jpg" alt="University of Maryland campus" />
   </umd-element-footer>
+  <!-- SHARED:footer:END -->
 
   <!-- ============================================================
        SHADOW OVERRIDES
@@ -1079,29 +1157,6 @@
       });
     });
 
-    // NAV-HEADER LOGO WIDTH — navigation-header shadow CSS hard-codes
-    // .element-header-logo img { max-width: 240px } at tablet+ with no
-    // CSS variable hook. The admissions logo is wider than the default
-    // primary wordmark; override to 320px via shadow injection.
-    (function () {
-      const NAV_HEADER_LOGO_CSS =
-        '.element-header-logo img{max-width:320px!important}';
-      function inject(el) {
-        if (!el.shadowRoot || el.__navHeaderLogoInjected) return;
-        const style = document.createElement('style');
-        style.textContent = NAV_HEADER_LOGO_CSS;
-        el.shadowRoot.appendChild(style);
-        el.__navHeaderLogoInjected = true;
-      }
-      function applyAll() {
-        document.querySelectorAll('umd-element-navigation-header').forEach(inject);
-      }
-      customElements.whenDefined('umd-element-navigation-header').then(() => {
-        applyAll();
-        setTimeout(applyAll, 0);
-        setTimeout(applyAll, 250);
-      });
-    })();
 
     // GRID ENTRY ANIMATIONS — auto-applied to layout grids. Mirrors the
     // upstream observeGridAnimations() logic but expands the selector
@@ -1380,5 +1435,44 @@
   })();
   </script>
 
+  <!-- SHARED:chrome-scripts:START — generated from shared/chrome-scripts.html; do not edit here -->
+  <!-- ============================================================
+       SHARED CHROME — shadow injections
+       Inlined into every page by scripts/build-chrome.py.
+       Edit here, not in pages/*.html.
+
+       ONLY chrome-driven injections belong in this file. The other
+       shadow injections used in this project (umd-element-pathway
+       aspect ratio, umd-element-banner-promo stacked actions,
+       call-to-action and card-overlay tweaks) are driven by PAGE
+       CONTENT, not by the header/footer, so they stay in the page that
+       needs them — see OVERRIDES.md.
+  ============================================================ -->
+  <script>
+    // NAV-HEADER LOGO WIDTH — navigation-header shadow CSS hard-codes
+    // .element-header-logo img { max-width: 240px } at tablet+ with no
+    // CSS variable hook. The admissions logo is wider than the default
+    // primary wordmark; override to 320px via shadow injection.
+    (function () {
+      const NAV_HEADER_LOGO_CSS =
+        '.element-header-logo img{max-width:320px!important}';
+      function inject(el) {
+        if (!el.shadowRoot || el.__navHeaderLogoInjected) return;
+        const style = document.createElement('style');
+        style.textContent = NAV_HEADER_LOGO_CSS;
+        el.shadowRoot.appendChild(style);
+        el.__navHeaderLogoInjected = true;
+      }
+      function applyAll() {
+        document.querySelectorAll('umd-element-navigation-header').forEach(inject);
+      }
+      customElements.whenDefined('umd-element-navigation-header').then(() => {
+        applyAll();
+        setTimeout(applyAll, 0);
+        setTimeout(applyAll, 250);
+      });
+    })();
+  </script>
+  <!-- SHARED:chrome-scripts:END -->
 </body>
 </html>

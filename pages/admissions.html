@@ -740,9 +740,12 @@
       display: block;
       width: 100%;
     }
+
     /* NO-GAP CARD GRID */
     .umd-layout-grid-cards-no-gap { display: grid; grid-template-columns: 1fr; }
+
     @media (min-width: 768px) { .umd-layout-grid-cards-no-gap { grid-template-columns: repeat(3, 1fr); } }
+
     .umd-layout-grid-cards-no-gap > * { height: 100%; }
 
     /* OVERLAY CARD .size-large MIN-HEIGHT
@@ -750,12 +753,14 @@
        whenever an overlay card sits in a no-gap row or alongside a feature
        card so the tile fills its allotted space. */
     umd-element-card-overlay.size-large { min-height: 320px; }
+
     @media (min-width: 768px) {
       umd-element-card-overlay.size-large { min-height: 560px; }
     }
 
     /* TUITION & AID 2-COLUMN GRID */
     .umd-layout-grid-tuition-two { display: grid; grid-template-columns: 1fr; gap: 32px; }
+
     @media (min-width: 1024px) { .umd-layout-grid-tuition-two { grid-template-columns: 1.5fr 1fr; gap: 80px; } }
 
     /* FULL-WIDTH OUTLINE BUTTON — light-DOM, fills grid cell.
@@ -770,17 +775,21 @@
       background-color: #ffffff; border: 1px solid #242424; color: #000000;
       transition: background 0.5s ease-in-out, border 0.5s ease-in-out, color 0.5s ease-in-out;
     }
+
     .umd-action-outline-block:hover,
     .umd-action-outline-block:focus { background-color: #242424; color: #ffffff; }
+
     .umd-action-outline-block.dark {
       background-color: transparent; border: 1px solid #ffffff; color: #ffffff;
     }
+
     .umd-action-outline-block.dark:hover,
     .umd-action-outline-block.dark:focus { background-color: #ffffff; color: #000000; }
 
     /* HERO-GRID HEIGHT GUARD — keep the 100vh hero behaving correctly
        in environments where unset min-heights collapse. */
     umd-element-hero-grid { min-height: 100vh; background-color: #000000; }
+
     umd-element-hero-grid [slot="column-center"] video { display: block; width: 100%; height: 100%; object-fit: cover; }
 
     /* QUOTE + BRAND CHEVRON OVERLAP — Massey quote sits in the white
@@ -797,11 +806,13 @@
       align-items: center;
       overflow: visible;
     }
+
     .quote-with-chevron-content {
       position: relative;
       z-index: 2;
       width: 100%;
     }
+
     .chevron-overlap {
       position: absolute;
       top: -150px;
@@ -811,36 +822,13 @@
       pointer-events: none;
       z-index: 1;
     }
+
     .chevron-overlap > umd-element-brand-logo-animation {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       pointer-events: none;
-    }
-
-    /* NAV-HEADER UTILITY LINKS — the navigation-header shadow DOM only
-       flexes the slotted wrapper via .element-header-utility-row::slotted(*);
-       it does NOT reach descendant anchors (::slotted cannot match
-       descendants by spec). Without these light-DOM rules, the projected
-       <a> children render as browser-default blue underlined text. */
-    umd-element-navigation-header div[slot="utility-navigation"] {
-      display: flex;
-      justify-content: flex-end;
-      gap: 24px;
-    }
-    umd-element-navigation-header div[slot="utility-navigation"] a {
-      font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif;
-      font-size: 14px;
-      font-weight: 400;
-      color: #242424;
-      text-decoration: none;
-      transition: color 0.3s ease-in-out;
-    }
-    umd-element-navigation-header div[slot="utility-navigation"] a:hover,
-    umd-element-navigation-header div[slot="utility-navigation"] a:focus {
-      color: #E21833;
-      text-decoration: underline;
     }
 
     /* BANNER-PROMO STACKED ACTIONS — add 8px vertical gap between
@@ -859,14 +847,17 @@
        the .text-black and .umd-sans-extralarge-bold utilities used for
        column headings. Bump specificity so the utilities win. */
     .umd-text-rich-advanced .text-black { color: #000000; }
+
     .umd-text-rich-advanced > .umd-sans-extralarge-bold {
       font-size: 18px; line-height: 1.25em;
     }
+
     @media (min-width: 650px) {
       .umd-text-rich-advanced > .umd-sans-extralarge-bold {
         font-size: calc(18px + 1.16vw);
       }
     }
+
     @media (min-width: 1024px) {
       .umd-text-rich-advanced > .umd-sans-extralarge-bold {
         font-size: 32px; line-height: 1.125em;
@@ -876,17 +867,21 @@
     /* Simple two-column deadlines table — used in the Important Dates rich
        text column to align label/date pairs without a heavy data-table look. */
     .deadlines-table { width: 100%; border-collapse: collapse; }
+
     .deadlines-table td {
       padding: 12px 0;
       border-bottom: 1px solid #000;
       vertical-align: top;
     }
+
     .deadlines-table td:last-child {
       text-align: right;
       white-space: nowrap;
       font-weight: 700;
     }
+
     .deadlines-table tr:last-child td { border-bottom: 0; }
+
     /* Neutralize the styles-package rich-text table treatment (alternating row
        backgrounds, grey row borders, and 24px first-child left padding) so this
        stays a clean label/date list with black rules. */
@@ -895,9 +890,71 @@
       background: transparent;
       border-top: 0;
     }
+
     .umd-text-rich-advanced .deadlines-table td:first-child { padding-left: 0; }
+
     .umd-text-rich-advanced .deadlines-table td:last-child { padding-right: 0; }
   </style>
+  <!-- SHARED:chrome-css:START — generated from shared/chrome.css; do not edit here -->
+  <style>
+/* ============================================================
+   SHARED CHROME — CSS companions
+   Inlined into every page by scripts/build-chrome.py.
+   Edit here, not in pages/*.html.
+
+   These rules are NOT in page-builder/TEMPLATE.html. They pair with the
+   markup in shared/header.html and shared/footer.html, and a page that
+   carries the chrome markup without them renders SILENTLY wrong — no
+   console error, no broken layout, just unstyled.
+
+   This block must be emitted AFTER the inlined critical.css so it wins at
+   equal specificity.
+   ============================================================ */
+
+/* ---- Utility navigation: flat-link pattern ----
+   This project's chrome puts plain <a> children in the utility slot
+   (Visit UMD / Connect) rather than the DS .umd-shell-utility-item
+   pattern. critical.css §11's BASE layer styles
+   `.umd-shell-utility-item a`, which never matches a bare <a>, so
+   without these rules the projected links render browser-default blue
+   and underlined.
+
+   The display/justify/gap rule is belt-and-braces: since the upstream
+   fix (design-system-page-builder be3ea6c) gated §11's `gap: 0` on
+   :has(.umd-shell-utility-item), the component's own shadow
+   ::slotted(*) already supplies flex + 24px here. Stating it explicitly
+   keeps the intended layout readable and survives a shadow change. */
+umd-element-navigation-header div[slot="utility-navigation"] {
+  display: flex;
+  justify-content: flex-end;
+  gap: 24px;
+}
+umd-element-navigation-header div[slot="utility-navigation"] a {
+  font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #242424;
+  text-decoration: none;
+  line-height: 1.25;
+  transition: color 0.3s ease-in-out;
+}
+umd-element-navigation-header div[slot="utility-navigation"] a:hover,
+umd-element-navigation-header div[slot="utility-navigation"] a:focus {
+  color: #E21833;
+  text-decoration: underline;
+}
+
+/* ---- Scroll-to-top pin ----
+   Opt-in per page (only the long directory pages use the element), but
+   the pin lives here so it is styled consistently wherever it appears.
+   Harmless on pages with no umd-element-scroll-top.
+   DS default for [data-layout-fixed] is right:40px; bottom:10vh. */
+umd-element-scroll-top[data-layout-fixed="true"] {
+  right: 24px;
+  bottom: 24px;
+}
+  </style>
+  <!-- SHARED:chrome-css:END -->
 </head>
 <body>
 
@@ -909,8 +966,8 @@
        Local-fallback logo via onerror so a hotlink-blocked external
        URL swaps cleanly to the bundled wordmark.
   ============================================================ -->
+  <!-- SHARED:header:START — generated from shared/header.html; do not edit here -->
   <umd-element-navigation-utility data-alert-off="true" role="navigation" aria-label="Utility navigation"></umd-element-navigation-utility>
-
   <umd-element-utility-header></umd-element-utility-header>
 
   <umd-element-navigation-header
@@ -970,6 +1027,7 @@
       </umd-element-nav-item>
     </nav>
   </umd-element-navigation-header>
+  <!-- SHARED:header:END -->
 
   <!-- ============================================================
        IMAGE MANIFEST — single source for find/replace
@@ -1429,14 +1487,14 @@
   <!-- ========================================
        14. FOOTER — visual variant with local fallback logo
   ======================================== -->
+  <!-- SHARED:footer:START — generated from shared/footer.html; do not edit here -->
   <umd-element-footer data-display="visual">
-    <a slot="logo" href="/">
-      <!-- FOOTER LOGO -->
+    <a slot="logo" href="admissions.html">
       <img src="../images/logos/footer-logo.svg" alt="University of Maryland" />
     </a>
-    <!-- FOOTER BACKGROUND IMAGE -->
     <img slot="image" src="../page-builder/images/large/campus/footer-campus.jpg" alt="University of Maryland campus" />
   </umd-element-footer>
+  <!-- SHARED:footer:END -->
 
   <script>
     // Force all pathway images to a 1:1 aspect ratio.
@@ -1540,29 +1598,6 @@
       });
     })();
 
-    // NAV-HEADER LOGO WIDTH — navigation-header shadow CSS hard-codes
-    // .element-header-logo img { max-width: 240px } at tablet+ with no
-    // CSS variable hook. The admissions logo is wider than the default
-    // primary wordmark; override to 320px via shadow injection.
-    (function () {
-      const NAV_HEADER_LOGO_CSS =
-        '.element-header-logo img{max-width:320px!important}';
-      function inject(el) {
-        if (!el.shadowRoot || el.__navHeaderLogoInjected) return;
-        const style = document.createElement('style');
-        style.textContent = NAV_HEADER_LOGO_CSS;
-        el.shadowRoot.appendChild(style);
-        el.__navHeaderLogoInjected = true;
-      }
-      function applyAll() {
-        document.querySelectorAll('umd-element-navigation-header').forEach(inject);
-      }
-      customElements.whenDefined('umd-element-navigation-header').then(() => {
-        applyAll();
-        setTimeout(applyAll, 0);
-        setTimeout(applyAll, 250);
-      });
-    })();
 
     // GRID ENTRY ANIMATIONS — auto-applied to layout grids. Mirrors the
     // upstream observeGridAnimations() logic but expands the selector
@@ -1641,5 +1676,44 @@
       }
     })();
   </script>
+  <!-- SHARED:chrome-scripts:START — generated from shared/chrome-scripts.html; do not edit here -->
+  <!-- ============================================================
+       SHARED CHROME — shadow injections
+       Inlined into every page by scripts/build-chrome.py.
+       Edit here, not in pages/*.html.
+
+       ONLY chrome-driven injections belong in this file. The other
+       shadow injections used in this project (umd-element-pathway
+       aspect ratio, umd-element-banner-promo stacked actions,
+       call-to-action and card-overlay tweaks) are driven by PAGE
+       CONTENT, not by the header/footer, so they stay in the page that
+       needs them — see OVERRIDES.md.
+  ============================================================ -->
+  <script>
+    // NAV-HEADER LOGO WIDTH — navigation-header shadow CSS hard-codes
+    // .element-header-logo img { max-width: 240px } at tablet+ with no
+    // CSS variable hook. The admissions logo is wider than the default
+    // primary wordmark; override to 320px via shadow injection.
+    (function () {
+      const NAV_HEADER_LOGO_CSS =
+        '.element-header-logo img{max-width:320px!important}';
+      function inject(el) {
+        if (!el.shadowRoot || el.__navHeaderLogoInjected) return;
+        const style = document.createElement('style');
+        style.textContent = NAV_HEADER_LOGO_CSS;
+        el.shadowRoot.appendChild(style);
+        el.__navHeaderLogoInjected = true;
+      }
+      function applyAll() {
+        document.querySelectorAll('umd-element-navigation-header').forEach(inject);
+      }
+      customElements.whenDefined('umd-element-navigation-header').then(() => {
+        applyAll();
+        setTimeout(applyAll, 0);
+        setTimeout(applyAll, 250);
+      });
+    })();
+  </script>
+  <!-- SHARED:chrome-scripts:END -->
 </body>
 </html>
