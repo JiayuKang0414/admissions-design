@@ -1,0 +1,1620 @@
+[
+  {
+    "slug": "agnr",
+    "abbr": "AGNR",
+    "name": "College of Agriculture & Natural Resources",
+    "url": "https://agnr.umd.edu/",
+    "desc": "The College of Agriculture & Natural Resources embodies the University's land-grant mission with a commitment to eliminate hunger, preserve our natural resources, improve quality of life, and empower the next generation through world-class education.",
+    "image": "../images/colleges-schools/agnr.jpg",
+    "alt": "Ensure Healthy Watersheds and the Chesapeake Bay",
+    "majors": [
+      {
+        "name": "Agricultural & Resource Economics",
+        "url": "https://agnr.umd.edu/academics/programs-study/agricultural-resource-economics",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Agricultural Science & Technology",
+        "url": "https://agnr.umd.edu/academics/programs-study/agricultural-science-technology",
+        "types": [
+          "Major",
+          "Minor"
+        ]
+      },
+      {
+        "name": "Animal Science",
+        "url": "https://agnr.umd.edu/academics/programs-study/animal-science",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Applied Agriculture",
+        "url": "https://agnr.umd.edu/admissions/certificates",
+        "types": [
+          "Certificate"
+        ]
+      },
+      {
+        "name": "Entomology",
+        "url": "https://entomology.umd.edu/entomology-minor.html",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Environmental Science & Policy",
+        "url": "https://agnr.umd.edu/academics/programs-study/environmental-science-policy",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Environmental Science & Technology",
+        "url": "https://agnr.umd.edu/academics/programs-study/environmental-science-technology",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Fermentation Science",
+        "url": "https://nfsc.umd.edu/undergraduate/fermentation-science",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Global & Foreign Policy",
+        "url": "https://spp.umd.edu/your-education/undergraduate/bachelor-arts-global-and-foreign-policy",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Global Poverty",
+        "url": "https://www.arec.umd.edu/undergraduate/minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "International Agriculture & Natural Resources",
+        "url": "https://agnr.umd.edu/academics/programs-study/international-agriculture-and-natural-resources",
+        "types": [
+          "Certificate"
+        ]
+      },
+      {
+        "name": "Landscape Architecture",
+        "url": "https://agnr.umd.edu/academics/programs-study/landscape-architecture",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Landscape Management",
+        "url": "https://psla.umd.edu/undergraduate/minors",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Nutrition & Food Science",
+        "url": "https://agnr.umd.edu/academics/programs-study/nutrition-food-science",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Plant Science",
+        "url": "https://agnr.umd.edu/academics/programs-study/plant-science",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Soil Science",
+        "url": "https://enst.umd.edu/undergraduate/majors-minors",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Sustainability Studies",
+        "url": "https://agnr.umd.edu/sustainability-studies-minor",
+        "types": [
+          "Minor"
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "arch",
+    "abbr": "ARCH",
+    "name": "School of Architecture, Planning & Preservation",
+    "url": "https://arch.umd.edu/",
+    "desc": "At the School of Architecture, Planning and Preservation, you can help build a sustainable future. The undergraduate architecture program, with its close-knit community and unparalleled location, will give you unique opportunities to explore a range of disciplines - including urban studies, real estate development and historic preservation - and to practice the craft.",
+    "image": "../images/colleges-schools/arch.jpg",
+    "alt": "Architecture building with a sunset",
+    "majors": [
+      {
+        "name": "Architecture",
+        "url": "https://arch.umd.edu/programs/architecture/academics/architecture-degrees",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Construction Project Management",
+        "url": "https://pm.umd.edu/program/cpm-minor/",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Creative Placemaking",
+        "url": "https://art.umd.edu/academic-programs/creative-placemaking-minor#:~:text=The%20minor%20is%2a%20collaboration,arts%2C%20technology%20and%20social%20justice.",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "History & Theory of Architecture",
+        "url": "https://arch.umd.edu/programs/architecture/academics/architecture-degrees/history-and-theory-architecture-minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Project Management",
+        "url": "https://pm.umd.edu/program/undergraduate-minor-in-project-management/",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Real Estate & the Built Environment",
+        "url": "https://arch.umd.edu/programs/real-estate-development/academics/real-estate-development-degrees/bachelor-arts-real-estate-and-built-environment",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Real Estate Development",
+        "url": "https://arch.umd.edu/programs/real-estate-development/academics/real-estate-development-degrees/real-estate-development-minor",
+        "types": [
+          "Minor"
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "arhu",
+    "abbr": "ARHU",
+    "name": "College of Arts & Humanities",
+    "url": "https://arhu.umd.edu/",
+    "desc": "In the College of Arts and Humanities, you'll study past and present cultures, investigate the human experience and develop excellent critical thinking and communication skills.",
+    "image": "../images/colleges-schools/arhu.jpg",
+    "alt": "College of Arts Humanities image",
+    "majors": [
+      {
+        "name": "American Studies",
+        "url": "https://amst.umd.edu/academic-programs/undergraduate",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Arabic Studies",
+        "url": "https://sllc.umd.edu/fields/arabic",
+        "types": [
+          "Major",
+          "Minor"
+        ]
+      },
+      {
+        "name": "Archaeology",
+        "url": "https://classics.umd.edu/academic-programs/minors/archaeology",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Art History",
+        "url": "https://arthistory.umd.edu/academics",
+        "types": [
+          "Major",
+          "Minor"
+        ]
+      },
+      {
+        "name": "Arts Leadership",
+        "url": "https://music.umd.edu/academic-programs/arts-leadership-minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Black Women's Studies",
+        "url": "https://wgss.umd.edu/academic-programs/undergraduate/black-womens-studies-minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Chinese",
+        "url": "https://sllc.umd.edu/fields/chinese",
+        "types": [
+          "Major",
+          "Minor"
+        ]
+      },
+      {
+        "name": "Cinema & Media Studies",
+        "url": "https://sllc.umd.edu/fields/cinema-media/major-ba",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Classical Mythology",
+        "url": "https://classics.umd.edu/academic-programs/minors/classical-mythology",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Classics",
+        "url": "https://classics.umd.edu/academic-programs/bachelor-arts",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Communication",
+        "url": "https://communication.umd.edu/academics/undergraduate/communication-BA",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Creative Placemaking",
+        "url": "https://art.umd.edu/academic-programs/creative-placemaking-minor#:~:text=The%20minor%20is%2a%20collaboration,arts%2C%20technology%20and%20social%20justice.",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Creative Writing",
+        "url": "https://english.umd.edu/academic-programs/undergraduate/english-minors#:~:text=The%20minor%20in%20creative%20writing,writers%20of%20poetry%20and%20prose",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Dance",
+        "url": "https://tdps.umd.edu/academic-programs/ba-dance",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Digital Storytelling & Poetics",
+        "url": "https://english.umd.edu/academic-programs/undergraduate/english-minors#:~:text=The%20minor%20in%20creative%20writing,writers%20of%20poetry%20and%20prose",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "East Asian Studies",
+        "url": "https://history.umd.edu/academics/undergraduate/east-asian-certificate",
+        "types": [
+          "Certificate"
+        ]
+      },
+      {
+        "name": "English",
+        "url": "https://english.umd.edu/academic-programs/undergraduate/english-ba",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "French Language & Literature",
+        "url": "https://sllc.umd.edu/fields/french/undergraduate/major-ba",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "French Studies",
+        "url": "https://sllc.umd.edu/fields/french/undergraduate/minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "German Studies",
+        "url": "https://sllc.umd.edu/fields/german/undergraduate",
+        "types": [
+          "Major",
+          "Minor"
+        ]
+      },
+      {
+        "name": "Global & Foreign Policy",
+        "url": "https://spp.umd.edu/your-education/undergraduate/bachelor-arts-global-and-foreign-policy",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Greek Language & Culture",
+        "url": "https://classics.umd.edu/academic-programs/minors/greek-language-culture",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Hebrew Studies",
+        "url": "https://jewishstudies.umd.edu/academic-programs/undergraduate/hs-minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "History",
+        "url": "https://history.umd.edu/academics/undergraduate",
+        "types": [
+          "Major",
+          "Minor"
+        ]
+      },
+      {
+        "name": "Humanities, Health & Medicine",
+        "url": "https://english.umd.edu/academic-programs/undergraduate/english-minors#:~:text=The%20minor%20in%20creative%20writing,writers%20of%20poetry%20and%20prose",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Immersive Media Design",
+        "url": "https://imd.umd.edu/about",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Israel Studies",
+        "url": "https://jewishstudies.umd.edu/academic-programs/undergraduate/is-minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Italian Language & Culture",
+        "url": "https://sllc.umd.edu/fields/italian/minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Italian Studies",
+        "url": "https://sllc.umd.edu/fields/italian/major",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Japanese",
+        "url": "https://sllc.umd.edu/fields/japanese",
+        "types": [
+          "Major",
+          "Minor"
+        ]
+      },
+      {
+        "name": "Jewish Studies",
+        "url": "https://jewishstudies.umd.edu/academic-programs/undergraduate",
+        "types": [
+          "Major",
+          "Minor"
+        ]
+      },
+      {
+        "name": "Korean Studies",
+        "url": "https://sllc.umd.edu/fields/korean/minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Latin American & Caribbean Studies",
+        "url": "https://lacs.umd.edu/academics/undergraduate",
+        "types": [
+          "Minor",
+          "Certificate"
+        ]
+      },
+      {
+        "name": "Latin Language & Literature",
+        "url": "https://classics.umd.edu/academic-programs/minors/latin-language-literature",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "LGBTQ Studies",
+        "url": "https://wgss.umd.edu/academic-programs/undergraduate/LGBTQ-minor",
+        "types": [
+          "Minor",
+          "Certificate"
+        ]
+      },
+      {
+        "name": "Linguistics",
+        "url": "https://linguistics.umd.edu/academic-programs/undergraduate",
+        "types": [
+          "Major",
+          "Minor"
+        ]
+      },
+      {
+        "name": "Music & Culture",
+        "url": "https://music.umd.edu/academic-programs/music-culture-minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Music Education",
+        "url": "https://music.umd.edu/academic-programs/bachelor-of-music-education",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Music Performance",
+        "url": "https://music.umd.edu/academic-programs/music-performance-minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Music: Liberal Arts Program",
+        "url": "https://music.umd.edu/academic-programs/bachelor-of-arts",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Music: Professional Program",
+        "url": "https://music.umd.edu/academic-programs/bachelor-of-music",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Persian Studies",
+        "url": "https://sllc.umd.edu/fields/persian/undergraduate",
+        "types": [
+          "Major",
+          "Minor"
+        ]
+      },
+      {
+        "name": "Philosophy",
+        "url": "https://philosophy.umd.edu/academic-programs/undergraduate-program/philosophy-major",
+        "types": [
+          "Major",
+          "Minor"
+        ]
+      },
+      {
+        "name": "Philosophy, Politics & Economics",
+        "url": "https://philosophy.umd.edu/academic-programs/undergraduate-program/philosophy-politics-and-economics-major",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Portuguese Language, Literature & Culture",
+        "url": "https://sllc.umd.edu/fields/portuguese/minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Professional Writing",
+        "url": "https://english.umd.edu/academic-programs/undergraduate/english-minors#:~:text=The%20minor%20in%20creative%20writing,writers%20of%20poetry%20and%20prose",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Religions of the Ancient Middle East",
+        "url": "https://jewishstudies.umd.edu/academic-programs/undergraduate/rame-ba",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Religious Studies",
+        "url": "https://jewishstudies.umd.edu/academic-programs/undergraduate/rs-minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Rhetoric",
+        "url": "https://english.umd.edu/academic-programs/undergraduate/english-minors#:~:text=The%20minor%20in%20creative%20writing,writers%20of%20poetry%20and%20prose",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Romance Languages",
+        "url": "https://sllc.umd.edu/fields/romance-languages",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Russian Language & Literature",
+        "url": "https://sllc.umd.edu/fields/russian/major",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Russian Studies",
+        "url": "https://sllc.umd.edu/fields/russian/minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Spanish Heritage Language & Latina/o Culture",
+        "url": "https://sllc.umd.edu/fields/spanish/undergraduate/minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Spanish Language, Culture & Professional Contexts",
+        "url": "https://sllc.umd.edu/fields/spanish/undergraduate/minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Spanish Language, Literatures & Culture",
+        "url": "https://sllc.umd.edu/fields/spanish/undergraduate/major",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Spanish Literature, Linguistics & Culture",
+        "url": "https://sllc.umd.edu/fields/spanish/undergraduate/minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Theatre",
+        "url": "https://tdps.umd.edu/academic-programs/ba-theatre",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "U.S. Latina/o Studies",
+        "url": "https://amst.umd.edu/academic-programs/undergraduate/us-latina-o-studies-minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Women, Gender, & Sexuality Studies",
+        "url": "https://wgss.umd.edu/academic-programs/undergraduate",
+        "types": [
+          "Major",
+          "Certificate"
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "bsos",
+    "abbr": "BSOS",
+    "name": "College of Behavioral & Social Sciences",
+    "url": "https://bsos.umd.edu/landing/Undergraduate",
+    "desc": "Students in the College of Behavioral and Social Sciences who are interested in government, non-profits, research or the private sector can take advantage of endless opportunities in nearby Washington, D.C. BSOS prepares students to obtain the most sought-after career readiness competencies from employers, and to Be the Solution to the world's great challenges.",
+    "image": "../images/colleges-schools/bsos.jpg",
+    "alt": "Chincoteague Hall",
+    "majors": [
+      {
+        "name": "African American Studies",
+        "url": "https://aasd.umd.edu/landing/Undergraduate",
+        "types": [
+          "Major",
+          "Certificate"
+        ]
+      },
+      {
+        "name": "African Studies",
+        "url": "https://aasd.umd.edu/undergraduate/minor-african-studies",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Anthropology",
+        "url": "https://anth.umd.edu/landing/Undergraduate",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Anti-Black Racism",
+        "url": "https://aasd.umd.edu/undergraduate/minor-anti-black-racism-0",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Black Women's Studies",
+        "url": "https://wgss.umd.edu/academic-programs/undergraduate/black-womens-studies-minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Criminology & Criminal Justice",
+        "url": "https://ccjs.umd.edu/landing/Undergraduate",
+        "types": [
+          "Major",
+          "Minor",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Demography",
+        "url": "https://socy.umd.edu/landingtopic/demography-minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Economics",
+        "url": "https://www.econ.umd.edu/landing/Undergraduate",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Environmental Science & Policy",
+        "url": "https://agnr.umd.edu/academics/programs-study/environmental-science-policy",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Geographic Information Science",
+        "url": "https://geog.umd.edu/undergraduate/gis-minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Geographical Sciences",
+        "url": "https://geog.umd.edu/undergraduate/prospective-students",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Global Terrorism Studies",
+        "url": "https://www.start.umd.edu/education/global-terrorism-studies-minor-program",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Government and Politics",
+        "url": "https://gvpt.umd.edu/landing/Undergraduate",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Hearing & Speech Sciences",
+        "url": "https://hesp.umd.edu/landing/Undergraduate",
+        "types": [
+          "Major",
+          "Minor"
+        ]
+      },
+      {
+        "name": "International Development & Conflict Management",
+        "url": "https://cidcm.umd.edu/landing/MIDCM",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Law & Society",
+        "url": "https://mlaw.umd.edu/programs/about-minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Neuroscience",
+        "url": "https://neur.umd.edu/landing/Academics",
+        "types": [
+          "Major",
+          "Minor",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Psychology",
+        "url": "https://psyc.umd.edu/landing/Undergraduate",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Remote Sensing of Environmental Change",
+        "url": "https://geog.umd.edu/undergraduate/remote-sensing-minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Sociology",
+        "url": "https://socy.umd.edu/landing/Undergraduate",
+        "types": [
+          "Major",
+          "Minor"
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "bmgt",
+    "abbr": "BMGT",
+    "name": "Robert H. Smith School of Business",
+    "url": "https://www.rhsmith.umd.edu/",
+    "desc": "At the Robert H. Smith School of Business, we'll prepare you to succeed in a competitive global economy. Ranked among the nation's top 20 undergraduate business schools, it's home to outstanding faculty with real-world experience, cutting-edge research and lots of connections.",
+    "image": "../images/colleges-schools/bmgt.jpg",
+    "alt": "Business School",
+    "majors": [
+      {
+        "name": "Accounting",
+        "url": "https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-majors",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Business Analytics",
+        "url": "https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-minors",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Computational Finance",
+        "url": "https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-minors",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Finance",
+        "url": "https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-majors",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "General Business",
+        "url": "https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-minors",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Information Systems",
+        "url": "https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-majors",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Innovation & Entrepreneurship",
+        "url": "https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-minors",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "International Business",
+        "url": "https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-majors",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Management",
+        "url": "https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-majors",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Marketing",
+        "url": "https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-majors",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Operations Management & Business Analytics",
+        "url": "https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-majors",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Supply Chain Management",
+        "url": "https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-majors",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "cmns",
+    "abbr": "CMNS",
+    "name": "College of Computer, Mathematical, & Natural Sciences",
+    "url": "https://cmns.umd.edu/",
+    "desc": "The thirst for new knowledge is at the heart of scientific endeavor and discovery. As we seek to understand our world across a host of complexly interconnected phenomena, our discoveries shape that world. At the forefront of many of these discoveries is the College of Computer, Mathematical, and Natural Sciences.",
+    "image": "../images/colleges-schools/cmns.jpg",
+    "alt": "Computer Studies",
+    "majors": [
+      {
+        "name": "Actuarial Mathematics",
+        "url": "https://www-math.umd.edu/undergraduate/math-minors.html",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Artificial Intelligence: Computational Structures for AI Systems",
+        "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/computer-science/artificial-intelligence-computational-structures-ai-systems-major/",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Astronomy",
+        "url": "https://www.astro.umd.edu/undergrad/ugprogram.html",
+        "types": [
+          "Major",
+          "Minor"
+        ]
+      },
+      {
+        "name": "Atmospheric & Oceanic Science",
+        "url": "https://aosc.umd.edu/education/undergrad-major",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Atmospheric Chemistry",
+        "url": "https://aosc.umd.edu/undergraduate/minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Atmospheric Science",
+        "url": "https://aosc.umd.edu/undergraduate/minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Biochemistry",
+        "url": "https://chem.umd.edu/undergraduate",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Biological Sciences",
+        "url": "https://bsci.umd.edu/about",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Chemistry",
+        "url": "https://chem.umd.edu/undergraduate",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Computational Finance",
+        "url": "https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-minors",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Computer Science",
+        "url": "https://undergrad.cs.umd.edu/future",
+        "types": [
+          "Major",
+          "Minor",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Data Science",
+        "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/computer-science/data-science-minor/",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Earth History",
+        "url": "https://www.geol.umd.edu/undergraduate/Geology_Minors.php",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Earth Material Properties",
+        "url": "https://www.geol.umd.edu/undergraduate/Geology_Minors.php",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Entomology",
+        "url": "https://entomology.umd.edu/entomology-minor.html",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Environmental Science & Policy",
+        "url": "https://agnr.umd.edu/academics/programs-study/environmental-science-policy",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Geochemistry",
+        "url": "https://www.geol.umd.edu/undergraduate/Geology_Minors.php",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Geology",
+        "url": "https://www.geol.umd.edu/undergraduate/whygeology.php",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Geophysics",
+        "url": "https://www.geol.umd.edu/undergraduate/Geology_Minors.php",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Hydrology",
+        "url": "https://www.geol.umd.edu/undergraduate/Geology_Minors.php",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Immersive Media Design",
+        "url": "https://imd.umd.edu/about",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Mathematics",
+        "url": "https://www-math.umd.edu/undergraduate/math-majors.html",
+        "types": [
+          "Major",
+          "Minor"
+        ]
+      },
+      {
+        "name": "Meteorology",
+        "url": "https://aosc.umd.edu/undergraduate/minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Nanoscale Science & Technology",
+        "url": "https://www.nanocenter.umd.edu/education/nano-minor/",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Neuroscience",
+        "url": "https://neur.umd.edu/landing/Academics",
+        "types": [
+          "Major",
+          "Minor",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Paleobiology",
+        "url": "https://www.geol.umd.edu/undergraduate/Geology_Minors.php",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Physics",
+        "url": "https://umdphysics.umd.edu/academics/undergraduate/ugrad-prospective-students.html",
+        "types": [
+          "Major",
+          "Minor"
+        ]
+      },
+      {
+        "name": "Planetary Science",
+        "url": "https://www.astro.umd.edu/undergrad/minorPlanSci.html",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Robotics & Autonomous Systems",
+        "url": "https://robotics.umd.edu/minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Statistics",
+        "url": "https://www-math.umd.edu/undergraduate/math-minors.html",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Surficial Geology",
+        "url": "https://www.geol.umd.edu/undergraduate/Geology_Minors.php",
+        "types": [
+          "Minor"
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "educ",
+    "abbr": "EDUC",
+    "name": "College of Education",
+    "url": "https://education.umd.edu/",
+    "desc": "The College of Education prepares students to change lives. We train outstanding teachers, administrators, counselors and more, as well as conduct pioneering research. Our location outside of Washington, D.C., allows students to get teaching experience in diverse school systems and collaborate with leading education organizations. From observing at the Center for Young Children, a preschool on campus, to learning about human development and assessment, students are prepared to advance equity through education.",
+    "image": "../images/colleges-schools/educ.jpg",
+    "alt": "College of Education",
+    "majors": [
+      {
+        "name": "Art Education",
+        "url": "https://education.umd.edu/academics/programs/undergraduate/art-education-bachelor-arts-ba",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Disability Studies",
+        "url": "https://education.umd.edu/disability-studies-minor-0",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Early Childhood & Early Childhood Special Education",
+        "url": "https://education.umd.edu/academics/programs/undergraduate/early-childhood-and-early-childhood-special-education-bachelor",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Elementary Education",
+        "url": "https://education.umd.edu/academics/programs/undergraduate/elementary-education-bachelor-science-bs",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Elementary/Middle Special Education",
+        "url": "https://education.umd.edu/academics/programs/undergraduate/elementarymiddle-special-education-bachelor-science-bs",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Human Development",
+        "url": "https://education.umd.edu/academics/programs/undergraduate/human-development-bachelor-science-bs",
+        "types": [
+          "Major",
+          "Minor"
+        ]
+      },
+      {
+        "name": "Leadership Studies",
+        "url": "https://education.umd.edu/leadership-studies-program",
+        "types": [
+          "Minor",
+          "Certificate"
+        ]
+      },
+      {
+        "name": "Middle School Education - Mathematics & Science",
+        "url": "https://education.umd.edu/academics/programs/undergraduate/middle-school-mathematics-and-science-bachelor-science-bs",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Music Education",
+        "url": "https://music.umd.edu/academic-programs/bachelor-of-music-education",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Second Language Education",
+        "url": "https://education.umd.edu/academics/programs/undergraduate/minor-second-language-education",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Secondary Education",
+        "url": "https://education.umd.edu/academics/programs/undergraduate/secondary-education-minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Secondary Education - English",
+        "url": "https://education.umd.edu/academics/programs/undergraduate/secondary-education-bachelor-arts-ba-english-area-concentration",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Secondary Education - Mathematics",
+        "url": "https://education.umd.edu/academics/programs/undergraduate/secondary-education-bachelor-science-bs-mathematics-terrapin",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Secondary Education - Science",
+        "url": "https://education.umd.edu/academics/programs/undergraduate/secondary-education-bachelor-science-bs-science-terrapin-teachers",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Secondary Education - Social Studies",
+        "url": "https://education.umd.edu/academics/programs/undergraduate/secondary-education-bachelor-arts-ba-or-bachelor-science-bs-social",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Secondary Education - World Languages",
+        "url": "https://education.umd.edu/academics/programs/undergraduate/secondary-education-bachelor-arts-ba-world-languages-area",
+        "types": [
+          "Major"
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "engr",
+    "abbr": "ENGR",
+    "name": "A. James Clark School of Engineering",
+    "url": "https://eng.umd.edu/",
+    "desc": "The A. James Clark School of Engineering is consistently ranked among the world's top engineering schools. Its academic programs offer endless opportunities to explore, and our location near Washington, D.C., will give you access to federal research labs and major technology corporations to land internships and jobs.",
+    "image": "../images/colleges-schools/engr.jpg",
+    "alt": "A James Clark School of Engineering ENGR",
+    "majors": [
+      {
+        "name": "Aerospace Engineering",
+        "url": "https://aero.umd.edu/undergraduate/degrees/bachelor-science",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Biocomputational Engineering",
+        "url": "https://biocomp.umd.edu/",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Bioengineering",
+        "url": "https://bioe.umd.edu/undergraduate/bachelor-science",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Chemical Engineering",
+        "url": "https://chbe.umd.edu/undergraduate/degrees/bachelor-science",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Civil Engineering",
+        "url": "https://cee.umd.edu/undergraduate/degrees/bachelor-science",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Computer Engineering",
+        "url": "https://ece.umd.edu/undergraduate/degrees",
+        "types": [
+          "Major",
+          "Minor",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Construction Project Management",
+        "url": "https://pm.umd.edu/program/cpm-minor/",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Cyber-Physical Systems Engineering",
+        "url": "https://shadygrove.ece.umd.edu/",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Electrical Engineering",
+        "url": "https://ece.umd.edu/undergraduate/degrees/bs-electrical-engineering",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Fire Protection Engineering",
+        "url": "https://fpe.umd.edu/undergraduate/degrees/bachelor-science",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Global Engineering Leadership",
+        "url": "https://eng.umd.edu/global/coursework",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Materials Science & Engineering",
+        "url": "https://mse.umd.edu/undergraduate/degrees/bachelor-science",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Mechanical Engineering",
+        "url": "https://enme.umd.edu/undergraduate/degrees/bachelor-science",
+        "types": [
+          "Major",
+          "Limited Enrollment Program"
+        ]
+      },
+      {
+        "name": "Mechatronics Engineering",
+        "url": "https://shadygrove.umd.edu/academics/degree-programs/bs-mechatronics-engineering",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Nanoscale Science & Technology",
+        "url": "https://www.nanocenter.umd.edu/education/nano-minor/",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Nuclear Engineering",
+        "url": "https://enme.umd.edu/undergraduate/degrees/minor-nuclear-engineering",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Project Management",
+        "url": "https://pm.umd.edu/program/undergraduate-minor-in-project-management/",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Robotics & Autonomous Systems",
+        "url": "https://robotics.umd.edu/minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Science, Technology, Ethics & Policy",
+        "url": "https://spp.umd.edu/your-education/undergraduate/minors/science-technology-ethics-and-policy-step-minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Technology Entrepreneurship & Corporate Innovation",
+        "url": "https://www.mtech.umd.edu/learning/minor-in-technology-entrepreneurship",
+        "types": [
+          "Minor"
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "info",
+    "abbr": "INFO",
+    "name": "College of Information",
+    "url": "https://ischool.umd.edu/",
+    "desc": "Building upon our strong foundation in library science and information studies, the College of Information (INFO) has grown into an education and research powerhouse in human-computer interaction, digital libraries, cloud computing , information access, e-government and social media. Our tight-knit learning community is driven by the pursuit of big ideas and new discoveries, to imagine how we can empower citizens, inspire communities, energize economies and sustain democracies.",
+    "image": "../images/colleges-schools/info.jpg",
+    "alt": "Information Studies",
+    "majors": [
+      {
+        "name": "Information Risk Management, Ethics & Privacy",
+        "url": "https://ischool.umd.edu/academics/bachelors-programs/bachelor-of-science-in-information-science-shady-grove/minors/",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Information Science",
+        "url": "https://ischool.umd.edu/academics/bachelors-programs/",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Science, Technology, Ethics & Policy",
+        "url": "https://spp.umd.edu/your-education/undergraduate/minors/science-technology-ethics-and-policy-step-minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Social Data Science",
+        "url": "https://sdsc.umd.edu/about-us/overview-0",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Technology & Information Design",
+        "url": "https://ischool.umd.edu/academics/bachelors-programs/bachelor-of-arts-in-technology-and-information-design-at-college-park/",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Technology Innovation Leadership",
+        "url": "https://ischool.umd.edu/academics/bachelors-programs/bachelor-of-science-in-information-science-shady-grove/minors/",
+        "types": [
+          "Minor"
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "jour",
+    "abbr": "JOUR",
+    "name": "Philip Merrill College of Journalism",
+    "url": "https://merrill.umd.edu/",
+    "desc": "The Philip Merrill College of Journalism will prepare you for an exciting and rapidly evolving field while grounding you in ethics and the fundamentals of reporting and writing. Our curriculum trains students to investigate, present information fairly and accurately and tell effective stories using the latest available visual and digital tools. Successful students are prepared for a variety of jobs in digital, television, radio and print newsrooms, and the communication skills learned in journalism classes are extremely valuable to most government offices and private organizations.",
+    "image": "../images/colleges-schools/jour.jpg",
+    "alt": "Students writing",
+    "majors": [
+      {
+        "name": "Journalism",
+        "url": "https://merrill.umd.edu/degrees-programs/bachelors-degree",
+        "types": [
+          "Major"
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "ltsc",
+    "abbr": "LTSC",
+    "name": "Letters & Sciences",
+    "url": "https://ltsc.umd.edu/",
+    "desc": "Haven't picked a major? Waiting to transition to a Limited Enrollment Program? Don't worry, more than a third of the freshmen that come to UMD work with advisors in the Office of Letters and Sciences. Letters and Sciences is the advising home that helps you explore and transition to your intended major. Through academic advising and exploration activities, we empower you to pursue the major that's the best fit.",
+    "image": "../images/colleges-schools/ltsc.jpg",
+    "alt": "Hornbake Library",
+    "majors": []
+  },
+  {
+    "slug": "sph",
+    "abbr": "SPH",
+    "name": "School of Public Health",
+    "url": "https://sph.umd.edu/",
+    "desc": "The School of Public Health takes on the most pressing public health issues facing our local communities, the nation and the world. Driven by a passion to break down the barriers that keep individuals, families, communities and populations from attaining optimum health and wellness, faculty and students are committed to finding new and better ways to promote health, prevent disease and prolong active, high-quality lives.",
+    "image": "../images/colleges-schools/sph.jpg",
+    "alt": "Person pouring water outside, testing",
+    "majors": [
+      {
+        "name": "Biomechanics and Motor Control",
+        "url": "https://sph.umd.edu/academic-minors",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Exercise Physiology",
+        "url": "https://sph.umd.edu/academic-minors",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Family Health",
+        "url": "https://sph.umd.edu/undergraduate-degrees/bs-family-health",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Global Health",
+        "url": "https://sph.umd.edu/undergraduate-degrees/bs-global-health",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Kinesiology",
+        "url": "https://sph.umd.edu/undergraduate-degrees/bs-kinesiology",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Public Health Practice",
+        "url": "https://sph.umd.edu/undergraduate-degrees/bs-public-health-practice",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Public Health Science",
+        "url": "https://sph.umd.edu/undergraduate-degrees",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Sport, Commerce & Culture",
+        "url": "https://sph.umd.edu/academic-minors",
+        "types": [
+          "Minor"
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "spp",
+    "abbr": "SPP",
+    "name": "School of Public Policy",
+    "url": "https://spp.umd.edu/",
+    "desc": "Policy Terps understand how to make a positive difference in the most challenging problems facing our world today. Students are equipped with a sophisticated, in-depth understanding of domestic and international problems and possess the values and perspectives necessary to shape sustainable solutions. The School of Public Policy gives you the tools you need to translate your passion into real change.",
+    "image": "../images/colleges-schools/spp.jpg",
+    "alt": "Thurgood Marshall Hall",
+    "majors": [
+      {
+        "name": "Global & Foreign Policy",
+        "url": "https://spp.umd.edu/your-education/undergraduate/bachelor-arts-global-and-foreign-policy",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Nonprofit Leadership & Social Innovation",
+        "url": "https://spp.umd.edu/your-education/undergraduate/minors",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Public Leadership",
+        "url": "https://spp.umd.edu/your-education/undergraduate/minors",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Public Policy",
+        "url": "https://spp.umd.edu/your-education/undergraduate/public-policy-major",
+        "types": [
+          "Major"
+        ]
+      },
+      {
+        "name": "Science, Technology, Ethics & Policy",
+        "url": "https://spp.umd.edu/your-education/undergraduate/minors/science-technology-ethics-and-policy-step-minor",
+        "types": [
+          "Minor"
+        ]
+      },
+      {
+        "name": "Sustainability Studies",
+        "url": "https://agnr.umd.edu/sustainability-studies-minor",
+        "types": [
+          "Minor"
+        ]
+      }
+    ]
+  }
+]

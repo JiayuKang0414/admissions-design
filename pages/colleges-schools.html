@@ -1,0 +1,2624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Colleges &amp; Schools — Undergraduate Admissions | University of Maryland</title>
+
+  <!-- ============================================================
+       UMD Critical CSS — Hybrid CDN + Local
+       MUST precede cdn.js. If cdn.js loads first, elements upgrade
+       before :defined rules exist and container-type never gets set.
+
+       Load order:
+         <link> CDN bundles → <style> local subset → <script> cdn.js
+
+       Browsers block on stylesheet fetches before parsing the script
+       tag, so all CSS — both upstream and local — applies before
+       custom elements upgrade.
+
+       SOURCE OF TRUTH: styles/critical.css
+       The inline <style> block is a verbatim copy of styles/critical.css.
+       When updating, edit styles/critical.css first, then copy here.
+       See REQUIRED-CSS.md for what each rule does and why.
+  ============================================================ -->
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/font-faces.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/tokens.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/base.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/typography.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/element.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/web-components.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/layout.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/animation.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/accessibility.min.css">
+  <style>
+    /* ============================================================
+       1. COMPONENT REGISTRATION GAP-FILLS
+       Re-add :defined rules for components missing from upstream
+       web-components.min.css. As those land upstream, drop these.
+       ============================================================ */
+
+    /* umd-element-utility-header — present on every page (band above the
+       nav header). Not in upstream bundle as of v1.8.11. */
+    umd-element-utility-header:not(:defined) { content-visibility: hidden; }
+    umd-element-utility-header { display: block; container-type: normal; }
+
+    /* umd-element-carousel* — RETIRED (web-styles-library@1.8.14): all six
+       variants (plus new umd-element-carousel-people) now ship in upstream
+       web-components.min.css with content-visibility: auto + min-height
+       placeholder sizing. Do NOT re-add — a local content-visibility: hidden
+       loads after the CDN link at equal specificity, overrides the upstream
+       placeholder, and reintroduces layout shift. */
+
+    /* umd-layout-image-expand — :not(:defined) hiding + placeholder sizing
+       landed upstream in v1.8.14. display:block and width:100% remain
+       project-specific (collapses without them; upstream sets neither). */
+    umd-layout-image-expand {
+      display: block;
+      container-type: inline-size;
+      width: 100%;
+    }
+
+    /* Project-specific spacing for breadcrumb (not a default in upstream). */
+    umd-element-breadcrumb:defined { margin-top: 16px; }
+
+
+    /* ============================================================
+       2. WATERMARK DECORATION
+       ============================================================ */
+    :is(.umd-text-decoration-watermark, .umd-watermark, .umd-watermark-dark) > * {
+      position: absolute;
+      top: 20px;
+      left: -2%;
+      color: #f1f1f1;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: min(calc(44px + 13vw), 240px);
+      line-height: 0;
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+    }
+    :is(.umd-text-decoration-watermark, .umd-watermark):not(.umd-watermark-dark) > * {
+      opacity: 0.6;
+      z-index: -1;
+    }
+    .umd-watermark-dark > * {
+      opacity: 0.12;
+      z-index: inherit;
+    }
+    @keyframes slide-in-from-left {
+      from { transform: translate(-15vw); }
+      to   { transform: translate(0); }
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      @supports (animation-timeline: scroll()) {
+        :is(.umd-text-decoration-watermark, .umd-watermark, .umd-watermark-dark) > * {
+          animation: slide-in-from-left forwards;
+          animation-timeline: view();
+          animation-range-start: 0;
+          animation-range-end: 100vh;
+          transform: translate(-15vw);
+        }
+      }
+    }
+
+
+    /* ============================================================
+       3. LAYOUT AUGMENTATIONS
+       Extra properties on upstream layout classes that layout.min.css
+       doesn't include. These cascade over the upstream rules.
+       ============================================================ */
+
+    /* Upstream sets max-width/padding correctly. These extra properties are
+       required for watermark positioning and the internal @container query
+       used by umd-element-section-intro-wide. */
+    .umd-layout-space-horizontal-larger {
+      position: relative;
+      container-type: inline-size;
+      isolation: isolate;
+    }
+
+    /* Upstream omits align-items and flex-shrink on the columns-left layout.
+       align-items: flex-start prevents variable-height sidebar from stretching;
+       flex-shrink: 0 keeps the fixed 242px sidebar width under constraint.
+       Breakpoint matches upstream desktop.min (1024px) after DSYS-3063 fix —
+       sidebar width/margin moved from tablet.min (768px) to desktop.min. */
+    @media (min-width: 1024px) {
+      .umd-layout-space-columns-left { align-items: flex-start; }
+      .umd-layout-space-columns-left > *:first-child { flex-shrink: 0; }
+    }
+
+
+    /* ============================================================
+       4. BACKGROUND-FULL-DARK BUG FIX
+       layout.min.css serializes the highDef breakpoint as
+       @media([object Object]) — ignored by browsers — because
+       background/full.ts:42 uses media.queries.highDef (the whole
+       object) instead of media.queries.highDef.min. This rule
+       cascades over the broken upstream with the correct breakpoint.
+       ============================================================ */
+    .umd-layout-background-full-dark {
+      background-color: #000000;
+      padding: 48px 0;
+    }
+    @media (min-width: 768px) {
+      .umd-layout-background-full-dark { padding: 80px 0; }
+    }
+    @media (min-width: 1200px) {
+      .umd-layout-background-full-dark { padding: 104px 0; }
+    }
+
+
+    /* ============================================================
+       5. MASONRY SECTION-INTRO COMPANION
+       The base .umd-layout-grid-masonry class is provided by layout.min.css (CDN).
+       This rule compensates for masonry's negative top margin when a section
+       intro immediately precedes it — layout.min.css does not include this fix.
+       ============================================================ */
+    @media (min-width: 768px) {
+      umd-element-section-intro + .umd-layout-grid-masonry,
+      umd-element-section-intro-wide + .umd-layout-grid-masonry { padding-top: 32px; }
+    }
+    @media (min-width: 1024px) {
+      umd-element-section-intro + .umd-layout-grid-masonry,
+      umd-element-section-intro-wide + .umd-layout-grid-masonry { padding-top: 40px; }
+    }
+
+
+    /* ============================================================
+       6. COLOR UTILITIES — not in upstream tokens or typography bundles
+       ============================================================ */
+    .text-black { color: #000; }
+    .text-white { color: #ffffff; }
+
+
+    /* ============================================================
+       7. RICH TEXT ADVANCED — editorial body copy
+       Light and dark variants. 18px/1.5em with link hover styles.
+
+       NOTE: element.min.css (linked in TEMPLATE.html) now ships
+       .umd-text-rich-advanced with the same base sizing and link
+       animation. This section is kept as an intentional DELTA:
+       upstream only colors list content #454545; we force it on
+       all descendants. Do not delete without visual verification.
+       ============================================================ */
+
+    /* Light variant */
+    .umd-text-rich-advanced {
+      font-size: 18px;
+      line-height: 1.5em;
+    }
+    .umd-text-rich-advanced * {
+      color: #454545;
+    }
+    .umd-text-rich-advanced > * {
+      font-size: 18px;
+      margin-top: 24px;
+    }
+    .umd-text-rich-advanced > *:first-child {
+      margin-top: 0;
+    }
+    .umd-text-rich-advanced a {
+      color: #000000;
+      background-image: linear-gradient(#000000, #000000);
+      position: relative;
+      background-position: left calc(100% - 1px);
+      background-repeat: no-repeat;
+      background-size: 100% 1px;
+      transition: color 0.5s, background-size 0.5s, background-image 0.5s, background-position 0.5s;
+    }
+    .umd-text-rich-advanced a:hover,
+    .umd-text-rich-advanced a:focus {
+      background-image: linear-gradient(#E21833, #E21833);
+    }
+
+    /* Dark variant */
+    .umd-text-rich-advanced-dark {
+      font-size: 18px;
+      line-height: 1.5em;
+    }
+    .umd-text-rich-advanced-dark p,
+    .umd-text-rich-advanced-dark li { color: #ffffff; }
+    .umd-text-rich-advanced-dark a {
+      color: #ffffff;
+      background-image: linear-gradient(#ffffff, #ffffff);
+      position: relative;
+      background-position: left calc(100% - 1px);
+      background-repeat: no-repeat;
+      background-size: 100% 1px;
+      transition: color 0.5s, background-size 0.5s, background-image 0.5s, background-position 0.5s;
+    }
+    .umd-text-rich-advanced-dark a:hover,
+    .umd-text-rich-advanced-dark a:focus {
+      background-image: linear-gradient(#FFD200, #FFD200);
+    }
+
+
+    /* ============================================================
+       8. INTERIOR PAGE LAYOUT UTILITIES
+       ============================================================ */
+
+    /* Content column max-width (Tailwind utility) */
+    .max-w-\[800px\] { max-width: 800px; }
+
+
+    /* ============================================================
+       9. IMAGE-EXPAND CONTENT UTILITIES
+       Classes for div[slot="content"] inside umd-layout-image-expand.
+       ============================================================ */
+    .max-w-\[480px\] { max-width: 480px; }
+    .w-full          { width: 100%; }
+    .block           { display: block; }
+    .mr-auto         { margin-right: auto; }
+    .ml-auto         { margin-left: auto; }
+    .pl-md           { padding-left: 24px; }
+
+    :is(.umd-text-line-adjustent, .umd-adjacent-line-text) { position: relative; }
+    :is(.umd-text-line-adjustent, .umd-adjacent-line-text)::before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      width: 2px;
+      height: 100%;
+      background-color: #E21833;
+      left: -24px;
+    }
+
+    /* Body copy on dark/image backgrounds — white text, animated underline links */
+    .umd-text-rich-simple-large-dark {
+      font-size: 18px;
+      line-height: 1.5em;
+      color: #ffffff;
+    }
+    .umd-text-rich-simple-large-dark * { color: #ffffff; }
+    .umd-text-rich-simple-large-dark > * { font-size: 18px; margin-top: 24px; }
+    .umd-text-rich-simple-large-dark > *:first-child { margin-top: 0; }
+    .umd-text-rich-simple-large-dark a {
+      color: #ffffff;
+      background-image: linear-gradient(#ffffff, #ffffff);
+      position: relative;
+      background-position: left calc(100% - 1px);
+      background-repeat: no-repeat;
+      background-size: 100% 1px;
+      transition: color 0.5s, background-size 0.5s, background-image 0.5s, background-position 0.5s;
+    }
+    .umd-text-rich-simple-large-dark a:hover,
+    .umd-text-rich-simple-large-dark a:focus {
+      background-image: linear-gradient(#FFD200, #FFD200);
+    }
+
+
+    /* ============================================================
+       10. STICKY COLUMNS UTILITIES
+       Spacing tokens for slot content inside umd-element-sticky-columns.
+       ============================================================ */
+    .mb-md { margin-bottom: 24px; }
+    .mb-sm { margin-bottom: 16px; }
+
+
+    /* ============================================================
+       11. UTILITY NAVIGATION / SHELL-ITEM LINK STYLES
+       The shadow DOM ::slotted(*) only reaches div[slot="utility-navigation"],
+       NOT descendants — all link and separator styles must live here.
+
+       Canonical production pattern (matches umd.edu markup):
+       - Slot container: plain <div slot="utility-navigation">
+       - Each item: div.umd-shell-utility-item > div.umd-shell-utility-actions
+                    > a.umd-sans-smaller (or button for dropdowns)
+       - Dropdown: sibling div.umd-shell-utility-links[aria-hidden] panel
+
+       TWO LAYERS — keep them separate:
+       A. BASE (unscoped) — the reusable .umd-shell-utility-item pattern.
+          Used in the nav-header utility slot AND reused in pathway /
+          banner-promo / section-intro action slots (RULES.md §5). These
+          rules MUST stay unscoped or the reuse renders unstyled.
+       B. NAV-HEADER (scoped) — overrides the shadow ::slotted(*) gap:24px
+          and adds dropdown anchoring + panel. Only meaningful in the slot.
+       ============================================================ */
+
+    /* ---- A. BASE: reusable shell-item pattern (do NOT scope) ---- */
+    .umd-shell-utility-item .umd-shell-utility-actions {
+      align-items: center;
+      display: flex;
+      gap: 4px;
+    }
+    .umd-shell-utility-item:not(:last-child) .umd-shell-utility-actions {
+      border-right: 1px solid #E6E6E6;
+      margin-right: 16px;
+      padding-right: 16px;
+    }
+    .umd-shell-utility-item a {
+      color: #242424;
+      text-decoration: none;
+    }
+    .umd-shell-utility-item a:hover,
+    .umd-shell-utility-item a:focus {
+      color: #E21833;
+    }
+
+    /* ---- B. NAV-HEADER: scoped to the utility-navigation slot ---- */
+    /* Override the shadow ::slotted(*) gap:24px (the wrapper margins above
+       handle item spacing in the shell pattern). */
+    umd-element-navigation-header div[slot="utility-navigation"] {
+      gap: 0;
+    }
+    umd-element-navigation-header div[slot="utility-navigation"] .umd-shell-utility-item {
+      position: relative;
+      z-index: 99999;
+    }
+    umd-element-navigation-header div[slot="utility-navigation"] .umd-shell-utility-item button {
+      color: #242424;
+      text-decoration: none;
+    }
+    /* Dropdown panel (shown via JS toggling aria-hidden — see LAYOUT-PATTERNS.md) */
+    umd-element-navigation-header div[slot="utility-navigation"] .umd-shell-utility-item .umd-shell-utility-links {
+      display: none;
+    }
+    umd-element-navigation-header div[slot="utility-navigation"] .umd-shell-utility-item .umd-shell-utility-links > * {
+      color: #242424;
+      display: block;
+      padding: 12px;
+      text-align: right;
+      text-decoration: none;
+    }
+    umd-element-navigation-header div[slot="utility-navigation"] .umd-shell-utility-item .umd-shell-utility-links a:hover,
+    umd-element-navigation-header div[slot="utility-navigation"] .umd-shell-utility-item .umd-shell-utility-links a:focus {
+      color: #a90007;
+    }
+    umd-element-navigation-header div[slot="utility-navigation"] .umd-shell-utility-item .umd-shell-utility-links[aria-hidden="false"] {
+      align-items: flex-end;
+      background-color: #fafafa;
+      box-shadow: -1px 9px 32px -10px rgba(0, 0, 0, .19);
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      right: 0;
+      top: 16px;
+      width: 200px;
+      max-width: 80vw;
+    }
+
+
+    /* ============================================================
+       12. BANNER-PROMO STACKED ACTIONS — light-DOM column flex.
+       Pairs with the shadow-DOM injection in OVERRIDES.md so the 8px
+       gap is visible regardless of where children render.
+       ============================================================ */
+    .banner-promo-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+
+    /* ============================================================
+       13. SECTION DIVIDER — standalone <hr> utility.
+       ============================================================ */
+    .umd-text-divider {
+      border: none;
+      border-top: 1px solid #000000;
+      margin: 0 0 24px 0;
+    }
+    .umd-text-divider.dark {
+      border-top-color: #ffffff;
+    }
+
+
+    /* ============================================================
+       14. TRAILING-LINE LABEL — section eyebrow with horizontal line
+       Source: @universityofmaryland/web-styles-library: element.text.line.trailing
+
+       NOTE: element.min.css (linked in TEMPLATE.html) now ships
+       .umd-text-line-trailing / -light / -dark. This section is kept
+       as an intentional DELTA: we add font-weight: 700 (upstream
+       omits it) and use #000 for the dark background (upstream uses
+       #242424). Do not delete without visual verification.
+       ============================================================ */
+    .umd-text-line-trailing,
+    .umd-text-line-trailing-dark {
+      font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      line-height: 1.42em;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+      background-color: #ffffff;
+    }
+    .umd-text-line-trailing::before,
+    .umd-text-line-trailing-dark::before {
+      content: "";
+      position: absolute;
+      top: 9px;
+      right: 0;
+      width: 100vw;
+      height: 1px;
+      background: #000000;
+      z-index: 1;
+    }
+    .umd-text-line-trailing > span,
+    .umd-text-line-trailing-dark > span {
+      position: relative;
+      background-color: inherit;
+      padding-right: 8px;
+      z-index: 2;
+    }
+    .umd-text-line-trailing + *,
+    .umd-text-line-trailing-dark + * {
+      margin-top: 40px;
+    }
+    .umd-text-line-trailing-dark {
+      background-color: #000000;
+      color: #ffffff;
+    }
+    .umd-text-line-trailing-dark::before {
+      background: #ffffff;
+    }
+
+
+    /* ============================================================
+       15. NOTE — GRID CLASSES FROM LAYOUT.MIN.CSS (CDN)
+       All standard grid classes are provided by layout.min.css loaded
+       from CDN in the <head>. Do NOT add them here — that duplicates CSS.
+
+       Available from CDN (layout.min.css):
+         umd-layout-grid-columns-two/three/four  — no-gap at tablet+
+         umd-layout-grid-gap-stacked/two/three/four  — 32px gap at all bp
+         umd-layout-grid-gap-two  — widens to 40px at 1024px
+         umd-layout-grid-child-fill-height  — height:100% on item + child
+         umd-layout-grid-child-size-double  — grid-column: span 2 at 650px+
+           (feature 2+1+1 card grids — see LAYOUT-PATTERNS.md)
+         umd-layout-grid-inline-tablet-rows  — flex CTA row at 650px+
+         umd-layout-grid-masonry  — 2-col staggered (base CSS)
+         umd-layout-grid-offset-three  — 3-col staircase offset
+         umd-layout-grid-border-two/three/four  — bordered cell grids
+
+       Typography classes (umd-sans-*, incl. umd-sans-largest-uppercase
+       used by the sticky text+stats pattern) likewise ship from the CDN
+       typography.min.css — check that bundle before flagging one missing.
+
+       Only add grid-related CSS here when it is genuinely absent from
+       layout.min.css (e.g. shellcraft-only classes like umd-animation-grid
+       and umd-shell-person-grid-helper padding).
+       ============================================================ */
+
+
+    /* ============================================================
+       16. RETIRED — OVERLAY CARD .size-large MIN-HEIGHT
+       Now shipped verbatim by web-components.min.css (linked in
+       TEMPLATE.html): umd-element-card-overlay.size-large
+       {min-height: 320px; 560px @768px}. Section number reserved —
+       do NOT renumber later sections when retiring a rule.
+       ============================================================ */
+
+
+    /* ============================================================
+       17. TUITION & AID 2-COLUMN GRID
+       Asymmetric content split: 1.5fr / 1fr at 1024px+.
+       ============================================================ */
+    .umd-layout-grid-tuition-two {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    @media (min-width: 1024px) {
+      .umd-layout-grid-tuition-two {
+        grid-template-columns: 1.5fr 1fr;
+        gap: 80px;
+      }
+    }
+
+
+    /* ============================================================
+       18. FULL-WIDTH OUTLINE BUTTON — light-DOM utility class
+       Visually mirrors umd-element-call-to-action data-display="outline"
+       but stretches to fill its grid cell. Use when the DS web component's
+       shadow-DOM max-width:380px would fight against your layout.
+       ============================================================ */
+    .umd-action-outline-block {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px 24px;
+      font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.28em;
+      text-align: center;
+      text-decoration: none;
+      background-color: #ffffff;
+      border: 1px solid #242424;
+      color: #000000;
+      transition: background 0.5s ease-in-out, border 0.5s ease-in-out, color 0.5s ease-in-out;
+    }
+    .umd-action-outline-block:hover,
+    .umd-action-outline-block:focus {
+      background-color: #242424;
+      color: #ffffff;
+    }
+    .umd-action-outline-block.dark {
+      background-color: transparent;
+      border: 1px solid #ffffff;
+      color: #ffffff;
+    }
+    .umd-action-outline-block.dark:hover,
+    .umd-action-outline-block.dark:focus {
+      background-color: #ffffff;
+      color: #000000;
+    }
+
+
+    /* ============================================================
+       19. BORDER GRID — person-grid-helper container query + padding
+       Source: umd.edu shellcraft (umdApp-release-116.css)
+       Verified from: https://umd.edu/about/university-presidents
+
+       The base umd-layout-grid-border-two/three/four grid CSS is
+       provided by layout.min.css (CDN). Only the container query
+       setup and the umd-shell-person-grid-helper responsive padding
+       are absent from layout.min.css — those come from shellcraft.
+
+       Usage: add class="umd-shell-person-grid-helper" to every
+       umd-element-person host inside a border grid.
+       ============================================================ */
+
+    /* Establishes named container for padding queries */
+    [class*="umd-layout-grid-border-two"],
+    [class*="umd-layout-grid-border-three"],
+    [class*="umd-layout-grid-border-four"] {
+      container: umd-shell-person-grid-helper / inline-size;
+    }
+
+    /* Responsive cell padding (24px → 32px → 48px) */
+    [class*="umd-layout-grid-border-two"] .umd-shell-person-grid-helper,
+    [class*="umd-layout-grid-border-three"] .umd-shell-person-grid-helper,
+    [class*="umd-layout-grid-border-four"] .umd-shell-person-grid-helper {
+      padding: 24px;
+      transition: padding 0.5s ease-in-out;
+    }
+    @container umd-shell-person-grid-helper (min-width: 650px) {
+      [class*="umd-layout-grid-border-two"] .umd-shell-person-grid-helper,
+      [class*="umd-layout-grid-border-three"] .umd-shell-person-grid-helper,
+      [class*="umd-layout-grid-border-four"] .umd-shell-person-grid-helper {
+        padding: 32px;
+      }
+    }
+    @container umd-shell-person-grid-helper (min-width: 1024px) {
+      [class*="umd-layout-grid-border-two"] .umd-shell-person-grid-helper,
+      [class*="umd-layout-grid-border-three"] .umd-shell-person-grid-helper,
+      [class*="umd-layout-grid-border-four"] .umd-shell-person-grid-helper {
+        padding: 48px;
+      }
+    }
+
+
+    /* ============================================================
+       20. RETIRED — ANIMATION GRID INITIAL STATE
+       As of animation.min.css v1.8.14, upstream guards the
+       .umd-animation-grid > * initial state (opacity: 0 +
+       translateY(50px)) AND the .umd-animation-transition-fade-bottom
+       reveal animation behind @media (prefers-reduced-motion:
+       no-preference), so reduced-motion users never get hidden
+       content — the local duplicate and its reduce-block cancellation
+       are no longer needed. The class still works: keep using
+       .umd-animation-grid on grid wrappers with scripts/
+       grid-animations.js. Section number reserved — do NOT renumber.
+       ============================================================ */
+
+
+    /* ============================================================
+       21. SLIDER OVERFLOW CONTAINMENT
+       umd-element-slider-events (and other carousel/slider components)
+       expand beyond the viewport during transitions, causing horizontal
+       scroll at the document level. overflow: hidden on the section
+       alone is not sufficient.
+
+       clip (not hidden) is intentional: overflow-x: hidden promotes
+       the element to a scroll container, which breaks scroll-driven
+       animations (animation-timeline: scroll()) and shifts
+       IntersectionObserver offsets. overflow-x: clip suppresses
+       the scroll bar without creating a scroll container.
+       ============================================================ */
+    body { overflow-x: clip; }
+
+
+    /* ============================================================
+       22. DARK → LIGHT SECTION TRANSITION GAP
+       When a full-bleed dark section (.umd-layout-background-full-dark)
+       is immediately followed by a default/light section, inject 120px
+       of white breathing room between them.
+
+       Conditional: dark-after-dark gets no extra gap — the adjacent
+       sibling selector only fires when the following section lacks the
+       dark class. Add overflow: hidden to the dark section if its
+       content bleeds into this gap.
+       ============================================================ */
+    .umd-layout-background-full-dark + section:not(.umd-layout-background-full-dark) {
+      margin-top: 120px;
+    }
+
+
+    /* ============================================================
+       23. FILTER BAND COMPANIONS — page-built pieces of the
+       filterable-listing pattern (see LAYOUT-PATTERNS.md "Filter
+       Band"). The band itself uses upstream classes
+       (umd-layout-background-highlight-light, umd-text-line-trailing-
+       light, umd-field-select-wrapper, umd-animation-line-slide-*,
+       sr-only — element/animation/accessibility bundles). Only the
+       search row, results count, and divider list below are absent
+       upstream. Behavior comes from scripts/filter-band.js.
+       ============================================================ */
+    .umd-filter-search-row {
+      display: flex;
+      align-items: stretch;
+    }
+    .umd-filter-search-row input[type="text"] {
+      flex: 1;
+      padding: 12px 16px;
+      font-family: Interstate, Helvetica, Arial, Verdana, sans-serif;
+      font-size: 16px;
+      line-height: 1.375em;
+      border: 1px solid #c0c0c0;
+      border-right: none;
+      color: #242424;
+      background: #fff;
+      min-width: 0;
+    }
+    .umd-filter-search-row input[type="text"]:focus {
+      outline: 2px solid #E21833;
+      outline-offset: 0;
+    }
+    .umd-filter-search-btn {
+      background-color: #E21833;
+      border: none;
+      cursor: pointer;
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s;
+    }
+    .umd-filter-search-btn:hover,
+    .umd-filter-search-btn:focus {
+      background-color: #a90007;
+      outline: none;
+    }
+    .umd-filter-search-btn svg {
+      fill: #fff;
+      width: 20px;
+      height: 20px;
+    }
+    .umd-filter-results-count {
+      font-family: Interstate, Helvetica, Arial, Verdana, sans-serif;
+      font-size: 14px;
+      color: #454545;
+      margin: 24px 0 0;
+    }
+
+    /* Divider list — zero-gap stack with rules between visible items */
+    .umd-filter-list {
+      gap: 0 !important;
+      margin-top: 56px;
+    }
+    .umd-filter-list > .umd-filter-item {
+      padding-bottom: 24px;
+      border-bottom: 1px solid #d0d0d0;
+    }
+    .umd-filter-list > .umd-filter-item + .umd-filter-item {
+      padding-top: 24px;
+    }
+    .umd-filter-list > .umd-filter-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .umd-filter-list > .umd-filter-item[hidden] + .umd-filter-item {
+      padding-top: 0;
+    }
+    .umd-filter-item[hidden] { display: none !important; }
+
+    /* ============================================================
+       24. PROJECT CHROME COMPANIONS
+       Harvested verbatim by scripts/build-colleges-schools.py from the
+       page-specific <style> block of pages/programs.html — the same file the
+       header/footer markup is copied from. These rules are NOT in
+       page-builder/TEMPLATE.html, so a head built from TEMPLATE alone renders
+       the chrome unstyled. Do not hand-edit; fix the reference page instead.
+       ============================================================ */
+    /* Utility-navigation flat links. These pages use plain <a> links in the
+       utility slot (Visit UMD / Connect), NOT the DS umd-shell-utility-item
+       pattern that critical.css §11 now targets — its scoped `gap: 0` would
+       jam the links together. Restore flat-link flex spacing + styling at
+       matching specificity (loads after the inline critical block, so wins). */
+    umd-element-navigation-header div[slot="utility-navigation"] {
+      display: flex;
+      justify-content: flex-end;
+      gap: 24px;
+    }
+
+    umd-element-navigation-header div[slot="utility-navigation"] a {
+      font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: #242424;
+      text-decoration: none;
+      line-height: 1.25;
+      transition: color 0.3s ease-in-out;
+    }
+
+    umd-element-navigation-header div[slot="utility-navigation"] a:hover,
+    umd-element-navigation-header div[slot="utility-navigation"] a:focus {
+      color: #E21833;
+      text-decoration: underline;
+    }
+
+    /* scroll-to-top — pin 24px from the viewport bottom-right
+       (DS default for [data-layout-fixed] is right:40px; bottom:10vh) */
+    umd-element-scroll-top[data-layout-fixed="true"] { right:24px; bottom:24px; }
+
+    /* ============================================================
+       25. COLLEGES & SCHOOLS — expandable card grid
+       Page-built pattern (no DS equivalent). A responsive grid of
+       bordered college tiles; activating a tile's toggle opens a
+       full-width majors panel that JS relocates to sit after the
+       LAST tile in that tile's grid row, so a row never breaks
+       mid-way. Panel chrome borrows the accordion's red rule +
+       light-gray body. Single-open, like an accordion group.
+       ============================================================ */
+    .cs-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    @media (min-width: 650px) {
+      .cs-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1024px) {
+      .cs-grid { grid-template-columns: repeat(3, 1fr); gap: 40px 32px; }
+    }
+
+    /* --- tile ------------------------------------------------- */
+    .cs-tile {
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+      border: 1px solid var(--umd-color-gray-light, #e6e6e6);
+      transition: border-color .3s ease, box-shadow .3s ease;
+    }
+    .cs-tile:hover {
+      border-color: var(--umd-color-gray-medium, #c1c1c1);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
+    }
+    .cs-tile[data-open="true"] {
+      border-color: var(--umd-color-red, #e21833);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .10);
+    }
+
+    .cs-tile-figure {
+      margin: 0;
+      overflow: hidden;
+      aspect-ratio: 2 / 1;
+      background: var(--umd-color-gray-lightest, #f1f1f1);
+    }
+    .cs-tile-figure img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .5s ease;
+    }
+    .cs-tile:hover .cs-tile-figure img { transform: scale(1.04); }
+
+    /* Type scale mirrors the DS card-standard shadow DOM, measured directly
+       from a live umd-element-card: eyebrow 12px/700, headline 18px/700
+       (.umd-sans-larger-scaling), body 16px/400 #454545. The card's
+       .umd-element-eyebrow lives in its shadow styles and ships in no CDN
+       bundle, so the eyebrow is restated here rather than imported.
+
+       Type classes resolve as follows in the LIVE bundle (measured at 1280px;
+       the values in a locally downloaded typography.min.css disagree, so
+       measure rather than read the file): smaller 14 / small 16 /
+       medium 18 / large 18-bold / larger 22 / largest 44-bold. Hence
+       .umd-sans-small for the 16px DS card body. */
+    .cs-tile-body {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      padding: 24px;
+    }
+    .cs-tile-abbr {
+      margin: 0 0 8px;
+      color: var(--umd-color-red, #e21833);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.16em;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+    .cs-tile-name { margin: 0; }
+    .cs-tile-name a {
+      color: var(--umd-color-black, #000000);
+      text-decoration: none;
+      background-image: linear-gradient(#000000, #000000);
+      background-position: left calc(100% - 1px);
+      background-repeat: no-repeat;
+      background-size: 0 1px;
+      transition: color .3s, background-size .3s, background-image .3s;
+    }
+    .cs-tile-name a:hover,
+    .cs-tile-name a:focus {
+      color: var(--umd-color-red, #e21833);
+      background-image: linear-gradient(#E21833, #E21833);
+      background-size: 100% 1px;
+    }
+    /* Clamped on the tile; the panel carries the full text. */
+    .cs-tile-desc {
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin: 12px 0 0;
+      color: var(--umd-color-gray-dark, #454545);
+    }
+
+    /* --- toggle ------------------------------------------------ */
+    .cs-tile-foot { margin-top: auto; padding-top: 24px; }
+    .cs-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      margin: 0;
+      padding: 14px 0 0;
+      border: 0;
+      border-top: 1px solid var(--umd-color-gray-light, #e6e6e6);
+      background: none;
+      color: var(--umd-color-black, #000000);
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+    }
+    .cs-toggle:hover { color: var(--umd-color-red, #e21833); }
+    .cs-toggle:focus-visible {
+      outline: 2px solid var(--umd-color-red, #e21833);
+      outline-offset: 4px;
+    }
+    .cs-toggle-chev {
+      flex: 0 0 auto;
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+      transition: transform .3s ease;
+    }
+    .cs-tile[data-open="true"] .cs-toggle-chev { transform: rotate(180deg); }
+
+    /* Letters & Sciences has no major list — plain link, no toggle. */
+    .cs-tile-link {
+      display: inline-block;
+      padding-top: 14px;
+      border-top: 1px solid var(--umd-color-gray-light, #e6e6e6);
+      width: 100%;
+      color: var(--umd-color-black, #000000);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .cs-tile-link:hover { color: var(--umd-color-red, #e21833); }
+
+    /* --- panel ------------------------------------------------- */
+    .cs-panel { grid-column: 1 / -1; }
+    .cs-panel[hidden] { display: none; }
+    .cs-panel-inner {
+      padding: 32px 24px;
+      border: 1px solid var(--umd-color-gray-light, #e6e6e6);
+      border-top: 4px solid var(--umd-color-red, #e21833);
+      background: var(--umd-color-gray-lightest, #f1f1f1);
+      animation: cs-panel-in .35s ease both;
+    }
+    @media (min-width: 1024px) { .cs-panel-inner { padding: 40px; } }
+    @keyframes cs-panel-in {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cs-panel-inner { animation: none; }
+    }
+
+    .cs-panel-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--umd-color-gray-light, #dcdcdc);
+    }
+    .cs-panel-headline { margin: 0; font-weight: 700; }
+    .cs-panel-headline a {
+      color: var(--umd-color-black, #000000);
+      text-decoration: none;
+      background-image: linear-gradient(#000000, #000000);
+      background-position: left calc(100% - 1px);
+      background-repeat: no-repeat;
+      background-size: 100% 1px;
+      transition: color .3s, background-image .3s;
+    }
+    .cs-panel-headline a:hover,
+    .cs-panel-headline a:focus {
+      color: var(--umd-color-red, #e21833);
+      background-image: linear-gradient(#E21833, #E21833);
+    }
+    .cs-panel-head > div { flex: 1 1 480px; }
+    /* Constrained measure — the panel spans the full 1600px lock, far too wide
+       to read a paragraph across. 960px is the DS paragraph measure, lifted from
+       element.min.css:
+         :is(.umd-text-rich-advanced,.umd-rich-text) p,ul,ol,pre,blockquote
+           { max-width: 960px }
+       The value is restated rather than inherited by wrapping in .umd-rich-text,
+       because that class also forces font-size:18px on its children and this
+       paragraph is .umd-sans-small (16px). */
+    .cs-panel-desc {
+      max-width: 960px;
+      margin: 12px 0 0;
+      color: var(--umd-color-gray-dark, #454545);
+    }
+    .cs-panel-close {
+      flex: 0 0 auto;
+      padding: 8px 0;
+      border: 0;
+      background: none;
+      color: var(--umd-color-gray-dark, #454545);
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .cs-panel-close:hover { color: var(--umd-color-red, #e21833); }
+    .cs-panel-close:focus-visible {
+      outline: 2px solid var(--umd-color-red, #e21833);
+      outline-offset: 2px;
+    }
+
+    /* --- majors list ------------------------------------------- */
+    .cs-majors {
+      display: grid;
+      grid-template-columns: 1fr;
+      column-gap: 40px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    /* Caps at 3 columns. A 4th column narrows cells to ~274px at 1440px, which
+       is under the ~323px a Major+Minor+Limited Enrollment Program pill trio
+       needs; the group then wraps and that row runs 44px taller than its
+       neighbours. 3 columns (~378px) fits the trio on one line — measured row
+       heights 91/113 vs 91/131/135, and zero wrapped pill groups. */
+    @media (min-width: 650px)  { .cs-majors { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .cs-majors { grid-template-columns: repeat(3, 1fr); } }
+
+    .cs-major {
+      padding: 14px 0;
+      border-bottom: 1px solid #dcdcdc;
+    }
+    .cs-major a {
+      color: var(--umd-color-black, #000000);
+      font-weight: 700;
+      text-decoration: none;
+      background-image: linear-gradient(#000000, #000000);
+      background-position: left calc(100% - 1px);
+      background-repeat: no-repeat;
+      background-size: 0 1px;
+      transition: color .3s, background-size .3s, background-image .3s;
+    }
+    .cs-major a:hover,
+    .cs-major a:focus {
+      color: var(--umd-color-red, #e21833);
+      background-image: linear-gradient(#E21833, #E21833);
+      background-size: 100% 1px;
+    }
+    /* Program-type labels use the DS pill geometry (.umd-pill-list: 12px,
+       padding 8px 12px, #FAFAFA, 8px rhythm) with an added outline. Children
+       are <span>, not <a> — the DS hover-yellow rule is scoped to a:hover, so
+       spans stay inert and read as labels rather than controls. No per-type
+       colour coding: Major/Minor/Certificate/LEP are peers, and colouring them
+       implied a hierarchy that doesn't exist. */
+    .cs-major-name { display: block; }
+    /* Pills sit on their own line under the program name. Flex owns the 8px
+       spacing in both axes, so the DS pill rhythm (wrapper margin-top:-8px +
+       child margin-top:8px) is neutralised — left in place it double-counts
+       against the flex gap and knocks the rows out of alignment. */
+    .cs-types {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .cs-types > .cs-type {
+      margin-top: 0;
+      border: 1px solid var(--umd-color-gray-light, #e6e6e6);
+      color: var(--umd-color-gray-dark, #454545);
+      white-space: nowrap;
+    }
+  </style>
+
+  <script src="https://unpkg.com/@universityofmaryland/web-components-library@1.18.12/dist/cdn.js"></script>
+</head>
+<body>
+
+  <!-- 1. GLOBAL UNIVERSITY HEADER + 2. SITE NAVIGATION HEADER
+       Copied verbatim from pages/programs.html (project chrome). -->
+  <umd-element-navigation-utility data-alert-off="true" role="navigation" aria-label="Utility navigation"></umd-element-navigation-utility>
+  <umd-element-utility-header></umd-element-utility-header>
+
+  <!-- 2. SITE NAVIGATION HEADER -->
+  <umd-element-navigation-header
+    sticky
+    class="umd-layout-space-horizontal-full"
+    search-url="https://admissions.umd.edu/search"
+    cta-url="https://admissions.umd.edu/apply-now"
+    cta-text="Apply Now">
+    <a slot="logo" href="admissions.html">
+      <img src="../images/logos/admissions-logo.svg" alt="University of Maryland Admissions"
+           onerror="this.onerror=null;this.src='../images/logos/primary-logo-dark.svg';" />
+    </a>
+    <div slot="utility-navigation">
+      <a href="https://admissions.umd.edu/visit">Visit UMD</a>
+      <a href="https://admissions.umd.edu/connect">Connect</a>
+    </div>
+    <nav slot="main-navigation">
+      <umd-element-nav-item>
+        <a slot="primary-link" href="academics.html">Academics</a>
+        <div slot="dropdown-links">
+          <a href="programs.html">All Programs</a>
+          <a href="colleges-schools.html">Colleges &amp; Schools</a>
+          <a href="https://admissions.umd.edu/programs/interest">Programs by Interest</a>
+          <a href="https://admissions.umd.edu/academics/limited-enrollment-programs">Limited Enrollment Programs</a>
+          <a href="https://ugst.umd.edu/llsop/index.html">Living-Learning &amp; Special Programs</a>
+        </div>
+      </umd-element-nav-item>
+      <umd-element-nav-item>
+        <a slot="primary-link" href="student-life.html">Student Life</a>
+        <div slot="dropdown-links">
+          <a href="https://admissions.umd.edu/student/housing-and-dining">Housing &amp; Dining</a>
+          <a href="https://admissions.umd.edu/student/student-support">Student Support &amp; Safety</a>
+          <a href="https://admissions.umd.edu/student/get-involved">Get Involved on Campus</a>
+          <a href="https://admissions.umd.edu/student/find-community">Find Your Community</a>
+        </div>
+      </umd-element-nav-item>
+      <umd-element-nav-item>
+        <a slot="primary-link" href="how-to-apply.html">How To Apply</a>
+        <div slot="dropdown-links">
+          <a href="https://admissions.umd.edu/apply/freshman-applicants">Freshman Applicants</a>
+          <a href="https://admissions.umd.edu/apply/transfer-applicants">Transfer Applicants</a>
+          <a href="https://admissions.umd.edu/apply/international-applicants">International Applicants</a>
+          <a href="https://admissions.umd.edu/apply/shady-grove-applicants">Shady Grove Applicants</a>
+          <a href="https://admissions.umd.edu/apply/application-deadlines">Application Deadlines</a>
+          <a href="https://admissions.umd.edu/apply/admission-review-process-factors">Admission Review Process &amp; Factors</a>
+          <a href="https://admissions.umd.edu/apply/application-faqs">Application FAQs</a>
+        </div>
+      </umd-element-nav-item>
+      <umd-element-nav-item>
+        <a slot="primary-link" href="tuition.html">Tuition &amp; Aid</a>
+        <div slot="dropdown-links">
+          <a href="https://admissions.umd.edu/tuition/cost-of-attendance">Cost of Attendance</a>
+          <a href="https://admissions.umd.edu/tuition/freshman-merit-scholarships">Freshman Merit Scholarships</a>
+          <a href="https://admissions.umd.edu/tuition/transfer-merit-scholarships">Transfer Merit Scholarships</a>
+          <a href="https://financialaid.umd.edu/">Office of Student Financial Aid</a>
+        </div>
+      </umd-element-nav-item>
+    </nav>
+  </umd-element-navigation-header>
+
+  <!-- 3. HERO — small background, left-aligned text + CTA.
+       Same recipe as pages/programs.html. -->
+  <section class="umd-layout-vertical-landing">
+    <umd-element-hero data-layout-height="small">
+      <img slot="image" src="../images/colleges-schools/hero-sundial.jpg" alt="Sundial on McKeldin Mall" />
+      <h1 slot="headline">Colleges &amp; Schools</h1>
+      <div slot="text"><p>Within the University of Maryland&#8217;s 12 colleges &amp; schools, you can choose from more than 100 majors. No matter your interests, we have you covered.</p></div>
+      <div slot="actions">
+        <umd-element-call-to-action data-display="primary">
+          <a href="programs.html">Explore All Programs</a>
+        </umd-element-call-to-action>
+      </div>
+    </umd-element-hero>
+  </section>
+
+  <!-- 4. INTRO — mirrors the rich-text lockup at the top of the sibling
+       landing pages (pages/academics.html "study here"): narrow centred
+       -small lock, rule, lead paragraph, rich-text body. The sibling's
+       lead is uppercase; here it is not, per design direction. -->
+  <section class="umd-layout-vertical-landing">
+    <div class="umd-layout-space-horizontal-small">
+      <hr style="border:none;border-top:1px solid #000000;margin:0 0 24px 0;" />
+      <p class="umd-sans-large mb-md text-black">Discover which of our colleges and schools inspire your fearless ideas and review their list of majors to learn more about academics at UMD.</p>
+      <div class="umd-text-rich-advanced">
+        <p>Our colleges and schools are researching hot topics such as alternative energy, advising federal officials on homeland security, working with the state to reduce children&#8217;s obesity and investigating many other pressing issues. You can work side-by-side with faculty at the top of their fields: Pulitzer Prize recipients, Nobel laureates, and Emmy and Tony winners. Numbering more than 4,000, our faculty also include world-renowned performers, successful entrepreneurs and big-name journalists, all ready to share their experiences and expertise with you.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. COLLEGES & SCHOOLS — 13 tiles / 203 programs -->
+  <section class="umd-layout-vertical-landing">
+    <div class="umd-layout-space-horizontal-larger">
+      <div class="cs-grid" id="cs-grid" data-animation="off">
+
+        <article class="cs-tile" id="cs-tile-agnr" data-college="agnr" data-open="false">
+          <figure class="cs-tile-figure">
+            <img src="../images/colleges-schools/agnr.jpg" alt="Ensure Healthy Watersheds and the Chesapeake Bay" loading="lazy" width="880" height="440" />
+          </figure>
+          <div class="cs-tile-body">
+            <p class="cs-tile-abbr">AGNR</p>
+            <h3 class="cs-tile-name umd-sans-large">
+              <a href="https://agnr.umd.edu/" target="_blank" rel="noopener">College of Agriculture &amp; Natural Resources</a>
+            </h3>
+            <p class="cs-tile-desc umd-sans-small">The College of Agriculture &amp; Natural Resources embodies the University&#x27;s land-grant mission with a commitment to eliminate hunger, preserve our natural resources, improve quality of life, and empower the next generation through world-class education.</p>
+            <div class="cs-tile-foot">
+        <button type="button" class="cs-toggle umd-interactive-sans-small"
+                data-college="agnr" aria-expanded="false" aria-controls="cs-panel-agnr">
+          <span>View 17 programs</span>
+          <svg class="cs-toggle-chev" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M12 16.5 2.5 7l1.6-1.6L12 13.3l7.9-7.9L21.5 7z"/></svg>
+        </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="cs-tile" id="cs-tile-arch" data-college="arch" data-open="false">
+          <figure class="cs-tile-figure">
+            <img src="../images/colleges-schools/arch.jpg" alt="Architecture building with a sunset" loading="lazy" width="880" height="440" />
+          </figure>
+          <div class="cs-tile-body">
+            <p class="cs-tile-abbr">ARCH</p>
+            <h3 class="cs-tile-name umd-sans-large">
+              <a href="https://arch.umd.edu/" target="_blank" rel="noopener">School of Architecture, Planning &amp; Preservation</a>
+            </h3>
+            <p class="cs-tile-desc umd-sans-small">At the School of Architecture, Planning and Preservation, you can help build a sustainable future. The undergraduate architecture program, with its close-knit community and unparalleled location, will give you unique opportunities to explore a range of disciplines - including urban studies, real estate development and historic preservation - and to practice the craft.</p>
+            <div class="cs-tile-foot">
+        <button type="button" class="cs-toggle umd-interactive-sans-small"
+                data-college="arch" aria-expanded="false" aria-controls="cs-panel-arch">
+          <span>View 7 programs</span>
+          <svg class="cs-toggle-chev" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M12 16.5 2.5 7l1.6-1.6L12 13.3l7.9-7.9L21.5 7z"/></svg>
+        </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="cs-tile" id="cs-tile-arhu" data-college="arhu" data-open="false">
+          <figure class="cs-tile-figure">
+            <img src="../images/colleges-schools/arhu.jpg" alt="College of Arts Humanities image" loading="lazy" width="880" height="440" />
+          </figure>
+          <div class="cs-tile-body">
+            <p class="cs-tile-abbr">ARHU</p>
+            <h3 class="cs-tile-name umd-sans-large">
+              <a href="https://arhu.umd.edu/" target="_blank" rel="noopener">College of Arts &amp; Humanities</a>
+            </h3>
+            <p class="cs-tile-desc umd-sans-small">In the College of Arts and Humanities, you&#x27;ll study past and present cultures, investigate the human experience and develop excellent critical thinking and communication skills.</p>
+            <div class="cs-tile-foot">
+        <button type="button" class="cs-toggle umd-interactive-sans-small"
+                data-college="arhu" aria-expanded="false" aria-controls="cs-panel-arhu">
+          <span>View 59 programs</span>
+          <svg class="cs-toggle-chev" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M12 16.5 2.5 7l1.6-1.6L12 13.3l7.9-7.9L21.5 7z"/></svg>
+        </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="cs-tile" id="cs-tile-bsos" data-college="bsos" data-open="false">
+          <figure class="cs-tile-figure">
+            <img src="../images/colleges-schools/bsos.jpg" alt="Chincoteague Hall" loading="lazy" width="880" height="440" />
+          </figure>
+          <div class="cs-tile-body">
+            <p class="cs-tile-abbr">BSOS</p>
+            <h3 class="cs-tile-name umd-sans-large">
+              <a href="https://bsos.umd.edu/landing/Undergraduate" target="_blank" rel="noopener">College of Behavioral &amp; Social Sciences</a>
+            </h3>
+            <p class="cs-tile-desc umd-sans-small">Students in the College of Behavioral and Social Sciences who are interested in government, non-profits, research or the private sector can take advantage of endless opportunities in nearby Washington, D.C. BSOS prepares students to obtain the most sought-after career readiness competencies from employers, and to Be the Solution to the world&#x27;s great challenges.</p>
+            <div class="cs-tile-foot">
+        <button type="button" class="cs-toggle umd-interactive-sans-small"
+                data-college="bsos" aria-expanded="false" aria-controls="cs-panel-bsos">
+          <span>View 20 programs</span>
+          <svg class="cs-toggle-chev" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M12 16.5 2.5 7l1.6-1.6L12 13.3l7.9-7.9L21.5 7z"/></svg>
+        </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="cs-tile" id="cs-tile-bmgt" data-college="bmgt" data-open="false">
+          <figure class="cs-tile-figure">
+            <img src="../images/colleges-schools/bmgt.jpg" alt="Business School" loading="lazy" width="880" height="440" />
+          </figure>
+          <div class="cs-tile-body">
+            <p class="cs-tile-abbr">BMGT</p>
+            <h3 class="cs-tile-name umd-sans-large">
+              <a href="https://www.rhsmith.umd.edu/" target="_blank" rel="noopener">Robert H. Smith School of Business</a>
+            </h3>
+            <p class="cs-tile-desc umd-sans-small">At the Robert H. Smith School of Business, we&#x27;ll prepare you to succeed in a competitive global economy. Ranked among the nation&#x27;s top 20 undergraduate business schools, it&#x27;s home to outstanding faculty with real-world experience, cutting-edge research and lots of connections.</p>
+            <div class="cs-tile-foot">
+        <button type="button" class="cs-toggle umd-interactive-sans-small"
+                data-college="bmgt" aria-expanded="false" aria-controls="cs-panel-bmgt">
+          <span>View 12 programs</span>
+          <svg class="cs-toggle-chev" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M12 16.5 2.5 7l1.6-1.6L12 13.3l7.9-7.9L21.5 7z"/></svg>
+        </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="cs-tile" id="cs-tile-cmns" data-college="cmns" data-open="false">
+          <figure class="cs-tile-figure">
+            <img src="../images/colleges-schools/cmns.jpg" alt="Computer Studies" loading="lazy" width="880" height="440" />
+          </figure>
+          <div class="cs-tile-body">
+            <p class="cs-tile-abbr">CMNS</p>
+            <h3 class="cs-tile-name umd-sans-large">
+              <a href="https://cmns.umd.edu/" target="_blank" rel="noopener">College of Computer, Mathematical, &amp; Natural Sciences</a>
+            </h3>
+            <p class="cs-tile-desc umd-sans-small">The thirst for new knowledge is at the heart of scientific endeavor and discovery. As we seek to understand our world across a host of complexly interconnected phenomena, our discoveries shape that world. At the forefront of many of these discoveries is the College of Computer, Mathematical, and Natural Sciences.</p>
+            <div class="cs-tile-foot">
+        <button type="button" class="cs-toggle umd-interactive-sans-small"
+                data-college="cmns" aria-expanded="false" aria-controls="cs-panel-cmns">
+          <span>View 31 programs</span>
+          <svg class="cs-toggle-chev" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M12 16.5 2.5 7l1.6-1.6L12 13.3l7.9-7.9L21.5 7z"/></svg>
+        </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="cs-tile" id="cs-tile-educ" data-college="educ" data-open="false">
+          <figure class="cs-tile-figure">
+            <img src="../images/colleges-schools/educ.jpg" alt="College of Education" loading="lazy" width="880" height="440" />
+          </figure>
+          <div class="cs-tile-body">
+            <p class="cs-tile-abbr">EDUC</p>
+            <h3 class="cs-tile-name umd-sans-large">
+              <a href="https://education.umd.edu/" target="_blank" rel="noopener">College of Education</a>
+            </h3>
+            <p class="cs-tile-desc umd-sans-small">The College of Education prepares students to change lives. We train outstanding teachers, administrators, counselors and more, as well as conduct pioneering research. Our location outside of Washington, D.C., allows students to get teaching experience in diverse school systems and collaborate with leading education organizations. From observing at the Center for Young Children, a preschool on campus, to learning about human development and assessment, students are prepared to advance equity through education.</p>
+            <div class="cs-tile-foot">
+        <button type="button" class="cs-toggle umd-interactive-sans-small"
+                data-college="educ" aria-expanded="false" aria-controls="cs-panel-educ">
+          <span>View 16 programs</span>
+          <svg class="cs-toggle-chev" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M12 16.5 2.5 7l1.6-1.6L12 13.3l7.9-7.9L21.5 7z"/></svg>
+        </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="cs-tile" id="cs-tile-engr" data-college="engr" data-open="false">
+          <figure class="cs-tile-figure">
+            <img src="../images/colleges-schools/engr.jpg" alt="A James Clark School of Engineering ENGR" loading="lazy" width="880" height="440" />
+          </figure>
+          <div class="cs-tile-body">
+            <p class="cs-tile-abbr">ENGR</p>
+            <h3 class="cs-tile-name umd-sans-large">
+              <a href="https://eng.umd.edu/" target="_blank" rel="noopener">A. James Clark School of Engineering</a>
+            </h3>
+            <p class="cs-tile-desc umd-sans-small">The A. James Clark School of Engineering is consistently ranked among the world&#x27;s top engineering schools. Its academic programs offer endless opportunities to explore, and our location near Washington, D.C., will give you access to federal research labs and major technology corporations to land internships and jobs.</p>
+            <div class="cs-tile-foot">
+        <button type="button" class="cs-toggle umd-interactive-sans-small"
+                data-college="engr" aria-expanded="false" aria-controls="cs-panel-engr">
+          <span>View 20 programs</span>
+          <svg class="cs-toggle-chev" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M12 16.5 2.5 7l1.6-1.6L12 13.3l7.9-7.9L21.5 7z"/></svg>
+        </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="cs-tile" id="cs-tile-info" data-college="info" data-open="false">
+          <figure class="cs-tile-figure">
+            <img src="../images/colleges-schools/info.jpg" alt="Information Studies" loading="lazy" width="880" height="440" />
+          </figure>
+          <div class="cs-tile-body">
+            <p class="cs-tile-abbr">INFO</p>
+            <h3 class="cs-tile-name umd-sans-large">
+              <a href="https://ischool.umd.edu/" target="_blank" rel="noopener">College of Information</a>
+            </h3>
+            <p class="cs-tile-desc umd-sans-small">Building upon our strong foundation in library science and information studies, the College of Information (INFO) has grown into an education and research powerhouse in human-computer interaction, digital libraries, cloud computing , information access, e-government and social media. Our tight-knit learning community is driven by the pursuit of big ideas and new discoveries, to imagine how we can empower citizens, inspire communities, energize economies and sustain democracies.</p>
+            <div class="cs-tile-foot">
+        <button type="button" class="cs-toggle umd-interactive-sans-small"
+                data-college="info" aria-expanded="false" aria-controls="cs-panel-info">
+          <span>View 6 programs</span>
+          <svg class="cs-toggle-chev" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M12 16.5 2.5 7l1.6-1.6L12 13.3l7.9-7.9L21.5 7z"/></svg>
+        </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="cs-tile" id="cs-tile-jour" data-college="jour" data-open="false">
+          <figure class="cs-tile-figure">
+            <img src="../images/colleges-schools/jour.jpg" alt="Students writing" loading="lazy" width="880" height="440" />
+          </figure>
+          <div class="cs-tile-body">
+            <p class="cs-tile-abbr">JOUR</p>
+            <h3 class="cs-tile-name umd-sans-large">
+              <a href="https://merrill.umd.edu/" target="_blank" rel="noopener">Philip Merrill College of Journalism</a>
+            </h3>
+            <p class="cs-tile-desc umd-sans-small">The Philip Merrill College of Journalism will prepare you for an exciting and rapidly evolving field while grounding you in ethics and the fundamentals of reporting and writing. Our curriculum trains students to investigate, present information fairly and accurately and tell effective stories using the latest available visual and digital tools. Successful students are prepared for a variety of jobs in digital, television, radio and print newsrooms, and the communication skills learned in journalism classes are extremely valuable to most government offices and private organizations.</p>
+            <div class="cs-tile-foot">
+        <button type="button" class="cs-toggle umd-interactive-sans-small"
+                data-college="jour" aria-expanded="false" aria-controls="cs-panel-jour">
+          <span>View 1 program</span>
+          <svg class="cs-toggle-chev" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M12 16.5 2.5 7l1.6-1.6L12 13.3l7.9-7.9L21.5 7z"/></svg>
+        </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="cs-tile" id="cs-tile-ltsc" data-college="ltsc" data-open="false">
+          <figure class="cs-tile-figure">
+            <img src="../images/colleges-schools/ltsc.jpg" alt="Hornbake Library" loading="lazy" width="880" height="440" />
+          </figure>
+          <div class="cs-tile-body">
+            <p class="cs-tile-abbr">LTSC</p>
+            <h3 class="cs-tile-name umd-sans-large">
+              <a href="https://ltsc.umd.edu/" target="_blank" rel="noopener">Letters &amp; Sciences</a>
+            </h3>
+            <p class="cs-tile-desc umd-sans-small">Haven&#x27;t picked a major? Waiting to transition to a Limited Enrollment Program? Don&#x27;t worry, more than a third of the freshmen that come to UMD work with advisors in the Office of Letters and Sciences. Letters and Sciences is the advising home that helps you explore and transition to your intended major. Through academic advising and exploration activities, we empower you to pursue the major that&#x27;s the best fit.</p>
+            <div class="cs-tile-foot">
+        <a class="cs-tile-link umd-interactive-sans-small" href="https://ltsc.umd.edu/"
+           target="_blank" rel="noopener">Visit Letters &amp; Sciences</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="cs-tile" id="cs-tile-sph" data-college="sph" data-open="false">
+          <figure class="cs-tile-figure">
+            <img src="../images/colleges-schools/sph.jpg" alt="Person pouring water outside, testing" loading="lazy" width="880" height="440" />
+          </figure>
+          <div class="cs-tile-body">
+            <p class="cs-tile-abbr">SPH</p>
+            <h3 class="cs-tile-name umd-sans-large">
+              <a href="https://sph.umd.edu/" target="_blank" rel="noopener">School of Public Health</a>
+            </h3>
+            <p class="cs-tile-desc umd-sans-small">The School of Public Health takes on the most pressing public health issues facing our local communities, the nation and the world. Driven by a passion to break down the barriers that keep individuals, families, communities and populations from attaining optimum health and wellness, faculty and students are committed to finding new and better ways to promote health, prevent disease and prolong active, high-quality lives.</p>
+            <div class="cs-tile-foot">
+        <button type="button" class="cs-toggle umd-interactive-sans-small"
+                data-college="sph" aria-expanded="false" aria-controls="cs-panel-sph">
+          <span>View 8 programs</span>
+          <svg class="cs-toggle-chev" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M12 16.5 2.5 7l1.6-1.6L12 13.3l7.9-7.9L21.5 7z"/></svg>
+        </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="cs-tile" id="cs-tile-spp" data-college="spp" data-open="false">
+          <figure class="cs-tile-figure">
+            <img src="../images/colleges-schools/spp.jpg" alt="Thurgood Marshall Hall" loading="lazy" width="880" height="440" />
+          </figure>
+          <div class="cs-tile-body">
+            <p class="cs-tile-abbr">SPP</p>
+            <h3 class="cs-tile-name umd-sans-large">
+              <a href="https://spp.umd.edu/" target="_blank" rel="noopener">School of Public Policy</a>
+            </h3>
+            <p class="cs-tile-desc umd-sans-small">Policy Terps understand how to make a positive difference in the most challenging problems facing our world today. Students are equipped with a sophisticated, in-depth understanding of domestic and international problems and possess the values and perspectives necessary to shape sustainable solutions. The School of Public Policy gives you the tools you need to translate your passion into real change.</p>
+            <div class="cs-tile-foot">
+        <button type="button" class="cs-toggle umd-interactive-sans-small"
+                data-college="spp" aria-expanded="false" aria-controls="cs-panel-spp">
+          <span>View 6 programs</span>
+          <svg class="cs-toggle-chev" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M12 16.5 2.5 7l1.6-1.6L12 13.3l7.9-7.9L21.5 7z"/></svg>
+        </button>
+            </div>
+          </div>
+        </article>
+
+        <section class="cs-panel" id="cs-panel-agnr" data-college="agnr"
+                 role="region" aria-labelledby="cs-panel-agnr-h" hidden>
+          <div class="cs-panel-inner">
+            <div class="cs-panel-head">
+              <div>
+                <h3 class="cs-panel-headline umd-sans-larger" id="cs-panel-agnr-h" tabindex="-1">
+                  <a href="https://agnr.umd.edu/" target="_blank" rel="noopener">College of Agriculture &amp; Natural Resources</a>
+                </h3>
+                <p class="cs-panel-desc umd-sans-small">The College of Agriculture &amp; Natural Resources embodies the University&#x27;s land-grant mission with a commitment to eliminate hunger, preserve our natural resources, improve quality of life, and empower the next generation through world-class education.</p>
+              </div>
+              <button type="button" class="cs-panel-close umd-sans-min" data-close="agnr">Close</button>
+            </div>
+            <ul class="cs-majors">
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://agnr.umd.edu/academics/programs-study/agricultural-resource-economics" target="_blank" rel="noopener">Agricultural &amp; Resource Economics</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://agnr.umd.edu/academics/programs-study/agricultural-science-technology" target="_blank" rel="noopener">Agricultural Science &amp; Technology</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://agnr.umd.edu/academics/programs-study/animal-science" target="_blank" rel="noopener">Animal Science</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://agnr.umd.edu/admissions/certificates" target="_blank" rel="noopener">Applied Agriculture</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Certificate</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://entomology.umd.edu/entomology-minor.html" target="_blank" rel="noopener">Entomology</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://agnr.umd.edu/academics/programs-study/environmental-science-policy" target="_blank" rel="noopener">Environmental Science &amp; Policy</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://agnr.umd.edu/academics/programs-study/environmental-science-technology" target="_blank" rel="noopener">Environmental Science &amp; Technology</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://nfsc.umd.edu/undergraduate/fermentation-science" target="_blank" rel="noopener">Fermentation Science</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://spp.umd.edu/your-education/undergraduate/bachelor-arts-global-and-foreign-policy" target="_blank" rel="noopener">Global &amp; Foreign Policy</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.arec.umd.edu/undergraduate/minor" target="_blank" rel="noopener">Global Poverty</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://agnr.umd.edu/academics/programs-study/international-agriculture-and-natural-resources" target="_blank" rel="noopener">International Agriculture &amp; Natural Resources</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Certificate</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://agnr.umd.edu/academics/programs-study/landscape-architecture" target="_blank" rel="noopener">Landscape Architecture</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://psla.umd.edu/undergraduate/minors" target="_blank" rel="noopener">Landscape Management</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://agnr.umd.edu/academics/programs-study/nutrition-food-science" target="_blank" rel="noopener">Nutrition &amp; Food Science</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://agnr.umd.edu/academics/programs-study/plant-science" target="_blank" rel="noopener">Plant Science</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://enst.umd.edu/undergraduate/majors-minors" target="_blank" rel="noopener">Soil Science</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://agnr.umd.edu/sustainability-studies-minor" target="_blank" rel="noopener">Sustainability Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="cs-panel" id="cs-panel-arch" data-college="arch"
+                 role="region" aria-labelledby="cs-panel-arch-h" hidden>
+          <div class="cs-panel-inner">
+            <div class="cs-panel-head">
+              <div>
+                <h3 class="cs-panel-headline umd-sans-larger" id="cs-panel-arch-h" tabindex="-1">
+                  <a href="https://arch.umd.edu/" target="_blank" rel="noopener">School of Architecture, Planning &amp; Preservation</a>
+                </h3>
+                <p class="cs-panel-desc umd-sans-small">At the School of Architecture, Planning and Preservation, you can help build a sustainable future. The undergraduate architecture program, with its close-knit community and unparalleled location, will give you unique opportunities to explore a range of disciplines - including urban studies, real estate development and historic preservation - and to practice the craft.</p>
+              </div>
+              <button type="button" class="cs-panel-close umd-sans-min" data-close="arch">Close</button>
+            </div>
+            <ul class="cs-majors">
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://arch.umd.edu/programs/architecture/academics/architecture-degrees" target="_blank" rel="noopener">Architecture</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://pm.umd.edu/program/cpm-minor/" target="_blank" rel="noopener">Construction Project Management</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://art.umd.edu/academic-programs/creative-placemaking-minor#:~:text=The%20minor%20is%2a%20collaboration,arts%2C%20technology%20and%20social%20justice." target="_blank" rel="noopener">Creative Placemaking</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://arch.umd.edu/programs/architecture/academics/architecture-degrees/history-and-theory-architecture-minor" target="_blank" rel="noopener">History &amp; Theory of Architecture</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://pm.umd.edu/program/undergraduate-minor-in-project-management/" target="_blank" rel="noopener">Project Management</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://arch.umd.edu/programs/real-estate-development/academics/real-estate-development-degrees/bachelor-arts-real-estate-and-built-environment" target="_blank" rel="noopener">Real Estate &amp; the Built Environment</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://arch.umd.edu/programs/real-estate-development/academics/real-estate-development-degrees/real-estate-development-minor" target="_blank" rel="noopener">Real Estate Development</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="cs-panel" id="cs-panel-arhu" data-college="arhu"
+                 role="region" aria-labelledby="cs-panel-arhu-h" hidden>
+          <div class="cs-panel-inner">
+            <div class="cs-panel-head">
+              <div>
+                <h3 class="cs-panel-headline umd-sans-larger" id="cs-panel-arhu-h" tabindex="-1">
+                  <a href="https://arhu.umd.edu/" target="_blank" rel="noopener">College of Arts &amp; Humanities</a>
+                </h3>
+                <p class="cs-panel-desc umd-sans-small">In the College of Arts and Humanities, you&#x27;ll study past and present cultures, investigate the human experience and develop excellent critical thinking and communication skills.</p>
+              </div>
+              <button type="button" class="cs-panel-close umd-sans-min" data-close="arhu">Close</button>
+            </div>
+            <ul class="cs-majors">
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://amst.umd.edu/academic-programs/undergraduate" target="_blank" rel="noopener">American Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sllc.umd.edu/fields/arabic" target="_blank" rel="noopener">Arabic Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://classics.umd.edu/academic-programs/minors/archaeology" target="_blank" rel="noopener">Archaeology</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://arthistory.umd.edu/academics" target="_blank" rel="noopener">Art History</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://music.umd.edu/academic-programs/arts-leadership-minor" target="_blank" rel="noopener">Arts Leadership</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://wgss.umd.edu/academic-programs/undergraduate/black-womens-studies-minor" target="_blank" rel="noopener">Black Women&#x27;s Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sllc.umd.edu/fields/chinese" target="_blank" rel="noopener">Chinese</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sllc.umd.edu/fields/cinema-media/major-ba" target="_blank" rel="noopener">Cinema &amp; Media Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://classics.umd.edu/academic-programs/minors/classical-mythology" target="_blank" rel="noopener">Classical Mythology</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://classics.umd.edu/academic-programs/bachelor-arts" target="_blank" rel="noopener">Classics</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://communication.umd.edu/academics/undergraduate/communication-BA" target="_blank" rel="noopener">Communication</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://art.umd.edu/academic-programs/creative-placemaking-minor#:~:text=The%20minor%20is%2a%20collaboration,arts%2C%20technology%20and%20social%20justice." target="_blank" rel="noopener">Creative Placemaking</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://english.umd.edu/academic-programs/undergraduate/english-minors#:~:text=The%20minor%20in%20creative%20writing,writers%20of%20poetry%20and%20prose" target="_blank" rel="noopener">Creative Writing</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://tdps.umd.edu/academic-programs/ba-dance" target="_blank" rel="noopener">Dance</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://english.umd.edu/academic-programs/undergraduate/english-minors#:~:text=The%20minor%20in%20creative%20writing,writers%20of%20poetry%20and%20prose" target="_blank" rel="noopener">Digital Storytelling &amp; Poetics</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://history.umd.edu/academics/undergraduate/east-asian-certificate" target="_blank" rel="noopener">East Asian Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Certificate</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://english.umd.edu/academic-programs/undergraduate/english-ba" target="_blank" rel="noopener">English</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sllc.umd.edu/fields/french/undergraduate/major-ba" target="_blank" rel="noopener">French Language &amp; Literature</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sllc.umd.edu/fields/french/undergraduate/minor" target="_blank" rel="noopener">French Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sllc.umd.edu/fields/german/undergraduate" target="_blank" rel="noopener">German Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://spp.umd.edu/your-education/undergraduate/bachelor-arts-global-and-foreign-policy" target="_blank" rel="noopener">Global &amp; Foreign Policy</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://classics.umd.edu/academic-programs/minors/greek-language-culture" target="_blank" rel="noopener">Greek Language &amp; Culture</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://jewishstudies.umd.edu/academic-programs/undergraduate/hs-minor" target="_blank" rel="noopener">Hebrew Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://history.umd.edu/academics/undergraduate" target="_blank" rel="noopener">History</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://english.umd.edu/academic-programs/undergraduate/english-minors#:~:text=The%20minor%20in%20creative%20writing,writers%20of%20poetry%20and%20prose" target="_blank" rel="noopener">Humanities, Health &amp; Medicine</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://imd.umd.edu/about" target="_blank" rel="noopener">Immersive Media Design</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://jewishstudies.umd.edu/academic-programs/undergraduate/is-minor" target="_blank" rel="noopener">Israel Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sllc.umd.edu/fields/italian/minor" target="_blank" rel="noopener">Italian Language &amp; Culture</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sllc.umd.edu/fields/italian/major" target="_blank" rel="noopener">Italian Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sllc.umd.edu/fields/japanese" target="_blank" rel="noopener">Japanese</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://jewishstudies.umd.edu/academic-programs/undergraduate" target="_blank" rel="noopener">Jewish Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sllc.umd.edu/fields/korean/minor" target="_blank" rel="noopener">Korean Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://lacs.umd.edu/academics/undergraduate" target="_blank" rel="noopener">Latin American &amp; Caribbean Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span><span class="cs-type">Certificate</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://classics.umd.edu/academic-programs/minors/latin-language-literature" target="_blank" rel="noopener">Latin Language &amp; Literature</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://wgss.umd.edu/academic-programs/undergraduate/LGBTQ-minor" target="_blank" rel="noopener">LGBTQ Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span><span class="cs-type">Certificate</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://linguistics.umd.edu/academic-programs/undergraduate" target="_blank" rel="noopener">Linguistics</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://music.umd.edu/academic-programs/music-culture-minor" target="_blank" rel="noopener">Music &amp; Culture</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://music.umd.edu/academic-programs/bachelor-of-music-education" target="_blank" rel="noopener">Music Education</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://music.umd.edu/academic-programs/music-performance-minor" target="_blank" rel="noopener">Music Performance</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://music.umd.edu/academic-programs/bachelor-of-arts" target="_blank" rel="noopener">Music: Liberal Arts Program</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://music.umd.edu/academic-programs/bachelor-of-music" target="_blank" rel="noopener">Music: Professional Program</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sllc.umd.edu/fields/persian/undergraduate" target="_blank" rel="noopener">Persian Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://philosophy.umd.edu/academic-programs/undergraduate-program/philosophy-major" target="_blank" rel="noopener">Philosophy</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://philosophy.umd.edu/academic-programs/undergraduate-program/philosophy-politics-and-economics-major" target="_blank" rel="noopener">Philosophy, Politics &amp; Economics</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sllc.umd.edu/fields/portuguese/minor" target="_blank" rel="noopener">Portuguese Language, Literature &amp; Culture</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://english.umd.edu/academic-programs/undergraduate/english-minors#:~:text=The%20minor%20in%20creative%20writing,writers%20of%20poetry%20and%20prose" target="_blank" rel="noopener">Professional Writing</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://jewishstudies.umd.edu/academic-programs/undergraduate/rame-ba" target="_blank" rel="noopener">Religions of the Ancient Middle East</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://jewishstudies.umd.edu/academic-programs/undergraduate/rs-minor" target="_blank" rel="noopener">Religious Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://english.umd.edu/academic-programs/undergraduate/english-minors#:~:text=The%20minor%20in%20creative%20writing,writers%20of%20poetry%20and%20prose" target="_blank" rel="noopener">Rhetoric</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sllc.umd.edu/fields/romance-languages" target="_blank" rel="noopener">Romance Languages</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sllc.umd.edu/fields/russian/major" target="_blank" rel="noopener">Russian Language &amp; Literature</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sllc.umd.edu/fields/russian/minor" target="_blank" rel="noopener">Russian Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sllc.umd.edu/fields/spanish/undergraduate/minor" target="_blank" rel="noopener">Spanish Heritage Language &amp; Latina/o Culture</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sllc.umd.edu/fields/spanish/undergraduate/minor" target="_blank" rel="noopener">Spanish Language, Culture &amp; Professional Contexts</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sllc.umd.edu/fields/spanish/undergraduate/major" target="_blank" rel="noopener">Spanish Language, Literatures &amp; Culture</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sllc.umd.edu/fields/spanish/undergraduate/minor" target="_blank" rel="noopener">Spanish Literature, Linguistics &amp; Culture</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://tdps.umd.edu/academic-programs/ba-theatre" target="_blank" rel="noopener">Theatre</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://amst.umd.edu/academic-programs/undergraduate/us-latina-o-studies-minor" target="_blank" rel="noopener">U.S. Latina/o Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://wgss.umd.edu/academic-programs/undergraduate" target="_blank" rel="noopener">Women, Gender, &amp; Sexuality Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Certificate</span></span>
+            </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="cs-panel" id="cs-panel-bsos" data-college="bsos"
+                 role="region" aria-labelledby="cs-panel-bsos-h" hidden>
+          <div class="cs-panel-inner">
+            <div class="cs-panel-head">
+              <div>
+                <h3 class="cs-panel-headline umd-sans-larger" id="cs-panel-bsos-h" tabindex="-1">
+                  <a href="https://bsos.umd.edu/landing/Undergraduate" target="_blank" rel="noopener">College of Behavioral &amp; Social Sciences</a>
+                </h3>
+                <p class="cs-panel-desc umd-sans-small">Students in the College of Behavioral and Social Sciences who are interested in government, non-profits, research or the private sector can take advantage of endless opportunities in nearby Washington, D.C. BSOS prepares students to obtain the most sought-after career readiness competencies from employers, and to Be the Solution to the world&#x27;s great challenges.</p>
+              </div>
+              <button type="button" class="cs-panel-close umd-sans-min" data-close="bsos">Close</button>
+            </div>
+            <ul class="cs-majors">
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://aasd.umd.edu/landing/Undergraduate" target="_blank" rel="noopener">African American Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Certificate</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://aasd.umd.edu/undergraduate/minor-african-studies" target="_blank" rel="noopener">African Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://anth.umd.edu/landing/Undergraduate" target="_blank" rel="noopener">Anthropology</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://aasd.umd.edu/undergraduate/minor-anti-black-racism-0" target="_blank" rel="noopener">Anti-Black Racism</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://wgss.umd.edu/academic-programs/undergraduate/black-womens-studies-minor" target="_blank" rel="noopener">Black Women&#x27;s Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://ccjs.umd.edu/landing/Undergraduate" target="_blank" rel="noopener">Criminology &amp; Criminal Justice</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Minor</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://socy.umd.edu/landingtopic/demography-minor" target="_blank" rel="noopener">Demography</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.econ.umd.edu/landing/Undergraduate" target="_blank" rel="noopener">Economics</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://agnr.umd.edu/academics/programs-study/environmental-science-policy" target="_blank" rel="noopener">Environmental Science &amp; Policy</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://geog.umd.edu/undergraduate/gis-minor" target="_blank" rel="noopener">Geographic Information Science</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://geog.umd.edu/undergraduate/prospective-students" target="_blank" rel="noopener">Geographical Sciences</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.start.umd.edu/education/global-terrorism-studies-minor-program" target="_blank" rel="noopener">Global Terrorism Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://gvpt.umd.edu/landing/Undergraduate" target="_blank" rel="noopener">Government and Politics</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://hesp.umd.edu/landing/Undergraduate" target="_blank" rel="noopener">Hearing &amp; Speech Sciences</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://cidcm.umd.edu/landing/MIDCM" target="_blank" rel="noopener">International Development &amp; Conflict Management</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://mlaw.umd.edu/programs/about-minor" target="_blank" rel="noopener">Law &amp; Society</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://neur.umd.edu/landing/Academics" target="_blank" rel="noopener">Neuroscience</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Minor</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://psyc.umd.edu/landing/Undergraduate" target="_blank" rel="noopener">Psychology</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://geog.umd.edu/undergraduate/remote-sensing-minor" target="_blank" rel="noopener">Remote Sensing of Environmental Change</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://socy.umd.edu/landing/Undergraduate" target="_blank" rel="noopener">Sociology</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Minor</span></span>
+            </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="cs-panel" id="cs-panel-bmgt" data-college="bmgt"
+                 role="region" aria-labelledby="cs-panel-bmgt-h" hidden>
+          <div class="cs-panel-inner">
+            <div class="cs-panel-head">
+              <div>
+                <h3 class="cs-panel-headline umd-sans-larger" id="cs-panel-bmgt-h" tabindex="-1">
+                  <a href="https://www.rhsmith.umd.edu/" target="_blank" rel="noopener">Robert H. Smith School of Business</a>
+                </h3>
+                <p class="cs-panel-desc umd-sans-small">At the Robert H. Smith School of Business, we&#x27;ll prepare you to succeed in a competitive global economy. Ranked among the nation&#x27;s top 20 undergraduate business schools, it&#x27;s home to outstanding faculty with real-world experience, cutting-edge research and lots of connections.</p>
+              </div>
+              <button type="button" class="cs-panel-close umd-sans-min" data-close="bmgt">Close</button>
+            </div>
+            <ul class="cs-majors">
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-majors" target="_blank" rel="noopener">Accounting</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-minors" target="_blank" rel="noopener">Business Analytics</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-minors" target="_blank" rel="noopener">Computational Finance</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-majors" target="_blank" rel="noopener">Finance</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-minors" target="_blank" rel="noopener">General Business</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-majors" target="_blank" rel="noopener">Information Systems</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-minors" target="_blank" rel="noopener">Innovation &amp; Entrepreneurship</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-majors" target="_blank" rel="noopener">International Business</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-majors" target="_blank" rel="noopener">Management</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-majors" target="_blank" rel="noopener">Marketing</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-majors" target="_blank" rel="noopener">Operations Management &amp; Business Analytics</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-majors" target="_blank" rel="noopener">Supply Chain Management</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="cs-panel" id="cs-panel-cmns" data-college="cmns"
+                 role="region" aria-labelledby="cs-panel-cmns-h" hidden>
+          <div class="cs-panel-inner">
+            <div class="cs-panel-head">
+              <div>
+                <h3 class="cs-panel-headline umd-sans-larger" id="cs-panel-cmns-h" tabindex="-1">
+                  <a href="https://cmns.umd.edu/" target="_blank" rel="noopener">College of Computer, Mathematical, &amp; Natural Sciences</a>
+                </h3>
+                <p class="cs-panel-desc umd-sans-small">The thirst for new knowledge is at the heart of scientific endeavor and discovery. As we seek to understand our world across a host of complexly interconnected phenomena, our discoveries shape that world. At the forefront of many of these discoveries is the College of Computer, Mathematical, and Natural Sciences.</p>
+              </div>
+              <button type="button" class="cs-panel-close umd-sans-min" data-close="cmns">Close</button>
+            </div>
+            <ul class="cs-majors">
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www-math.umd.edu/undergraduate/math-minors.html" target="_blank" rel="noopener">Actuarial Mathematics</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/computer-science/artificial-intelligence-computational-structures-ai-systems-major/" target="_blank" rel="noopener">Artificial Intelligence: Computational Structures for AI Systems</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.astro.umd.edu/undergrad/ugprogram.html" target="_blank" rel="noopener">Astronomy</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://aosc.umd.edu/education/undergrad-major" target="_blank" rel="noopener">Atmospheric &amp; Oceanic Science</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://aosc.umd.edu/undergraduate/minor" target="_blank" rel="noopener">Atmospheric Chemistry</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://aosc.umd.edu/undergraduate/minor" target="_blank" rel="noopener">Atmospheric Science</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://chem.umd.edu/undergraduate" target="_blank" rel="noopener">Biochemistry</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://bsci.umd.edu/about" target="_blank" rel="noopener">Biological Sciences</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://chem.umd.edu/undergraduate" target="_blank" rel="noopener">Chemistry</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-minors" target="_blank" rel="noopener">Computational Finance</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://undergrad.cs.umd.edu/future" target="_blank" rel="noopener">Computer Science</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Minor</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/computer-science/data-science-minor/" target="_blank" rel="noopener">Data Science</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.geol.umd.edu/undergraduate/Geology_Minors.php" target="_blank" rel="noopener">Earth History</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.geol.umd.edu/undergraduate/Geology_Minors.php" target="_blank" rel="noopener">Earth Material Properties</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://entomology.umd.edu/entomology-minor.html" target="_blank" rel="noopener">Entomology</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://agnr.umd.edu/academics/programs-study/environmental-science-policy" target="_blank" rel="noopener">Environmental Science &amp; Policy</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.geol.umd.edu/undergraduate/Geology_Minors.php" target="_blank" rel="noopener">Geochemistry</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.geol.umd.edu/undergraduate/whygeology.php" target="_blank" rel="noopener">Geology</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.geol.umd.edu/undergraduate/Geology_Minors.php" target="_blank" rel="noopener">Geophysics</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.geol.umd.edu/undergraduate/Geology_Minors.php" target="_blank" rel="noopener">Hydrology</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://imd.umd.edu/about" target="_blank" rel="noopener">Immersive Media Design</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www-math.umd.edu/undergraduate/math-majors.html" target="_blank" rel="noopener">Mathematics</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://aosc.umd.edu/undergraduate/minor" target="_blank" rel="noopener">Meteorology</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.nanocenter.umd.edu/education/nano-minor/" target="_blank" rel="noopener">Nanoscale Science &amp; Technology</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://neur.umd.edu/landing/Academics" target="_blank" rel="noopener">Neuroscience</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Minor</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.geol.umd.edu/undergraduate/Geology_Minors.php" target="_blank" rel="noopener">Paleobiology</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://umdphysics.umd.edu/academics/undergraduate/ugrad-prospective-students.html" target="_blank" rel="noopener">Physics</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.astro.umd.edu/undergrad/minorPlanSci.html" target="_blank" rel="noopener">Planetary Science</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://robotics.umd.edu/minor" target="_blank" rel="noopener">Robotics &amp; Autonomous Systems</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www-math.umd.edu/undergraduate/math-minors.html" target="_blank" rel="noopener">Statistics</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.geol.umd.edu/undergraduate/Geology_Minors.php" target="_blank" rel="noopener">Surficial Geology</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="cs-panel" id="cs-panel-educ" data-college="educ"
+                 role="region" aria-labelledby="cs-panel-educ-h" hidden>
+          <div class="cs-panel-inner">
+            <div class="cs-panel-head">
+              <div>
+                <h3 class="cs-panel-headline umd-sans-larger" id="cs-panel-educ-h" tabindex="-1">
+                  <a href="https://education.umd.edu/" target="_blank" rel="noopener">College of Education</a>
+                </h3>
+                <p class="cs-panel-desc umd-sans-small">The College of Education prepares students to change lives. We train outstanding teachers, administrators, counselors and more, as well as conduct pioneering research. Our location outside of Washington, D.C., allows students to get teaching experience in diverse school systems and collaborate with leading education organizations. From observing at the Center for Young Children, a preschool on campus, to learning about human development and assessment, students are prepared to advance equity through education.</p>
+              </div>
+              <button type="button" class="cs-panel-close umd-sans-min" data-close="educ">Close</button>
+            </div>
+            <ul class="cs-majors">
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://education.umd.edu/academics/programs/undergraduate/art-education-bachelor-arts-ba" target="_blank" rel="noopener">Art Education</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://education.umd.edu/disability-studies-minor-0" target="_blank" rel="noopener">Disability Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://education.umd.edu/academics/programs/undergraduate/early-childhood-and-early-childhood-special-education-bachelor" target="_blank" rel="noopener">Early Childhood &amp; Early Childhood Special Education</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://education.umd.edu/academics/programs/undergraduate/elementary-education-bachelor-science-bs" target="_blank" rel="noopener">Elementary Education</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://education.umd.edu/academics/programs/undergraduate/elementarymiddle-special-education-bachelor-science-bs" target="_blank" rel="noopener">Elementary/Middle Special Education</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://education.umd.edu/academics/programs/undergraduate/human-development-bachelor-science-bs" target="_blank" rel="noopener">Human Development</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://education.umd.edu/leadership-studies-program" target="_blank" rel="noopener">Leadership Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span><span class="cs-type">Certificate</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://education.umd.edu/academics/programs/undergraduate/middle-school-mathematics-and-science-bachelor-science-bs" target="_blank" rel="noopener">Middle School Education - Mathematics &amp; Science</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://music.umd.edu/academic-programs/bachelor-of-music-education" target="_blank" rel="noopener">Music Education</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://education.umd.edu/academics/programs/undergraduate/minor-second-language-education" target="_blank" rel="noopener">Second Language Education</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://education.umd.edu/academics/programs/undergraduate/secondary-education-minor" target="_blank" rel="noopener">Secondary Education</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://education.umd.edu/academics/programs/undergraduate/secondary-education-bachelor-arts-ba-english-area-concentration" target="_blank" rel="noopener">Secondary Education - English</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://education.umd.edu/academics/programs/undergraduate/secondary-education-bachelor-science-bs-mathematics-terrapin" target="_blank" rel="noopener">Secondary Education - Mathematics</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://education.umd.edu/academics/programs/undergraduate/secondary-education-bachelor-science-bs-science-terrapin-teachers" target="_blank" rel="noopener">Secondary Education - Science</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://education.umd.edu/academics/programs/undergraduate/secondary-education-bachelor-arts-ba-or-bachelor-science-bs-social" target="_blank" rel="noopener">Secondary Education - Social Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://education.umd.edu/academics/programs/undergraduate/secondary-education-bachelor-arts-ba-world-languages-area" target="_blank" rel="noopener">Secondary Education - World Languages</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="cs-panel" id="cs-panel-engr" data-college="engr"
+                 role="region" aria-labelledby="cs-panel-engr-h" hidden>
+          <div class="cs-panel-inner">
+            <div class="cs-panel-head">
+              <div>
+                <h3 class="cs-panel-headline umd-sans-larger" id="cs-panel-engr-h" tabindex="-1">
+                  <a href="https://eng.umd.edu/" target="_blank" rel="noopener">A. James Clark School of Engineering</a>
+                </h3>
+                <p class="cs-panel-desc umd-sans-small">The A. James Clark School of Engineering is consistently ranked among the world&#x27;s top engineering schools. Its academic programs offer endless opportunities to explore, and our location near Washington, D.C., will give you access to federal research labs and major technology corporations to land internships and jobs.</p>
+              </div>
+              <button type="button" class="cs-panel-close umd-sans-min" data-close="engr">Close</button>
+            </div>
+            <ul class="cs-majors">
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://aero.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Aerospace Engineering</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://biocomp.umd.edu/" target="_blank" rel="noopener">Biocomputational Engineering</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://bioe.umd.edu/undergraduate/bachelor-science" target="_blank" rel="noopener">Bioengineering</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://chbe.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Chemical Engineering</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://cee.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Civil Engineering</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://ece.umd.edu/undergraduate/degrees" target="_blank" rel="noopener">Computer Engineering</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Minor</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://pm.umd.edu/program/cpm-minor/" target="_blank" rel="noopener">Construction Project Management</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://shadygrove.ece.umd.edu/" target="_blank" rel="noopener">Cyber-Physical Systems Engineering</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://ece.umd.edu/undergraduate/degrees/bs-electrical-engineering" target="_blank" rel="noopener">Electrical Engineering</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://fpe.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Fire Protection Engineering</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://eng.umd.edu/global/coursework" target="_blank" rel="noopener">Global Engineering Leadership</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://mse.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Materials Science &amp; Engineering</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://enme.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Mechanical Engineering</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span><span class="cs-type">Limited Enrollment Program</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://shadygrove.umd.edu/academics/degree-programs/bs-mechatronics-engineering" target="_blank" rel="noopener">Mechatronics Engineering</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.nanocenter.umd.edu/education/nano-minor/" target="_blank" rel="noopener">Nanoscale Science &amp; Technology</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://enme.umd.edu/undergraduate/degrees/minor-nuclear-engineering" target="_blank" rel="noopener">Nuclear Engineering</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://pm.umd.edu/program/undergraduate-minor-in-project-management/" target="_blank" rel="noopener">Project Management</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://robotics.umd.edu/minor" target="_blank" rel="noopener">Robotics &amp; Autonomous Systems</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://spp.umd.edu/your-education/undergraduate/minors/science-technology-ethics-and-policy-step-minor" target="_blank" rel="noopener">Science, Technology, Ethics &amp; Policy</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://www.mtech.umd.edu/learning/minor-in-technology-entrepreneurship" target="_blank" rel="noopener">Technology Entrepreneurship &amp; Corporate Innovation</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="cs-panel" id="cs-panel-info" data-college="info"
+                 role="region" aria-labelledby="cs-panel-info-h" hidden>
+          <div class="cs-panel-inner">
+            <div class="cs-panel-head">
+              <div>
+                <h3 class="cs-panel-headline umd-sans-larger" id="cs-panel-info-h" tabindex="-1">
+                  <a href="https://ischool.umd.edu/" target="_blank" rel="noopener">College of Information</a>
+                </h3>
+                <p class="cs-panel-desc umd-sans-small">Building upon our strong foundation in library science and information studies, the College of Information (INFO) has grown into an education and research powerhouse in human-computer interaction, digital libraries, cloud computing , information access, e-government and social media. Our tight-knit learning community is driven by the pursuit of big ideas and new discoveries, to imagine how we can empower citizens, inspire communities, energize economies and sustain democracies.</p>
+              </div>
+              <button type="button" class="cs-panel-close umd-sans-min" data-close="info">Close</button>
+            </div>
+            <ul class="cs-majors">
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://ischool.umd.edu/academics/bachelors-programs/bachelor-of-science-in-information-science-shady-grove/minors/" target="_blank" rel="noopener">Information Risk Management, Ethics &amp; Privacy</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://ischool.umd.edu/academics/bachelors-programs/" target="_blank" rel="noopener">Information Science</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://spp.umd.edu/your-education/undergraduate/minors/science-technology-ethics-and-policy-step-minor" target="_blank" rel="noopener">Science, Technology, Ethics &amp; Policy</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sdsc.umd.edu/about-us/overview-0" target="_blank" rel="noopener">Social Data Science</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://ischool.umd.edu/academics/bachelors-programs/bachelor-of-arts-in-technology-and-information-design-at-college-park/" target="_blank" rel="noopener">Technology &amp; Information Design</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://ischool.umd.edu/academics/bachelors-programs/bachelor-of-science-in-information-science-shady-grove/minors/" target="_blank" rel="noopener">Technology Innovation Leadership</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="cs-panel" id="cs-panel-jour" data-college="jour"
+                 role="region" aria-labelledby="cs-panel-jour-h" hidden>
+          <div class="cs-panel-inner">
+            <div class="cs-panel-head">
+              <div>
+                <h3 class="cs-panel-headline umd-sans-larger" id="cs-panel-jour-h" tabindex="-1">
+                  <a href="https://merrill.umd.edu/" target="_blank" rel="noopener">Philip Merrill College of Journalism</a>
+                </h3>
+                <p class="cs-panel-desc umd-sans-small">The Philip Merrill College of Journalism will prepare you for an exciting and rapidly evolving field while grounding you in ethics and the fundamentals of reporting and writing. Our curriculum trains students to investigate, present information fairly and accurately and tell effective stories using the latest available visual and digital tools. Successful students are prepared for a variety of jobs in digital, television, radio and print newsrooms, and the communication skills learned in journalism classes are extremely valuable to most government offices and private organizations.</p>
+              </div>
+              <button type="button" class="cs-panel-close umd-sans-min" data-close="jour">Close</button>
+            </div>
+            <ul class="cs-majors">
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://merrill.umd.edu/degrees-programs/bachelors-degree" target="_blank" rel="noopener">Journalism</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="cs-panel" id="cs-panel-sph" data-college="sph"
+                 role="region" aria-labelledby="cs-panel-sph-h" hidden>
+          <div class="cs-panel-inner">
+            <div class="cs-panel-head">
+              <div>
+                <h3 class="cs-panel-headline umd-sans-larger" id="cs-panel-sph-h" tabindex="-1">
+                  <a href="https://sph.umd.edu/" target="_blank" rel="noopener">School of Public Health</a>
+                </h3>
+                <p class="cs-panel-desc umd-sans-small">The School of Public Health takes on the most pressing public health issues facing our local communities, the nation and the world. Driven by a passion to break down the barriers that keep individuals, families, communities and populations from attaining optimum health and wellness, faculty and students are committed to finding new and better ways to promote health, prevent disease and prolong active, high-quality lives.</p>
+              </div>
+              <button type="button" class="cs-panel-close umd-sans-min" data-close="sph">Close</button>
+            </div>
+            <ul class="cs-majors">
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sph.umd.edu/academic-minors" target="_blank" rel="noopener">Biomechanics and Motor Control</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sph.umd.edu/academic-minors" target="_blank" rel="noopener">Exercise Physiology</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sph.umd.edu/undergraduate-degrees/bs-family-health" target="_blank" rel="noopener">Family Health</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sph.umd.edu/undergraduate-degrees/bs-global-health" target="_blank" rel="noopener">Global Health</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sph.umd.edu/undergraduate-degrees/bs-kinesiology" target="_blank" rel="noopener">Kinesiology</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sph.umd.edu/undergraduate-degrees/bs-public-health-practice" target="_blank" rel="noopener">Public Health Practice</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sph.umd.edu/undergraduate-degrees" target="_blank" rel="noopener">Public Health Science</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://sph.umd.edu/academic-minors" target="_blank" rel="noopener">Sport, Commerce &amp; Culture</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="cs-panel" id="cs-panel-spp" data-college="spp"
+                 role="region" aria-labelledby="cs-panel-spp-h" hidden>
+          <div class="cs-panel-inner">
+            <div class="cs-panel-head">
+              <div>
+                <h3 class="cs-panel-headline umd-sans-larger" id="cs-panel-spp-h" tabindex="-1">
+                  <a href="https://spp.umd.edu/" target="_blank" rel="noopener">School of Public Policy</a>
+                </h3>
+                <p class="cs-panel-desc umd-sans-small">Policy Terps understand how to make a positive difference in the most challenging problems facing our world today. Students are equipped with a sophisticated, in-depth understanding of domestic and international problems and possess the values and perspectives necessary to shape sustainable solutions. The School of Public Policy gives you the tools you need to translate your passion into real change.</p>
+              </div>
+              <button type="button" class="cs-panel-close umd-sans-min" data-close="spp">Close</button>
+            </div>
+            <ul class="cs-majors">
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://spp.umd.edu/your-education/undergraduate/bachelor-arts-global-and-foreign-policy" target="_blank" rel="noopener">Global &amp; Foreign Policy</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://spp.umd.edu/your-education/undergraduate/minors" target="_blank" rel="noopener">Nonprofit Leadership &amp; Social Innovation</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://spp.umd.edu/your-education/undergraduate/minors" target="_blank" rel="noopener">Public Leadership</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://spp.umd.edu/your-education/undergraduate/public-policy-major" target="_blank" rel="noopener">Public Policy</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Major</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://spp.umd.edu/your-education/undergraduate/minors/science-technology-ethics-and-policy-step-minor" target="_blank" rel="noopener">Science, Technology, Ethics &amp; Policy</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            <li class="cs-major">
+              <span class="cs-major-name umd-sans-small"><a href="https://agnr.umd.edu/sustainability-studies-minor" target="_blank" rel="noopener">Sustainability Studies</a></span>
+              <span class="cs-types umd-pill-list"><span class="cs-type">Minor</span></span>
+            </li>
+            </ul>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SCROLL TO TOP — fixed 24px from viewport bottom-right -->
+  <umd-element-scroll-top data-layout-fixed="true"></umd-element-scroll-top>
+
+  <!-- 13. FOOTER — visual (uses default specially-formatted footer image) -->
+  <umd-element-footer data-display="visual">
+    <a slot="logo" href="https://admissions.umd.edu/">
+      <img src="../images/logos/footer-logo.svg" alt="University of Maryland" />
+    </a>
+    <img slot="image" src="../page-builder/images/large/campus/footer-campus.jpg" alt="University of Maryland campus" />
+  </umd-element-footer>
+
+  <!-- ============================================================
+       SHADOW OVERRIDES
+  ============================================================ -->
+  <script>
+    // umd-element-pathway — force 1:1 image aspect ratio.
+    // No CSS variable / ::part hook for the pathway image container; inject
+    // shadow CSS to override intrinsic image ratio.
+    customElements.whenDefined('umd-element-pathway').then(() => {
+      document.querySelectorAll('umd-element-pathway').forEach(el => {
+        const style = document.createElement('style');
+        style.textContent = '.pathway-image-container,.image-container,.umd-asset-image-wrapper-scaled{aspect-ratio:1/1!important;height:auto!important}.pathway-image-container img,.image-container img,.umd-asset-image-wrapper-scaled img{width:100%!important;height:100%!important;object-fit:cover!important}';
+        el.shadowRoot && el.shadowRoot.appendChild(style);
+      });
+    });
+
+    // umd-element-banner-promo — stack actions vertically with 8px gap.
+    // Banner-promo reprojects slot="actions" into shadow DOM under
+    // .banner-promo-actions with no gap when stacked.
+    customElements.whenDefined('umd-element-banner-promo').then(() => {
+      document.querySelectorAll('umd-element-banner-promo').forEach(el => {
+        const style = document.createElement('style');
+        style.textContent = '.banner-promo-actions{display:flex!important;flex-direction:column!important;align-items:flex-end!important;gap:8px!important}';
+        el.shadowRoot && el.shadowRoot.appendChild(style);
+      });
+    });
+
+    // NAV-HEADER LOGO WIDTH — navigation-header shadow CSS hard-codes
+    // .element-header-logo img { max-width: 240px } at tablet+ with no
+    // CSS variable hook. The admissions logo is wider than the default
+    // primary wordmark; override to 320px via shadow injection.
+    (function () {
+      const NAV_HEADER_LOGO_CSS =
+        '.element-header-logo img{max-width:320px!important}';
+      function inject(el) {
+        if (!el.shadowRoot || el.__navHeaderLogoInjected) return;
+        const style = document.createElement('style');
+        style.textContent = NAV_HEADER_LOGO_CSS;
+        el.shadowRoot.appendChild(style);
+        el.__navHeaderLogoInjected = true;
+      }
+      function applyAll() {
+        document.querySelectorAll('umd-element-navigation-header').forEach(inject);
+      }
+      customElements.whenDefined('umd-element-navigation-header').then(() => {
+        applyAll();
+        setTimeout(applyAll, 0);
+        setTimeout(applyAll, 250);
+      });
+    })();
+  </script>
+
+  <!-- Canonical grid-entry animations (page-builder/CLAUDE.md: never inline). -->
+  <script src="../page-builder/scripts/grid-animations.js"></script>
+
+  <!-- ============================================================
+       COLLEGES & SCHOOLS — expandable card grid
+       Single-open accordion behaviour. The open panel is moved to
+       sit immediately after the LAST tile of the clicked tile's
+       grid row, so the row never breaks part-way through. Closed
+       panels are parked at the end of the grid where their
+       display:none keeps them out of grid flow entirely.
+  ============================================================ -->
+  <script>
+  (function () {
+    var grid = document.getElementById('cs-grid');
+    if (!grid) return;
+
+    var tiles = Array.prototype.slice.call(grid.querySelectorAll('.cs-tile'));
+    var panels = {};
+    Array.prototype.forEach.call(grid.querySelectorAll('.cs-panel'), function (p) {
+      panels[p.getAttribute('data-college')] = p;
+      grid.appendChild(p);            // park every panel at the end
+    });
+    var openId = null;
+
+    function columnCount() {
+      var t = window.getComputedStyle(grid).getPropertyValue('grid-template-columns');
+      var n = t ? t.split(' ').filter(Boolean).length : 1;
+      return n > 0 ? n : 1;
+    }
+
+    // Move the panel so it follows the last tile in its own row.
+    function placePanel(id) {
+      var tile = document.getElementById('cs-tile-' + id);
+      var idx = tiles.indexOf(tile);
+      if (idx < 0) return;
+      var cols = columnCount();
+      var rowEnd = Math.min(Math.ceil((idx + 1) / cols) * cols - 1, tiles.length - 1);
+      var anchor = tiles[rowEnd];
+      if (anchor.nextElementSibling !== panels[id]) {
+        anchor.insertAdjacentElement('afterend', panels[id]);
+      }
+    }
+
+    function setToggle(id, expanded) {
+      var btn = grid.querySelector('.cs-toggle[data-college="' + id + '"]');
+      if (btn) btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      var tile = document.getElementById('cs-tile-' + id);
+      if (tile) tile.setAttribute('data-open', expanded ? 'true' : 'false');
+    }
+
+    function close(id) {
+      if (!id || !panels[id]) return;
+      panels[id].hidden = true;
+      grid.appendChild(panels[id]);   // park it again
+      setToggle(id, false);
+      if (openId === id) openId = null;
+    }
+
+    function open(id, focus) {
+      if (!panels[id]) return;
+      if (openId && openId !== id) close(openId);
+      placePanel(id);
+      panels[id].hidden = false;
+      setToggle(id, true);
+      openId = id;
+      if (focus) {
+        var h = document.getElementById('cs-panel-' + id + '-h');
+        if (h) h.focus({ preventScroll: true });
+        panels[id].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    grid.addEventListener('click', function (ev) {
+      var toggle = ev.target.closest('.cs-toggle');
+      if (toggle) {
+        var id = toggle.getAttribute('data-college');
+        if (openId === id) {
+          close(id);
+          toggle.focus();
+        } else {
+          open(id, true);
+        }
+        return;
+      }
+      var closer = ev.target.closest('.cs-panel-close');
+      if (closer) {
+        var cid = closer.getAttribute('data-close');
+        close(cid);
+        var btn = grid.querySelector('.cs-toggle[data-college="' + cid + '"]');
+        if (btn) {
+          btn.focus();
+          btn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }
+    });
+
+    grid.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Escape' && openId) {
+        var btn = grid.querySelector('.cs-toggle[data-college="' + openId + '"]');
+        close(openId);
+        if (btn) btn.focus();
+      }
+    });
+
+    // Column count changes with the breakpoint — re-anchor the open panel.
+    // Driven by matchMedia, which fires reliably even where requestAnimationFrame
+    // is throttled (backgrounded / offscreen tabs). A debounced resize listener
+    // is the fallback for reflows that don't cross a breakpoint.
+    function reanchor() { if (openId) placePanel(openId); }
+
+    ['(min-width: 650px)', '(min-width: 1024px)'].forEach(function (q) {
+      var mq = window.matchMedia(q);
+      if (mq.addEventListener) mq.addEventListener('change', reanchor);
+      else if (mq.addListener) mq.addListener(reanchor);   // Safari < 14
+    });
+
+    var resizeTimer = null;
+    window.addEventListener('resize', function () {
+      if (!openId) return;
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(reanchor, 150);
+    });
+
+    // Deep link: /colleges-schools.html#agnr opens that college.
+    function fromHash() {
+      var id = (window.location.hash || '').replace('#', '');
+      if (id && panels[id]) open(id, true);
+    }
+    window.addEventListener('hashchange', fromHash);
+    fromHash();
+  })();
+  </script>
+
+</body>
+</html>

@@ -48,8 +48,26 @@ For admissions-design, the canonical reference is **`pages/academics.html`** —
    - The full header stack (`umd-element-navigation-utility` + `umd-element-utility-header` + `umd-element-navigation-header` with the project nav items)
    - The footer block (`umd-element-footer data-display="visual"`)
    - End-of-body shadow-injection scripts (pathway aspect ratio, banner-promo gap, nav-header logo width, etc.)
+   - **The chrome's CSS companions — see the warning below.**
 2. Use the same logo paths, the same nav item set, and the same footer image — do not substitute or reorder.
 3. Only the `<main>` content between the header and footer is page-specific.
+
+### ⚠️ Chrome markup alone is not enough — it has CSS companions outside TEMPLATE.html
+
+**`page-builder/TEMPLATE.html` does not contain every rule the project chrome needs.** Some live in the *page-specific* `<style>` block of the reference pages, after the inlined `critical.css`. Copy the chrome markup from a reference page but build the `<head>` from TEMPLATE alone and the chrome renders **silently unstyled** — no console error, no layout break, just wrong.
+
+Known companions (grep a reference page's second `<style>` block for the current list):
+
+| Rule | Why TEMPLATE isn't enough |
+|---|---|
+| `umd-element-navigation-header div[slot="utility-navigation"]` (+ ` a`, ` a:hover/:focus`) | `critical.css` §11 targets the DS `.umd-shell-utility-item` dropdown pattern and scopes `gap: 0`. This project's chrome uses plain `<a>` children, so §11 jams them together with no styling. The companion restores `display:flex; gap:24px` and the link type/colour at matching specificity — it must load **after** the critical block to win. |
+| `umd-element-scroll-top[data-layout-fixed="true"]` | Pins to `right:24px; bottom:24px`; the DS default is `right:40px; bottom:10vh`. |
+
+**When building a new page:** harvest the chrome CSS from the same reference page you took the chrome markup from, and keep them together. `scripts/build-colleges-schools.py` does this automatically (see its `CHROME_CSS` block) and asserts at build time that the markup and its CSS are both present — copy that approach rather than hand-copying rules.
+
+**When verifying:** assert utility-nav `gap: 24px` **at ≥1024px** — the DS hides the utility slot below desktop, so it measures 0×0 at tablet width and a narrow viewport will mask the bug. Also check `umd-element-scroll-top` computes `right/bottom: 24px`.
+
+The durable fix is the `shared/header.html` / `shared/footer.html` extraction noted at the end of this section — chrome markup, chrome CSS, and chrome scripts should live in one place and be inlined by a build script.
 
 ### Projects that don't yet have a reference page
 
