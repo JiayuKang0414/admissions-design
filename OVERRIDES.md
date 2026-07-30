@@ -175,4 +175,19 @@ Those two are why a blanket refresh from TEMPLATE would be wrong — it would si
 
 ### Pre-existing, not introduced
 
-`pages/admissions.html` has ~64px of horizontal overflow at 1440px. Measured on the pre-migration file as well (64px before, 63px after), with no light-DOM offenders, so it originates in a shadow root or a decorative absolutely-positioned element. Unrelated to the chrome extraction.
+`pages/admissions.html` has ~64px of horizontal overflow at 1440px. Measured on the pre-migration file as well (64px before, 63px after), so it is unrelated to the chrome extraction.
+
+**Do not "fix" it — it is the hero-grid animation's start state.** `umd-element-hero-grid` runs a scroll-driven animation (`animation-timeline: view()` on a sticky `.hero-grid-layout` inside a `300vh` container):
+
+```css
+@keyframes grid-columns {
+  0%   { grid-template-columns: 20% 60% 20%; }
+  100% { grid-template-columns: 0px 100% 0px; gap: 0px; }
+}
+```
+
+The side columns are **designed** to sit past the viewport edge and slide away while the centre image expands to full width. The 64px is `2 × column-gap`, left over from percentage tracks summing to 100%; the component accepts it, and `critical.css` §21's `body { overflow-x: clip }` already suppresses the scrollbar, so nothing is user-visible.
+
+**A `grid-template-columns` override with `!important` freezes the animation.** Important author declarations beat animations in the cascade, so the columns never move and the hero silently stops working — it still *looks* correct at rest, which is why this was once attempted, "verified" against static measurements, and only caught when someone scrolled. If the overflow ever genuinely needs containing, use `overflow-x: clip` on the host (leaves `grid-template-columns` alone) and confirm the sweep still runs first — note §21's warning that `overflow-x: hidden`, unlike `clip`, creates a scroll container and breaks scroll-driven animations.
+
+**Verifying any scroll-driven animation here:** `animation-timeline` advances at frame time, so calling `getComputedStyle` immediately after `window.scrollTo` in the same task returns stale values and *everything* reads as frozen. Scroll in one step, read in a separate one. Check `getAnimations()[0].timeline.currentTime` and `matchMedia('(prefers-reduced-motion: reduce)')` before concluding an animation is broken.
