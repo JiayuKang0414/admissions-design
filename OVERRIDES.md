@@ -8,19 +8,32 @@ Admissions-specific shadow-DOM injections, class overrides, and utility classes 
 
 Source: **`shared/chrome-scripts.html`** — this is the one shadow injection driven by the chrome rather than by page content, so it ships with the header. Inlined into every page by `scripts/build-chrome.py`; do not copy it into a page.
 
-Pages using this: all seven (verified rendering at `max-width: 320px`).
+Pages using this: all eight (verified rendering at `max-width: 320px`).
 
 ## Pathway 1:1 image aspect ratio
 
 `umd-element-pathway` has no CSS variable / `::part` hook for the image container; the design calls for a 1:1 image crop, so we shadow-inject `.pathway-image-container, .image-container, .umd-asset-image-wrapper-scaled { aspect-ratio: 1/1 !important; height: auto !important }` plus an `object-fit: cover` rule on the inner `<img>`.
 
-Pages using this: `pages/academics.html`, `pages/student-life.html`, `pages/tuition.html`.
+**It applies to `data-display="overlay"` too, and there it is load-bearing rather than cosmetic.** The overlay variant lays its image out as a grid column (not as a full-bleed background), so without the cap the column takes the source photo's intrinsic aspect and can outgrow the text column — which then drives the height of the whole component. On `pages/freshman-applicants.html` § "Making Sure Your UMD Application is Complete", a 607×932 portrait photo rendered 996px tall in a 649px column against an 816px text column, making the section 1316px. Capping at 1:1 puts the image at 649px, hands the height back to the text, and takes the section to 1136px. Don't scope the injection to `:not([data-display])` on the assumption that overlay uses a background image — it doesn't.
+
+Pages using this: `pages/academics.html`, `pages/student-life.html`, `pages/tuition.html`, `pages/freshman-applicants.html` (two overlay pathways, both capped).
+
+## Overlay pathway as a dark editorial block
+
+`umd-element-pathway data-display="overlay" data-theme="dark"` is self-contained — it paints its own black panel inside the content lock and needs **no** `umd-layout-background-full-dark` wrapper (that wrapper is only for the standard variant, which themes the text column alone; see RULES §5). It also swaps its rich-text class to `umd-text-rich-advanced-dark` on its own, so inline links get the white 1px gradient underline required by RULES §34 with no page CSS.
+
+Two things to know before using it:
+
+- **The panel deliberately overflows the viewport.** At 1440px it spans x 408 → 2381 (1973px wide) — the excess is suppressed by `critical.css` §21's `body { overflow-x: clip }`, exactly as with the hero-grid animation. Measured horizontal overflow stays 0; don't "fix" it with a width cap.
+- **Stacking it above a `umd-layout-background-full-dark` section leaves a 120px white gap between two dark blocks of different widths** (the inset panel vs the full-bleed band). RULES §19's collapse rule doesn't fire, because the pathway's section isn't itself a dark section. On `pages/freshman-applicants.html` this was judged to read correctly — the image sitting on white at the left gives the pathway its own identity, so the two register as separate dark moments rather than one interrupted band. Worth re-checking by eye on any other page that stacks them.
+
+Pages using this: `pages/freshman-applicants.html` (§ "Choosing A Major" dark, § "Making Sure Your UMD Application is Complete" light).
 
 ## Banner-promo stacked actions
 
 `umd-element-banner-promo` reprojects `slot="actions"` into its shadow DOM under `.banner-promo-actions` with no gap when actions stack. Shadow-inject `display:flex; flex-direction:column; align-items:flex-end; gap:8px` so primary + secondary CTAs stack with 8px spacing.
 
-Pages using this: `pages/academics.html`, `pages/student-life.html`, `pages/tuition.html`.
+Pages using this: `pages/academics.html`, `pages/student-life.html`, `pages/tuition.html`, `pages/freshman-applicants.html`.
 
 ## Study-here / eyebrow + rich-text intro section
 
@@ -28,7 +41,7 @@ Custom `.study-here-section` / `.study-here-content` / `.study-here-chevron` lay
 
 **`.study-here-chevron` must give the wrapper an explicit height and NOT clip.** A DS bump changed `umd-element-brand-logo-animation` so its host no longer contributes height to the wrapper; the earlier `top:-180px` + `overflow:hidden` (no `bottom`) rule then collapsed to a 0-height box and clipped the animation to nothing. Correct rule mirrors the working `.chevron-overlap` (admissions homepage): wrapper `position:absolute; top:-180px; left:0; right:0; bottom:-80px; overflow:visible;` and the animation itself `position:absolute; top:0; left:0; right:0;`. The inset `bottom` gives real height; `overflow:visible` prevents clipping.
 
-Pages using this: `pages/academics.html`, `pages/student-life.html`, `pages/tuition.html`, `pages/how-to-apply.html`.
+Pages using this: `pages/academics.html`, `pages/student-life.html`, `pages/tuition.html`, `pages/how-to-apply.html`, `pages/freshman-applicants.html`.
 
 ## Quote + brand chevron overlap
 
@@ -65,6 +78,46 @@ Shadow-inject step-up horizontal padding aligned to the upstream token breakpoin
 **Scope caveat:** the step-up should only apply when overlay cards sit inside a horizontally-bounded layout (i.e. within `umd-layout-space-horizontal-*`). When the cards are in a "lock" / full-bleed bank that runs edge-to-edge to the browser viewport, the original 24px sides should be retained — the extra side padding is meant to give breathing room inside a constrained card width, not to inset content within an already-edge-to-edge band. Upstream should gate the wider padding on a layout context check (or expose a CSS variable / opt-in attribute so the page can suppress it for full-bleed banks).
 
 Pages using this: `pages/admissions.html`.
+
+## Card-overlay: the IMAGE variant clamps `slot="text"`, the COLOR variant does not
+
+Not an override in force — a documented silent failure, kept because it cost a build iteration and because the two variants are one tag apart.
+
+`umd-element-card-overlay` with `type="image"` + `slot="image"` renders `.card-overlay-image-*` shadow nodes and **clamps `slot="text"` to a hard-coded character budget**, appending `" ..."`. The helper is `maxTextSize` in `cdn.js@1.18.12`; the budget is **300 characters**, tightening to **~220** once `slot="actions"` is also present. It is exposed as no slot, attribute, or CSS variable.
+
+**The clamp is destructive, not visual.** The copy is cut out of the shadow DOM, so no CSS (`line-clamp`, `max-height`, `overflow`) brings it back — those only hide text that is still there. Recovering it means writing the light-DOM slot's `innerHTML` back over the truncated node, and a one-shot restore does **not** hold: the card re-renders its scaling text block after first paint and re-truncates, so it needs a `MutationObserver` on `.card-overlay-image-text-content` (idempotent, because restored text no longer ends in `...`).
+
+**Drop the image and the problem disappears.** Without `slot="image"` the component renders the colour variant instead — shadow root `.card-overlay-color` / `.card-overlay-color-wrapper`, `#242424` background — which has **no clamp at all**. Verified on `pages/freshman-applicants.html`: the 451-character Early Action paragraph renders in full, untouched, with no injection.
+
+Corollary: the "Card-overlay horizontal padding (desktop+)" entry above is also image-variant-only (it targets `.card-overlay-image-container`). Neither injection belongs on a page whose overlay cards are colour cards — both would be dead code.
+
+**Upstream candidate:** expose the budget as an attribute (e.g. `data-text-max-length`, `0` = no clamp) on the image variant, rather than forcing every page with longer copy to fight the shadow DOM — or at minimum bring the two variants' behaviour into line.
+
+Pages using this: none currently. `pages/freshman-applicants.html` carried the restore injection until its cards moved from the image variant to the colour variant.
+
+## Application checklist stepper (`.fa-*`)
+
+`pages/freshman-applicants.html` § "Application Checklist" — a numbered stepper. There is **no steps / how-to / process component anywhere in `page-builder/registry/`** (all 15 category files checked); the nearest options are an accordion stack, `umd-element-tabs`, or numbered stats, none of which match the source's always-open numbered blocks. The source page uses its own `<umd-stepper>` element, reproduced here.
+
+`.fa-steps` (`<ol role="list">`) / `.fa-step` / `.fa-step-num` / `.fa-step-body` / `.fa-step-title`. No JS, no shadow DOM. Geometry: a `#F1F1F1` card with a `1px solid #E6E6E6` border, `56px` padding at ≥768px (`32px 24px` below), `20px` between cards; two columns (`auto 1fr`, 32px gap) at ≥768px collapsing to one below, so the copy keeps a full-width measure on mobile. The numeral sits in its own gutter column with a `2px solid #E21833` **right** border and `padding-right: 24px` — a bare pixel value rather than a spacing token, because the gutter is sized to the numeral rather than to the page rhythm.
+
+The 48px between the intro rich text and the first step comes from `umd-layout-vertical-landing-child` on the intro (32 / 40 / 48px), not a hand-rolled margin.
+
+**Type comes from DS classes in the markup, not from this CSS** — `.umd-campaign-medium` on the numeral (Barlow Condensed italic 700; 44px → `calc(44px + 1.33vw)` → **64px** at the top breakpoint, which lands exactly on the source stepper's 64px), `.umd-sans-larger-bold` on the title, `.umd-text-rich-advanced` on the body. The rich-text class also supplies the RULES §34 gradient-underline link treatment, so no hand-rolled link CSS is needed. Only geometry and the red are page-built.
+
+`role="list"` on the `<ol>` is required: `list-style: none` strips list semantics in Safari/VoiceOver, and the numerals here are visible content rather than markers.
+
+Pages using this: `pages/freshman-applicants.html`.
+
+## Brand chevron under a dark card band (`.fa-chevron`)
+
+`pages/freshman-applicants.html` § "Early Action / Application Platforms" — the same treatment as the When-to-Apply band above, ported to a `umd-layout-background-full-dark` section with two colour overlay cards. `umd-element-brand-logo-animation` enters from the **screen's left edge** and tucks under the card grid; kept **unmirrored** (mirroring reverses the arrows) and shifted a full viewport left, with `overflow: visible` scoped to `.fa-chevron > umd-element-brand-logo-animation` to defeat the DS `:defined { overflow: clip }` 25vw box. Slide-in is an `IntersectionObserver` toggling `.fa-chevron.is-in` plus a CSS transition, not the DS view-timeline animation. Hidden below 1024px.
+
+**Anchor on the card grid, not the `umd-layout-space-horizontal-*` lock.** The lock is full-bleed and creates its inset with padding, so `getBoundingClientRect().left` is `0`; anchoring to it parks the chevron tip at the card's edge instead of 70px under it. `.umd-layout-grid-gap-two` reports the real content left (64px at 1440px), giving the intended tuck. The When-to-Apply original anchors on `.wta-gold`, which is an inner div and therefore already reports the content edge — the difference only shows up when porting.
+
+**On a black band the black chevron in the stack disappears** and only the red and gold read. That is the intended layered effect here, but it means the motif carries less weight than it does on the white-background When-to-Apply band — worth checking against the design before reusing on another dark section.
+
+Pages using this: `pages/freshman-applicants.html`.
 
 ## Deadlines table
 
