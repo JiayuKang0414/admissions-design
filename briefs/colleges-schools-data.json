@@ -5,7 +5,7 @@
     "name": "College of Agriculture & Natural Resources",
     "url": "https://agnr.umd.edu/",
     "desc": "The College of Agriculture & Natural Resources embodies the University's land-grant mission with a commitment to eliminate hunger, preserve our natural resources, improve quality of life, and empower the next generation through world-class education.",
-    "image": "../images/colleges-schools/agnr.jpg",
+    "image": "{{ROOT}}images/colleges-schools/agnr.jpg",
     "alt": "Ensure Healthy Watersheds and the Chesapeake Bay",
     "majors": [
       {
@@ -136,7 +136,7 @@
     "name": "School of Architecture, Planning & Preservation",
     "url": "https://arch.umd.edu/",
     "desc": "At the School of Architecture, Planning and Preservation, you can help build a sustainable future. The undergraduate architecture program, with its close-knit community and unparalleled location, will give you unique opportunities to explore a range of disciplines - including urban studies, real estate development and historic preservation - and to practice the craft.",
-    "image": "../images/colleges-schools/arch.jpg",
+    "image": "{{ROOT}}images/colleges-schools/arch.jpg",
     "alt": "Architecture building with a sunset",
     "majors": [
       {
@@ -196,7 +196,7 @@
     "name": "College of Arts & Humanities",
     "url": "https://arhu.umd.edu/",
     "desc": "In the College of Arts and Humanities, you'll study past and present cultures, investigate the human experience and develop excellent critical thinking and communication skills.",
-    "image": "../images/colleges-schools/arhu.jpg",
+    "image": "{{ROOT}}images/colleges-schools/arhu.jpg",
     "alt": "College of Arts Humanities image",
     "majors": [
       {
@@ -634,7 +634,7 @@
     "name": "College of Behavioral & Social Sciences",
     "url": "https://bsos.umd.edu/landing/Undergraduate",
     "desc": "Students in the College of Behavioral and Social Sciences who are interested in government, non-profits, research or the private sector can take advantage of endless opportunities in nearby Washington, D.C. BSOS prepares students to obtain the most sought-after career readiness competencies from employers, and to Be the Solution to the world's great challenges.",
-    "image": "../images/colleges-schools/bsos.jpg",
+    "image": "{{ROOT}}images/colleges-schools/bsos.jpg",
     "alt": "Chincoteague Hall",
     "majors": [
       {
@@ -793,7 +793,7 @@
     "name": "Robert H. Smith School of Business",
     "url": "https://www.rhsmith.umd.edu/",
     "desc": "At the Robert H. Smith School of Business, we'll prepare you to succeed in a competitive global economy. Ranked among the nation's top 20 undergraduate business schools, it's home to outstanding faculty with real-world experience, cutting-edge research and lots of connections.",
-    "image": "../images/colleges-schools/bmgt.jpg",
+    "image": "{{ROOT}}images/colleges-schools/bmgt.jpg",
     "alt": "Business School",
     "majors": [
       {
@@ -896,7 +896,7 @@
     "name": "College of Computer, Mathematical, & Natural Sciences",
     "url": "https://cmns.umd.edu/",
     "desc": "The thirst for new knowledge is at the heart of scientific endeavor and discovery. As we seek to understand our world across a host of complexly interconnected phenomena, our discoveries shape that world. At the forefront of many of these discoveries is the College of Computer, Mathematical, and Natural Sciences.",
-    "image": "../images/colleges-schools/cmns.jpg",
+    "image": "{{ROOT}}images/colleges-schools/cmns.jpg",
     "alt": "Computer Studies",
     "majors": [
       {
@@ -1135,7 +1135,7 @@
     "name": "College of Education",
     "url": "https://education.umd.edu/",
     "desc": "The College of Education prepares students to change lives. We train outstanding teachers, administrators, counselors and more, as well as conduct pioneering research. Our location outside of Washington, D.C., allows students to get teaching experience in diverse school systems and collaborate with leading education organizations. From observing at the Center for Young Children, a preschool on campus, to learning about human development and assessment, students are prepared to advance equity through education.",
-    "image": "../images/colleges-schools/educ.jpg",
+    "image": "{{ROOT}}images/colleges-schools/educ.jpg",
     "alt": "College of Education",
     "majors": [
       {
@@ -1260,7 +1260,7 @@
     "name": "A. James Clark School of Engineering",
     "url": "https://eng.umd.edu/",
     "desc": "The A. James Clark School of Engineering is consistently ranked among the world's top engineering schools. Its academic programs offer endless opportunities to explore, and our location near Washington, D.C., will give you access to federal research labs and major technology corporations to land internships and jobs.",
-    "image": "../images/colleges-schools/engr.jpg",
+    "image": "{{ROOT}}images/colleges-schools/engr.jpg",
     "alt": "A James Clark School of Engineering ENGR",
     "majors": [
       {
@@ -1422,7 +1422,7 @@
     "name": "College of Information",
     "url": "https://ischool.umd.edu/",
     "desc": "Building upon our strong foundation in library science and information studies, the College of Information (INFO) has grown into an education and research powerhouse in human-computer interaction, digital libraries, cloud computing , information access, e-government and social media. Our tight-knit learning community is driven by the pursuit of big ideas and new discoveries, to imagine how we can empower citizens, inspire communities, energize economies and sustain democracies.",
-    "image": "../images/colleges-schools/info.jpg",
+    "image": "{{ROOT}}images/colleges-schools/info.jpg",
     "alt": "Information Studies",
     "majors": [
       {
@@ -1475,7 +1475,7 @@
     "name": "Philip Merrill College of Journalism",
     "url": "https://merrill.umd.edu/",
     "desc": "The Philip Merrill College of Journalism will prepare you for an exciting and rapidly evolving field while grounding you in ethics and the fundamentals of reporting and writing. Our curriculum trains students to investigate, present information fairly and accurately and tell effective stories using the latest available visual and digital tools. Successful students are prepared for a variety of jobs in digital, television, radio and print newsrooms, and the communication skills learned in journalism classes are extremely valuable to most government offices and private organizations.",
-    "image": "../images/colleges-schools/jour.jpg",
+    "image": "{{ROOT}}images/colleges-schools/jour.jpg",
     "alt": "Students writing",
     "majors": [
       {
@@ -1493,7 +1493,7 @@
     "name": "Letters & Sciences",
     "url": "https://ltsc.umd.edu/",
     "desc": "Haven't picked a major? Waiting to transition to a Limited Enrollment Program? Don't worry, more than a third of the freshmen that come to UMD work with advisors in the Office of Letters and Sciences. Letters and Sciences is the advising home that helps you explore and transition to your intended major. Through academic advising and exploration activities, we empower you to pursue the major that's the best fit.",
-    "image": "../images/colleges-schools/ltsc.jpg",
+    "image": "{{ROOT}}images/colleges-schools/ltsc.jpg",
     "alt": "Hornbake Library",
     "majors": []
   },
@@ -1503,7 +1503,7 @@
     "name": "School of Public Health",
     "url": "https://sph.umd.edu/",
     "desc": "The School of Public Health takes on the most pressing public health issues facing our local communities, the nation and the world. Driven by a passion to break down the barriers that keep individuals, families, communities and populations from attaining optimum health and wellness, faculty and students are committed to finding new and better ways to promote health, prevent disease and prolong active, high-quality lives.",
-    "image": "../images/colleges-schools/sph.jpg",
+    "image": "{{ROOT}}images/colleges-schools/sph.jpg",
     "alt": "Person pouring water outside, testing",
     "majors": [
       {
@@ -1570,7 +1570,7 @@
     "name": "School of Public Policy",
     "url": "https://spp.umd.edu/",
     "desc": "Policy Terps understand how to make a positive difference in the most challenging problems facing our world today. Students are equipped with a sophisticated, in-depth understanding of domestic and international problems and possess the values and perspectives necessary to shape sustainable solutions. The School of Public Policy gives you the tools you need to translate your passion into real change.",
-    "image": "../images/colleges-schools/spp.jpg",
+    "image": "{{ROOT}}images/colleges-schools/spp.jpg",
     "alt": "Thurgood Marshall Hall",
     "majors": [
       {

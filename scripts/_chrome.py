@@ -17,6 +17,16 @@ output, running any of the three converges — no ordering dependency.
 Markup, CSS, and scripts are deliberately in ONE module. Splitting them is what
 caused the original bug: a page took the chrome markup from a sibling and its
 <head> from TEMPLATE.html, silently dropping the CSS companions.
+
+Depth
+    Pages live at more than one depth under pages/ (pages/admissions.html but
+    also pages/academics/programs.html), so the chrome cannot hard-code `../`.
+    Every path in shared/header.html and shared/footer.html is written
+    repo-root-relative behind a `{{ROOT}}` token, and `payload`/`block` expand
+    it to the right number of `../` for the page being written. Pass `depth` as
+    the number of directories between the repo root and the page's own
+    directory: 1 for pages/admissions.html, 2 for pages/academics/index.html.
+    `depth_of(path)` computes it from a page path.
 """
 import os
 
@@ -35,6 +45,19 @@ _REGIONS = {
 }
 
 
+ROOT_TOKEN = '{{ROOT}}'
+
+
+def depth_of(path):
+    """How many `../` a page at `path` needs to reach the repo root."""
+    rel = os.path.relpath(os.path.abspath(path), REPO)
+    return len(rel.replace(os.sep, '/').split('/')) - 1
+
+
+def _resolve(text, depth):
+    return text.replace(ROOT_TOKEN, '../' * depth)
+
+
 def _read(name):
     with open(os.path.join(SHARED, name), encoding='utf-8') as fh:
         return fh.read().rstrip('\n')
@@ -44,15 +67,15 @@ def source_file(key):
     return _REGIONS[key][0]
 
 
-def payload(key):
-    """The region's content, without markers."""
+def payload(key, depth=1):
+    """The region's content, without markers, with {{ROOT}} resolved for `depth`."""
     src, wrap = _REGIONS[key]
-    return wrap(_read(src))
+    return _resolve(wrap(_read(src)), depth)
 
 
-def block(key):
+def block(key, depth=1):
     """The region's content wrapped in its SHARED:<key> markers."""
-    return '\n'.join([_START % (key, source_file(key)), payload(key), _END % key])
+    return '\n'.join([_START % (key, source_file(key)), payload(key, depth), _END % key])
 
 
 def keys():

@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Engineering &amp; Technology — Undergraduate Admissions | University of Maryland</title>
+
+  <!-- ============================================================
+       UMD Critical CSS — Hybrid CDN + Local
+       MUST precede cdn.js. If cdn.js loads first, elements upgrade
+       before :defined rules exist and container-type never gets set.
+
+       Load order:
+         <link> CDN bundles → <style> local subset → <script> cdn.js
+
+       Browsers block on stylesheet fetches before parsing the script
+       tag, so all CSS — both upstream and local — applies before
+       custom elements upgrade.
+
+       SOURCE OF TRUTH: styles/critical.css
+       The inline <style> block is a verbatim copy of styles/critical.css.
+       When updating, edit styles/critical.css first, then copy here.
+       See REQUIRED-CSS.md for what each rule does and why.
+  ============================================================ -->
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/font-faces.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/tokens.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/base.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/typography.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/element.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/web-components.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/layout.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/animation.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/accessibility.min.css">
+  <style>
+    /* ============================================================
+       1. COMPONENT REGISTRATION GAP-FILLS
+       Re-add :defined rules for components missing from upstream
+       web-components.min.css. As those land upstream, drop these.
+       ============================================================ */
+
+    /* umd-element-utility-header — present on every page (band above the
+       nav header). Not in upstream bundle as of v1.8.11. */
+    umd-element-utility-header:not(:defined) { content-visibility: hidden; }
+    umd-element-utility-header { display: block; container-type: normal; }
+
+    /* umd-element-carousel* — RETIRED (web-styles-library@1.8.14): all six
+       variants (plus new umd-element-carousel-people) now ship in upstream
+       web-components.min.css with content-visibility: auto + min-height
+       placeholder sizing. Do NOT re-add — a local content-visibility: hidden
+       loads after the CDN link at equal specificity, overrides the upstream
+       placeholder, and reintroduces layout shift. */
+
+    /* umd-layout-image-expand — :not(:defined) hiding + placeholder sizing
+       landed upstream in v1.8.14. display:block and width:100% remain
+       project-specific (collapses without them; upstream sets neither). */
+    umd-layout-image-expand {
+      display: block;
+      container-type: inline-size;
+      width: 100%;
+    }
+
+    /* Project-specific spacing for breadcrumb (not a default in upstream). */
+    umd-element-breadcrumb:defined { margin-top: 16px; }
+
+
+    /* ============================================================
+       2. WATERMARK DECORATION
+       ============================================================ */
+    :is(.umd-text-decoration-watermark, .umd-watermark, .umd-watermark-dark) > * {
+      position: absolute;
+      top: 20px;
+      left: -2%;
+      color: #f1f1f1;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: min(calc(44px + 13vw), 240px);
+      line-height: 0;
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+    }
+    :is(.umd-text-decoration-watermark, .umd-watermark):not(.umd-watermark-dark) > * {
+      opacity: 0.6;
+      z-index: -1;
+    }
+    .umd-watermark-dark > * {
+      opacity: 0.12;
+      z-index: inherit;
+    }
+    @keyframes slide-in-from-left {
+      from { transform: translate(-15vw); }
+      to   { transform: translate(0); }
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      @supports (animation-timeline: scroll()) {
+        :is(.umd-text-decoration-watermark, .umd-watermark, .umd-watermark-dark) > * {
+          animation: slide-in-from-left forwards;
+          animation-timeline: view();
+          animation-range-start: 0;
+          animation-range-end: 100vh;
+          transform: translate(-15vw);
+        }
+      }
+    }
+
+
+    /* ============================================================
+       3. LAYOUT AUGMENTATIONS
+       Extra properties on upstream layout classes that layout.min.css
+       doesn't include. These cascade over the upstream rules.
+       ============================================================ */
+
+    /* Upstream sets max-width/padding correctly. These extra properties are
+       required for watermark positioning and the internal @container query
+       used by umd-element-section-intro-wide. */
+    .umd-layout-space-horizontal-larger {
+      position: relative;
+      container-type: inline-size;
+      isolation: isolate;
+    }
+
+    /* Upstream omits align-items and flex-shrink on the columns-left layout.
+       align-items: flex-start prevents variable-height sidebar from stretching;
+       flex-shrink: 0 keeps the fixed 242px sidebar width under constraint.
+       Breakpoint matches upstream desktop.min (1024px) after DSYS-3063 fix —
+       sidebar width/margin moved from tablet.min (768px) to desktop.min. */
+    @media (min-width: 1024px) {
+      .umd-layout-space-columns-left { align-items: flex-start; }
+      .umd-layout-space-columns-left > *:first-child { flex-shrink: 0; }
+    }
+
+
+    /* ============================================================
+       4. BACKGROUND-FULL-DARK BUG FIX
+       layout.min.css serializes the highDef breakpoint as
+       @media([object Object]) — ignored by browsers — because
+       background/full.ts:42 uses media.queries.highDef (the whole
+       object) instead of media.queries.highDef.min. This rule
+       cascades over the broken upstream with the correct breakpoint.
+       ============================================================ */
+    .umd-layout-background-full-dark {
+      background-color: #000000;
+      padding: 48px 0;
+    }
+    @media (min-width: 768px) {
+      .umd-layout-background-full-dark { padding: 80px 0; }
+    }
+    @media (min-width: 1200px) {
+      .umd-layout-background-full-dark { padding: 104px 0; }
+    }
+
+
+    /* ============================================================
+       5. MASONRY SECTION-INTRO COMPANION
+       The base .umd-layout-grid-masonry class is provided by layout.min.css (CDN).
+       This rule compensates for masonry's negative top margin when a section
+       intro immediately precedes it — layout.min.css does not include this fix.
+       ============================================================ */
+    @media (min-width: 768px) {
+      umd-element-section-intro + .umd-layout-grid-masonry,
+      umd-element-section-intro-wide + .umd-layout-grid-masonry { padding-top: 32px; }
+    }
+    @media (min-width: 1024px) {
+      umd-element-section-intro + .umd-layout-grid-masonry,
+      umd-element-section-intro-wide + .umd-layout-grid-masonry { padding-top: 40px; }
+    }
+
+
+    /* ============================================================
+       6. COLOR UTILITIES — not in upstream tokens or typography bundles
+       ============================================================ */
+    .text-black { color: #000; }
+    .text-white { color: #ffffff; }
+
+
+    /* ============================================================
+       7. RICH TEXT ADVANCED — editorial body copy
+       Light and dark variants. 18px/1.5em with link hover styles.
+
+       NOTE: element.min.css (linked in TEMPLATE.html) now ships
+       .umd-text-rich-advanced with the same base sizing and link
+       animation. This section is kept as an intentional DELTA:
+       upstream only colors list content #454545; we force it on
+       all descendants. Do not delete without visual verification.
+       ============================================================ */
+
+    /* Light variant */
+    .umd-text-rich-advanced {
+      font-size: 18px;
+      line-height: 1.5em;
+    }
+    .umd-text-rich-advanced * {
+      color: #454545;
+    }
+    .umd-text-rich-advanced > * {
+      font-size: 18px;
+      margin-top: 24px;
+    }
+    .umd-text-rich-advanced > *:first-child {
+      margin-top: 0;
+    }
+    .umd-text-rich-advanced a {
+      color: #000000;
+      background-image: linear-gradient(#000000, #000000);
+      position: relative;
+      background-position: left calc(100% - 1px);
+      background-repeat: no-repeat;
+      background-size: 100% 1px;
+      transition: color 0.5s, background-size 0.5s, background-image 0.5s, background-position 0.5s;
+    }
+    .umd-text-rich-advanced a:hover,
+    .umd-text-rich-advanced a:focus {
+      background-image: linear-gradient(#E21833, #E21833);
+    }
+
+    /* Dark variant */
+    .umd-text-rich-advanced-dark {
+      font-size: 18px;
+      line-height: 1.5em;
+    }
+    .umd-text-rich-advanced-dark p,
+    .umd-text-rich-advanced-dark li { color: #ffffff; }
+    .umd-text-rich-advanced-dark a {
+      color: #ffffff;
+      background-image: linear-gradient(#ffffff, #ffffff);
+      position: relative;
+      background-position: left calc(100% - 1px);
+      background-repeat: no-repeat;
+      background-size: 100% 1px;
+      transition: color 0.5s, background-size 0.5s, background-image 0.5s, background-position 0.5s;
+    }
+    .umd-text-rich-advanced-dark a:hover,
+    .umd-text-rich-advanced-dark a:focus {
+      background-image: linear-gradient(#FFD200, #FFD200);
+    }
+
+
+    /* ============================================================
+       8. INTERIOR PAGE LAYOUT UTILITIES
+       ============================================================ */
+
+    /* Content column max-width (Tailwind utility) */
+    .max-w-\[800px\] { max-width: 800px; }
+
+
+    /* ============================================================
+       9. IMAGE-EXPAND CONTENT UTILITIES
+       Classes for div[slot="content"] inside umd-layout-image-expand.
+       ============================================================ */
+    .max-w-\[480px\] { max-width: 480px; }
+    .w-full          { width: 100%; }
+    .block           { display: block; }
+    .mr-auto         { margin-right: auto; }
+    .ml-auto         { margin-left: auto; }
+    .pl-md           { padding-left: 24px; }
+
+    :is(.umd-text-line-adjustent, .umd-adjacent-line-text) { position: relative; }
+    :is(.umd-text-line-adjustent, .umd-adjacent-line-text)::before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      width: 2px;
+      height: 100%;
+      background-color: #E21833;
+      left: -24px;
+    }
+
+    /* Body copy on dark/image backgrounds — white text, animated underline links */
+    .umd-text-rich-simple-large-dark {
+      font-size: 18px;
+      line-height: 1.5em;
+      color: #ffffff;
+    }
+    .umd-text-rich-simple-large-dark * { color: #ffffff; }
+    .umd-text-rich-simple-large-dark > * { font-size: 18px; margin-top: 24px; }
+    .umd-text-rich-simple-large-dark > *:first-child { margin-top: 0; }
+    .umd-text-rich-simple-large-dark a {
+      color: #ffffff;
+      background-image: linear-gradient(#ffffff, #ffffff);
+      position: relative;
+      background-position: left calc(100% - 1px);
+      background-repeat: no-repeat;
+      background-size: 100% 1px;
+      transition: color 0.5s, background-size 0.5s, background-image 0.5s, background-position 0.5s;
+    }
+    .umd-text-rich-simple-large-dark a:hover,
+    .umd-text-rich-simple-large-dark a:focus {
+      background-image: linear-gradient(#FFD200, #FFD200);
+    }
+
+
+    /* ============================================================
+       10. STICKY COLUMNS UTILITIES
+       Spacing tokens for slot content inside umd-element-sticky-columns.
+       ============================================================ */
+    .mb-md { margin-bottom: 24px; }
+    .mb-sm { margin-bottom: 16px; }
+
+
+    /* ============================================================
+       11. UTILITY NAVIGATION / SHELL-ITEM LINK STYLES
+       The shadow DOM ::slotted(*) only reaches div[slot="utility-navigation"],
+       NOT descendants — all link and separator styles must live here.
+
+       Canonical production pattern (matches umd.edu markup):
+       - Slot container: plain <div slot="utility-navigation">
+       - Each item: div.umd-shell-utility-item > div.umd-shell-utility-actions
+                    > a.umd-sans-smaller (or button for dropdowns)
+       - Dropdown: sibling div.umd-shell-utility-links[aria-hidden] panel
+
+       TWO LAYERS — keep them separate:
+       A. BASE (unscoped) — the reusable .umd-shell-utility-item pattern.
+          Used in the nav-header utility slot AND reused in pathway /
+          banner-promo / section-intro action slots (RULES.md §5). These
+          rules MUST stay unscoped or the reuse renders unstyled.
+       B. NAV-HEADER (scoped) — overrides the shadow ::slotted(*) gap:24px
+          and adds dropdown anchoring + panel. Only meaningful in the slot.
+       ============================================================ */
+
+    /* ---- A. BASE: reusable shell-item pattern (do NOT scope) ---- */
+    .umd-shell-utility-item .umd-shell-utility-actions {
+      align-items: center;
+      display: flex;
+      gap: 4px;
+    }
+    .umd-shell-utility-item:not(:last-child) .umd-shell-utility-actions {
+      border-right: 1px solid #E6E6E6;
+      margin-right: 16px;
+      padding-right: 16px;
+    }
+    .umd-shell-utility-item a {
+      color: #242424;
+      text-decoration: none;
+    }
+    .umd-shell-utility-item a:hover,
+    .umd-shell-utility-item a:focus {
+      color: #E21833;
+    }
+
+    /* ---- B. NAV-HEADER: scoped to the utility-navigation slot ---- */
+    /* Override the shadow ::slotted(*) gap:24px (the wrapper margins above
+       handle item spacing in the shell pattern).
+
+       GATED ON :has(.umd-shell-utility-item) — this reset is ONLY correct for
+       the shell pattern, where each item supplies its own 16+1+16px
+       margin/border separator. A slot holding plain <a> children has no such
+       margins, so an unconditional `gap: 0` collapsed them into a single
+       run-on string of links. The shadow's own gap:24px is the right default
+       there, so leave it alone. Projects using flat links then need no spacing
+       override at all — only link colour/decoration, which the BASE layer
+       above does not cover for bare <a>. */
+    umd-element-navigation-header div[slot="utility-navigation"]:has(.umd-shell-utility-item) {
+      gap: 0;
+    }
+    umd-element-navigation-header div[slot="utility-navigation"] .umd-shell-utility-item {
+      position: relative;
+      z-index: 99999;
+    }
+    umd-element-navigation-header div[slot="utility-navigation"] .umd-shell-utility-item button {
+      color: #242424;
+      text-decoration: none;
+    }
+    /* Dropdown panel (shown via JS toggling aria-hidden — see LAYOUT-PATTERNS.md) */
+    umd-element-navigation-header div[slot="utility-navigation"] .umd-shell-utility-item .umd-shell-utility-links {
+      display: none;
+    }
+    umd-element-navigation-header div[slot="utility-navigation"] .umd-shell-utility-item .umd-shell-utility-links > * {
+      color: #242424;
+      display: block;
+      padding: 12px;
+      text-align: right;
+      text-decoration: none;
+    }
+    umd-element-navigation-header div[slot="utility-navigation"] .umd-shell-utility-item .umd-shell-utility-links a:hover,
+    umd-element-navigation-header div[slot="utility-navigation"] .umd-shell-utility-item .umd-shell-utility-links a:focus {
+      color: #a90007;
+    }
+    umd-element-navigation-header div[slot="utility-navigation"] .umd-shell-utility-item .umd-shell-utility-links[aria-hidden="false"] {
+      align-items: flex-end;
+      background-color: #fafafa;
+      box-shadow: -1px 9px 32px -10px rgba(0, 0, 0, .19);
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      right: 0;
+      top: 16px;
+      width: 200px;
+      max-width: 80vw;
+    }
+
+
+    /* ============================================================
+       12. BANNER-PROMO STACKED ACTIONS — light-DOM column flex.
+       Pairs with the shadow-DOM injection in OVERRIDES.md so the 8px
+       gap is visible regardless of where children render.
+       ============================================================ */
+    .banner-promo-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+
+    /* ============================================================
+       13. SECTION DIVIDER — standalone <hr> utility.
+       ============================================================ */
+    .umd-text-divider {
+      border: none;
+      border-top: 1px solid #000000;
+      margin: 0 0 24px 0;
+    }
+    .umd-text-divider.dark {
+      border-top-color: #ffffff;
+    }
+
+
+    /* ============================================================
+       14. TRAILING-LINE LABEL — section eyebrow with horizontal line
+       Source: @universityofmaryland/web-styles-library: element.text.line.trailing
+
+       NOTE: element.min.css (linked in TEMPLATE.html) now ships
+       .umd-text-line-trailing / -light / -dark. This section is kept
+       as an intentional DELTA: we add font-weight: 700 (upstream
+       omits it) and use #000 for the dark background (upstream uses
+       #242424). Do not delete without visual verification.
+       ============================================================ */
+    .umd-text-line-trailing,
+    .umd-text-line-trailing-dark {
+      font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      line-height: 1.42em;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+      background-color: #ffffff;
+    }
+    .umd-text-line-trailing::before,
+    .umd-text-line-trailing-dark::before {
+      content: "";
+      position: absolute;
+      top: 9px;
+      right: 0;
+      width: 100vw;
+      height: 1px;
+      background: #000000;
+      z-index: 1;
+    }
+    .umd-text-line-trailing > span,
+    .umd-text-line-trailing-dark > span {
+      position: relative;
+      background-color: inherit;
+      padding-right: 8px;
+      z-index: 2;
+    }
+    .umd-text-line-trailing + *,
+    .umd-text-line-trailing-dark + * {
+      margin-top: 40px;
+    }
+    .umd-text-line-trailing-dark {
+      background-color: #000000;
+      color: #ffffff;
+    }
+    .umd-text-line-trailing-dark::before {
+      background: #ffffff;
+    }
+
+
+    /* ============================================================
+       15. NOTE — GRID CLASSES FROM LAYOUT.MIN.CSS (CDN)
+       All standard grid classes are provided by layout.min.css loaded
+       from CDN in the <head>. Do NOT add them here — that duplicates CSS.
+
+       Available from CDN (layout.min.css):
+         umd-layout-grid-columns-two/three/four  — no-gap at tablet+
+         umd-layout-grid-gap-stacked/two/three/four  — 32px gap at all bp
+         umd-layout-grid-gap-two  — widens to 40px at 1024px
+         umd-layout-grid-child-fill-height  — height:100% on item + child
+         umd-layout-grid-child-size-double  — grid-column: span 2 at 650px+
+           (feature 2+1+1 card grids — see LAYOUT-PATTERNS.md)
+         umd-layout-grid-inline-tablet-rows  — flex CTA row at 650px+
+         umd-layout-grid-masonry  — 2-col staggered (base CSS)
+         umd-layout-grid-offset-three  — 3-col staircase offset
+         umd-layout-grid-border-two/three/four  — bordered cell grids
+
+       Typography classes (umd-sans-*, incl. umd-sans-largest-uppercase
+       used by the sticky text+stats pattern) likewise ship from the CDN
+       typography.min.css — check that bundle before flagging one missing.
+
+       Only add grid-related CSS here when it is genuinely absent from
+       layout.min.css (e.g. shellcraft-only classes like umd-animation-grid
+       and umd-shell-person-grid-helper padding).
+       ============================================================ */
+
+
+    /* ============================================================
+       16. RETIRED — OVERLAY CARD .size-large MIN-HEIGHT
+       Now shipped verbatim by web-components.min.css (linked in
+       TEMPLATE.html): umd-element-card-overlay.size-large
+       {min-height: 320px; 560px @768px}. Section number reserved —
+       do NOT renumber later sections when retiring a rule.
+       ============================================================ */
+
+
+    /* ============================================================
+       17. TUITION & AID 2-COLUMN GRID
+       Asymmetric content split: 1.5fr / 1fr at 1024px+.
+       ============================================================ */
+    .umd-layout-grid-tuition-two {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    @media (min-width: 1024px) {
+      .umd-layout-grid-tuition-two {
+        grid-template-columns: 1.5fr 1fr;
+        gap: 80px;
+      }
+    }
+
+
+    /* ============================================================
+       18. FULL-WIDTH OUTLINE BUTTON — light-DOM utility class
+       Visually mirrors umd-element-call-to-action data-display="outline"
+       but stretches to fill its grid cell. Use when the DS web component's
+       shadow-DOM max-width:380px would fight against your layout.
+       ============================================================ */
+    .umd-action-outline-block {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px 24px;
+      font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.28em;
+      text-align: center;
+      text-decoration: none;
+      background-color: #ffffff;
+      border: 1px solid #242424;
+      color: #000000;
+      transition: background 0.5s ease-in-out, border 0.5s ease-in-out, color 0.5s ease-in-out;
+    }
+    .umd-action-outline-block:hover,
+    .umd-action-outline-block:focus {
+      background-color: #242424;
+      color: #ffffff;
+    }
+    .umd-action-outline-block.dark {
+      background-color: transparent;
+      border: 1px solid #ffffff;
+      color: #ffffff;
+    }
+    .umd-action-outline-block.dark:hover,
+    .umd-action-outline-block.dark:focus {
+      background-color: #ffffff;
+      color: #000000;
+    }
+
+
+    /* ============================================================
+       19. BORDER GRID — person-grid-helper container query + padding
+       Source: umd.edu shellcraft (umdApp-release-116.css)
+       Verified from: https://umd.edu/about/university-presidents
+
+       The base umd-layout-grid-border-two/three/four grid CSS is
+       provided by layout.min.css (CDN). Only the container query
+       setup and the umd-shell-person-grid-helper responsive padding
+       are absent from layout.min.css — those come from shellcraft.
+
+       Usage: add class="umd-shell-person-grid-helper" to every
+       umd-element-person host inside a border grid.
+       ============================================================ */
+
+    /* Establishes named container for padding queries */
+    [class*="umd-layout-grid-border-two"],
+    [class*="umd-layout-grid-border-three"],
+    [class*="umd-layout-grid-border-four"] {
+      container: umd-shell-person-grid-helper / inline-size;
+    }
+
+    /* Responsive cell padding (24px → 32px → 48px) */
+    [class*="umd-layout-grid-border-two"] .umd-shell-person-grid-helper,
+    [class*="umd-layout-grid-border-three"] .umd-shell-person-grid-helper,
+    [class*="umd-layout-grid-border-four"] .umd-shell-person-grid-helper {
+      padding: 24px;
+      transition: padding 0.5s ease-in-out;
+    }
+    @container umd-shell-person-grid-helper (min-width: 650px) {
+      [class*="umd-layout-grid-border-two"] .umd-shell-person-grid-helper,
+      [class*="umd-layout-grid-border-three"] .umd-shell-person-grid-helper,
+      [class*="umd-layout-grid-border-four"] .umd-shell-person-grid-helper {
+        padding: 32px;
+      }
+    }
+    @container umd-shell-person-grid-helper (min-width: 1024px) {
+      [class*="umd-layout-grid-border-two"] .umd-shell-person-grid-helper,
+      [class*="umd-layout-grid-border-three"] .umd-shell-person-grid-helper,
+      [class*="umd-layout-grid-border-four"] .umd-shell-person-grid-helper {
+        padding: 48px;
+      }
+    }
+
+
+    /* ============================================================
+       20. RETIRED — ANIMATION GRID INITIAL STATE
+       As of animation.min.css v1.8.14, upstream guards the
+       .umd-animation-grid > * initial state (opacity: 0 +
+       translateY(50px)) AND the .umd-animation-transition-fade-bottom
+       reveal animation behind @media (prefers-reduced-motion:
+       no-preference), so reduced-motion users never get hidden
+       content — the local duplicate and its reduce-block cancellation
+       are no longer needed. The class still works: keep using
+       .umd-animation-grid on grid wrappers with scripts/
+       grid-animations.js. Section number reserved — do NOT renumber.
+       ============================================================ */
+
+
+    /* ============================================================
+       21. SLIDER OVERFLOW CONTAINMENT
+       umd-element-slider-events (and other carousel/slider components)
+       expand beyond the viewport during transitions, causing horizontal
+       scroll at the document level. overflow: hidden on the section
+       alone is not sufficient.
+
+       clip (not hidden) is intentional: overflow-x: hidden promotes
+       the element to a scroll container, which breaks scroll-driven
+       animations (animation-timeline: scroll()) and shifts
+       IntersectionObserver offsets. overflow-x: clip suppresses
+       the scroll bar without creating a scroll container.
+       ============================================================ */
+    body { overflow-x: clip; }
+
+
+    /* ============================================================
+       22. DARK → LIGHT SECTION TRANSITION GAP
+       When a full-bleed dark section (.umd-layout-background-full-dark)
+       is immediately followed by a default/light section, inject 120px
+       of white breathing room between them.
+
+       Conditional: dark-after-dark gets no extra gap — the adjacent
+       sibling selector only fires when the following section lacks the
+       dark class. Add overflow: hidden to the dark section if its
+       content bleeds into this gap.
+       ============================================================ */
+    .umd-layout-background-full-dark + section:not(.umd-layout-background-full-dark) {
+      margin-top: 120px;
+    }
+
+
+    /* ============================================================
+       23. FILTER BAND COMPANIONS — page-built pieces of the
+       filterable-listing pattern (see LAYOUT-PATTERNS.md "Filter
+       Band"). The band itself uses upstream classes
+       (umd-layout-background-highlight-light, umd-text-line-trailing-
+       light, umd-field-select-wrapper, umd-animation-line-slide-*,
+       sr-only — element/animation/accessibility bundles). Only the
+       search row, results count, and divider list below are absent
+       upstream. Behavior comes from scripts/filter-band.js.
+       ============================================================ */
+    .umd-filter-search-row {
+      display: flex;
+      align-items: stretch;
+    }
+    .umd-filter-search-row input[type="text"] {
+      flex: 1;
+      padding: 12px 16px;
+      font-family: Interstate, Helvetica, Arial, Verdana, sans-serif;
+      font-size: 16px;
+      line-height: 1.375em;
+      border: 1px solid #c0c0c0;
+      border-right: none;
+      color: #242424;
+      background: #fff;
+      min-width: 0;
+    }
+    .umd-filter-search-row input[type="text"]:focus {
+      outline: 2px solid #E21833;
+      outline-offset: 0;
+    }
+    .umd-filter-search-btn {
+      background-color: #E21833;
+      border: none;
+      cursor: pointer;
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s;
+    }
+    .umd-filter-search-btn:hover,
+    .umd-filter-search-btn:focus {
+      background-color: #a90007;
+      outline: none;
+    }
+    .umd-filter-search-btn svg {
+      fill: #fff;
+      width: 20px;
+      height: 20px;
+    }
+    .umd-filter-results-count {
+      font-family: Interstate, Helvetica, Arial, Verdana, sans-serif;
+      font-size: 14px;
+      color: #454545;
+      margin: 24px 0 0;
+    }
+
+    /* Divider list — zero-gap stack with rules between visible items */
+    .umd-filter-list {
+      gap: 0 !important;
+      margin-top: 56px;
+    }
+    .umd-filter-list > .umd-filter-item {
+      padding-bottom: 24px;
+      border-bottom: 1px solid #d0d0d0;
+    }
+    .umd-filter-list > .umd-filter-item + .umd-filter-item {
+      padding-top: 24px;
+    }
+    .umd-filter-list > .umd-filter-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .umd-filter-list > .umd-filter-item[hidden] + .umd-filter-item {
+      padding-top: 0;
+    }
+    .umd-filter-item[hidden] { display: none !important; }
+
+    /* ============================================================
+       25. INTEREST PAGE — majors grid + careers list
+       Two page-specific needs on top of the DS components:
+       a 4-up grid for the (text-only) major cards, and a two-column
+       list for the careers bullets inside the pathway text slot.
+       ============================================================ */
+
+    /* --- majors list ------------------------------------------
+       NO page CSS for the majors. They are the DS card-list pattern exactly as
+       RULES.md §33 documents it: a plain stack of
+       umd-element-card[data-display="list"] inside a
+       umd-layout-space-horizontal-small (992px) lock. The separator between
+       cards is the DS's own adjacent-sibling rule in web-components.min.css:
+
+         umd-element-card[data-display="list"] + umd-element-card[data-display="list"]
+           { margin-top: 24px; padding-top: 24px; border-top: 1px solid #E6E6E6 }
+
+       That rule is why this must NOT go in a border grid. An earlier revision
+       put these cards in umd-layout-grid-border-two with
+       umd-shell-person-grid-helper, and the two separator systems fought:
+       the sibling rule overrode the helper's 48px padding-top back to 24px on
+       every card but the first, and its 24px margin-top opened bands that the
+       cells' own borders do not paint -- while the border grid's continuous
+       left border ran straight through them. Net effect was misaligned first
+       row, uneven top padding, and rules on the left that stopped on the right.
+       Stacked in one column, the same rule is exactly the list separator this
+       section wants.
+
+       Also note data-visual-bordered has NO effect on data-display="list" --
+       measured, zero bordered nodes in that variant's shadow tree.
+
+       The careers list is likewise unstyled: it is the plain rich-text <ul>
+       the source page uses, single-column, bullets from the DS. */
+  </style>
+
+  <script src="https://unpkg.com/@universityofmaryland/web-components-library@1.18.12/dist/cdn.js"></script>
+  <!-- SHARED:chrome-css:START — generated from shared/chrome.css; do not edit here -->
+  <style>
+/* ============================================================
+   SHARED CHROME — CSS companions
+   Inlined into every page by scripts/build-chrome.py.
+   Edit here, not in pages/*.html.
+
+   These rules are NOT in page-builder/TEMPLATE.html. They pair with the
+   markup in shared/header.html and shared/footer.html, and a page that
+   carries the chrome markup without them renders SILENTLY wrong — no
+   console error, no broken layout, just unstyled.
+
+   This block must be emitted AFTER the inlined critical.css so it wins at
+   equal specificity.
+   ============================================================ */
+
+/* ---- Utility navigation: flat-link pattern ----
+   This project's chrome puts plain <a> children in the utility slot
+   (Visit UMD / Connect) rather than the DS .umd-shell-utility-item
+   pattern. critical.css §11's BASE layer styles
+   `.umd-shell-utility-item a`, which never matches a bare <a>, so
+   without these rules the projected links render browser-default blue
+   and underlined.
+
+   The display/justify/gap rule is belt-and-braces: since the upstream
+   fix (design-system-page-builder be3ea6c) gated §11's `gap: 0` on
+   :has(.umd-shell-utility-item), the component's own shadow
+   ::slotted(*) already supplies flex + 24px here. Stating it explicitly
+   keeps the intended layout readable and survives a shadow change. */
+umd-element-navigation-header div[slot="utility-navigation"] {
+  display: flex;
+  justify-content: flex-end;
+  gap: 24px;
+}
+umd-element-navigation-header div[slot="utility-navigation"] a {
+  font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #242424;
+  text-decoration: none;
+  line-height: 1.25;
+  transition: color 0.3s ease-in-out;
+}
+umd-element-navigation-header div[slot="utility-navigation"] a:hover,
+umd-element-navigation-header div[slot="utility-navigation"] a:focus {
+  color: #E21833;
+  text-decoration: underline;
+}
+
+/* ---- Scroll-to-top pin ----
+   Opt-in per page (only the long directory pages use the element), but
+   the pin lives here so it is styled consistently wherever it appears.
+   Harmless on pages with no umd-element-scroll-top.
+   DS default for [data-layout-fixed] is right:40px; bottom:10vh. */
+umd-element-scroll-top[data-layout-fixed="true"] {
+  right: 24px;
+  bottom: 24px;
+}
+  </style>
+  <!-- SHARED:chrome-css:END -->
+</head>
+<body>
+
+  <!-- SHARED:header:START — generated from shared/header.html; do not edit here -->
+  <umd-element-navigation-utility data-alert-off="true" role="navigation" aria-label="Utility navigation"></umd-element-navigation-utility>
+  <umd-element-utility-header></umd-element-utility-header>
+
+  <umd-element-navigation-header
+    sticky
+    class="umd-layout-space-horizontal-full"
+    search-url="https://admissions.umd.edu/search"
+    cta-url="https://admissions.umd.edu/apply-now"
+    cta-text="Apply Now">
+    <a slot="logo" href="../../pages/admissions.html">
+      <img src="../../images/logos/admissions-logo.svg" alt="University of Maryland Admissions"
+           onerror="this.onerror=null;this.src='../../images/logos/primary-logo-dark.svg';" />
+    </a>
+    <div slot="utility-navigation">
+      <a href="https://admissions.umd.edu/visit">Visit UMD</a>
+      <a href="https://admissions.umd.edu/connect">Connect</a>
+    </div>
+    <nav slot="main-navigation">
+      <umd-element-nav-item>
+        <a slot="primary-link" href="../../pages/academics/">Academics</a>
+        <div slot="dropdown-links">
+          <a href="../../pages/academics/programs.html">All Programs</a>
+          <a href="../../pages/academics/colleges-schools.html">Colleges &amp; Schools</a>
+          <a href="https://admissions.umd.edu/programs/interest">Programs by Interest</a>
+          <a href="https://admissions.umd.edu/academics/limited-enrollment-programs">Limited Enrollment Programs</a>
+          <a href="https://ugst.umd.edu/llsop/index.html">Living-Learning &amp; Special Programs</a>
+        </div>
+      </umd-element-nav-item>
+      <umd-element-nav-item>
+        <a slot="primary-link" href="../../pages/student-life/">Student Life</a>
+        <div slot="dropdown-links">
+          <a href="https://admissions.umd.edu/student/housing-and-dining">Housing &amp; Dining</a>
+          <a href="https://admissions.umd.edu/student/student-support">Student Support &amp; Safety</a>
+          <a href="https://admissions.umd.edu/student/get-involved">Get Involved on Campus</a>
+          <a href="https://admissions.umd.edu/student/find-community">Find Your Community</a>
+        </div>
+      </umd-element-nav-item>
+      <umd-element-nav-item>
+        <a slot="primary-link" href="../../pages/how-to-apply/">How To Apply</a>
+        <div slot="dropdown-links">
+          <a href="../../pages/how-to-apply/freshman-applicants.html">Freshman Applicants</a>
+          <a href="https://admissions.umd.edu/apply/transfer-applicants">Transfer Applicants</a>
+          <a href="https://admissions.umd.edu/apply/international-applicants">International Applicants</a>
+          <a href="https://admissions.umd.edu/apply/shady-grove-applicants">Shady Grove Applicants</a>
+          <a href="https://admissions.umd.edu/apply/application-deadlines">Application Deadlines</a>
+          <a href="https://admissions.umd.edu/apply/admission-review-process-factors">Admission Review Process &amp; Factors</a>
+          <a href="https://admissions.umd.edu/apply/application-faqs">Application FAQs</a>
+        </div>
+      </umd-element-nav-item>
+      <umd-element-nav-item>
+        <a slot="primary-link" href="../../pages/tuition/">Tuition &amp; Aid</a>
+        <div slot="dropdown-links">
+          <a href="https://admissions.umd.edu/tuition/cost-of-attendance">Cost of Attendance</a>
+          <a href="https://admissions.umd.edu/tuition/freshman-merit-scholarships">Freshman Merit Scholarships</a>
+          <a href="https://admissions.umd.edu/tuition/transfer-merit-scholarships">Transfer Merit Scholarships</a>
+          <a href="https://financialaid.umd.edu/">Office of Student Financial Aid</a>
+        </div>
+      </umd-element-nav-item>
+    </nav>
+  </umd-element-navigation-header>
+  <!-- SHARED:header:END -->
+
+  <!-- 3. HERO — small background, left-aligned text -->
+  <section class="umd-layout-vertical-landing">
+    <umd-element-hero data-layout-height="small">
+      <img slot="image" src="../../images/interest/hero-kim-building.jpg" alt="The entrance to the Jeong H. Kim Engineering Building" />
+      <h1 slot="headline">Engineering &amp; Technology</h1>
+      <div slot="text"><p>Turn your passion for creating systems and structures through science and technology into a career.</p></div>
+      <div slot="actions">
+        <umd-element-call-to-action data-display="primary">
+          <a href="programs.html">Explore All Programs</a>
+        </umd-element-call-to-action>
+      </div>
+    </umd-element-hero>
+  </section>
+
+  <!-- 4. INTRO — the interior-page lockup used on how-to-apply.html and
+       colleges-schools.html: narrow -small lock, rule, uppercase lead,
+       rich-text body. Deliberately NOT a pathway. -->
+  <section class="umd-layout-vertical-landing">
+    <div class="umd-layout-space-horizontal-small">
+      <hr style="border:none;border-top:1px solid #000000;margin:0 0 24px 0;" />
+      <p class="umd-sans-large mb-md text-black" style="text-transform:uppercase;">Find the YOU in UMD!</p>
+      <div class="umd-text-rich-advanced">
+        <p>Students interested in Engineering and Technology programs will learn how to innovate the digital and physical world through science and technology.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. RELATED MAJORS — pathway carries the headline + copy, the DS card-list
+       stack follows it inside the same section (RULES §33: standalone card list
+       takes the umd-layout-space-horizontal-small 992px lock).
+       34 programs tagged "Engineering & Technology".
+
+       The pathway wrapper takes umd-layout-vertical-landing (120px desktop),
+       NOT -child (48px): the pathway and the grid are two components stacked
+       in one section, not a section-intro and the content it introduces. The
+       -child gap belongs on a section intro -- see the colleges section below,
+       where it is what produces the required 48px. -->
+  <section class="umd-layout-vertical-landing">
+    <div class="umd-layout-vertical-landing">
+      <umd-element-pathway data-layout-image-position="right">
+        <img slot="image" src="../../images/interest/wind-tunnel.jpg" alt="Students working in the Glenn L. Martin wind tunnel" />
+        <h2 slot="headline">Related Majors</h2>
+        <div slot="text">
+          <p>Students will learn how to make innovative scientific and technological contributions to an evolving world through research and experimentation to design, build and use an array of different systems, machines and structures.</p>
+        </div>
+      </umd-element-pathway>
+    </div>
+    <div class="umd-layout-space-horizontal-small">
+      <div class="interest-majors-grid">
+
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Minor</p>
+          <h3 slot="headline"><a href="https://aces.umd.edu/minor" target="_blank" rel="noopener">Advanced Cybersecurity Experience for Students</a></h3>
+          <p slot="text" class="interest-major-desc">ACES is housed in the Honors College but is open to all undergraduate students in all majors. This minor takes a multidisciplinary approach to cybersecurity education in that students gain knowledge about many of the fields that intersect in cybersecurity. With an emphasis on hands-on experiences, students will gain practical skills through coursework, seminars, group projects, internships, and research, both on and off campus.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Major / Limited Enrollment Program</p>
+          <h3 slot="headline"><a href="https://aero.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Aerospace Engineering</a></h3>
+          <p slot="text" class="interest-major-desc">Understanding flight, exploring space and designing components, vehicles and systems are the abiding interests of the faculty and students at the Clark School&#x27;s Department of Aerospace Engineering. Specializations include aeronautics, astronautics, rotorcraft and hypersonics.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Major / Minor</p>
+          <h3 slot="headline"><a href="https://agnr.umd.edu/academics/programs-study/agricultural-science-technology" target="_blank" rel="noopener">Agricultural Science &amp; Technology</a></h3>
+          <p slot="text" class="interest-major-desc">Agricultural Science and Technology offers 3 distinct specializations in Agricultural &amp; Extension Education, Agronomy, and Environmental Horticulture. Specific areas of study include crop science, sustainable production, precision agriculture, agriculture education, greenhouses and nurseries, urban agriculture, viticulture, and much more. Graduates enter a wide range of fields including K-12 teacher, specialty crop and greenhouse production, food safety, and Extension educator.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Major</p>
+          <h3 slot="headline"><a href="https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/computer-science/artificial-intelligence-computational-structures-ai-systems-major/" target="_blank" rel="noopener">Artificial Intelligence: Computational Structures for AI Systems</a></h3>
+          <p slot="text" class="interest-major-desc">The Bachelor of Science in Artificial Intelligence: Computational Structures for AI Systems (BSAI) is a highly technical program that trains students to build new AI systems and algorithms from the ground up, understand the training of models from both a data and systems perspective, and then use those techniques in interdisciplinary applications. The first two years of the program develop a strong technical foundation in programming and understanding the theory of statistical learning, symbolic reasoning, and optimization. The following two years focus on deploying those techniques in interdisciplinary applications enabling students to build state-of-the-art AI systems and also think critically about the effective, ethical application of AI. The BSAI will offer specializations in: Generative AI; AI Algorithms; Accessibility; and AI, Society, and Decision Making.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Major</p>
+          <h3 slot="headline"><a href="https://biocomp.umd.edu/" target="_blank" rel="noopener">Biocomputational Engineering</a></h3>
+          <p slot="text" class="interest-major-desc">In the Biocomputational Engineering program, students will develop skills in computation and data science that can be applied to the modeling of complex biological systems and the analysis of complex biological data sets. Even more, students will have the opportunity to impact human health by applying skills in computer modeling, bioinformatics, analysis of large and complex data sets, and other important computational skills.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Major / Limited Enrollment Program</p>
+          <h3 slot="headline"><a href="https://bioe.umd.edu/undergraduate/bachelor-science" target="_blank" rel="noopener">Bioengineering</a></h3>
+          <p slot="text" class="interest-major-desc">The undergraduate program in Bioengineering is founded in biology, driven by human health issues, and is forward-thinking. Our objective is to marry the principles and applications embedded in engineering with the sciences of biology, medicine, and health.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Major / Limited Enrollment Program</p>
+          <h3 slot="headline"><a href="https://chbe.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Chemical Engineering</a></h3>
+          <p slot="text" class="interest-major-desc">The Department of Chemical and Biomolecular Engineering offers a Bachelor of Science in Chemical Engineering, which combines chemical, physical and life sciences with engineering to solve a wide variety of problems. The graduate in this major finds interesting and diverse career opportunities in such fields as petroleum, pharmaceuticals, polymers and biotechnologies.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Major / Limited Enrollment Program</p>
+          <h3 slot="headline"><a href="https://cee.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Civil Engineering</a></h3>
+          <p slot="text" class="interest-major-desc">The Department of Civil and Environmental Engineering offers a Bachelor of Science in Civil Engineering, which is a very diverse field, concerned with such things as planning, design, construction and operation of large systems such as buildings and bridges; water purification and distribution systems; traffic and transportation systems; and water and land pollution treatment.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Major / Minor / Limited Enrollment Program</p>
+          <h3 slot="headline"><a href="https://ece.umd.edu/undergraduate/degrees" target="_blank" rel="noopener">Computer Engineering</a></h3>
+          <p slot="text" class="interest-major-desc">Computer engineers apply the principles and techniques of electrical engineering, computer science, and mathematical analysis to the design, development, testing, and evaluation of the software and hardware systems that enable computers to perform increasingly demanding functions. Computer engineers design robots, develop microprocessors, design supercomputers and smart devices, create integrated circuits for semiconductor fabrication, program computer-vision capabilities, create security/cryptographic systems, and develop software systems and network protocols.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Major / Minor / Limited Enrollment Program</p>
+          <h3 slot="headline"><a href="https://undergrad.cs.umd.edu/future" target="_blank" rel="noopener">Computer Science</a></h3>
+          <p slot="text" class="interest-major-desc">Computer science is the study of computers and computational systems: their application, design, development and theory. A computer scientist is concerned with problem solving. Problems range from abstract questions of what problems can be solved with computers to practical matters such as the design of computer systems that are efficient, secure, and easy for people to use.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Minor</p>
+          <h3 slot="headline"><a href="https://pm.umd.edu/program/cpm-minor/" target="_blank" rel="noopener">Construction Project Management</a></h3>
+          <p slot="text" class="interest-major-desc">Undergraduate students wishing to pursue a career in the design or construction of capital projects will have a distinct competitive advantage if they have a working knowledge of the fundamentals of managing construction. The minor, along with completion of your full degree program, will provide you a distinct competitive advantage over other potential job candidates. When completed with the minor, students should have a good understanding of construction project management concepts, tools, and techniques and be able to be productive on project teams in their first employment after graduation. The minor also aligns students with career paths leading to increased management responsibility.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Major / Limited Enrollment Program</p>
+          <h3 slot="headline"><a href="https://shadygrove.ece.umd.edu/" target="_blank" rel="noopener">Cyber-Physical Systems Engineering</a></h3>
+          <p slot="text" class="interest-major-desc">The overarching goal of the Cyber-Physical Systems Engineering program is to train the workforce in the areas of software, hardware, and applications involving widely deployed smart devices and their interactions with resources in the cloud.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Minor</p>
+          <h3 slot="headline"><a href="https://www.geol.umd.edu/undergraduate/Geology_Minors.php" target="_blank" rel="noopener">Earth Material Properties</a></h3>
+          <p slot="text" class="interest-major-desc">The undergraduate minor in Earth Material Properties recognizes concentrated study in this designated field in the College of Computer, Mathematical, and Natural Sciences. The award of a minor will be noted on the student&#x27;s transcript at the time of graduation.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Major / Limited Enrollment Program</p>
+          <h3 slot="headline"><a href="https://ece.umd.edu/undergraduate/degrees/bs-electrical-engineering" target="_blank" rel="noopener">Electrical Engineering</a></h3>
+          <p slot="text" class="interest-major-desc">Electrical engineers create innovative technology solutions in a wide range of areas from handheld communications to solar panels; from cardiac pacemakers to autonomous robots; from wireless networks to bio-engineered sensors that detect dangerous pathogens; and intelligent surveillance systems that perform face and motion recognition.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Major</p>
+          <h3 slot="headline"><a href="https://agnr.umd.edu/academics/programs-study/environmental-science-technology" target="_blank" rel="noopener">Environmental Science &amp; Technology</a></h3>
+          <p slot="text" class="interest-major-desc">Environmental Science and Technology educates and prepares students to work in natural resources management, ecological technology design, soil and watershed science, or ecosystem health. Government agencies, environmental consulting firms, &quot;green&quot;/renewable energy industries, and non-governmental organizations are all potential career paths allowing students to solve grand challenges and contribute to a sustainable future.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Major / Limited Enrollment Program</p>
+          <h3 slot="headline"><a href="https://fpe.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Fire Protection Engineering</a></h3>
+          <p slot="text" class="interest-major-desc">Fire Protection Engineering provides graduates with the tools needed to safeguard lives and property from fire. Undergraduate students receive a unique education (see sidebar) that focuses on topics such as fire-related safety, suppression systems, and health and environmental issues.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Minor</p>
+          <h3 slot="headline"><a href="https://geog.umd.edu/undergraduate/gis-minor" target="_blank" rel="noopener">Geographic Information Science</a></h3>
+          <p slot="text" class="interest-major-desc">The GIS minor is designed to give students the technical skills needed to acquire, manage and analyze geographic data. Geographic information science and remote sensing have evolved dramatically in the past few decades. Students in the minor will receive extensive training in digital processing of remote sensing observations and cartographic vector data, spatial analysis, and the display of information products.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Minor</p>
+          <h3 slot="headline"><a href="https://www.geol.umd.edu/undergraduate/Geology_Minors.php" target="_blank" rel="noopener">Geophysics</a></h3>
+          <p slot="text" class="interest-major-desc">The undergraduate minor in Geophysics recognizes concentrated study in this designated field in the College of Computer, Mathematical, and Natural Sciences. The award of a minor will be noted on the student&#x27;s transcript at the time of graduation.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Minor</p>
+          <h3 slot="headline"><a href="https://eng.umd.edu/global/coursework" target="_blank" rel="noopener">Global Engineering Leadership</a></h3>
+          <p slot="text" class="interest-major-desc">The minor in global engineering leadership is designed to develop the skills necessary to lead with a global vision, work effectively with others to address social issues, and engineer solutions that improve communities and organizations.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Major / Limited Enrollment Program</p>
+          <h3 slot="headline"><a href="https://imd.umd.edu/about" target="_blank" rel="noopener">Immersive Media Design</a></h3>
+          <p slot="text" class="interest-major-desc">Immersive Media Design (IMD) allows students to unleash their creativity through technology. Students learn to design, develop, and produce various forms of immersive media—ranging from tactical and audio platforms to virtual and augmented reality. Through IMD courses, students integrate technical and artistic skills by studying digital media and collaborating to design immersive media works and build portfolios.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Major</p>
+          <h3 slot="headline"><a href="https://ivsp.umd.edu/" target="_blank" rel="noopener">Individual Studies Program</a></h3>
+          <p slot="text" class="interest-major-desc">Individual Studies (IVSP) students enjoy broad academic freedom and flexibility to pursue their degrees in ways that best suit their intellectual interests and passions. Under the guidance of a faculty mentor and the IVSP staff, students create their own unique, interdisciplinary majors that approach important issues, questions, and problems from a range of disciplines and perspectives.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Major / Limited Enrollment Program</p>
+          <h3 slot="headline"><a href="https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-majors" target="_blank" rel="noopener">Information Systems</a></h3>
+          <p slot="text" class="interest-major-desc">Maryland Smith’s Information Systems (IS) major is ranked No. 6 in the country (and the school is No. 11 among publics) by U.S. News &amp; World Report and includes stellar faculty with real-world experience and influential research. The IS major prepares you to effectively plan, use and manage information technologies and systems through a focus on system design and implementation skills, including database and web design.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Major / Limited Enrollment Program</p>
+          <h3 slot="headline"><a href="https://mse.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Materials Science &amp; Engineering</a></h3>
+          <p slot="text" class="interest-major-desc">Many major advances in science and technology, from computer chips to hypersonic aircraft, are attributable to advances in the underlying materials systems. Materials Science and Engineering is a multidisciplinary field focused on developing materials and materials systems for future technological advancements.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Major / Minor</p>
+          <h3 slot="headline"><a href="https://www-math.umd.edu/undergraduate/math-majors.html" target="_blank" rel="noopener">Mathematics</a></h3>
+          <p slot="text" class="interest-major-desc">The Department of Mathematics educates its majors in a broad range of modern mathematics while instilling in them a strong ability to solve problems, apply mathematics to other areas, and create rigorous mathematical arguments. The program prepares the majors to further their mathematical education in graduate school, or to teach at the secondary school level, or to work in government or business.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Major / Limited Enrollment Program</p>
+          <h3 slot="headline"><a href="https://enme.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Mechanical Engineering</a></h3>
+          <p slot="text" class="interest-major-desc">Mechanical Engineering is a dynamic and expanding field with emphasis in such areas as energy, thermal sciences, and instrumentation. New programs in manufacturing, microelectronics, and nanotechnology prepare our graduates for the emerging technologies of the 21st century.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Major</p>
+          <h3 slot="headline"><a href="https://shadygrove.umd.edu/academics/degree-programs/bs-mechatronics-engineering" target="_blank" rel="noopener">Mechatronics Engineering</a></h3>
+          <p slot="text" class="interest-major-desc">Mechatronics is the combination of mechanical, electrical, and information systems engineering. Mechatronics engineers design, develop, and test automated production systems, transportation and vehicle systems, robotics, computer-machine controls, and other integrated systems. Mechatronics engineers also develop new technologies for use in the automotive and aviation industry, advanced manufacturing operations, and often specialize in areas like robotics, autonomous vehicles, and manufacturing systems.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Minor</p>
+          <h3 slot="headline"><a href="https://www.nanocenter.umd.edu/education/nano-minor/" target="_blank" rel="noopener">Nanoscale Science &amp; Technology</a></h3>
+          <p slot="text" class="interest-major-desc">To meet the rapidly growing interest of students in nano, and to prepare students for careers in the exciting, rapidly growing field of nanoscale science and technology, we offer an innovative undergraduate program, the Interdisciplinary Minor Program in Nanoscale Science and Technology (NS&amp;T).</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Minor</p>
+          <h3 slot="headline"><a href="https://enme.umd.edu/undergraduate/degrees/minor-nuclear-engineering" target="_blank" rel="noopener">Nuclear Engineering</a></h3>
+          <p slot="text" class="interest-major-desc">The minor in Nuclear Engineering provides the engineering student with the understanding of nuclear engineering and its application to many different fields, such as power generation, reactor operation, and industrial uses. Students in the minor will learn the fundamentals of nuclear reactor engineering, radiation interactions and measurement, power plant design concepts, and reactor safety.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Major / Minor</p>
+          <h3 slot="headline"><a href="https://umdphysics.umd.edu/academics/undergraduate/ugrad-prospective-students.html" target="_blank" rel="noopener">Physics</a></h3>
+          <p slot="text" class="interest-major-desc">The world-class faculty in the University of Maryland’s Physics Department teach students to think analytically and empirically about the physical world. Whether you plan to continue to study physics in graduate school or work in fields such as engineering, software development, law, business, or education, a bachelor&#x27;s degree in physics from Maryland provides an excellent foundation.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Minor</p>
+          <h3 slot="headline"><a href="https://pm.umd.edu/program/undergraduate-minor-in-project-management/" target="_blank" rel="noopener">Project Management</a></h3>
+          <p slot="text" class="interest-major-desc">Employers increasingly seek candidates whose career preparation includes an understanding of project management fundamentals. Students that complete this minor should have a good understanding of project management concepts, tools, and techniques and be able to be productive on project teams in their first employment after graduation. The minor also aligns students with career paths leading to increased management responsibility.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Minor</p>
+          <h3 slot="headline"><a href="https://geog.umd.edu/undergraduate/remote-sensing-minor" target="_blank" rel="noopener">Remote Sensing of Environmental Change</a></h3>
+          <p slot="text" class="interest-major-desc">The Remote Sensing of Environmental Change minor program (RSEC) is designed to build students’ understanding of global environmental change in order to assess their impacts on the physical and human landscapes, and to use remote sensing as an analytical tool for identifying those impacts.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Minor</p>
+          <h3 slot="headline"><a href="https://robotics.umd.edu/minor" target="_blank" rel="noopener">Robotics &amp; Autonomous Systems</a></h3>
+          <p slot="text" class="interest-major-desc">The undergraduate minor in Robotics and Autonomous Systems (RAS) is a cross-disciplinary program administered by the Maryland Robotics Center in the Institute for Systems Research within the A. James Clark School of Engineering. The minor takes a multidisciplinary approach to robotics in which students gain knowledge about the design, control, programming, and integration of robotics and autonomous systems.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Minor</p>
+          <h3 slot="headline"><a href="https://spp.umd.edu/your-education/undergraduate/minors/science-technology-ethics-and-policy-step-minor" target="_blank" rel="noopener">Science, Technology, Ethics &amp; Policy</a></h3>
+          <p slot="text" class="interest-major-desc">The STEP minor offers you the knowledge and analytical skills to understand and assess the complex interactions among science, technology, ethics and policy. Students in the minor explore the ways that scientific practice and technological development are embedded in social, cultural, humanistic and political systems.</p>
+        </umd-element-card>
+        <umd-element-card data-display="list" class="interest-major">
+          <p slot="eyebrow">Minor</p>
+          <h3 slot="headline"><a href="https://www.mtech.umd.edu/learning/minor-in-technology-entrepreneurship" target="_blank" rel="noopener">Technology Entrepreneurship &amp; Corporate Innovation</a></h3>
+          <p slot="text" class="interest-major-desc">The Minor in Technology Entrepreneurship and Corporate Innovation aims to help students understand the entrepreneurial process and essential skills. Equipped with an entrepreneurial mindset and skill set, aspiring innovators can drive economic growth by launching successful ventures and bringing new products and services to market.</p>
+        </umd-element-card>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. CAREERS — dark overlay pathway, image opposite the majors pathway.
+       data-display="overlay" data-theme="dark" is self-contained: it paints its
+       own black panel inside the content lock, so NO umd-layout-background-full-dark
+       wrapper (OVERRIDES.md § "Overlay pathway as a dark editorial block").
+       The list is the source page's plain rich-text <ul>, single column. -->
+  <section class="umd-layout-vertical-landing">
+    <umd-element-pathway data-display="overlay" data-theme="dark"
+                         data-layout-image-position="left">
+      <img slot="image" src="../../images/interest/neutral-buoyancy.jpg" alt="A diver in the Neutral Buoyancy Research Facility tank" />
+      <h2 slot="headline">Careers in Engineering &amp; Technology</h2>
+      <div slot="text">
+        <ul class="interest-careers-list">
+            <li>Architecture</li>
+            <li>Bioengineering</li>
+            <li>Construction</li>
+            <li>Engineering</li>
+            <li>Entrepreneurship</li>
+            <li>Materials Science</li>
+            <li>Nanoscale Science</li>
+            <li>Policy</li>
+            <li>Project Management</li>
+            <li>Urban Planning</li>
+        </ul>
+      </div>
+    </umd-element-pathway>
+  </section>
+
+  <!-- 7. RELATED COLLEGES & SCHOOLS — 3-up DS cards, curated in
+       briefs/interests-data.json. Page ends here: the live page repeats the
+       majors grid below this point, which is a bug, not a section. -->
+  <section class="umd-layout-vertical-landing">
+    <div class="umd-layout-space-horizontal-larger">
+      <umd-element-section-intro class="umd-layout-vertical-landing-child">
+        <h2 slot="headline">Related Colleges &amp; Schools</h2>
+      </umd-element-section-intro>
+      <div class="umd-layout-grid-gap-three" data-animation="off">
+
+        <umd-element-card data-visual-image-aligned="true">
+          <a slot="image" href="https://eng.umd.edu/" target="_blank" rel="noopener"><img src="../../images/colleges-schools/engr.jpg" alt="A James Clark School of Engineering ENGR" loading="lazy" /></a>
+          <p slot="eyebrow">ENGR</p>
+          <h3 slot="headline"><a href="https://eng.umd.edu/" target="_blank" rel="noopener">A. James Clark School of Engineering</a></h3>
+          <p slot="text">The A. James Clark School of Engineering is consistently ranked among the world&#x27;s top engineering schools. Its academic programs offer endless opportunities to explore, and our location near Washington, D.C., will give you access to federal research labs and major technology corporations to land internships and jobs.</p>
+        </umd-element-card>
+        <umd-element-card data-visual-image-aligned="true">
+          <a slot="image" href="https://cmns.umd.edu/" target="_blank" rel="noopener"><img src="../../images/colleges-schools/cmns.jpg" alt="Computer Studies" loading="lazy" /></a>
+          <p slot="eyebrow">CMNS</p>
+          <h3 slot="headline"><a href="https://cmns.umd.edu/" target="_blank" rel="noopener">College of Computer, Mathematical, &amp; Natural Sciences</a></h3>
+          <p slot="text">The thirst for new knowledge is at the heart of scientific endeavor and discovery. As we seek to understand our world across a host of complexly interconnected phenomena, our discoveries shape that world. At the forefront of many of these discoveries is the College of Computer, Mathematical, and Natural Sciences.</p>
+        </umd-element-card>
+        <umd-element-card data-visual-image-aligned="true">
+          <a slot="image" href="https://www.rhsmith.umd.edu/" target="_blank" rel="noopener"><img src="../../images/colleges-schools/bmgt.jpg" alt="Business School" loading="lazy" /></a>
+          <p slot="eyebrow">BMGT</p>
+          <h3 slot="headline"><a href="https://www.rhsmith.umd.edu/" target="_blank" rel="noopener">Robert H. Smith School of Business</a></h3>
+          <p slot="text">At the Robert H. Smith School of Business, we&#x27;ll prepare you to succeed in a competitive global economy. Ranked among the nation&#x27;s top 20 undergraduate business schools, it&#x27;s home to outstanding faculty with real-world experience, cutting-edge research and lots of connections.</p>
+        </umd-element-card>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SCROLL TO TOP — fixed 24px from viewport bottom-right (pin lives in shared/chrome.css) -->
+  <umd-element-scroll-top data-layout-fixed="true"></umd-element-scroll-top>
+
+  <!-- SHARED:footer:START — generated from shared/footer.html; do not edit here -->
+  <umd-element-footer data-display="visual">
+    <a slot="logo" href="../../pages/admissions.html">
+      <img src="../../images/logos/footer-logo.svg" alt="University of Maryland" />
+    </a>
+    <img slot="image" src="../../page-builder/images/large/campus/footer-campus.jpg" alt="University of Maryland campus" />
+  </umd-element-footer>
+  <!-- SHARED:footer:END -->
+
+  <!-- SHARED:chrome-scripts:START — generated from shared/chrome-scripts.html; do not edit here -->
+  <!-- ============================================================
+       SHARED CHROME — shadow injections
+       Inlined into every page by scripts/build-chrome.py.
+       Edit here, not in pages/*.html.
+
+       ONLY chrome-driven injections belong in this file. The other
+       shadow injections used in this project (umd-element-pathway
+       aspect ratio, umd-element-banner-promo stacked actions,
+       call-to-action and card-overlay tweaks) are driven by PAGE
+       CONTENT, not by the header/footer, so they stay in the page that
+       needs them — see OVERRIDES.md.
+  ============================================================ -->
+  <script>
+    // NAV-HEADER LOGO WIDTH — navigation-header shadow CSS hard-codes
+    // .element-header-logo img { max-width: 240px } at tablet+ with no
+    // CSS variable hook. The admissions logo is wider than the default
+    // primary wordmark; override to 320px via shadow injection.
+    (function () {
+      const NAV_HEADER_LOGO_CSS =
+        '.element-header-logo img{max-width:320px!important}';
+      function inject(el) {
+        if (!el.shadowRoot || el.__navHeaderLogoInjected) return;
+        const style = document.createElement('style');
+        style.textContent = NAV_HEADER_LOGO_CSS;
+        el.shadowRoot.appendChild(style);
+        el.__navHeaderLogoInjected = true;
+      }
+      function applyAll() {
+        document.querySelectorAll('umd-element-navigation-header').forEach(inject);
+      }
+      customElements.whenDefined('umd-element-navigation-header').then(() => {
+        applyAll();
+        setTimeout(applyAll, 0);
+        setTimeout(applyAll, 250);
+      });
+    })();
+  </script>
+  <!-- SHARED:chrome-scripts:END -->
+
+  <!-- Pathway shadow injection — page-content-driven (OVERRIDES.md).
+       Emitted because this page uses umd-element-pathway.
+
+       1:1 image crop. Selector is the project's documented one
+       (.pathway-image-container / .image-container /
+       .umd-asset-image-wrapper-scaled) — verified against the live shadow tree
+       in cdn.js@1.18.12. The component exposes no CSS variable or ::part hook
+       for the image container. Load-bearing on the overlay variant, not just
+       cosmetic: overlay lays its image out as a grid column, so without the cap
+       a tall source drives the height of the whole component. -->
+  <script>
+  (function () {
+    var CSS = '.pathway-image-container,.image-container,' +
+              '.umd-asset-image-wrapper-scaled' +
+              '{aspect-ratio:1/1 !important;height:auto !important;}' +
+              '.pathway-image-container img,.image-container img' +
+              '{object-fit:cover;width:100%;height:100%;}';
+    function inject(el) {
+      if (!el.shadowRoot || el.dataset.pathwayCssDone) return;
+      var s = document.createElement('style');
+      s.textContent = CSS;
+      el.shadowRoot.appendChild(s);
+      el.dataset.pathwayCssDone = '1';
+    }
+    function run() {
+      document.querySelectorAll('umd-element-pathway').forEach(inject);
+    }
+    if (window.customElements) {
+      customElements.whenDefined('umd-element-pathway').then(function () {
+        run();
+        setTimeout(run, 300);
+      });
+    }
+    document.addEventListener('DOMContentLoaded', run);
+  })();
+  </script>
+
+  <!-- NO description clamp. Program descriptions run 250-875 characters and
+       every one displays in full: truncating a program's description is a
+       content decision, not a layout one, and this page is the reader's index
+       of what a major actually is. An earlier revision shadow-injected a
+       4-line -webkit-line-clamp here; it is deliberately gone. Row heights are
+       evened out by umd-layout-grid-child-fill-height on each card instead, so
+       a long description makes its row taller rather than getting cut. -->
+
+  <!-- Canonical grid-entry animations (page-builder/CLAUDE.md: never inline). -->
+  <script src="../../page-builder/scripts/grid-animations.js"></script>
+
+</body>
+</html>

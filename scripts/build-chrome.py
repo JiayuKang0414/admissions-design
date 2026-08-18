@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Inline the shared site chrome into every page in pages/.
+"""Inline the shared site chrome into every page under pages/ (recursively).
 
 Source of truth
   shared/header.html          header stack (nav-utility + utility-header +
@@ -40,7 +40,10 @@ import _chrome
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SHARED = os.path.join(REPO, 'shared')
-PAGES = sorted(glob.glob(os.path.join(REPO, 'pages', '*.html')))
+# Pages live in per-section subdirectories (pages/academics/programs.html) as
+# well as at the top (pages/admissions.html), so this walks the tree; each page
+# gets the chrome resolved for its own depth.
+PAGES = sorted(glob.glob(os.path.join(REPO, 'pages', '**', '*.html'), recursive=True))
 
 CHECK = '--check' in sys.argv
 
@@ -111,8 +114,8 @@ def strip_chrome_script(src):
 
 
 # ---------------------------------------------------------------- splice
-def splice(src, key, locate):
-    block = _chrome.block(key)
+def splice(src, key, locate, depth):
+    block = _chrome.block(key, depth)
 
     m = re.search(r'(?s)[ \t]*<!-- SHARED:%s:START.*?<!-- SHARED:%s:END -->' % (key, key), src)
     if m:
@@ -168,6 +171,7 @@ changed, report = [], []
 for path in PAGES:
     original = open(path, encoding='utf-8').read()
     src = original
+    depth = _chrome.depth_of(path)
     notes = []
 
     migrating_css = 'SHARED:chrome-css:START' not in src
@@ -187,7 +191,7 @@ for path in PAGES:
             ('chrome-css', locate_css_slot),
             ('chrome-scripts', locate_script_slot),
     ):
-        src, status = splice(src, key, locate)
+        src, status = splice(src, key, locate, depth)
         if status not in ('unchanged',):
             notes.append('%s:%s' % (key, status))
 

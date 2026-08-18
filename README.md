@@ -6,7 +6,7 @@ Design work for the UMD Admissions site — multiple pages sharing a common head
 
 ```
 admissions-design/
-├── pages/              Page HTML (one file per page)
+├── pages/              Page HTML, one directory per site section
 ├── shared/             Header, footer, head, and end-scripts partials
 ├── images/
 │   ├── logos/          Admissions and UMD logos
@@ -40,6 +40,11 @@ git add page-builder && git commit -m "Bump page-builder submodule"
 ## Pages
 
 - `pages/admissions.html` — Undergraduate Admissions homepage (recreation of admissions.umd.edu)
-- `pages/academics.html` — Academics interior page
+- `pages/academics/` — Academics landing, All Programs, Colleges & Schools, and the by-interest pages
+- `pages/student-life/` — Student Life landing
+- `pages/how-to-apply/` — How To Apply landing and Freshman Applicants
+- `pages/tuition/` — Tuition & Aid landing
 
-Both pages currently inline the shared header/footer/head; extraction to `shared/` partials is planned.
+Each section's landing page is its `index.html`, so `/pages/academics/` serves it.
+The header, footer, and chrome CSS come from `shared/` and are inlined into every
+page by `scripts/build-chrome.py`.

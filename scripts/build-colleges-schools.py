@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regenerate pages/colleges-schools.html.
+"""Regenerate pages/academics/colleges-schools.html.
 
 Sources
   briefs/colleges-schools-data.json   13 colleges / 203 programs (verbatim copy)
@@ -20,7 +20,8 @@ import _chrome
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE = os.path.join(REPO, 'page-builder/TEMPLATE.html')
 DATA = os.path.join(REPO, 'briefs/colleges-schools-data.json')
-OUT = os.path.join(REPO, 'pages/colleges-schools.html')
+OUT = os.path.join(REPO, 'pages/academics/colleges-schools.html')
+DEPTH = _chrome.depth_of(OUT)   # pages/academics/ -> '../../'
 
 tpl = open(TEMPLATE, encoding='utf-8').read().split('\n')
 colleges = json.load(open(DATA, encoding='utf-8'))
@@ -551,17 +552,17 @@ PAGE_JS = '''  <!-- ============================================================
 # ---------------------------------------------------------------- assemble
 page = f'''{head_top}
 {PAGE_CSS}{head_tail_open}
-{_chrome.block('chrome-css')}
+{_chrome.block('chrome-css', DEPTH)}
 </head>
 <body>
 
-{_chrome.block('header')}
+{_chrome.block('header', DEPTH)}
 
   <!-- 3. HERO — small background, left-aligned text + CTA.
-       Same recipe as pages/programs.html. -->
+       Same recipe as pages/academics/programs.html. -->
   <section class="umd-layout-vertical-landing">
     <umd-element-hero data-layout-height="small">
-      <img slot="image" src="../images/colleges-schools/hero-sundial.jpg" alt="Sundial on McKeldin Mall" />
+      <img slot="image" src="../../images/colleges-schools/hero-sundial.jpg" alt="Sundial on McKeldin Mall" />
       <h1 slot="headline">Colleges &amp; Schools</h1>
       <div slot="text"><p>Within the University of Maryland&#8217;s 12 colleges &amp; schools, you can choose from more than 100 majors. No matter your interests, we have you covered.</p></div>
       <div slot="actions">
@@ -573,7 +574,7 @@ page = f'''{head_top}
   </section>
 
   <!-- 4. INTRO — mirrors the rich-text lockup at the top of the sibling
-       landing pages (pages/academics.html "study here"): narrow centred
+       landing pages (pages/academics/index.html "study here"): narrow centred
        -small lock, rule, lead paragraph, rich-text body. The sibling's
        lead is uppercase; here it is not, per design direction. -->
   <section class="umd-layout-vertical-landing">
@@ -602,18 +603,22 @@ page = f'''{head_top}
   <!-- SCROLL TO TOP — fixed 24px from viewport bottom-right (pin lives in shared/chrome.css) -->
   <umd-element-scroll-top data-layout-fixed="true"></umd-element-scroll-top>
 
-{_chrome.block('footer')}
+{_chrome.block('footer', DEPTH)}
 
-{_chrome.block('chrome-scripts')}
+{_chrome.block('chrome-scripts', DEPTH)}
 
   <!-- Canonical grid-entry animations (page-builder/CLAUDE.md: never inline). -->
-  <script src="../page-builder/scripts/grid-animations.js"></script>
+  <script src="../../page-builder/scripts/grid-animations.js"></script>
 
 {PAGE_JS}
 
 </body>
 </html>
 '''
+
+# Image paths in colleges-schools-data.json are repo-root-relative behind
+# {{ROOT}}, like the chrome's; resolve them for this page's depth.
+page = page.replace(_chrome.ROOT_TOKEN, '../' * DEPTH)
 
 open(OUT, 'w', encoding='utf-8').write(page)
 print('wrote', OUT, len(page.split(chr(10))), 'lines')

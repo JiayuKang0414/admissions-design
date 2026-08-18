@@ -19,9 +19,49 @@ The page-builder's own `CLAUDE.md` (`page-builder/CLAUDE.md`) defines the canoni
 
 ## Output paths
 
-- New admissions pages → `pages/<page-name>.html`
+Pages are organised by site section, one directory per section, with the section's
+landing page as `index.html` so `/pages/<section>/` serves it:
+
+```
+pages/
+├── admissions.html                          site home (stays at the top)
+├── academics/
+│   ├── index.html                           Academics landing
+│   ├── programs.html
+│   ├── colleges-schools.html
+│   └── interest-<slug>.html
+├── student-life/index.html
+├── how-to-apply/
+│   ├── index.html
+│   └── freshman-applicants.html
+└── tuition/index.html
+```
+
+- New admissions pages → `pages/<section>/<page-name>.html`; a new section starts with its own `index.html`
 - New admissions images → `images/academics/`, `images/admissions/`, or a new `images/<page>/` folder per page
 - Briefs / source notes → `briefs/<page-name>.md`
+
+### Depth: never hard-code `../`
+
+Pages sit at two different depths (`pages/admissions.html` vs
+`pages/academics/programs.html`), so a fixed `../` prefix is wrong on half of
+them. Anything shared across pages — `shared/header.html`, `shared/footer.html`,
+and the image paths in `briefs/*-data.json` — writes its paths **repo-root-relative
+behind a `{{ROOT}}` token**:
+
+```html
+<img src="{{ROOT}}images/logos/admissions-logo.svg" />
+<a href="{{ROOT}}pages/academics/programs.html">All Programs</a>
+```
+
+`scripts/_chrome.py` expands `{{ROOT}}` to the right number of `../` for the page
+being written (`depth_of(path)` → 1 for `pages/admissions.html`, 2 for anything in
+a section folder). Generated pages resolve any remaining tokens from their data
+just before writing. A page that moves between directories is then a path change
+and nothing else.
+
+Inside a single page's own body, ordinary relative paths are fine — they just have
+to match that page's depth (`../../images/...` from a section folder).
 
 Do **not** write to `examples/` or `test/` — test/qa fixtures live in the page-builder repo, and demo/example pages live in the separate `page-builder-examples` repo, not here.
 
@@ -52,13 +92,23 @@ Every page within a single design project must use the **same site header, navig
 **Edit `shared/`, then run the inliner:**
 
 ```bash
-python3 scripts/build-chrome.py          # splices shared/ into every page in pages/
+python3 scripts/build-chrome.py          # splices shared/ into every page under pages/ (recursively)
 python3 scripts/build-chrome.py --check  # exits non-zero if any page is stale (CI-friendly)
 ```
 
 Each region sits between `SHARED:<key>:START` / `:END` markers in the page. **Do not hand-edit anything between those markers** — the next run overwrites it. On a page that has no markers yet, the script finds the existing chrome by content and wraps it, so adding a new page needs no special setup.
 
-The two generated pages (`scripts/build-programs.py`, `scripts/build-colleges-schools.py`) emit the *same* blocks via `scripts/_chrome.py`, so running any of the three converges on identical bytes — there is no ordering dependency between them.
+The generated pages (`scripts/build-programs.py`, `scripts/build-colleges-schools.py`, `scripts/build-interest.py`) emit the *same* blocks via `scripts/_chrome.py`, so running any of them converges on identical bytes — there is no ordering dependency between them.
+
+### Generated pages
+
+| Script | Emits | Data |
+|---|---|---|
+| `build-programs.py` | `pages/academics/programs.html` | `briefs/programs-data.json` |
+| `build-colleges-schools.py` | `pages/academics/colleges-schools.html` | `briefs/colleges-schools-data.json` |
+| `build-interest.py [slug]` | `pages/academics/interest-<slug>.html` | `briefs/interests-data.json` + the two above |
+
+`build-interest.py` derives the majors grid from the `interests` facet already present on every program in `programs-data.json`, so a new interest page is a data edit (one block in `briefs/interests-data.json`), not a code edit. Run with no argument to rebuild every slug.
 
 Only the content between the header and footer is page-specific.
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regenerate pages/programs.html.
+"""Regenerate pages/academics/programs.html.
 
 Sources
   briefs/programs-data.json           203 programs, as harvested from the
@@ -28,7 +28,8 @@ import _chrome
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE = os.path.join(REPO, 'page-builder/TEMPLATE.html')
 DATA     = os.path.join(REPO, 'briefs/programs-data.json')
-OUT      = os.path.join(REPO, 'pages/programs.html')
+OUT      = os.path.join(REPO, 'pages/academics/programs.html')
+DEPTH    = _chrome.depth_of(OUT)   # pages/academics/ -> '../../'
 
 TITLE = 'Explore Our Programs \u2014 Undergraduate Admissions | University of Maryland'
 
@@ -276,7 +277,7 @@ BODY = r'''  </style>
   <!-- 3. HERO — small background -->
   <section class="umd-layout-vertical-landing">
     <umd-element-hero data-layout-height="small">
-      <img slot="image" src="../images/academics/students-walking.jpg" alt="Students walking on the University of Maryland campus" />
+      <img slot="image" src="../../images/academics/students-walking.jpg" alt="Students walking on the University of Maryland campus" />
       <h1 slot="headline">Explore Our Programs</h1>
       <div slot="text"><p>With over 100 undergraduate majors across 12 colleges and schools, we have you covered.</p></div>
       <div slot="actions">
@@ -654,10 +655,11 @@ body = BODY.replace('@@PROGRAMS@@', programs_json)
 for key in _chrome.keys():
     token = '@@CHROME:%s@@' % key
     assert token in body, 'BODY lost the %s slot' % key
-    body = body.replace(token, _chrome.block(key))
+    body = body.replace(token, _chrome.block(key, DEPTH))
 assert '@@' not in body, 'unsubstituted token remains'
 
 page = head + '\n' + body
+page = page.replace(_chrome.ROOT_TOKEN, '../' * DEPTH)
 open(OUT, 'w', encoding='utf-8').write(page)
 print('wrote', OUT, len(page.split('\n')), 'lines')
 print('programs', len(records))
