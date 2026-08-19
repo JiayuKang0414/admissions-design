@@ -913,6 +913,20 @@
     @media (max-width: 1023px) {
       .fa-chevron { display: none; }
     }
+
+    /* ---- Application requirements: masonry icon cards (.fa-req-*) ----
+       umd-layout-grid-masonry offsets children 2 and 3 by ±40px, which only
+       reads as a zigzag when the cards share a height — card-icon sizes to its
+       own copy, so without this the "stagger" is just uneven ragging. Height is
+       set on the card, not the grid, because the offsets are margins on the
+       children themselves. */
+    .fa-req-grid umd-element-card-icon {
+      min-height: 220px;
+    }
+
+    @media (min-width: 768px) {
+      .fa-req-grid umd-element-card-icon { min-height: 260px; }
+    }
   </style>
   <!-- SHARED:chrome-css:START — generated from shared/chrome.css; do not edit here -->
   <style>
@@ -1073,7 +1087,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
     </div>
   </section>
 
-  <!-- 4. APPLICATION REQUIREMENTS — sticky intro + stacked large stats (RULES §20) -->
+  <!-- 4. APPLICATION REQUIREMENTS — sticky intro + masonry icon cards (LAYOUT-PATTERNS.md §Masonry Grid) -->
   <section class="umd-layout-vertical-landing">
     <umd-element-sticky-columns class="umd-layout-space-horizontal-larger" data-layout-position="100px">
       <div slot="sticky-column">
@@ -1084,29 +1098,29 @@ umd-element-scroll-top[data-layout-fixed="true"] {
         </div>
       </div>
       <div slot="static-column">
-        <div class="umd-layout-grid-gap-stacked">
-          <umd-element-stat data-visual-size="large" data-decoration-line data-animation="offset">
-            <span slot="stat">4</span>
-            <div slot="text"><p>Years of English</p></div>
-          </umd-element-stat>
-          <umd-element-stat data-visual-size="large" data-decoration-line data-animation="offset">
-            <span slot="stat">2</span>
-            <div slot="text"><p>Years of foreign language</p></div>
-          </umd-element-stat>
-          <umd-element-stat data-visual-size="large" data-decoration-line data-animation="offset">
-            <span slot="stat">3</span>
-            <div slot="text"><p>Years of history or social science</p></div>
-          </umd-element-stat>
-          <umd-element-stat data-visual-size="large" data-decoration-line data-animation="offset">
-            <span slot="stat">3</span>
-            <div slot="text"><p>Years of science in at least 2 different areas</p></div>
-            <div slot="sub-text"><p>With at least 2 lab experiences</p></div>
-          </umd-element-stat>
-          <umd-element-stat data-visual-size="large" data-decoration-line data-animation="offset">
-            <span slot="stat">4</span>
-            <div slot="text"><p>Years of math, including Algebra I, Geometry &amp; Algebra II</p></div>
-            <div slot="sub-text"><p>If you complete Algebra II prior to your final year, you must complete the 4-year math requirement by taking a course that utilizes non-trivial algebra, such as Trigonometry, Precalculus, Calculus, Statistics, College Algebra.</p></div>
-          </umd-element-stat>
+        <div class="umd-layout-grid-masonry fa-req-grid">
+          <umd-element-card-icon>
+            <img slot="image" src="../../images/freshman-applicants/icons/icon-english.svg" alt="" />
+            <h3 slot="headline">4 Years of English</h3>
+          </umd-element-card-icon>
+          <umd-element-card-icon>
+            <img slot="image" src="../../images/freshman-applicants/icons/icon-foreign-language.svg" alt="" />
+            <h3 slot="headline">2 Years of Foreign Language</h3>
+          </umd-element-card-icon>
+          <umd-element-card-icon>
+            <img slot="image" src="../../images/freshman-applicants/icons/icon-history.svg" alt="" />
+            <h3 slot="headline">3 Years of History or Social Science</h3>
+          </umd-element-card-icon>
+          <umd-element-card-icon>
+            <img slot="image" src="../../images/freshman-applicants/icons/icon-science.svg" alt="" />
+            <h3 slot="headline">3 Years of Science</h3>
+            <p slot="text">In at least 2 different areas, with at least 2 lab experiences.</p>
+          </umd-element-card-icon>
+          <umd-element-card-icon>
+            <img slot="image" src="../../images/freshman-applicants/icons/icon-math.svg" alt="" />
+            <h3 slot="headline">4 Years of Math</h3>
+            <p slot="text">Including Algebra I, Geometry and Algebra II. If you complete Algebra II prior to your final year, you must complete the 4-year math requirement by taking a course that utilizes non-trivial algebra, such as Trigonometry, Precalculus, Calculus, Statistics or College Algebra.</p>
+          </umd-element-card-icon>
         </div>
       </div>
     </umd-element-sticky-columns>
