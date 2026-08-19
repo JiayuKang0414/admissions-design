@@ -99,11 +99,19 @@ Pages using this: none currently. `pages/how-to-apply/freshman-applicants.html` 
 
 `pages/how-to-apply/freshman-applicants.html` § "Application Checklist" — a numbered stepper. There is **no steps / how-to / process component anywhere in `page-builder/registry/`** (all 15 category files checked); the nearest options are an accordion stack, `umd-element-tabs`, or numbered stats, none of which match the source's always-open numbered blocks. The source page uses its own `<umd-stepper>` element, reproduced here.
 
-`.fa-steps` (`<ol role="list">`) / `.fa-step` / `.fa-step-num` / `.fa-step-body` / `.fa-step-title`. No JS, no shadow DOM. Geometry: a `#F1F1F1` card with a `1px solid #E6E6E6` border, `56px` padding at ≥768px (`32px 24px` below), `20px` between cards; two columns (`auto 1fr`, 32px gap) at ≥768px collapsing to one below, so the copy keeps a full-width measure on mobile. The numeral sits in its own gutter column with a `2px solid #E21833` **right** border and `padding-right: 24px` — a bare pixel value rather than a spacing token, because the gutter is sized to the numeral rather than to the page rhythm.
+`.fa-steps` (`<ol role="list">`) / `.fa-step` / `.fa-step-num` / `.fa-step-body` / `.fa-step-title`. No JS, no shadow DOM.
+
+**The numeral stands outside the card.** `.fa-step` is a bare grid (no surface of its own); the card surface lives on `.fa-step-body` so the numeral can sit in a gutter beside it. Geometry: a `#FAFAFA` (gray-lightest) card inside a `1px solid #F1F1F1` (gray-lighter) hairline, with `border-left` replaced by `2px solid #E21833` — the red rule moved off the numeral's right edge and onto the card's left edge. Corners are `border-radius: 0 var(--umd-space-md, 24px) 0 var(--umd-space-md, 24px)` — a "leaf" cut on the top-right and bottom-left only. **The DS ships no radius scale**, so that borrows the spacing token; if a radius scale is ever added upstream, this is the line to migrate. At the rounded bottom-left the 2px red left border meets the 1px gray-lighter bottom border, and browsers interpolate width and color across a curved corner — so the red rule tapers out rather than turning a crisp corner. That reads as an intentional taper here, but it is a rendering side effect of the mismatched borders, not something the CSS states. `40px` padding at ≥768px (`32px 24px` below), `var(--umd-space-xl, 40px)` between cards; two columns (`44px 1fr`, 24px gap) at ≥768px collapsing to one (8px row gap) below, so the copy keeps a full-width measure on mobile.
+
+**The gutter is a fixed 44px and the numeral is right-aligned in it.** Barlow Condensed digits are proportional — at the 80px desktop size `1` measures 23.7px and `4` measures 39.1px — so an `auto` column would start each card at a different `x`, and left-aligning in a fixed column would leave 17–32px of ragged dead space before the rule. `text-align: right` (≥768px only; mobile stacks left-aligned above the card) puts every numeral exactly 24px from the card's red rule, making the rule the column the eye reads. 44px clears the widest digit with a little headroom.
+
+**Spacing custom properties are `--umd-space-*`, not `--umd-spacing-*`.** `tokens.min.css` ships `--umd-space-min/xs/sm/md/lg/xl/2xl/…` (8/12/16/24/32/40/48px) alongside `--umd-color-*` and `--umd-font-size-*`; there is no `--umd-spacing-` prefix, so that spelling silently falls through to the declaration's fallback. The steps gap uses `var(--umd-space-xl, 40px)`.
+
+The numeral is top-aligned with the card's top edge and needs no nudge: `.umd-campaign-large`'s `0.91em` line-height trims the line box to about cap height, which happens to land the numeral's baseline within ~4px of the card title's.
 
 The 48px between the intro rich text and the first step comes from `umd-layout-vertical-landing-child` on the intro (32 / 40 / 48px), not a hand-rolled margin.
 
-**Type comes from DS classes in the markup, not from this CSS** — `.umd-campaign-medium` on the numeral (Barlow Condensed italic 700; 44px → `calc(44px + 1.33vw)` → **64px** at the top breakpoint, which lands exactly on the source stepper's 64px), `.umd-sans-larger-bold` on the title, `.umd-text-rich-advanced` on the body. The rich-text class also supplies the RULES §34 gradient-underline link treatment, so no hand-rolled link CSS is needed. Only geometry and the red are page-built.
+**Type comes from DS classes in the markup, not from this CSS** — `.umd-campaign-large` on the numeral (Barlow Condensed; 32px → 44px → `calc(44px + 2.66vw)` → **80px** at ≥1024px), colored `#E21833` here, `.umd-sans-larger-bold` on the title, `.umd-text-rich-advanced` on the body. The rich-text class also supplies the RULES §34 gradient-underline link treatment, so no hand-rolled link CSS is needed. Only geometry and the red are page-built.
 
 `role="list"` on the `<ol>` is required: `list-style: none` strips list semantics in Safari/VoiceOver, and the numerals here are visible content rather than markers.
 
@@ -153,6 +161,34 @@ The old inline block mixed critical CSS with project-specific rules. Those NOT i
 `.umd-layout-grid-tuition-two` and `.umd-action-outline-block` live in `critical.css` (kept upstream), so they were not re-added except where already bundled in the admissions preserve block.
 
 Pages: `pages/academics/index.html`, `pages/admissions.html`, `pages/student-life/index.html`, `pages/tuition/index.html`.
+
+## `.text-black` loses inside rich text (fixed in `critical.css` + `TEMPLATE.html`)
+
+`.text-black` had no effect on anything inside `.umd-text-rich-advanced` — the text rendered `#454545` (gray-dark) instead of `#000`. Both rules are specificity **(0,1,0)**: `.text-black` (§6 COLOR UTILITIES, line 223) and `.umd-text-rich-advanced *` (§7 RICH TEXT ADVANCED, line 243). `*` contributes nothing to specificity, so the tie breaks on source order — and §7 comes after §6, so the component rule beats the utility.
+
+Fix: `.umd-text-rich-advanced .text-black { color: #000; }` added to §6. At (0,2,0) it wins regardless of file order, so it does not depend on the sections staying in sequence.
+
+**No `!important`** — `pages/admissions.html` had already hit this and solved it locally with exactly this scoped rule in its preserved page-specific block; this promotes that precedent to `critical.css` so every page gets it. The local copy in `admissions.html` is now redundant but harmless (identical declaration) and was left in place.
+
+Only the light variant needed it: of the wildcard colour rules in `critical.css`, `.umd-text-rich-advanced *` is the one that clobbers this utility. (`.umd-text-rich-simple-large-dark *` sets `#ffffff`, where a `.text-black` would be deliberate.) `.text-white` has the same latent bug but is currently unused in this repo — left alone.
+
+Verified: every `.text-black` on `freshman-applicants.html` (10), `admissions.html` (4) and `academics/index.html` (1) computes `rgb(0,0,0)`, while ordinary rich-text body copy still computes `rgb(69,69,69)` — the utility wins without flattening the body-copy colour.
+
+## Rich-text links: doubled underline (fixed in `critical.css` + `TEMPLATE.html`)
+
+Rich-text links rendered with a **doubled underline** — visibly heavier and darker than the live site. Cause: the DS draws its link underline as a 1px `background-image: linear-gradient(...)` with `background-size: 100% 1px`, but **neither `element.min.css` nor `critical.css` ever set `text-decoration: none`**, so the browser's default UA underline stayed on *underneath* the gradient hairline. Two stacked underlines.
+
+`base.min.css` is not the reset it looks like — it has **zero** `text-decoration` declarations and no `a` selector at all (it resets `*`, `body`, headings, `p`, `li`, and form fields only). Production UMD pages get the reset from a site-level preflight these standalone prototypes don't load, which is why the bug is invisible upstream.
+
+The tell is the hover state: `element.min.css`'s hover rule carries `text-decoration: none !important`, so hovering *removed* the UA underline and the link got **lighter** on hover — backwards.
+
+Fix: `text-decoration: none` added to the three rest-state rules (`.umd-text-rich-advanced a`, `.umd-text-rich-advanced-dark a`, `.umd-text-rich-simple-large-dark a`). Hover rules untouched.
+
+**Two copies had to be patched.** `page-builder/styles/critical.css` is canonical, but the generated-page scripts inline their `<head>` from **`page-builder/TEMPLATE.html`**, which carries its own pre-inlined copy of the same CSS. Patching only `critical.css` looks correct and then silently reverts the moment `build-programs.py` / `build-colleges-schools.py` / `build-interest.py` runs. Both files, plus the already-inlined copy in all 9 pages, must move together.
+
+⚠️ **Do not "clean up" a bad insert with a blanket string replace on `  text-decoration: none;`.** Declarations are 2-space indented in `critical.css`, so that pattern also matches the load-bearing `.umd-shell-utility-item a`, the utility-nav `button`, the dropdown `a`, and an action-button rule — silently deleting four rules including the flat-link treatment documented above. Patch by locating the specific rule and inserting only.
+
+Pages using this: all nine (verified `text-decoration-line: none` on all 18 rich-text links on `freshman-applicants.html`, gradient hairline intact at `100% 1px`).
 
 ## Post-migration regression fixes
 

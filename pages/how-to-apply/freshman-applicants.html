@@ -170,6 +170,10 @@
        6. COLOR UTILITIES — not in upstream tokens or typography bundles
        ============================================================ */
     .text-black { color: #000; }
+    /* .umd-text-rich-advanced * (§7) paints every descendant #454545 at the same
+       (0,1,0) specificity as this utility but later in the file, so a bare
+       .text-black loses inside editorial body copy. Scope it so it wins. */
+    .umd-text-rich-advanced .text-black { color: #000; }
     .text-white { color: #ffffff; }
 
 
@@ -200,6 +204,7 @@
       margin-top: 0;
     }
     .umd-text-rich-advanced a {
+      text-decoration: none;
       color: #000000;
       background-image: linear-gradient(#000000, #000000);
       position: relative;
@@ -221,6 +226,7 @@
     .umd-text-rich-advanced-dark p,
     .umd-text-rich-advanced-dark li { color: #ffffff; }
     .umd-text-rich-advanced-dark a {
+      text-decoration: none;
       color: #ffffff;
       background-image: linear-gradient(#ffffff, #ffffff);
       position: relative;
@@ -276,6 +282,7 @@
     .umd-text-rich-simple-large-dark > * { font-size: 18px; margin-top: 24px; }
     .umd-text-rich-simple-large-dark > *:first-child { margin-top: 0; }
     .umd-text-rich-simple-large-dark a {
+      text-decoration: none;
       color: #ffffff;
       background-image: linear-gradient(#ffffff, #ffffff);
       position: relative;
@@ -768,12 +775,14 @@
 
     /* ---- Application checklist stepper (.fa-*) ----
        The design system has no steps/how-to component (verified against
-       page-builder/registry/). This reproduces the source page's own
-       <umd-stepper>: a stack of gray cards, each with a large numeral in a
-       left gutter behind a 2px red rule. No JS, no shadow DOM — see
-       OVERRIDES.md § "Application checklist stepper".
+       page-builder/registry/). This is a page-built stepper: a stack of
+       near-white cards, each with a large red numeral standing OUTSIDE the card
+       in its own gutter — the stat treatment (`umd-element-stat`'s
+       `data-decoration-line`) turned red, with the card's left edge carrying the
+       2px rule instead of the numeral's right edge. See OVERRIDES.md
+       § "Application checklist stepper".
 
-       Type comes from DS classes in the markup (.umd-campaign-medium for the
+       Type comes from DS classes in the markup (.umd-campaign-large for the
        numeral, .umd-sans-larger-bold for the title, .umd-text-rich-advanced
        for the body, which also supplies the RULES §34 gradient-underline link
        treatment). Only geometry and color live here. */
@@ -782,40 +791,68 @@
       margin: 0;
       padding: 0;
       display: grid;
-      gap: 20px;
+      /* --umd-space-xl (40px), from tokens.min.css. Note the DS names these
+         --umd-space-*, NOT --umd-spacing-*; the fallback covers the bundle
+         failing to load. */
+      gap: var(--umd-space-xl, 40px);
     }
 
+    /* The row is a bare grid — the card surface lives on .fa-step-body so the
+       numeral can sit outside it. Below tablet the numeral stacks above the
+       card so the copy keeps a full-width measure. */
     .fa-step {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 16px;
-      background-color: #F1F1F1;
-      border: 1px solid #E6E6E6;
-      padding: 32px 24px;
+      gap: 8px;
+      align-items: start;
     }
 
-    /* The numeral moves into its own gutter column at tablet+; below that it
-       stacks above the text so the copy keeps a full-width measure. */
     @media (min-width: 768px) {
       .fa-step {
-        grid-template-columns: auto 1fr;
-        gap: 32px;
-        padding: 56px;
+        /* A fixed gutter, not `auto`: Barlow Condensed digits are proportional
+           (at 80px, "1" is 23.7px and "4" is 39.1px), so an auto column would
+           start each card at a different x. 44px clears the widest digit. */
+        grid-template-columns: 44px 1fr;
+        gap: 24px;
+      }
+
+      /* Right-aligned, so every numeral hugs the card's red rule at the same
+         24px regardless of digit width — the rule, not the numeral's left edge,
+         is what the eye reads as the column. */
+      .fa-step-num {
+        text-align: right;
       }
     }
 
-    /* Red rule to the RIGHT of the numeral, running its full height. Padding is
-       a bare 24px rather than a spacing token — the gutter is sized to the
-       numeral, not to the page rhythm. */
-    .fa-step-num {
-      align-self: start;
-      border-right: 2px solid #E21833;
-      padding-right: 24px;
-    }
-
+    /* Stat-style numeral: campaign-large in Maryland Red, top-aligned with the
+       card's top edge. .umd-campaign-large's 0.91em line-height trims the line
+       box to about cap height, which lands the numeral's baseline on the card
+       title's — no nudge needed. */
     .fa-step-num span {
       display: block;
       color: #E21833;
+    }
+
+    /* gray-lightest surface inside a gray-lighter hairline, with the left edge
+       replaced by the 2px Maryland Red rule the numeral used to carry. */
+    .fa-step-body {
+      background-color: #FAFAFA;
+      border: 1px solid #F1F1F1;
+      border-left: 2px solid #E21833;
+      /* Leaf corners: top-right + bottom-left only. The DS ships no radius
+         scale (tokens.min.css has --umd-color-*, --umd-font-size-* and
+         --umd-space-* and nothing else), so this borrows --umd-space-md (24px)
+         from the spacing scale. */
+      border-radius: 0 var(--umd-space-md, 24px) 0 var(--umd-space-md, 24px);
+      padding: 32px 24px;
+    }
+
+    /* 40px rather than the 56px of the boxed-numeral version: the card is now
+       inset by the 44px gutter + 24px gap, so it has 68px less width to give. */
+    @media (min-width: 768px) {
+      .fa-step-body {
+        padding: 40px;
+      }
     }
 
     .fa-step-title {
@@ -1136,18 +1173,22 @@ umd-element-scroll-top[data-layout-fixed="true"] {
       <div class="umd-text-rich-advanced umd-layout-vertical-landing-child">
         <p>Utilize our application checklist to ensure you're submitting all required freshman application materials.</p>
         <p>Before you get started, consider the following questions:</p>
-        <ul>
-          <li><strong>Are you an international student?</strong> | If you are a non-U.S. citizen or non-permanent U.S. resident you apply as an <a href="https://admissions.umd.edu/apply/international-applicants">international applicant</a>.</li>
-          <li><strong>Do you need to provide proof of English proficiency?</strong> | If English is not your native language, regardless of your citizenship, or if you have taken English Second Language courses in high school, you must provide verification of your <a href="https://admissions.umd.edu/apply/english-language-proficiency">proficiency in English</a>.</li>
-          <li><strong>Do you have non-U.S. academic records?</strong> | If you have non-U.S. academic records for post-secondary/university work, please review our <a href="https://admissions.umd.edu/apply/international-applicants">international applicant requirements</a> for instructions on submitting these records.</li>
-        </ul>
+        <!-- Question / answer pairs, not a <ul> with `<strong>Q</strong> | A`:
+             each question is its own umd-sans-large sub-heading followed by a
+             plain answer paragraph, matching the source page. -->
+        <p class="text-black umd-sans-large">Are you an international student?</p>
+        <p>If you are a non-U.S. citizen or non-permanent U.S. resident you apply as an <a href="https://admissions.umd.edu/apply/international-applicants">international applicant</a>.</p>
+        <p class="text-black umd-sans-large">Do you need to provide proof of English proficiency?</p>
+        <p>If English is not your native language, regardless of your citizenship, or if you have taken English Second Language courses in high school, you must provide verification of your <a href="https://admissions.umd.edu/apply/english-language-proficiency">proficiency in English</a>.</p>
+        <p class="text-black umd-sans-large">Do you have non-U.S. academic records?</p>
+        <p>If you have non-U.S. academic records for post-secondary/university work, please review our <a href="https://admissions.umd.edu/apply/international-applicants">international applicant requirements</a> for instructions on submitting these records.</p>
       </div>
 
       <!-- role="list" restores list semantics that `list-style: none` strips
            in Safari/VoiceOver; the numerals are visible content, not markers. -->
       <ol class="fa-steps" role="list">
         <li class="fa-step">
-          <div class="fa-step-num"><span class="umd-campaign-medium">1</span></div>
+          <div class="fa-step-num"><span class="umd-campaign-large">1</span></div>
           <div class="fa-step-body">
             <h3 class="fa-step-title umd-sans-larger-bold text-black">Completed online application</h3>
             <div class="umd-text-rich-advanced">
@@ -1162,7 +1203,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
           </div>
         </li>
         <li class="fa-step">
-          <div class="fa-step-num"><span class="umd-campaign-medium">2</span></div>
+          <div class="fa-step-num"><span class="umd-campaign-large">2</span></div>
           <div class="fa-step-body">
             <h3 class="fa-step-title umd-sans-larger-bold text-black">Two letters of recommendation</h3>
             <div class="umd-text-rich-advanced">
@@ -1171,7 +1212,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
           </div>
         </li>
         <li class="fa-step">
-          <div class="fa-step-num"><span class="umd-campaign-medium">3</span></div>
+          <div class="fa-step-num"><span class="umd-campaign-large">3</span></div>
           <div class="fa-step-body">
             <h3 class="fa-step-title umd-sans-larger-bold text-black">Official copy of your high school transcripts</h3>
             <div class="umd-text-rich-advanced">
@@ -1180,7 +1221,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
           </div>
         </li>
         <li class="fa-step">
-          <div class="fa-step-num"><span class="umd-campaign-medium">4</span></div>
+          <div class="fa-step-num"><span class="umd-campaign-large">4</span></div>
           <div class="fa-step-body">
             <h3 class="fa-step-title umd-sans-larger-bold text-black">Official copy of your college transcripts (if necessary)</h3>
             <div class="umd-text-rich-advanced">
@@ -1190,7 +1231,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
           </div>
         </li>
         <li class="fa-step">
-          <div class="fa-step-num"><span class="umd-campaign-medium">5</span></div>
+          <div class="fa-step-num"><span class="umd-campaign-large">5</span></div>
           <div class="fa-step-body">
             <h3 class="fa-step-title umd-sans-larger-bold text-black">Official standardized test scores (optional)</h3>
             <div class="umd-text-rich-advanced">
@@ -1200,7 +1241,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
           </div>
         </li>
         <li class="fa-step">
-          <div class="fa-step-num"><span class="umd-campaign-medium">6</span></div>
+          <div class="fa-step-num"><span class="umd-campaign-large">6</span></div>
           <div class="fa-step-body">
             <h3 class="fa-step-title umd-sans-larger-bold text-black">School of Music application (School of Music applicants only)</h3>
             <div class="umd-text-rich-advanced">
