@@ -796,7 +796,10 @@
 
     @media (min-width:1020px) {
       .programs-layout { display:flex; align-items:flex-start; gap:64px; }
-      .programs-filters { width:30%; min-width:260px; max-width:360px; position:sticky; top:110px; }
+      /* deliberately NOT sticky: a pinned rail has to cap its own height, and
+         that nested scroller (plus the per-group ones) meant up to three
+         scrollbars on one screen. The rail scrolls with the page instead. */
+      .programs-filters { width:30%; min-width:260px; max-width:360px; }
     }
 
     .programs-results { flex:1; min-width:0; }
@@ -875,8 +878,20 @@
 
     .pf-body fieldset {
       border:0; margin:0; padding:18px 0 2px; display:flex; flex-direction:column; gap:14px;
-      max-height:320px; overflow-y:auto;
     }
+
+    /* groups longer than PF_SHOW_LIMIT hide the tail behind a "Show all" toggle
+       rather than a nested scrollbar (see buildGroups) */
+    .pf-body fieldset.is-collapsed .pf-extra { display:none; }
+
+    /* the toggle reuses the DS .umd-pill-list chip, same as the active-filter
+       pills above; neutralize its wrapping-margin hack and set our own offset. */
+    .pf-more-cluster.umd-pill-list { display:inline-flex; margin-top:8px; }
+
+    .pf-more-cluster.umd-pill-list > .pf-more { margin-top:0; border:0; cursor:pointer; color:#000; }
+
+    .pf-more-cluster.umd-pill-list > .pf-more:hover,
+    .pf-more-cluster.umd-pill-list > .pf-more:focus-visible { background-color:#FFD200; }
 
     /* option rows use the DS .umd-field-checkbox-wrapper (font-weight:400 — the
        DS-native counter to the global label{font-weight:700}
@@ -1267,23 +1282,35 @@ umd-element-scroll-top[data-layout-fixed="true"] {
     }
     function letterOf(p) { return p.n.charAt(0).toUpperCase(); }
 
+    // options shown before a group collapses behind its "Show all" toggle
+    var PF_SHOW_LIMIT = 7;
+
     var state = { q:'', type:[], college:[], interest:[] };
 
     // ---- build checkbox filter groups ----
     function buildGroups() {
       groupsHost.innerHTML = GROUP_ORDER.map(function (key, idx) {
         var opts = FACETS[key] || [];
-        var rows = opts.map(function (o) {
-          return '<label class="umd-field-checkbox-wrapper"><input type="checkbox" data-group="' + key +
+        var long = opts.length > PF_SHOW_LIMIT;
+        var rows = opts.map(function (o, i) {
+          return '<label class="umd-field-checkbox-wrapper' +
+            (long && i >= PF_SHOW_LIMIT ? ' pf-extra' : '') +
+            '"><input type="checkbox" data-group="' + key +
             '" value="' + esc(o.title) + '"><span>' + esc(o.title) +
             ' <span class="pf-count umd-sans-smaller">(' + o.count + ')</span></span></label>';
         }).join('');
+        var more = long
+          ? '<span class="umd-pill-list pf-more-cluster">' +
+            '<button type="button" class="pf-more" aria-expanded="false" aria-controls="pf-set-' + key + '">' +
+            'Show all ' + opts.length + '</button></span>'
+          : '';
         var open = idx === 0;
         return '<div class="pf-group' + (open ? ' open' : '') + '" data-group="' + key + '">' +
           '<button type="button" aria-expanded="' + open + '" aria-controls="pf-body-' + key + '">' +
           '<span>' + GROUP_LABELS[key] + '</span></button>' +
-          '<div class="pf-body" id="pf-body-' + key + '"><div><fieldset>' + rows +
-          '</fieldset></div></div></div>';
+          '<div class="pf-body" id="pf-body-' + key + '"><div>' +
+          '<fieldset id="pf-set-' + key + '"' + (long ? ' class="is-collapsed"' : '') + '>' +
+          rows + '</fieldset>' + more + '</div></div></div>';
       }).join('');
     }
 
@@ -1380,9 +1407,22 @@ umd-element-scroll-top[data-layout-fixed="true"] {
       if (e.target.matches('input[type="checkbox"]')) { collect(); render(); }
     });
 
-    // accordion toggle
+    // "Show all N" / "Show less" toggle on long groups
     groupsHost.addEventListener('click', function (e) {
-      var btn = e.target.closest('button');
+      var more = e.target.closest('.pf-more');
+      if (!more) return;
+      var set = document.getElementById(more.getAttribute('aria-controls'));
+      var collapsed = set.classList.toggle('is-collapsed');
+      more.setAttribute('aria-expanded', String(!collapsed));
+      more.textContent = collapsed
+        ? 'Show all ' + set.querySelectorAll('input[type="checkbox"]').length
+        : 'Show less';
+    });
+
+    // accordion toggle — the group's own header button only, so the nested
+    // .pf-more button doesn't fall through and toggle the fieldset
+    groupsHost.addEventListener('click', function (e) {
+      var btn = e.target.closest('.pf-group > button');
       if (!btn) return;
       var group = btn.parentElement;
       var open = group.classList.toggle('open');
