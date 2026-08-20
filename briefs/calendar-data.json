@@ -1,0 +1,1528 @@
+{
+ "_meta": {
+  "source": "https://admissions.umd.edu/calendar?layout=list",
+  "harvested": "2026-08-20",
+  "note": "Real events scraped from the live admissions calendar (month list pages plus each event detail page). Fields map 1:1 to the source: date/start from the detail-page <time>, location/types/audience from the event details block, description from the intro rich-text, register from the outline CTA. Images were downloaded into images/calendar/."
+ },
+ "today": "2026-08-20",
+ "facets": {
+  "audience": [
+   {
+    "title": "Prospective Students",
+    "count": 55
+   },
+   {
+    "title": "Admitted/Enrolled Students",
+    "count": 9
+   }
+  ],
+  "location": [
+   {
+    "title": "On Campus",
+    "count": 56
+   },
+   {
+    "title": "Virtual",
+    "count": 8
+   }
+  ],
+  "type": [
+   {
+    "title": "Academic Programs",
+    "count": 37
+   },
+   {
+    "title": "Important Deadlines",
+    "count": 19
+   },
+   {
+    "title": "Tours & Information Sessions",
+    "count": 8
+   }
+  ],
+  "college": [
+   {
+    "title": "School of Architecture, Planning and Preservation (ARCH)",
+    "count": 16
+   },
+   {
+    "title": "College of Education (EDUC)",
+    "count": 8
+   },
+   {
+    "title": "College of Agriculture and Natural Resources (AGNR)",
+    "count": 4
+   },
+   {
+    "title": "Robert H. Smith School of Business (BMGT)",
+    "count": 3
+   },
+   {
+    "title": "A. James Clark School of Engineering (ENGR)",
+    "count": 2
+   },
+   {
+    "title": "College of Arts and Humanities (ARHU)",
+    "count": 2
+   },
+   {
+    "title": "College of Computer, Mathematical, and Natural Sciences (CMNS)",
+    "count": 1
+   },
+   {
+    "title": "School of Public Health (SPH)",
+    "count": 1
+   }
+  ]
+ },
+ "events": [
+  {
+   "date": "2026-04-24",
+   "start": "9:00 AM",
+   "allDay": false,
+   "title": "Next Stop Maryland",
+   "url": "https://admissions.umd.edu/calendar/2026-04-24/nsm-900am-spr26",
+   "location": "On Campus",
+   "types": [
+    "Tours & Information Sessions"
+   ],
+   "colleges": [],
+   "audience": [
+    "Admitted/Enrolled Students"
+   ],
+   "register": {
+    "url": "https://eva.umd.edu/admitted/AdmittedStudentVisitDays",
+    "label": "Register Now"
+   },
+   "description": "This 2 hour event is geared toward newly admitted students. You'll hear from the Office of Undergraduate Admissions and the Department of Resident Life about your next steps to becoming #AlwaysATerp! Students will also receive a tour and get a glimpse into what it's like living on campus. Registration required.",
+   "image": {
+    "file": "next-stop-maryland.jpg",
+    "alt": "Image of campus sign"
+   }
+  },
+  {
+   "date": "2026-04-24",
+   "start": "11:00 AM",
+   "allDay": false,
+   "title": "EDUC Information Session & Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-04-24/educ-info-session-tour-022726-1100am",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "College of Education (EDUC)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The College of Education invites prospective students to to join us for an information academic information session and building tour! This event offers an excellent opportunity to learn more about our programs, admissions process, and student resources. During the session, you will hear from faculty and staff, who will provide insight into the academic experience, career opportunities, and support available to students.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-04-24",
+   "start": "11:00 AM",
+   "allDay": false,
+   "title": "ARHU School of Music Tours",
+   "url": "https://admissions.umd.edu/calendar/2026-04-24/arhu-school-of-music-tours-spr26-mwf",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "College of Arts and Humanities (ARHU)"
+   ],
+   "audience": [
+    "Admitted/Enrolled Students"
+   ],
+   "register": null,
+   "description": "We invite you to sign up for a student-led tour of the School of Music! Students will have the opportunity to tour the Clarice Smith Performing Arts Center and ask questions about how the School of Music can be part of their UMD education. Advance registration (48 hours) is required.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-04-24",
+   "start": "12:00 PM",
+   "allDay": false,
+   "title": "Scholars Information Session",
+   "url": "https://admissions.umd.edu/calendar/2026-04-24/scholars-info-session-spr26",
+   "location": "On Campus",
+   "types": [
+    "Tours & Information Sessions"
+   ],
+   "colleges": [],
+   "audience": [
+    "Admitted/Enrolled Students"
+   ],
+   "register": null,
+   "description": "For our invited students and families unable to make one UMD's Admitted Student Open Houses, College Park Scholars is offering in-person informational sessions on select days this spring. You'll get a chance to meet our staff, talk to our student ambassadors and see the Cambridge Community in person.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-04-24",
+   "start": "12:30 PM",
+   "allDay": false,
+   "title": "Engineering Facilities Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-04-24/engr-tour-sp26-1230pm",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "A. James Clark School of Engineering (ENGR)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Interested in attending an in-person tour of a few of our engineering facilities? All tours will run approximately for an hour. We cannot guarantee that a specific departmental lab will be available on the day of your tour. Additionally, attending a virtual information session before participating in an in-person engineering facilities tour is highly encouraged. Due to capacity restrictions of the labs, we ask that you adhere to the visitor limit of two persons per family (i.e. student plus one additional guest).",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-04-24",
+   "start": "2:00 PM",
+   "allDay": false,
+   "title": "Next Stop Maryland",
+   "url": "https://admissions.umd.edu/calendar/2026-04-24/nsm-200pm-spr26",
+   "location": "On Campus",
+   "types": [
+    "Tours & Information Sessions"
+   ],
+   "colleges": [],
+   "audience": [
+    "Admitted/Enrolled Students"
+   ],
+   "register": {
+    "url": "https://eva.umd.edu/admitted/AdmittedStudentVisitDays",
+    "label": "Register Now"
+   },
+   "description": "This 2 hour event is geared toward newly admitted students. You'll hear from the Office of Undergraduate Admissions and the Department of Resident Life about your next steps to becoming #AlwaysATerp! Students will also receive a tour and get a glimpse into what it's like living on campus. Registration required.",
+   "image": {
+    "file": "next-stop-maryland.jpg",
+    "alt": "Image of campus sign"
+   }
+  },
+  {
+   "date": "2026-04-24",
+   "start": "3:30 PM",
+   "allDay": false,
+   "title": "Engineering Facilities Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-04-24/engr-tour-sp26-330pm",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "A. James Clark School of Engineering (ENGR)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Interested in attending an in-person tour of a few of our engineering facilities? All tours will run approximately for an hour. We cannot guarantee that a specific departmental lab will be available on the day of your tour. Additionally, attending a virtual information session before participating in an in-person engineering facilities tour is highly encouraged. Due to capacity restrictions of the labs, we ask that you adhere to the visitor limit of two persons per family (i.e. student plus one additional guest).",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-04-27",
+   "start": "9:00 AM",
+   "allDay": false,
+   "title": "Next Stop Maryland",
+   "url": "https://admissions.umd.edu/calendar/2026-04-27/nsm-900am-spr26",
+   "location": "On Campus",
+   "types": [
+    "Tours & Information Sessions"
+   ],
+   "colleges": [],
+   "audience": [
+    "Admitted/Enrolled Students"
+   ],
+   "register": {
+    "url": "https://eva.umd.edu/admitted/AdmittedStudentVisitDays",
+    "label": "Register Now"
+   },
+   "description": "This 2 hour event is geared toward newly admitted students. You'll hear from the Office of Undergraduate Admissions and the Department of Resident Life about your next steps to becoming #AlwaysATerp! Students will also receive a tour and get a glimpse into what it's like living on campus. Registration required.",
+   "image": {
+    "file": "next-stop-maryland.jpg",
+    "alt": "Image of campus sign"
+   }
+  },
+  {
+   "date": "2026-04-27",
+   "start": "11:00 AM",
+   "allDay": false,
+   "title": "ARHU School of Music Tours",
+   "url": "https://admissions.umd.edu/calendar/2026-04-27/arhu-school-of-music-tours-spr26-mwf",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "College of Arts and Humanities (ARHU)"
+   ],
+   "audience": [
+    "Admitted/Enrolled Students"
+   ],
+   "register": null,
+   "description": "We invite you to sign up for a student-led tour of the School of Music! Students will have the opportunity to tour the Clarice Smith Performing Arts Center and ask questions about how the School of Music can be part of their UMD education. Advance registration (48 hours) is required.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-04-27",
+   "start": "2:00 PM",
+   "allDay": false,
+   "title": "Next Stop Maryland",
+   "url": "https://admissions.umd.edu/calendar/2026-04-27/nsm-200pm-spr26",
+   "location": "On Campus",
+   "types": [
+    "Tours & Information Sessions"
+   ],
+   "colleges": [],
+   "audience": [
+    "Admitted/Enrolled Students"
+   ],
+   "register": {
+    "url": "https://eva.umd.edu/admitted/AdmittedStudentVisitDays",
+    "label": "Register Now"
+   },
+   "description": "This 2 hour event is geared toward newly admitted students. You'll hear from the Office of Undergraduate Admissions and the Department of Resident Life about your next steps to becoming #AlwaysATerp! Students will also receive a tour and get a glimpse into what it's like living on campus. Registration required.",
+   "image": {
+    "file": "next-stop-maryland.jpg",
+    "alt": "Image of campus sign"
+   }
+  },
+  {
+   "date": "2026-04-29",
+   "start": "4:30 PM",
+   "allDay": false,
+   "title": "Next Stop Maryland",
+   "url": "https://admissions.umd.edu/calendar/2026-04-29/nsm-430pm-spr26",
+   "location": "On Campus",
+   "types": [
+    "Tours & Information Sessions"
+   ],
+   "colleges": [],
+   "audience": [
+    "Admitted/Enrolled Students"
+   ],
+   "register": {
+    "url": "https://eva.umd.edu/admitted/AdmittedStudentVisitDays",
+    "label": "Register Now"
+   },
+   "description": "This 2 hour event is geared toward newly admitted students. You'll hear from the Office of Undergraduate Admissions and the Department of Resident Life about your next steps to becoming #AlwaysATerp! Students will also receive a tour and get a glimpse into what it's like living on campus. Registration required.",
+   "image": {
+    "file": "next-stop-maryland.jpg",
+    "alt": "Image of campus sign"
+   }
+  },
+  {
+   "date": "2026-05-01",
+   "start": "11:30 AM",
+   "allDay": false,
+   "title": "Next Stop Maryland",
+   "url": "https://admissions.umd.edu/calendar/2026-05-01/nsm-may1-1130am",
+   "location": "On Campus",
+   "types": [
+    "Tours & Information Sessions"
+   ],
+   "colleges": [],
+   "audience": [
+    "Admitted/Enrolled Students"
+   ],
+   "register": {
+    "url": "https://eva.umd.edu/admitted/AdmittedStudentVisitDays",
+    "label": "Register Now"
+   },
+   "description": "This 2 hour event is geared toward newly admitted students. You'll hear from the Office of Undergraduate Admissions and the Department of Resident Life about your next steps to becoming #AlwaysATerp! Students will also receive a tour and get a glimpse into what it's like living on campus. Registration required.",
+   "image": {
+    "file": "next-stop-maryland.jpg",
+    "alt": "Image of campus sign"
+   }
+  },
+  {
+   "date": "2026-06-26",
+   "start": "10:00 AM",
+   "allDay": false,
+   "title": "EDUC Academic Information Session and Building Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-06-26/college-of-education-academic-information-session-and-building-tour",
+   "location": "Virtual",
+   "types": [
+    "Tours & Information Sessions"
+   ],
+   "colleges": [],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": {
+    "url": "https://forms.gle/8niH9Z3tJQr616fu5",
+    "label": "Register"
+   },
+   "description": "The College of Education invites prospective students to to join us for an academic information session and building tour! This event offers an excellent opportunity to learn more about our programs, admissions process, and student resources. During the session, you will hear from faculty and staff, who will provide insight into the academic experience, career opportunities, and support available to students.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-08-20",
+   "start": "3:00 PM",
+   "allDay": false,
+   "title": "SPH Virtual Information Session",
+   "url": "https://admissions.umd.edu/calendar/2026-08-20/sph-virtual-information-session-082026",
+   "location": "Virtual",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "School of Public Health (SPH)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": {
+    "url": "https://sph.umd.edu/admissions/future-undergraduate-students/winter-2026-undergraduate-recruitment-events",
+    "label": "Register"
+   },
+   "description": "The School of Public Health invites prospective students to join us for a virtual information session to learn more about how you can become a public health professional promoting health, preventing disease and prolonging active, high-quality lives. Staff and current students will present on our undergraduate degree programs (Family Health, Global Health, Kinesiology, Public Health Practice, and Public Health Science), opportunities beyond the classroom, and life as a public health Terp. We will have a short presentation and answer any questions you may have. Registration is required.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-08-24",
+   "start": "4:00 PM",
+   "allDay": false,
+   "title": "EDUC Academic Information Session and Building Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-08-24/educ-academic-information-session-and-building-tour-2",
+   "location": "Virtual",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "College of Education (EDUC)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": {
+    "url": "https://forms.gle/8niH9Z3tJQr616fu5",
+    "label": "Register"
+   },
+   "description": "The College of Education invites prospective students to to join us for an academic information session and building tour! This event offers an excellent opportunity to learn more about our programs, admissions process, and student resources. During the session, you will hear from faculty and staff, who will provide insight into the academic experience, career opportunities, and support available to students.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-09-09",
+   "start": "5:00 PM",
+   "allDay": false,
+   "title": "EDUC Information Session",
+   "url": "https://admissions.umd.edu/calendar/2026-09-09/educ-info-session-090926-500pm",
+   "location": "Virtual",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "College of Education (EDUC)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The College of Education invites prospective students to join a virtual academic information session. This session offers an excellent opportunity to learn more about our programs, admissions process, and student resources. During the session, you will hear from faculty and staff, who will provide insight into the academic experience, career opportunities, and supports available to students. Registration is required.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-09-09",
+   "start": "5:30 PM",
+   "allDay": false,
+   "title": "CMNS Virtual Information Session",
+   "url": "https://admissions.umd.edu/calendar/2026-09-09/cmns-virtual-information-session",
+   "location": "Virtual",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "College of Computer, Mathematical, and Natural Sciences (CMNS)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": {
+    "url": "https://forms.gle/GUypeeFJYDgRHAqGA",
+    "label": "Register"
+   },
+   "description": "Are you a high school junior, senior, or transfer student interested in College of Computer, Mathematical, and Natural Sciences (CMNS) majors in Artificial Intelligence, Astronomy, Atmospheric & Oceanic Science, Biochemistry, Biological Sciences, Chemistry, Computer Science, Geology, Immersive Media Design: Computing, Mathematics, Neuroscience, or Physics at University of Maryland (UMD)? Want to hear about how UMD helps students interested in the health professions? Sign up for this virtual session to be held on Zoom on Wednesday, September 9, 2026 from 5:30-6:45 p.m. EST to learn about all that CMNS has to offer.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-09-11",
+   "start": "2:00 PM",
+   "allDay": false,
+   "title": "ARCH Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-09-11/arch-fa26-tours-200pm",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "School of Architecture, Planning and Preservation (ARCH)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The School of Architecture, Planning & Preservation invites prospective student to attend an advisor-led tour. During this tour guests will preview details of our undergraduate programs, student opportunities and visit various spots within the Architecture Building that are relevant to the student experience.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-09-18",
+   "start": "1:00 PM",
+   "allDay": false,
+   "title": "ARCH Information Session & Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-09-18/arch-info-session-tour-91826-100pm",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "School of Architecture, Planning and Preservation (ARCH)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The School of Architecture, Planning & Preservation invites prospective students to attend an information session and tour. This in-person information session will include a program presentation from the advising team, a Q&A session with current student ambassadors, followed by a tour of the Architecture Building.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-09-21",
+   "start": "2:00 PM",
+   "allDay": false,
+   "title": "ARCH Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-09-21/arch-fa26-tours-200pm",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "School of Architecture, Planning and Preservation (ARCH)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The School of Architecture, Planning & Preservation invites prospective student to attend an advisor-led tour. During this tour guests will preview details of our undergraduate programs, student opportunities and visit various spots within the Architecture Building that are relevant to the student experience.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-09-25",
+   "start": "9:00 AM",
+   "allDay": false,
+   "title": "BMGT Information Session: Smith Friday",
+   "url": "https://admissions.umd.edu/calendar/2026-09-25/bmgt-smith-friday-92526-900am",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "Robert H. Smith School of Business (BMGT)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Are you a high school student starting to think about college? Are you thinking business might be the right degree for you? If so, register today for our Smith Friday to learn more about the Robert H. Smith School of Business at the University of Maryland, College Park. During each Smith Friday you, and your family, will have the opportunity to meet with current faculty, staff, and students, participate in a college information session and specific prospective student and family Q&A sessions, and tour the home of the Smith School, Van Munching Hall.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-09-25",
+   "start": "10:00 AM",
+   "allDay": false,
+   "title": "AGNR & IAA Information Session",
+   "url": "https://admissions.umd.edu/calendar/2026-09-25/agnr-iaa-info-session-92526-1000am",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "College of Agriculture and Natural Resources (AGNR)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The College of Agriculture and Natural Resources (AGNR) invites you to join a comprehensive presentation highlighting our diverse academic program options. Following the overview, we will transition into major-specific discussion groups, where you can connect directly with our knowledgeable AGNR Student Ambassadors to learn program details first-hand! Registration is required .",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-10-05",
+   "start": "10:15 AM",
+   "allDay": false,
+   "title": "AGNR & IAA Information Session",
+   "url": "https://admissions.umd.edu/calendar/2026-10-05/agnr-iaa-info-session-92826-1015am",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "College of Agriculture and Natural Resources (AGNR)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The College of Agriculture and Natural Resources (AGNR) invites you to join a comprehensive presentation highlighting our diverse academic program options. Following the overview, we will transition into major-specific discussion groups, where you can connect directly with our knowledgeable AGNR Student Ambassadors to learn program details first-hand! Registration is required .",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-10-05",
+   "start": "2:00 PM",
+   "allDay": false,
+   "title": "ARCH Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-10-05/arch-fa26-tours-200pm",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "School of Architecture, Planning and Preservation (ARCH)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The School of Architecture, Planning & Preservation invites prospective student to attend an advisor-led tour. During this tour guests will preview details of our undergraduate programs, student opportunities and visit various spots within the Architecture Building that are relevant to the student experience.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-10-09",
+   "start": "1:00 PM",
+   "allDay": false,
+   "title": "ARCH Information Session & Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-10-09/arch-info-session-tour-91826-100pm",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "School of Architecture, Planning and Preservation (ARCH)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The School of Architecture, Planning & Preservation invites prospective students to attend an information session and tour. This in-person information session will include a program presentation from the advising team, a Q&A session with current student ambassadors, followed by a tour of the Architecture Building.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-10-16",
+   "start": "9:00 AM",
+   "allDay": false,
+   "title": "BMGT Information Session: Smith Friday",
+   "url": "https://admissions.umd.edu/calendar/2026-10-16/bmgt-smith-friday-101626-900am",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "Robert H. Smith School of Business (BMGT)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Are you a high school student starting to think about college? Are you thinking business might be the right degree for you? If so, register today for our Smith Friday to learn more about the Robert H. Smith School of Business at the University of Maryland, College Park. During each Smith Friday you, and your family, will have the opportunity to meet with current faculty, staff, and students, participate in a college information session and specific prospective student and family Q&A sessions, and tour the home of the Smith School, Van Munching Hall.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-10-16",
+   "start": "10:00 AM",
+   "allDay": false,
+   "title": "AGNR & IAA Information Session",
+   "url": "https://admissions.umd.edu/calendar/2026-10-16/agnr-iaa-info-session-92526-1000am",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "College of Agriculture and Natural Resources (AGNR)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The College of Agriculture and Natural Resources (AGNR) invites you to join a comprehensive presentation highlighting our diverse academic program options. Following the overview, we will transition into major-specific discussion groups, where you can connect directly with our knowledgeable AGNR Student Ambassadors to learn program details first-hand! Registration is required .",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-10-16",
+   "start": "11:00 AM",
+   "allDay": false,
+   "title": "EDUC Information Session & Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-10-16/educ-info-session-tour-101626-1100am",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "College of Education (EDUC)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The College of Education invites prospective students to to join an academic information session and building tour! This event offers an excellent opportunity to learn more about our programs, admissions process, and student resources. During the session, you will hear from faculty and staff, who will provide insight into the academic experience, career opportunities, and support available to students. Registration is required.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-10-16",
+   "start": "5:00 PM",
+   "allDay": false,
+   "title": "EDUC Information Session",
+   "url": "https://admissions.umd.edu/calendar/2026-10-16/educ-info-session-090926-500pm",
+   "location": "Virtual",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "College of Education (EDUC)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The College of Education invites prospective students to join a virtual academic information session. This session offers an excellent opportunity to learn more about our programs, admissions process, and student resources. During the session, you will hear from faculty and staff, who will provide insight into the academic experience, career opportunities, and supports available to students. Registration is required.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-10-19",
+   "start": "2:00 PM",
+   "allDay": false,
+   "title": "ARCH Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-10-19/arch-fa26-tours-200pm",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "School of Architecture, Planning and Preservation (ARCH)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The School of Architecture, Planning & Preservation invites prospective student to attend an advisor-led tour. During this tour guests will preview details of our undergraduate programs, student opportunities and visit various spots within the Architecture Building that are relevant to the student experience.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-10-23",
+   "start": "2:00 PM",
+   "allDay": false,
+   "title": "ARCH Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-10-23/arch-fa26-tours-200pm",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "School of Architecture, Planning and Preservation (ARCH)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The School of Architecture, Planning & Preservation invites prospective student to attend an advisor-led tour. During this tour guests will preview details of our undergraduate programs, student opportunities and visit various spots within the Architecture Building that are relevant to the student experience.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-10-24",
+   "start": "10:00 AM",
+   "allDay": false,
+   "title": "AGNR & IAA Information Session & Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-10-24/agnr-iaa-info-session-tour-102426-1000am",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "College of Agriculture and Natural Resources (AGNR)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The College of Agriculture and Natural Resources (AGNR) invites you to join a special weekend opportunity, featuring a comprehensive presentation highlighting our diverse academic program options. Following the overview, you will connect directly with faculty and staff in major-specific breakout sessions to discuss program details, explore related facilities, and answer your questions. R egistration is required .",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-10-26",
+   "start": "2:00 PM",
+   "allDay": false,
+   "title": "ARCH Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-10-26/arch-fa26-tours-200pm",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "School of Architecture, Planning and Preservation (ARCH)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The School of Architecture, Planning & Preservation invites prospective student to attend an advisor-led tour. During this tour guests will preview details of our undergraduate programs, student opportunities and visit various spots within the Architecture Building that are relevant to the student experience.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-11-01",
+   "start": null,
+   "allDay": true,
+   "title": "Freshman Early Action Application Deadline - For Fall Admission",
+   "url": "https://admissions.umd.edu/calendar/2026-11-01/freshman-fall-eadeadline-nov1",
+   "location": "On Campus",
+   "types": [
+    "Important Deadlines"
+   ],
+   "colleges": [],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Freshman students who apply and submit a completed application by the November 1 fall early action deadline will receive a decision by February 1. More information is available on our Application Deadlines page.",
+   "image": {
+    "file": "campus-clock.jpg",
+    "alt": "Large clock on the University of Maryland campus."
+   }
+  },
+  {
+   "date": "2026-11-02",
+   "start": "2:00 PM",
+   "allDay": false,
+   "title": "ARCH Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-11-02/arch-fa26-tours-200pm",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "School of Architecture, Planning and Preservation (ARCH)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The School of Architecture, Planning & Preservation invites prospective student to attend an advisor-led tour. During this tour guests will preview details of our undergraduate programs, student opportunities and visit various spots within the Architecture Building that are relevant to the student experience.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-11-06",
+   "start": "2:00 PM",
+   "allDay": false,
+   "title": "ARCH Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-11-06/arch-fa26-tours-200pm",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "School of Architecture, Planning and Preservation (ARCH)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The School of Architecture, Planning & Preservation invites prospective student to attend an advisor-led tour. During this tour guests will preview details of our undergraduate programs, student opportunities and visit various spots within the Architecture Building that are relevant to the student experience.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-11-09",
+   "start": "2:00 PM",
+   "allDay": false,
+   "title": "ARCH Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-11-09/arch-fa26-tours-200pm",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "School of Architecture, Planning and Preservation (ARCH)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The School of Architecture, Planning & Preservation invites prospective student to attend an advisor-led tour. During this tour guests will preview details of our undergraduate programs, student opportunities and visit various spots within the Architecture Building that are relevant to the student experience.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-11-11",
+   "start": "5:00 PM",
+   "allDay": false,
+   "title": "EDUC Information Session",
+   "url": "https://admissions.umd.edu/calendar/2026-11-11/educ-info-session-090926-500pm",
+   "location": "Virtual",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "College of Education (EDUC)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The College of Education invites prospective students to join a virtual academic information session. This session offers an excellent opportunity to learn more about our programs, admissions process, and student resources. During the session, you will hear from faculty and staff, who will provide insight into the academic experience, career opportunities, and supports available to students. Registration is required.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-11-13",
+   "start": "9:00 AM",
+   "allDay": false,
+   "title": "BMGT Information Session: Smith Friday",
+   "url": "https://admissions.umd.edu/calendar/2026-11-13/bmgt-smith-friday-111326-900am",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "Robert H. Smith School of Business (BMGT)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Are you a high school student starting to think about college? Are you thinking business might be the right degree for you? If so, register today for our Smith Friday to learn more about the Robert H. Smith School of Business at the University of Maryland, College Park. During each Smith Friday you, and your family, will have the opportunity to meet with current faculty, staff, and students, participate in a college information session and specific prospective student and family Q&A sessions, and tour the home of the Smith School, Van Munching Hall.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-11-15",
+   "start": null,
+   "allDay": true,
+   "title": "Maryland Transfer Advantage Program (MTAP) Application Deadline for Spring",
+   "url": "https://admissions.umd.edu/calendar/2026-11-15/mtap-spring-deadline-nov15",
+   "location": "On Campus",
+   "types": [
+    "Important Deadlines"
+   ],
+   "colleges": [],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Students interested in participating in MTAP in the spring semester should apply by November 15. More details can be found on our MTAP webpage .",
+   "image": {
+    "file": "campus-clock.jpg",
+    "alt": "Large clock on the University of Maryland campus."
+   }
+  },
+  {
+   "date": "2026-11-15",
+   "start": null,
+   "allDay": true,
+   "title": "Transfer Regular Application Deadline - For Spring Admission",
+   "url": "https://admissions.umd.edu/calendar/2026-11-15/transfer-spring-regulardeadline-nov15",
+   "location": "On Campus",
+   "types": [
+    "Important Deadlines"
+   ],
+   "colleges": [],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Transfer students who apply and submit a completed application by the November 15 spring regular deadline will receive a decision in mid-December. More information is available on our Application Deadlines page.",
+   "image": {
+    "file": "campus-clock.jpg",
+    "alt": "Large clock on the University of Maryland campus."
+   }
+  },
+  {
+   "date": "2026-11-15",
+   "start": null,
+   "allDay": true,
+   "title": "UMD at Shady Grove Early Action Application Deadline - For Spring Admission",
+   "url": "https://admissions.umd.edu/calendar/2026-11-15/shadygrove-spring-eadeadline-nov15",
+   "location": "On Campus",
+   "types": [
+    "Important Deadlines"
+   ],
+   "colleges": [],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Students interested in UMD's Shady Grove location should apply and submit a completed application by the November 15 spring early action deadline. Decisions will released on a rolling basis. More information is available on our Application Deadlines page.",
+   "image": {
+    "file": "campus-clock.jpg",
+    "alt": "Large clock on the University of Maryland campus."
+   }
+  },
+  {
+   "date": "2026-11-16",
+   "start": "2:00 PM",
+   "allDay": false,
+   "title": "ARCH Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-11-16/arch-fa26-tours-200pm",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "School of Architecture, Planning and Preservation (ARCH)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The School of Architecture, Planning & Preservation invites prospective student to attend an advisor-led tour. During this tour guests will preview details of our undergraduate programs, student opportunities and visit various spots within the Architecture Building that are relevant to the student experience.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-11-20",
+   "start": "2:00 PM",
+   "allDay": false,
+   "title": "ARCH Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-11-20/arch-fa26-tours-200pm",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "School of Architecture, Planning and Preservation (ARCH)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The School of Architecture, Planning & Preservation invites prospective student to attend an advisor-led tour. During this tour guests will preview details of our undergraduate programs, student opportunities and visit various spots within the Architecture Building that are relevant to the student experience.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-11-30",
+   "start": "2:00 PM",
+   "allDay": false,
+   "title": "ARCH Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-11-30/arch-fa26-tours-200pm",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "School of Architecture, Planning and Preservation (ARCH)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The School of Architecture, Planning & Preservation invites prospective student to attend an advisor-led tour. During this tour guests will preview details of our undergraduate programs, student opportunities and visit various spots within the Architecture Building that are relevant to the student experience.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-12-04",
+   "start": "2:00 PM",
+   "allDay": false,
+   "title": "ARCH Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-12-04/arch-fa26-tours-200pm",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "School of Architecture, Planning and Preservation (ARCH)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The School of Architecture, Planning & Preservation invites prospective student to attend an advisor-led tour. During this tour guests will preview details of our undergraduate programs, student opportunities and visit various spots within the Architecture Building that are relevant to the student experience.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-12-07",
+   "start": "2:00 PM",
+   "allDay": false,
+   "title": "ARCH Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-12-07/arch-fa26-tours-200pm",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "School of Architecture, Planning and Preservation (ARCH)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The School of Architecture, Planning & Preservation invites prospective student to attend an advisor-led tour. During this tour guests will preview details of our undergraduate programs, student opportunities and visit various spots within the Architecture Building that are relevant to the student experience.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-12-09",
+   "start": "5:00 PM",
+   "allDay": false,
+   "title": "EDUC Information Session",
+   "url": "https://admissions.umd.edu/calendar/2026-12-09/educ-info-session-090926-500pm",
+   "location": "Virtual",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "College of Education (EDUC)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The College of Education invites prospective students to join a virtual academic information session. This session offers an excellent opportunity to learn more about our programs, admissions process, and student resources. During the session, you will hear from faculty and staff, who will provide insight into the academic experience, career opportunities, and supports available to students. Registration is required.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2026-12-18",
+   "start": "11:00 AM",
+   "allDay": false,
+   "title": "EDUC Information Session & Tour",
+   "url": "https://admissions.umd.edu/calendar/2026-12-18/educ-info-session-tour-101626-1100am",
+   "location": "On Campus",
+   "types": [
+    "Academic Programs"
+   ],
+   "colleges": [
+    "College of Education (EDUC)"
+   ],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "The College of Education invites prospective students to to join an academic information session and building tour! This event offers an excellent opportunity to learn more about our programs, admissions process, and student resources. During the session, you will hear from faculty and staff, who will provide insight into the academic experience, career opportunities, and support available to students. Registration is required.",
+   "image": {
+    "file": "edward-st-john.jpg",
+    "alt": "Students walking through the Edward St. John Learning Teaching Center."
+   }
+  },
+  {
+   "date": "2027-01-20",
+   "start": null,
+   "allDay": true,
+   "title": "Freshman Regular Application Deadline - For Fall Admission",
+   "url": "https://admissions.umd.edu/calendar/2027-01-20/freshman-fall-regulardeadline-jan20",
+   "location": "On Campus",
+   "types": [
+    "Important Deadlines"
+   ],
+   "colleges": [],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Freshman students who apply and submit a completed application by the January 20 fall regular deadline will receive a decision by April 1. More information is available on our Application Deadlines page.",
+   "image": {
+    "file": "campus-clock.jpg",
+    "alt": "Large clock on the University of Maryland campus."
+   }
+  },
+  {
+   "date": "2027-03-01",
+   "start": null,
+   "allDay": true,
+   "title": "Transfer Early Action Application Deadline - For Fall Admission",
+   "url": "https://admissions.umd.edu/calendar/2027-03-01/transfer-fall-eadeadline-mar1",
+   "location": "On Campus",
+   "types": [
+    "Important Deadlines"
+   ],
+   "colleges": [],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Transfer students who apply and submit a completed application by the March 1 fall early action deadline will receive a decision in late-April. More information is available on our Application Deadlines page.",
+   "image": {
+    "file": "campus-clock.jpg",
+    "alt": "Large clock on the University of Maryland campus."
+   }
+  },
+  {
+   "date": "2027-06-01",
+   "start": null,
+   "allDay": true,
+   "title": "Transfer Regular Application Deadline - For Fall Admission",
+   "url": "https://admissions.umd.edu/calendar/2027-06-01/transfer-fall-regulardeadline-june1",
+   "location": "On Campus",
+   "types": [
+    "Important Deadlines"
+   ],
+   "colleges": [],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Transfer students who apply and submit a completed application by the June 1 fall regular deadline will receive a decision in mid-July. More information is available on our Application Deadlines page.",
+   "image": {
+    "file": "campus-clock.jpg",
+    "alt": "Large clock on the University of Maryland campus."
+   }
+  },
+  {
+   "date": "2027-06-01",
+   "start": null,
+   "allDay": true,
+   "title": "Maryland Transfer Advantage Program (MTAP) Application Deadline for Fall",
+   "url": "https://admissions.umd.edu/calendar/2027-06-01/mtap-fall-deadline-june1",
+   "location": "On Campus",
+   "types": [
+    "Important Deadlines"
+   ],
+   "colleges": [],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Students interested in participating in MTAP in the fall semester should apply by June 1. More details can be found on our MTAP webpage .",
+   "image": {
+    "file": "campus-clock.jpg",
+    "alt": "Large clock on the University of Maryland campus."
+   }
+  },
+  {
+   "date": "2027-06-01",
+   "start": null,
+   "allDay": true,
+   "title": "UMD at Shady Grove Early Action Application Deadline - For Fall Admission",
+   "url": "https://admissions.umd.edu/calendar/2027-06-01/shadygrove-fall-eadeadline-june1",
+   "location": "On Campus",
+   "types": [
+    "Important Deadlines"
+   ],
+   "colleges": [],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Students interested in UMD's Shady Grove location should apply and submit a completed application by the June 1 fall early action deadline. Decisions will released on a rolling basis. More information is available on our Application Deadlines page.",
+   "image": {
+    "file": "campus-clock.jpg",
+    "alt": "Large clock on the University of Maryland campus."
+   }
+  },
+  {
+   "date": "2027-08-01",
+   "start": null,
+   "allDay": true,
+   "title": "Transfer Early Action Application Deadline - For Spring Admission",
+   "url": "https://admissions.umd.edu/calendar/2027-08-01/transfer-spring-eadeadline-aug1",
+   "location": "On Campus",
+   "types": [
+    "Important Deadlines"
+   ],
+   "colleges": [],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Transfer students who apply and submit a completed application by the August 1 fall early action deadline will receive a decision in late-October. More information is available on our Application Deadlines page.",
+   "image": {
+    "file": "campus-clock.jpg",
+    "alt": "Large clock on the University of Maryland campus."
+   }
+  },
+  {
+   "date": "2027-11-01",
+   "start": null,
+   "allDay": true,
+   "title": "Freshman Early Action Application Deadline - For Fall Admission",
+   "url": "https://admissions.umd.edu/calendar/2027-11-01/freshman-fall-eadeadline-nov1",
+   "location": "On Campus",
+   "types": [
+    "Important Deadlines"
+   ],
+   "colleges": [],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Freshman students who apply and submit a completed application by the November 1 fall early action deadline will receive a decision by February 1. More information is available on our Application Deadlines page.",
+   "image": {
+    "file": "campus-clock.jpg",
+    "alt": "Large clock on the University of Maryland campus."
+   }
+  },
+  {
+   "date": "2027-11-15",
+   "start": null,
+   "allDay": true,
+   "title": "Maryland Transfer Advantage Program (MTAP) Application Deadline for Spring",
+   "url": "https://admissions.umd.edu/calendar/2027-11-15/mtap-spring-deadline-nov15",
+   "location": "On Campus",
+   "types": [
+    "Important Deadlines"
+   ],
+   "colleges": [],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Students interested in participating in MTAP in the spring semester should apply by November 15. More details can be found on our MTAP webpage .",
+   "image": {
+    "file": "campus-clock.jpg",
+    "alt": "Large clock on the University of Maryland campus."
+   }
+  },
+  {
+   "date": "2027-11-15",
+   "start": null,
+   "allDay": true,
+   "title": "Transfer Regular Application Deadline - For Spring Admission",
+   "url": "https://admissions.umd.edu/calendar/2027-11-15/transfer-spring-regulardeadline-nov15",
+   "location": "On Campus",
+   "types": [
+    "Important Deadlines"
+   ],
+   "colleges": [],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Transfer students who apply and submit a completed application by the November 15 spring regular deadline will receive a decision in mid-December. More information is available on our Application Deadlines page.",
+   "image": {
+    "file": "campus-clock.jpg",
+    "alt": "Large clock on the University of Maryland campus."
+   }
+  },
+  {
+   "date": "2027-11-15",
+   "start": null,
+   "allDay": true,
+   "title": "UMD at Shady Grove Early Action Application Deadline - For Spring Admission",
+   "url": "https://admissions.umd.edu/calendar/2027-11-15/shadygrove-spring-eadeadline-nov15",
+   "location": "On Campus",
+   "types": [
+    "Important Deadlines"
+   ],
+   "colleges": [],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Students interested in UMD's Shady Grove location should apply and submit a completed application by the November 15 spring early action deadline. Decisions will released on a rolling basis. More information is available on our Application Deadlines page.",
+   "image": {
+    "file": "campus-clock.jpg",
+    "alt": "Large clock on the University of Maryland campus."
+   }
+  },
+  {
+   "date": "2028-01-20",
+   "start": null,
+   "allDay": true,
+   "title": "Freshman Regular Application Deadline - For Fall Admission",
+   "url": "https://admissions.umd.edu/calendar/2028-01-20/freshman-fall-regulardeadline-jan20",
+   "location": "On Campus",
+   "types": [
+    "Important Deadlines"
+   ],
+   "colleges": [],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Freshman students who apply and submit a completed application by the January 20 fall regular deadline will receive a decision by April 1. More information is available on our Application Deadlines page.",
+   "image": {
+    "file": "campus-clock.jpg",
+    "alt": "Large clock on the University of Maryland campus."
+   }
+  },
+  {
+   "date": "2028-03-01",
+   "start": null,
+   "allDay": true,
+   "title": "Transfer Early Action Application Deadline - For Fall Admission",
+   "url": "https://admissions.umd.edu/calendar/2028-03-01/transfer-fall-eadeadline-mar1",
+   "location": "On Campus",
+   "types": [
+    "Important Deadlines"
+   ],
+   "colleges": [],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Transfer students who apply and submit a completed application by the March 1 fall early action deadline will receive a decision in late-April. More information is available on our Application Deadlines page.",
+   "image": {
+    "file": "campus-clock.jpg",
+    "alt": "Large clock on the University of Maryland campus."
+   }
+  },
+  {
+   "date": "2028-06-01",
+   "start": null,
+   "allDay": true,
+   "title": "Transfer Regular Application Deadline - For Fall Admission",
+   "url": "https://admissions.umd.edu/calendar/2028-06-01/transfer-fall-regulardeadline-june1",
+   "location": "On Campus",
+   "types": [
+    "Important Deadlines"
+   ],
+   "colleges": [],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Transfer students who apply and submit a completed application by the June 1 fall regular deadline will receive a decision in mid-July. More information is available on our Application Deadlines page.",
+   "image": {
+    "file": "campus-clock.jpg",
+    "alt": "Large clock on the University of Maryland campus."
+   }
+  },
+  {
+   "date": "2028-06-01",
+   "start": null,
+   "allDay": true,
+   "title": "Maryland Transfer Advantage Program (MTAP) Application Deadline for Fall",
+   "url": "https://admissions.umd.edu/calendar/2028-06-01/mtap-fall-deadline-june1",
+   "location": "On Campus",
+   "types": [
+    "Important Deadlines"
+   ],
+   "colleges": [],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Students interested in participating in MTAP in the fall semester should apply by June 1. More details can be found on our MTAP webpage .",
+   "image": {
+    "file": "campus-clock.jpg",
+    "alt": "Large clock on the University of Maryland campus."
+   }
+  },
+  {
+   "date": "2028-06-01",
+   "start": null,
+   "allDay": true,
+   "title": "UMD at Shady Grove Early Action Application Deadline - For Fall Admission",
+   "url": "https://admissions.umd.edu/calendar/2028-06-01/shadygrove-fall-eadeadline-june1",
+   "location": "On Campus",
+   "types": [
+    "Important Deadlines"
+   ],
+   "colleges": [],
+   "audience": [
+    "Prospective Students"
+   ],
+   "register": null,
+   "description": "Students interested in UMD's Shady Grove location should apply and submit a completed application by the June 1 fall early action deadline. Decisions will released on a rolling basis. More information is available on our Application Deadlines page.",
+   "image": {
+    "file": "campus-clock.jpg",
+    "alt": "Large clock on the University of Maryland campus."
+   }
+  }
+ ]
+}

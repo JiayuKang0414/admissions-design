@@ -34,11 +34,12 @@ pages/
 ├── how-to-apply/
 │   ├── index.html
 │   └── freshman-applicants.html
-└── tuition/index.html
+├── tuition/index.html
+└── calendar/index.html
 ```
 
 - New admissions pages → `pages/<section>/<page-name>.html`; a new section starts with its own `index.html`
-- New admissions images → `images/academics/`, `images/admissions/`, or a new `images/<page>/` folder per page
+- New admissions images → `images/academics/`, `images/admissions/`, `images/calendar/`, or a new `images/<page>/` folder per page
 - Briefs / source notes → `briefs/<page-name>.md`
 
 ### Depth: never hard-code `../`
@@ -98,7 +99,7 @@ python3 scripts/build-chrome.py --check  # exits non-zero if any page is stale (
 
 Each region sits between `SHARED:<key>:START` / `:END` markers in the page. **Do not hand-edit anything between those markers** — the next run overwrites it. On a page that has no markers yet, the script finds the existing chrome by content and wraps it, so adding a new page needs no special setup.
 
-The generated pages (`scripts/build-programs.py`, `scripts/build-colleges-schools.py`, `scripts/build-interest.py`) emit the *same* blocks via `scripts/_chrome.py`, so running any of them converges on identical bytes — there is no ordering dependency between them.
+The generated pages (`scripts/build-programs.py`, `scripts/build-colleges-schools.py`, `scripts/build-interest.py`, `scripts/build-calendar.py`) emit the *same* blocks via `scripts/_chrome.py`, so running any of them converges on identical bytes — there is no ordering dependency between them.
 
 ### Generated pages
 
@@ -107,6 +108,7 @@ The generated pages (`scripts/build-programs.py`, `scripts/build-colleges-school
 | `build-programs.py` | `pages/academics/programs.html` | `briefs/programs-data.json` |
 | `build-colleges-schools.py` | `pages/academics/colleges-schools.html` | `briefs/colleges-schools-data.json` |
 | `build-interest.py [slug]` | `pages/academics/interest-<slug>.html` | `briefs/interests-data.json` + the two above |
+| `build-calendar.py` | `pages/calendar/index.html` | `briefs/calendar-data.json` |
 
 `build-interest.py` derives the majors grid from the `interests` facet already present on every program in `programs-data.json`, so a new interest page is a data edit (one block in `briefs/interests-data.json`), not a code edit. Run with no argument to rebuild every slug.
 

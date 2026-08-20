@@ -269,6 +269,181 @@ The page is almost entirely **derived**: the majors grid is `briefs/programs-dat
 - **The page ends after Related Colleges & Schools.** The source page repeats the majors grid below that section; it is a duplicate render, not a section, and is deliberately not reproduced. Assert `document.querySelectorAll('.interest-majors-grid').length === 1`.
 - **College cards are curated per interest, not derived.** E&T has programs in 9 colleges but shows the source page's 3 (ENGR, CMNS, BMGT). The generator raises on an unknown slug rather than dropping a card. Card-standard does **not** clamp `slot="text"` — the 277–318 char college descriptions render in full, verified identical light vs. shadow.
 
+## `pages/calendar/index.html` — events calendar
+
+New page recreating <https://admissions.umd.edu/calendar> in the DS, both of its layouts. Regenerate via `python3 scripts/build-calendar.py`; the generated HTML is overwritten wholesale — edit `briefs/calendar-data.json`, `shared/`, or the generator's `BODY` literal, not the page. Content notes and the harvest method are in `briefs/calendar.md`.
+
+Composition: a **control bar** (month cursor + List/Calendar toggle), the page-builder **Filter Band** across the top, and then either a **list** of `umd-element-event[data-display="list"]` beside a mini-calendar rail, or a **full-bleed month grid**.
+
+### Why the filters are on top and the rail is not
+
+The first build put the facets in a left rail (the `.pf-*` accordion from the programs page). That works for a list, but a seven-column month grid needs the full content width — a 360px rail leaves ~93px columns at 1280px, which is tablet-grade at desktop. The live site reaches the same conclusion: at desktop its grid layout puts three selects in a row under the control bar, and the "Filters" overlay button is only its narrow-screen fallback. Moving the band up also widened the list rows, which was a free win.
+
+The rail still exists — it just holds the **mini month calendar** and nothing else, sits on the **right** (where calendar.umd.edu puts this same month grid), and appears **only in list view**.
+
+The right placement is `order:2` / `order:1` inside the flex row, not DOM position. Moving `.cal-rail` after `.cal-results` in the markup would also put it on the right, but then the single-column stack below 1020px would bury the date picker under 51 event cards. The trade is that keyboard focus reaches the rail before the results beside it — acceptable here: the rail is a handful of enabled day buttons and it is a *control for* the list, not a peer of it. In grid view `#cal-layout` is hidden entirely and the grid renders full bleed: a second month picker beside the month grid would duplicate the control *and* take back the width the relayout was for.
+
+> **`hidden` loses to any author `display` rule.** The view toggle switches by setting the `hidden` *attribute*, whose `display:none` comes from the **UA stylesheet** — so any author rule that sets `display` on the same element beats it. `.cal-layout` declares `display:block` (and `flex` at ≥1020px), and the rail therefore stayed on screen in grid view while `el.hidden` reported `true`. The guard is one rule at specificity 0,2,0, which clears the media query's 0,1,0 without `!important`:
+>
+> ```css
+> .cal-layout[hidden], #cal-grid[hidden] { display: none; }
+> .pf-pills[hidden] { display: none; }
+> ```
+>
+> `.pf-pills` is the same bug in a quieter form — `display:flex` kept an empty pill row alive at zero height, leaking its `margin-bottom:16px` into the gap between the band and the control bar. It only became visible once the bar moved below the band, and it was found by measuring the gap, not by looking at it.
+>
+> **Verify with `getComputedStyle(el).display`, never `el.hidden`** — the property is what you just set, not what the browser painted. This is the same class of mistake as checking that an injection *ran* rather than that it *matched* (see the pathway note under interest pages).
+
+### Hero
+
+`umd-element-hero-minimal data-theme="dark"`, headline only — 288px tall, black panel, 80px white `h1`. The live calendar page has a breadcrumb and an `h1` and nothing else, so there is no supporting paragraph and no CTA. An earlier revision used `umd-element-hero` `data-layout-height="small"` with a photo, a line of body copy and a "Plan Your Visit" button; the copy and the button were **invented for this page**, not sourced, which is exactly the kind of filler an interior utility page does not need. `umd-element-hero-minimal` needs no `critical.css` entry — upstream `web-components.min.css` already ships its `:not(:defined)` placeholder sizing and `container-type`.
+
+### Control bar
+
+**Order on the page is: filter band → active pills → control bar → count → results.** The band answers *which* events; the bar answers *when*, and *shown how*. Putting the bar first (the first build's order, and the live site's) stranded a 32px month heading above the filters that changed it, so it read as a page title rather than as a label for the results. Below the band it labels the thing directly under it. Spacing measures 32px band→bar (32 → pills → 16 → bar when a filter is active), 24px bar→count, 24px count→results.
+
+- Month label is **`umd-campaign-small`** — Barlow Condensed italic 700, 44px desktop / 32px mobile — matching the hero wordmark. **There is no `-uppercase` sibling for the campaign faces** the way `umd-sans-*` has one, so `text-transform` is stated in page CSS. The arrows **flank** it rather than trailing it, so the label reads as the thing being stepped through; `text-align:center` plus `min-width:11ch` on the `<h2>` keeps them from jittering as the month name changes length — `ch`, not `em`, because the condensed face's em is far narrower than its average glyph.
+- Arrows are 36px Maryland-red squares (`#E21833`, hover `#a90007`) holding the UMD chevron; the prev button flips it with `transform: scaleX(-1)`.
+- **No rule under the bar.** An earlier revision had a `border-bottom` there; it stacked with the filter band's own top edge and read as a double divider.
+
+### No search field
+
+The band's text-search half is deliberately unused. The live calendar has no search, and four `<select>` facets over 64 events do not need one. `critical.css` §23's `.umd-filter-search-row` / `.umd-filter-search-btn` rules stay in the inlined block (it is copied verbatim from TEMPLATE) but nothing on the page matches them.
+
+### Filter Band — what is reusable and what is not
+
+The **layout** is the page-builder's Filter Band (`LAYOUT-PATTERNS.md`), and almost all of it is already vendored:
+
+| Piece | Source |
+|---|---|
+| Gray panel + red left rule | `.umd-layout-background-highlight-light` (layout.min.css) — `#F1F1F1`, `border-left:2px solid #E21833`, padding 24 → 32 → 56px |
+| Heading + Clear on one line | `.umd-layout-grid-inline-stretch` (first child gets `flex:1 0 auto`, so the rule fills) |
+| Heading rule | `.umd-text-line-trailing-light` — **needs an explicit `background-color`** on the heading; its `<span>` inherits that colour to mask the rule, and on the `#F1F1F1` panel the default white leaves a white notch |
+| Clear button underline | `.umd-animation-line-slide-graydark-red` (animation.min.css) |
+| Select box + chevron | `.umd-field-select-wrapper` (element.min.css) — supplies the white box and the SVG chevron; the `<select>` itself only needs the box model |
+| Control row | `.umd-layout-grid-gap-four` — 1 → 2 → 4 columns, 32px gap; exactly four facets fit |
+| Results count | `.umd-filter-results-count` (critical.css §23). It ships `margin:24px 0 0`; with the band already supplying the space above, override to `0 0 24px` or the count collides with the first month heading |
+
+(If a search is ever wanted back: the band's search row is `.umd-filter-search-row` + `.umd-filter-search-btn`, and **the input must be `type="text"`** — the rule is `.umd-filter-search-row input[type="text"]`, so a `type="search"` input silently gets none of it.)
+
+The **behavior** is not reusable. `page-builder/scripts/filter-band.js` handles one `data-filter-select` plus a `textContent` search; this page has four facets, a date cursor and two views over the same result set, so it keeps its own filter JS (as LAYOUT-PATTERNS says the facet variant must). `.umd-filter-list` is likewise unused — the list is grouped into month sections whose `umd-element-event` children already carry upstream dividers.
+
+One thing the band buys back: because it is a plain `<form>` of native controls, `type="reset"` genuinely resets it. The old rail needed a hand-rolled `clearAll()` because `umd-element-call-to-action` clones its child button into shadow DOM and a native reset never reaches the light-DOM form.
+
+### One date cursor, two views, one month per page
+
+`state.from` is the only date, and **both views window to its month**. The list used to run from the cursor to the end of the data, which meant the control bar could read AUGUST 2026 above a list that opened in September. One month per page makes the bar an honest label, makes the pager beneath it meaningful, and let the "N events from …" line go away entirely.
+
+Month nav moves the cursor to the 1st of the next/previous month; "Today" returns it to today's date. Resisting a second "view month" variable is the point — two cursors drift, and the label above the two views would stop meaning one thing.
+
+`state.picked` rides alongside it: true when the user chose that *day* (mini-calendar click, or Today), false when they merely landed on it by moving months. **Only a picked day gets the red ring.** Month navigation snaps `from` to the 1st, and ringing an empty 1st reads as a selection nobody made.
+
+**The list carries no group heading at all.** One month per page, and the control bar directly above already reads that month — a `AUGUST 2026` ribbon under an `AUGUST 2026` heading is duplication. Two variants were tried and removed: a per-day ribbon set ("Today" / "Thursday, Aug 20", matching `umd-feed-events-grouped`), and a single per-month ribbon. Neither survived pagination.
+
+The cards are therefore **direct children of `#cal-list` with no wrapper section**, which is what upstream `web-components.min.css` needs for its `umd-element-event[data-display="list"] + umd-element-event[data-display="list"]` divider (24px + 1px `#E6E6E6`). Wrapping them re-breaks it silently.
+
+### Month pager — `umd-shell-pagination` is NOT in the styles package
+
+The pattern is real (see <https://today.umd.edu/tags/athletics>) but **its CSS ships nowhere this project loads**. All eight `web-styles-library` bundles were searched for `pagin|pager|page-num|prev|next|load-more`: zero hits, and no `umd-shell-*` rule of any kind. That family belongs to the CMS shell layer; `critical.css` carries only its utility-nav and person-grid members. The design system's own pagination is a different thing entirely — `packages/feeds/source/states/pagination.ts` builds a centred "Load more" `<button>` styled `umd-action-outline`.
+
+So the pager here restates `umd-shell-pagination` from the **live computed styles**, the same situation as `critical.css` §23's `umd-filter-*`. Measured and matched: 8px gaps, centred wrapper, `2px solid #000` current, `1px solid #E6E6E6` page boxes, 40×40 black steppers going `#E6E6E6` when disabled, 16px white chevron rotated 180° for prev.
+
+**Pages are numbered, and page N is the Nth month the data covers** — so stepping a page steps a month. The boxes stay the source's fixed 40×40 (they hold digits) and the window is first · … · prev · current · next · … · last, the same shape as the source's `1 2 3 4 5 … 18`, clamped to `YM_MIN`/`YM_MAX` — the same clamp that stops the control-bar arrows walking off into empty months. A month-labelled variant ("Apr 2026" in each box, boxes grown with `min-width` + padding) was tried and reverted: it was far too heavy for what is a page stepper.
+
+The month is not lost for non-visual users — it rides in the `aria-label` ("View page 1 of 27, April 2026") and in the nav's `sr-only` line ("Page 5 of 27, August 2026").
+
+Page actions are `<button data-goto="YYYY-MM">`, not `<a href>` — there is no per-month URL on a client-side page.
+
+`matchFacets()` is kept separate from the date window for the same reason: both views filter the same faceted set and then apply their own window, so switching views never re-derives the facets.
+
+A day click in the mini calendar sets the same cursor at day granularity. The mini calendar carries **no month nav of its own** — the control bar owns the month, and two sets of arrows for one value invites them to drift.
+
+### Mini month calendar (`.cal-mini`)
+
+Recreated from <https://calendar.umd.edu>'s right rail by measuring the live computed styles, not by guessing: `#FAFAFA` panel at `24px 14px`, two `repeat(7, 1fr)` grids with a `1px` gutter, square cells from `padding-bottom: 100%` on a zero-height box, `12px`/`800` numerals absolutely centred, `#F1F1F1` for out-of-month cells, `#454545` text for past days.
+
+- **The source's only "this day has events" cue is `text-decoration: underline` on the numeral.** No dot, no badge — diffing every computed property between a `data-hasevents="true"` and `="false"` cell turns up exactly that one difference. Reproduced as-is. Assert on the computed `textDecorationLine` of `.num`, not on the attribute.
+- **The selected-day ring is an inset `box-shadow`, not the source's `border`.** A real border on a `padding-bottom: 100%` box is added outside the zero content height and knocks the cell out of square. `box-shadow: inset 0 0 0 2px` paints in the same place with no layout cost.
+- **Cells are `<button disabled>`, not `<a>`.** There is no per-day URL here, so days with no matching events are genuinely inert and should be out of the tab order.
+- **`data-hasevents` reflects the facet filters but NOT the from-date.** Otherwise the grid goes blank the moment the list scrolls past a month, which is precisely when it is useful. This is why `renderMini()` is handed `faceted`, not `shown`.
+- **It changes role when the layout wraps.** Below 1020px the rail stops being a narrow column beside the list and becomes a band across the page, so it centres (`margin: var(--umd-space-xl) auto`), grows to `600px`, and takes 40px of air top and bottom. Cells go from 48px to 81px.
+- **The numeral size is a CONTAINER query, not a media query** — `.cal-rail` carries `container-type: inline-size` and the step-up is `@container (min-width: 480px)`, 12px (`--umd-font-size-min`) to 18px (`--umd-font-size-lg`). A media query was tried first and was wrong: at a **760px viewport the rail is still at its full 600px** (the horizontal lock leaves the room), so `@media (min-width:768px) and (max-width:1019px)` switched the type back down while the cells were still 81px. The rail's width is the only thing that matters here, so ask about that directly. Verified by driving the rail through 340 / 479 / 480 / 600 / 327px and reading the computed size at each: 12 / 12 / 18 / 18 / 12.
+- **The step-up rule must come AFTER the base `.cal-mini-days p, .cal-day` rule.** The selectors are identical, so specificity ties and source order decides — placed before it, the query loses silently. It did, on the first attempt, and only a computed-style check caught it.
+
+Spacing on this page uses the DS space tokens (`tokens.min.css`, linked second by TEMPLATE): `--umd-space-sm` 16, `--umd-space-md` 24, `--umd-space-lg` 32, `--umd-space-xl` 40, `--umd-space-3xl` 56. The control-bar arrows are `var(--umd-space-lg)` square.
+
+### Upcoming Events — and the bordered-event-card gap
+
+The page-bottom block reproduces the live page's "Upcoming Events": a three-up grid of **bordered, image-less event cards**. It is **static**, rendered at build time from the next six events on or after today — it deliberately ignores the filters, the month cursor and the view toggle, so it needs no JS and ships as real HTML. (The live version is hand-curated and had gone stale — it was still showing March 2025 Terrapin Tours against an August 2026 date. Deriving it keeps it honest.)
+
+**There is no bordered event card in the design system.** Worth stating plainly, because the capability *looks* like it should be there:
+
+| Layer | Border support |
+|---|---|
+| `card.block()` (elements) | **yes** — takes `hasBorder` |
+| `umd-element-card` / `umd-element-article` | **yes** — `card/_model.ts` reads `Attributes.isVisual.bordered` and passes `hasBorder` |
+| `umd-element-event` | **no** — `card/event.ts` has its own `createComponent` that never reads it |
+
+`data-visual-bordered="true"` on `umd-element-event` is therefore **inert**: it does not throw, it does not warn, it simply does nothing — the worst failure mode. Confirmed by A/B against the same shadow node, not by reading source alone:
+
+| probe | `.layout-block-stacked-container` border | `.layout-block-stacked-text` padding |
+|---|---|---|
+| `umd-element-card` `data-visual-bordered="true"` | `1px solid rgb(230,230,230)` | `24px` |
+| `umd-element-card` (no attribute) | `0px none` | `0px` |
+| `umd-element-event` `data-visual-bordered="true"` | **`0px none`** | **`0px`** |
+| `umd-element-event` `data-visual-border="true"` (legacy) | **`0px none`** | **`0px`** |
+
+Console is clean in every case (only the pre-existing `process is not defined` pair from the CDN bundle).
+
+**Run this probe in a clean room, not on a project page.** Two ways to get a false result:
+
+1. `cdn.js` registers lazily, so an element absent from the DOM is simply `undefined` — a probe on the wrong page returns "no shadow root" and reads as a failure that isn't one.
+2. A page that already styles or shadow-injects cards can confound either arm.
+
+The result above was taken on a throwaway page carrying **nothing but the nine CDN stylesheets and `cdn.js`** — no page CSS, no injections, both elements registered. (Its only `<style>` tag is a keyframes block `cdn.js` inserts itself.) That page was deleted after the run; recreate it rather than testing against a project page.
+
+The registry entry lists only `data-display`, `data-theme`, `data-visual-transparent`, `data-visual-time`. **Upstream candidate:** wire `hasBorder` through `card/event.ts` the way `_model.ts` already does.
+
+The border is therefore a page-level shadow injection reproducing exactly what `hasBorder` renders on card-standard — `1px solid #E6E6E6` on `.layout-block-stacked-container`, `24px` padding on `.layout-block-stacked-text`. It is driven by page content, not chrome, so it lives in the page (see "Chrome vs. page-level shadow injections").
+
+**Where the date sign actually appears** — measured, because the rule is not what the slot list suggests:
+
+| `data-display` | `dateSign` passed by `card/event.ts`? | needs an image? | result |
+|---|---|---|---|
+| *(default block)* | **no** | — | **never a date sign, even with an image** |
+| `feature` | yes | **yes** — the sign rides on the image (`assets.image.background({dateSign})`) | sign only when an image is slotted |
+| `promo` | yes | yes (the variant needs one regardless) | sign |
+| `list` | yes | **no** — `createCompositeCardList` pushes `makeDateColumn` in its own `if (dateSign)` branch, independent of `if (image)` | **sign with or without an image** |
+
+So dropping `slot="image"` from these cards costs nothing: the default block never had a sign to lose. The date rides in the event meta row instead, which is what the live page's cards do.
+
+One related gotcha for the **list** cards used in the main view: `makeDateColumn` carries `createMediaQuery('max-width', breakpointValues.large.min, { display: 'none' })`, so the list date sign is **hidden below the large breakpoint**. Verified at 375px — the wrapper computes `display: none` while the meta row still reads "Thu. Aug 20", so it degrades cleanly. Don't "fix" it.
+
+Card heights stay uniform per row (measured 394/394/394 and 340/340/340 at 1280px).
+
+Grid is `umd-layout-grid-gap-three` (32px gap), stepped to 2-up between 768 and 1019px and 1-up below, since the DS class is 3-up at every width.
+
+The heading is the **tailwing** treatment — `umd-text-line-trailing-light` (aka `umd-tailwing-right-headline[theme="light"]`), the same 14px uppercase label-with-trailing-rule the filter band uses for "FILTER EVENTS". It **requires a `<span>` child** and an explicit `background-color` on the `<h2>`: the span masks the rule with `background-color: inherit`, so a transparent heading lets the rule run straight through the text. `umd-element-section-intro-wide` was used first and replaced — its 40px headline outweighed a closing block.
+
+### Month grid
+
+- **Grid lines are the 1px `gap` showing through a `#E6E6E6` backdrop**, not per-cell borders — nothing to collapse, and no double line at the seams. Cells paint `#fff` on top; leading/trailing blanks paint `#FAFAFA` (the live grid's `.empty-date`) and carry no number.
+- **Cells list their events.** The live grid's cells contain only a date number — a day with events is pixel-identical to an empty one, and `data-hasevents`/`data-hasmodal` drive nothing visible (verified by diffing every computed property between the two states; the only difference is 38px of bottom padding). Not reproduced. Each cell prints up to `CELL_LIMIT` (3) linked titles with their times, then a **"+N more"** toggle using the same `.is-collapsed` / `.cal-*-extra` idiom as the programs rail's "Show all".
+- **Below 768px the toggle is hidden and the page is list-only.** A seven-column grid with content in the cells cannot be done honestly at 375px. The live site agrees by omission — its `umd-calendar-grid` measures 0×0 at that width. Between 768 and 1019px cells drop to 130px with 12px titles (93px columns at 768).
+- Row heights stay uniform within a week and grow only when a day actually holds three items — verify by grouping cells on `getBoundingClientRect().top` and asserting one distinct height per row.
+
+### `umd-element-event` — two attribute traps, both silent
+
+- **A missing `end-date-iso` prints `undefined` into the event meta.** `createDateRow` derives `isMultiDay` from `startDay != endDay || startMonth != endMonth` and `createTimeText` from `startTime != endTime` (`packages/elements/source/atomic/events/meta.ts`). With the slot absent both end values are `undefined`, both comparisons are true, and a single-point event renders **`Thu. Aug 20 - undefined. undefined undefined`** and **`3:00pm - undefined`**. The registry documents `end-date-iso` as optional; in practice it is required for anything that is not a range. Fix: repeat the start stamp in `end-date-iso`. Both comparisons then go false and the meta collapses to the single date and time. **Verify with `card.shadowRoot.textContent.includes('undefined')`** — nothing throws and the date sign is correct either way, so the page looks fine until you read a card.
+- **`data-visual-time` is opt-OUT, not opt-in.** `Attributes.isVisual.showTime` passes `defaultValue: true` (`packages/model/source/attributes/checks.ts`), so omitting the attribute *shows* the time — an all-day deadline renders **`12:00am`**. The registry describes it as "Show time in the event meta display", which reads as opt-in. Emit it explicitly on every card: `"true"` for timed events, `"false"` for all-day ones.
+- **The `<time>` slot is read from `textContent`, not `datetime`.** `parseDateFromElement` calls `Date.parse(element.textContent)` and never touches the attribute. Put a parseable stamp in the element's text (this page writes the ISO string in both places); the light-DOM `<time>` measures 0×0 once the component upgrades, so the raw stamp never shows.
+- **Slot names are `start-date-iso` / `end-date-iso`.** The component's own JSDoc says `date-start-iso`; `Slots.name.DATE_START_ISO` resolves to `start-date-iso`. Wrong names fail silently — `extractEventData` returns null and the component renders an empty `<div>`.
+- **The divider between consecutive list events is upstream.** `web-components.min.css` ships `umd-element-event[data-display="list"] + umd-element-event[data-display="list"] { margin-top:24px; padding-top:24px; border-top:1px solid #E6E6E6 }`. Write no page CSS for it — including across a re-render, since the sibling selector applies to injected markup too.
+
+### No scrollbars anywhere
+
+Carried over from the programs rail (`d152be2`) and preserved through the relayout: nothing on this page scrolls except the page. Assert it directly — no element inside the explorer `<section>` should have `overflow-y: auto|scroll` *and* `scrollHeight > clientHeight`.
+
 ## Shared chrome (`shared/` + `scripts/build-chrome.py`)
 
 The site chrome — header stack, footer, its CSS companions, and its shadow injection — was copy-pasted into all seven pages, with the CSS living in a different place from the markup. That split caused two silent regressions while building `pages/academics/colleges-schools.html` (unstyled utility nav; scroll-top falling back to the DS `right:40px; bottom:10vh`), so it is now extracted.
