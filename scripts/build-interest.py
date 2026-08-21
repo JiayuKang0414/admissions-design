@@ -192,7 +192,7 @@ def render(slug, data, programs, colleges_by_slug):
        rich-text body. Deliberately NOT a pathway. -->
   <section class="umd-layout-vertical-landing">
     <div class="umd-layout-space-horizontal-small">
-      <hr style="border:none;border-top:1px solid #000000;margin:0 0 24px 0;" />
+      <hr style="border:none;border-top:1px solid var(--umd-color-black);margin:0 0 24px 0;" />
       <p class="umd-sans-large mb-md text-black" style="text-transform:uppercase;">{intro['lead']}</p>
       <div class="umd-text-rich-advanced">
         <p>{intro['text']}</p>

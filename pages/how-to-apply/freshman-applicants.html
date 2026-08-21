@@ -830,15 +830,15 @@
        title's — no nudge needed. */
     .fa-step-num span {
       display: block;
-      color: #E21833;
+      color: var(--umd-color-red);
     }
 
     /* gray-lightest surface inside a gray-lighter hairline, with the left edge
        replaced by the 2px Maryland Red rule the numeral used to carry. */
     .fa-step-body {
-      background-color: #FAFAFA;
-      border: 1px solid #F1F1F1;
-      border-left: 2px solid #E21833;
+      background-color: var(--umd-color-gray-lightest);
+      border: 1px solid var(--umd-color-gray-lighter);
+      border-left: 2px solid var(--umd-color-red);
       /* Leaf corners: top-right + bottom-left only. The DS ships no radius
          scale (tokens.min.css has --umd-color-*, --umd-font-size-* and
          --umd-space-* and nothing else), so this borrows --umd-space-md (24px)
@@ -966,14 +966,14 @@ umd-element-navigation-header div[slot="utility-navigation"] a {
   font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif;
   font-size: 14px;
   font-weight: 400;
-  color: #242424;
+  color: var(--umd-color-gray-darker);
   text-decoration: none;
   line-height: 1.25;
   transition: color 0.3s ease-in-out;
 }
 umd-element-navigation-header div[slot="utility-navigation"] a:hover,
 umd-element-navigation-header div[slot="utility-navigation"] a:focus {
-  color: #E21833;
+  color: var(--umd-color-red);
   text-decoration: underline;
 }
 
@@ -1071,7 +1071,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
       <umd-element-brand-logo-animation></umd-element-brand-logo-animation>
     </div>
     <div class="umd-layout-space-horizontal-small study-here-content">
-      <hr style="border:none;border-top:1px solid #000000;margin:0 0 24px 0;" />
+      <hr style="border:none;border-top:1px solid var(--umd-color-black);margin:0 0 24px 0;" />
       <p class="umd-sans-large mb-md text-black" style="text-transform:uppercase;">Apply as a Freshman</p>
       <div class="umd-text-rich-advanced">
         <p>If you are a high school student or a student with fewer than 12 semester hours or 18 quarter hours of university-level credit beyond secondary school, you should apply as a freshman applicant.</p>

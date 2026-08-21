@@ -87,16 +87,16 @@ PAGE_CSS = '''
     .cs-tile {
       display: flex;
       flex-direction: column;
-      background: #ffffff;
-      border: 1px solid var(--umd-color-gray-light, #e6e6e6);
+      background: var(--umd-color-white);
+      border: 1px solid var(--umd-color-gray-light, #E6E6E6);
       transition: border-color .3s ease, box-shadow .3s ease;
     }
     .cs-tile:hover {
-      border-color: var(--umd-color-gray-medium, #c1c1c1);
+      border-color: var(--umd-color-gray-medium, #7F7F7F);
       box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
     }
     .cs-tile[data-open="true"] {
-      border-color: var(--umd-color-red, #e21833);
+      border-color: var(--umd-color-red, #E21833);
       box-shadow: 0 4px 16px rgba(0, 0, 0, .10);
     }
 
@@ -104,7 +104,7 @@ PAGE_CSS = '''
       margin: 0;
       overflow: hidden;
       aspect-ratio: 2 / 1;
-      background: var(--umd-color-gray-lightest, #f1f1f1);
+      background: var(--umd-color-gray-lightest, #FAFAFA);
     }
     .cs-tile-figure img {
       display: block;
@@ -134,7 +134,7 @@ PAGE_CSS = '''
     }
     .cs-tile-abbr {
       margin: 0 0 8px;
-      color: var(--umd-color-red, #e21833);
+      color: var(--umd-color-red, #E21833);
       font-size: 12px;
       font-weight: 700;
       line-height: 1.16em;
@@ -145,7 +145,7 @@ PAGE_CSS = '''
     .cs-tile-name a {
       color: var(--umd-color-black, #000000);
       text-decoration: none;
-      background-image: linear-gradient(#000000, #000000);
+      background-image: linear-gradient(var(--umd-color-black), var(--umd-color-black));
       background-position: left calc(100% - 1px);
       background-repeat: no-repeat;
       background-size: 0 1px;
@@ -153,8 +153,8 @@ PAGE_CSS = '''
     }
     .cs-tile-name a:hover,
     .cs-tile-name a:focus {
-      color: var(--umd-color-red, #e21833);
-      background-image: linear-gradient(#E21833, #E21833);
+      color: var(--umd-color-red, #E21833);
+      background-image: linear-gradient(var(--umd-color-red), var(--umd-color-red));
       background-size: 100% 1px;
     }
     /* Clamped on the tile; the panel carries the full text. */
@@ -178,16 +178,16 @@ PAGE_CSS = '''
       margin: 0;
       padding: 14px 0 0;
       border: 0;
-      border-top: 1px solid var(--umd-color-gray-light, #e6e6e6);
+      border-top: 1px solid var(--umd-color-gray-light, #E6E6E6);
       background: none;
       color: var(--umd-color-black, #000000);
       font-weight: 700;
       text-align: left;
       cursor: pointer;
     }
-    .cs-toggle:hover { color: var(--umd-color-red, #e21833); }
+    .cs-toggle:hover { color: var(--umd-color-red, #E21833); }
     .cs-toggle:focus-visible {
-      outline: 2px solid var(--umd-color-red, #e21833);
+      outline: 2px solid var(--umd-color-red, #E21833);
       outline-offset: 4px;
     }
     .cs-toggle-chev {
@@ -203,22 +203,22 @@ PAGE_CSS = '''
     .cs-tile-link {
       display: inline-block;
       padding-top: 14px;
-      border-top: 1px solid var(--umd-color-gray-light, #e6e6e6);
+      border-top: 1px solid var(--umd-color-gray-light, #E6E6E6);
       width: 100%;
       color: var(--umd-color-black, #000000);
       font-weight: 700;
       text-decoration: none;
     }
-    .cs-tile-link:hover { color: var(--umd-color-red, #e21833); }
+    .cs-tile-link:hover { color: var(--umd-color-red, #E21833); }
 
     /* --- panel ------------------------------------------------- */
     .cs-panel { grid-column: 1 / -1; }
     .cs-panel[hidden] { display: none; }
     .cs-panel-inner {
       padding: 32px 24px;
-      border: 1px solid var(--umd-color-gray-light, #e6e6e6);
-      border-top: 4px solid var(--umd-color-red, #e21833);
-      background: var(--umd-color-gray-lightest, #f1f1f1);
+      border: 1px solid var(--umd-color-gray-light, #E6E6E6);
+      border-top: 4px solid var(--umd-color-red, #E21833);
+      background: var(--umd-color-gray-lightest, #FAFAFA);
       animation: cs-panel-in .35s ease both;
     }
     @media (min-width: 1024px) { .cs-panel-inner { padding: 40px; } }
@@ -237,13 +237,13 @@ PAGE_CSS = '''
       justify-content: space-between;
       gap: 16px 32px;
       padding-bottom: 24px;
-      border-bottom: 1px solid var(--umd-color-gray-light, #dcdcdc);
+      border-bottom: 1px solid var(--umd-color-gray-light, #E6E6E6);
     }
     .cs-panel-headline { margin: 0; font-weight: 700; }
     .cs-panel-headline a {
       color: var(--umd-color-black, #000000);
       text-decoration: none;
-      background-image: linear-gradient(#000000, #000000);
+      background-image: linear-gradient(var(--umd-color-black), var(--umd-color-black));
       background-position: left calc(100% - 1px);
       background-repeat: no-repeat;
       background-size: 100% 1px;
@@ -251,8 +251,8 @@ PAGE_CSS = '''
     }
     .cs-panel-headline a:hover,
     .cs-panel-headline a:focus {
-      color: var(--umd-color-red, #e21833);
-      background-image: linear-gradient(#E21833, #E21833);
+      color: var(--umd-color-red, #E21833);
+      background-image: linear-gradient(var(--umd-color-red), var(--umd-color-red));
     }
     .cs-panel-head > div { flex: 1 1 480px; }
     /* Constrained measure — the panel spans the full 1600px lock, far too wide
@@ -279,9 +279,9 @@ PAGE_CSS = '''
       text-transform: uppercase;
       cursor: pointer;
     }
-    .cs-panel-close:hover { color: var(--umd-color-red, #e21833); }
+    .cs-panel-close:hover { color: var(--umd-color-red, #E21833); }
     .cs-panel-close:focus-visible {
-      outline: 2px solid var(--umd-color-red, #e21833);
+      outline: 2px solid var(--umd-color-red, #E21833);
       outline-offset: 2px;
     }
 
@@ -304,13 +304,13 @@ PAGE_CSS = '''
 
     .cs-major {
       padding: 14px 0;
-      border-bottom: 1px solid #dcdcdc;
+      border-bottom: 1px solid var(--umd-color-gray-light);
     }
     .cs-major a {
       color: var(--umd-color-black, #000000);
       font-weight: 700;
       text-decoration: none;
-      background-image: linear-gradient(#000000, #000000);
+      background-image: linear-gradient(var(--umd-color-black), var(--umd-color-black));
       background-position: left calc(100% - 1px);
       background-repeat: no-repeat;
       background-size: 0 1px;
@@ -318,8 +318,8 @@ PAGE_CSS = '''
     }
     .cs-major a:hover,
     .cs-major a:focus {
-      color: var(--umd-color-red, #e21833);
-      background-image: linear-gradient(#E21833, #E21833);
+      color: var(--umd-color-red, #E21833);
+      background-image: linear-gradient(var(--umd-color-red), var(--umd-color-red));
       background-size: 100% 1px;
     }
     /* Program-type labels use the DS pill geometry (.umd-pill-list: 12px,
@@ -341,7 +341,7 @@ PAGE_CSS = '''
     }
     .cs-types > .cs-type {
       margin-top: 0;
-      border: 1px solid var(--umd-color-gray-light, #e6e6e6);
+      border: 1px solid var(--umd-color-gray-light, #E6E6E6);
       color: var(--umd-color-gray-dark, #454545);
       white-space: nowrap;
     }
@@ -579,7 +579,7 @@ page = f'''{head_top}
        lead is uppercase; here it is not, per design direction. -->
   <section class="umd-layout-vertical-landing">
     <div class="umd-layout-space-horizontal-small">
-      <hr style="border:none;border-top:1px solid #000000;margin:0 0 24px 0;" />
+      <hr style="border:none;border-top:1px solid var(--umd-color-black);margin:0 0 24px 0;" />
       <p class="umd-sans-large mb-md text-black">Discover which of our colleges and schools inspire your fearless ideas and review their list of majors to learn more about academics at UMD.</p>
       <div class="umd-text-rich-advanced">
         <p>Our colleges and schools are researching hot topics such as alternative energy, advising federal officials on homeland security, working with the state to reduce children&#8217;s obesity and investigating many other pressing issues. You can work side-by-side with faculty at the top of their fields: Pulitzer Prize recipients, Nobel laureates, and Emmy and Tony winners. Numbering more than 4,000, our faculty also include world-renowned performers, successful entrepreneurs and big-name journalists, all ready to share their experiences and expertise with you.</p>

@@ -460,6 +460,32 @@ The heading is the **tailwing** treatment — `umd-text-line-trailing-light` (ak
 
 Carried over from the programs rail (`d152be2`) and preserved through the relayout: nothing on this page scrolls except the page. Assert it directly — no element inside the explorer `<section>` should have `overflow-y: auto|scroll` *and* `scrollHeight > clientHeight`.
 
+## Colour: every page is on DS tokens
+
+`tokens.min.css` is TEMPLATE's second `<link>`, so `--umd-color-*` is live before any page rule runs. **No page in this repo declares a colour of its own.** Verified across all ten: zero bare hex in page CSS, inline `style=""` attributes, or shadow-injection strings.
+
+Two patterns are in use, both fine:
+
+- `var(--umd-color-x)` — most pages.
+- `var(--umd-color-x, #HEX)` — `build-colleges-schools.py`, which guards against `tokens.min.css` failing to load. Worth knowing: **the inlined `critical.css` does NOT define the colour tokens**, so a bare `var()` resolves to nothing if the CDN is unreachable. In practice the whole DS is broken in that case anyway.
+  - If you use the fallback form, **the fallback must equal the token's value.** Four had drifted (`gray-medium, #C1C1C1`; `gray-lightest, #F1F1F1` ×2; `gray-light, #DCDCDC`) — dead code, since the token always wins, but they would have rendered a different design on CDN failure. All 29 fallbacks are now normalised to their token values.
+
+### Four colours had no exact token
+
+| was | now | why |
+|---|---|---|
+| `#767676` | `--umd-color-gray-medium-a-a` (`#757575`) | facet counts / muted meta — 1/255 shift onto the DS's AA-compliant grey |
+| `#444444` | `--umd-color-gray-dark` (`#454545`) | tuition rule — 1/255 |
+| `#DCDCDC` | `--umd-color-gray-light` (`#E6E6E6`) | a lone `.cs-major` divider; every other divider in that file already used gray-light |
+| `#D3D3D3` | `--umd-color-gray-medium` (`#7F7F7F`) | `.az-off`, the dimmed A–Z letters. `#D3D3D3` is 1.3:1 on white — failing regardless. `#7F7F7F` is 4.6:1. The active/inactive distinction survives because it is carried by **hue** (active letters are Maryland red), not lightness. |
+
+### Two traps found doing this
+
+- **`build-colleges-schools.py` appends its page CSS to the *first* `<style>` block**, alongside the verbatim `critical.css`. Every other generator emits a separate block. Any audit that treats "block 0 = TEMPLATE, don't touch" silently skips 7KB of page CSS on that one page — this sweep missed it twice before catching it.
+- **Don't bulk-replace hex inside a file that already uses the fallback form.** Doing so turns `var(--token, #hex)` into `var(--token, var(--token))` — self-referential and pointless. Mask the fallbacks (and CSS comments, and `&#NNNN;` entities) before substituting.
+
+To re-verify after any colour change, resolve tokens back to values and diff the multiset per page against `git show HEAD:<page>`; every difference should be one of the four above.
+
 ## Shared chrome (`shared/` + `scripts/build-chrome.py`)
 
 The site chrome — header stack, footer, its CSS companions, and its shadow injection — was copy-pasted into all seven pages, with the CSS living in a different place from the markup. That split caused two silent regressions while building `pages/academics/colleges-schools.html` (unstyled utility nav; scroll-top falling back to the DS `right:40px; bottom:10vh`), so it is now extracted.
