@@ -474,14 +474,29 @@ Order of preference on this project: **DS component (registry) → styles-packag
 |---|---|---|
 | `build-programs.py`, `build-calendar.py` | `.sr-only` | `accessibility.min.css` |
 | `pages/admissions.html` | `umd-element-card-overlay.size-large { min-height:320px; 560px @768px }` | `web-components.min.css` — and `critical.css` §16 had **already retired the same rule upstream**, so the page copy was stale twice over |
+| `pages/admissions.html` | `.umd-text-rich-advanced .text-black { color:#000 }` | `critical.css` §6 ships this exact selector |
+
+The `.text-black` one is worth noting as an audit gap: a comparison of "classes we define" against "classes the styles package ships" will **not** catch it, because `.text-black` is a `critical.css` utility, not a styles-package one. Duplicates of `critical.css` rules need their own check.
 
 Verified after removal: `.sr-only` still computes `position:absolute; width:1px; height:1px; overflow:hidden` with nothing leaking (60 instances on the calendar, 1 on programs), and the admissions overlay cards still compute `min-height: 560px` at desktop.
 
 The other class-name collisions the audit found are **legitimate and should stay** — they are scoped overrides, not redefinitions: `.pf-body .umd-field-checkbox-wrapper`, `.pf-pill-cluster.umd-pill-list`, `#cal-filters .umd-text-line-trailing-light`, `.wta-section > .umd-layout-space-horizontal-larger`. Each adjusts a DS class in one context; none restates it.
 
-### Known drift, not yet resolved
+### `.umd-text-rich-advanced` vs. the utilities on a heading
 
-`pages/admissions.html` carries `.umd-text-rich-advanced > .umd-sans-extralarge-bold { font-size: 18px }`. The comment says the intent is "bump specificity so the utilities win" — but the utility's base size is now **22px** upstream, so the page is overriding the utility with a stale copy of its old value rather than restoring it. The two larger breakpoints (`calc(18px + 1.16vw)`, `32px`) still match, so the drift only shows below 650px. Left alone deliberately: correcting it to 22px is a visible design change on that page, not a refactor.
+Column headings on `pages/admissions.html` are `<p class="text-black umd-sans-extralarge-bold">` **inside** a `.umd-text-rich-advanced` block. Two utilities are in play, from two different places:
+
+| utility | ships in | what beats it |
+|---|---|---|
+| `.text-black` | **`critical.css` §6** — explicitly "not in upstream tokens or typography bundles" | `.umd-text-rich-advanced *  { color:#454545 }` (§7) |
+| `.umd-sans-extralarge-bold` | `typography.min.css` (styles package) | `.umd-text-rich-advanced > * { font-size:18px }` (§7) |
+
+Both §7 rules are (0,1,0) — the same specificity as the utilities — but later in the file, so they win on order.
+
+- **The colour half needs no page CSS.** `critical.css` §6 already ships `.umd-text-rich-advanced .text-black { color:#000 }` for exactly this collision. A duplicate of that rule sat in the page and has been removed. Verified all four `.text-black` elements still compute `rgb(0,0,0)`.
+- **The size half is still needed** and is not stale. §7's flat 18px would hold the heading at body-copy size; the page rules restore the utility's responsive scale above 650px (measured: heading 32px vs sibling body copy 18px at 1280). At base they agree with §7 at 18px, so the heading matches body copy below 650px — a deliberate choice, not a leftover.
+
+An earlier revision of this file described the 18px base as a stale copy of the utility's old value. That was wrong: the utility's 22px base is never in play, because §7 pins `> *` to 18px regardless.
 
 ### Four colours had no exact token
 

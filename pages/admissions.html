@@ -845,12 +845,20 @@
       gap: 8px;
     }
 
-    /* RICH-TEXT HEADING OVERRIDES — .umd-text-rich-advanced applies
-       color:var(--umd-color-gray-dark) and font-size:18px to all children, which overrides
-       the .text-black and .umd-sans-extralarge-bold utilities used for
-       column headings. Bump specificity so the utilities win. */
-    .umd-text-rich-advanced .text-black { color: var(--umd-color-black); }
+    /* RICH-TEXT HEADING SCALING
+       Column headings are <p class="text-black umd-sans-extralarge-bold">
+       inside a .umd-text-rich-advanced block. critical.css §7 paints
+       `.umd-text-rich-advanced *` gray-dark and pins `> *` to 18px, both at
+       (0,1,0) but later in the file, so both utilities lose.
 
+       The colour half needs nothing here — critical.css §6 already ships
+       `.umd-text-rich-advanced .text-black { color:#000 }` for exactly this.
+       A duplicate of it used to sit on this line and is gone.
+
+       The size half is still needed: §7's flat 18px would hold the heading at
+       body-copy size. These rules restore the utility's responsive scale above
+       650px. At base they agree with §7 at 18px, so the heading matches body
+       copy on small screens — deliberate, not a stale value. */
     .umd-text-rich-advanced > .umd-sans-extralarge-bold {
       font-size: 18px; line-height: 1.25em;
     }
