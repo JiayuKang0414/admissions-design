@@ -494,9 +494,30 @@ Column headings on `pages/admissions.html` are `<p class="text-black umd-sans-ex
 Both §7 rules are (0,1,0) — the same specificity as the utilities — but later in the file, so they win on order.
 
 - **The colour half needs no page CSS.** `critical.css` §6 already ships `.umd-text-rich-advanced .text-black { color:#000 }` for exactly this collision. A duplicate of that rule sat in the page and has been removed. Verified all four `.text-black` elements still compute `rgb(0,0,0)`.
-- **The size half is still needed** and is not stale. §7's flat 18px would hold the heading at body-copy size; the page rules restore the utility's responsive scale above 650px (measured: heading 32px vs sibling body copy 18px at 1280). At base they agree with §7 at 18px, so the heading matches body copy below 650px — a deliberate choice, not a leftover.
+- **The size half is still needed**, and the reason is upstream, not local. `element.min.css` ships both halves of the collision itself:
 
-An earlier revision of this file described the 18px base as a stale copy of the utility's old value. That was wrong: the utility's 22px base is never in play, because §7 pins `> *` to 18px regardless.
+  ```css
+  :is(.umd-text-rich-advanced,.umd-rich-text) > * { font-size: 18px; margin-top: 24px }
+  :is(.umd-text-rich-advanced,.umd-rich-text) *   { color: #454545 }
+  ```
+
+  Both are (0,1,0), and **`element.min.css` loads after `typography.min.css`**, so a bare typography utility on a direct child can never win on its own — whichever size you pick. The page's `.umd-text-rich-advanced > .umd-sans-extralarge-bold` bump is the correct fix, not a workaround. Note the pin is by *position*, not tag: an `<h2>` inside rich text is 18px too unless something outranks it.
+
+**Heading sizes come from the typography package**, and all three sit there already:
+
+| want | class | behaviour |
+|---|---|---|
+| 18px | `umd-sans-large` | flat 18px/700 |
+| 22px | `umd-sans-larger` / `-bold` | ramps 18 → 22px |
+| 32px | `umd-sans-extralarge` / `-bold` | ramps 22 → 32px |
+
+These headings use `extralarge-bold`, so the page rules restore that ramp above 650px; below 650px they agree with the 18px pin.
+
+**The markup was wrong, and that was the real bug.** "Tuition & Aid" and "Important Dates" were `<p class="text-black umd-sans-extralarge-bold">` — styled as section titles but not marked up as them, while every other section title on the page is an `<h2>`. Both are now `<h2>`; the CSS is class-based so nothing moved (measured 32px/700/`rgb(0,0,0)` before and after), and the document outline no longer skips two sections.
+
+An earlier revision of this file described the 18px base as a stale copy of the utility's old value. That was wrong: `.umd-sans-extralarge-bold`'s 22px base is never in play, because the `> *` pin is 18px regardless.
+
+**Stale comment in `critical.css` §7** (submodule, not fixed here): it says "upstream only colors list content `#454545`; we force it on all descendants." Upstream has since caught up — `element.min.css` ships the `*` colour rule — so §7's colour delta is now a duplicate.
 
 ### Four colours had no exact token
 

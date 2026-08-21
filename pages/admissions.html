@@ -846,19 +846,25 @@
     }
 
     /* RICH-TEXT HEADING SCALING
-       Column headings are <p class="text-black umd-sans-extralarge-bold">
-       inside a .umd-text-rich-advanced block. critical.css §7 paints
-       `.umd-text-rich-advanced *` gray-dark and pins `> *` to 18px, both at
-       (0,1,0) but later in the file, so both utilities lose.
+       Section headings inside a .umd-text-rich-advanced block are
+       <h2 class="text-black umd-sans-extralarge-bold">.
 
-       The colour half needs nothing here — critical.css §6 already ships
-       `.umd-text-rich-advanced .text-black { color:#000 }` for exactly this.
-       A duplicate of it used to sit on this line and is gone.
+       element.min.css ships `:is(.umd-text-rich-advanced,.umd-rich-text) > *
+       { font-size:18px }` and `… * { color:#454545 }`. Both are (0,1,0), and
+       element.min.css loads AFTER typography.min.css, so a bare typography
+       utility on a direct child can never win on its own — whichever size you
+       pick. The bump below is the fix, not a hack. Note this pins headings by
+       TAG too: an <h2> in rich text is 18px unless something outranks it.
 
-       The size half is still needed: §7's flat 18px would hold the heading at
-       body-copy size. These rules restore the utility's responsive scale above
-       650px. At base they agree with §7 at 18px, so the heading matches body
-       copy on small screens — deliberate, not a stale value. */
+       The colour half needs no rule here — critical.css §6 already ships
+       `.umd-text-rich-advanced .text-black { color:#000 }` for this exact
+       collision. A duplicate of it used to sit on this line and is gone.
+
+       Sizes come from the typography package: umd-sans-large is a flat 18px,
+       umd-sans-larger ramps 18->22px, umd-sans-extralarge ramps 22->32px
+       (each with a -bold sibling). These headings use extralarge-bold, so the
+       rules below restore that ramp above 650px; below 650px they agree with
+       the 18px pin. */
     .umd-text-rich-advanced > .umd-sans-extralarge-bold {
       font-size: 18px; line-height: 1.25em;
     }
@@ -1410,7 +1416,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
 
         <div class="umd-text-rich-advanced">
           <hr>
-          <p class="text-black umd-sans-extralarge-bold">Tuition &amp; Aid</p>
+          <h2 class="text-black umd-sans-extralarge-bold">Tuition &amp; Aid</h2>
           <p>The University of Maryland offers an array of financial aid programs—including scholarships, grants, loans and student employment—as part of our commitment to making an excellent education affordable. We encourage you to visit the Office of Student Financial Aid to explore types of aid and ways to finance a higher education.</p>
           <div class="umd-layout-grid-inline-tablet-rows">
             <umd-element-call-to-action data-display="primary">
@@ -1449,7 +1455,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
 
         <div class="umd-text-rich-advanced">
           <hr>
-          <p class="text-black umd-sans-extralarge-bold">Important Dates</p>
+          <h2 class="text-black umd-sans-extralarge-bold">Important Dates</h2>
           <p>We have several application deadlines, depending on what type of applicant you are and the semester you wish to start at the University of Maryland. Review all deadlines to determine when you should apply and when you can expect to receive an admission decision.</p>
           <div class="umd-layout-grid-inline-tablet-rows">
             <umd-element-call-to-action data-display="primary">
