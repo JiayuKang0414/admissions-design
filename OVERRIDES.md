@@ -303,7 +303,9 @@ The right placement is `order:2` / `order:1` inside the flex row, not DOM positi
 **Order on the page is: filter band → active pills → control bar → count → results.** The band answers *which* events; the bar answers *when*, and *shown how*. Putting the bar first (the first build's order, and the live site's) stranded a 32px month heading above the filters that changed it, so it read as a page title rather than as a label for the results. Below the band it labels the thing directly under it. Spacing measures 32px band→bar (32 → pills → 16 → bar when a filter is active), 24px bar→count, 24px count→results.
 
 - Month label is **`umd-campaign-small`** — Barlow Condensed italic 700, 44px desktop / 32px mobile — matching the hero wordmark. **There is no `-uppercase` sibling for the campaign faces** the way `umd-sans-*` has one, so `text-transform` is stated in page CSS. The arrows **flank** it rather than trailing it, so the label reads as the thing being stepped through; `text-align:center` plus `min-width:11ch` on the `<h2>` keeps them from jittering as the month name changes length — `ch`, not `em`, because the condensed face's em is far narrower than its average glyph.
-- Arrows are 36px Maryland-red squares (`#E21833`, hover `#a90007`) holding the UMD chevron; the prev button flips it with `transform: scaleX(-1)`.
+- Arrows are `var(--umd-space-lg)` (32px) squares in `--umd-color-gray-light`, holding a black (`--umd-color-black`) UMD chevron that goes `--umd-color-red` on hover and focus. The prev button flips its glyph with `transform: scaleX(-1)`. Glyph is 12px (`--umd-space-xs`) at desktop, 14px below — the button doubles as a touch target there.
+  - **The chip colour does not change on hover; the glyph does.** They were red buttons first, and the point of moving off that was to take the red block out of the bar — turning the chip red on hover would put it straight back. A gray-to-red glyph is also how the DS's own interactions read (`umd-animation-line-slide-graydark-red`).
+  - The hover rule targets **both** `svg` and `svg path`. The current DS chevron sets no `fill` on its `<path>`, so `fill` on the `<svg>` inherits down — but a glyph that does set its own would silently ignore the hover.
 - **No rule under the bar.** An earlier revision had a `border-bottom` there; it stacked with the filter band's own top edge and read as a double divider.
 
 ### No search field
@@ -370,7 +372,20 @@ Recreated from <https://calendar.umd.edu>'s right rail by measuring the live com
 - **The numeral size is a CONTAINER query, not a media query** — `.cal-rail` carries `container-type: inline-size` and the step-up is `@container (min-width: 480px)`, 12px (`--umd-font-size-min`) to 18px (`--umd-font-size-lg`). A media query was tried first and was wrong: at a **760px viewport the rail is still at its full 600px** (the horizontal lock leaves the room), so `@media (min-width:768px) and (max-width:1019px)` switched the type back down while the cells were still 81px. The rail's width is the only thing that matters here, so ask about that directly. Verified by driving the rail through 340 / 479 / 480 / 600 / 327px and reading the computed size at each: 12 / 12 / 18 / 18 / 12.
 - **The step-up rule must come AFTER the base `.cal-mini-days p, .cal-day` rule.** The selectors are identical, so specificity ties and source order decides — placed before it, the query loses silently. It did, on the first attempt, and only a computed-style check caught it.
 
-Spacing on this page uses the DS space tokens (`tokens.min.css`, linked second by TEMPLATE): `--umd-space-sm` 16, `--umd-space-md` 24, `--umd-space-lg` 32, `--umd-space-xl` 40, `--umd-space-3xl` 56. The control-bar arrows are `var(--umd-space-lg)` square.
+### Tokens: this page declares no colour or spacing values of its own
+
+Everything comes from `tokens.min.css` (TEMPLATE links it second, so the custom properties are live before any page rule runs).
+
+- **Spacing:** `--umd-space-sm` 16, `-md` 24, `-lg` 32, `-xl` 40, `-3xl` 56. The control-bar arrows are `var(--umd-space-lg)` square with a `var(--umd-space-xs)` glyph at desktop.
+- **Type scale where it steps:** `--umd-font-size-min` 12 → `--umd-font-size-lg` 18 for the mini-calendar numerals.
+- **Colour:** all ten in use are `--umd-color-*` — `red`, `gold`, `white`, `black`, `gray-darker`, `gray-dark`, `gray-medium-a-a`, `gray-light`, `gray-lighter`, `gray-lightest`. **Zero hex literals remain in the page `<style>` block.** (The inlined `critical.css` above it is TEMPLATE's, copied verbatim, and is not ours to touch.)
+
+Two things this sweep settled:
+
+- **A local `:root { --umd-red: #e21833 }` alias is gone.** It was a hand-rolled duplicate of `--umd-color-red` behind a different name, which is exactly how a page drifts off the palette. Don't reintroduce a page-level colour variable — use the DS token directly.
+- **`#767676` became `--umd-color-gray-medium-a-a` (`#757575`).** A deliberate 1/255 shift on the muted greys (per-event counts, past dates in the grid, grid cell times) to land on the DS's AA-compliant grey rather than a near-miss of it.
+
+**Custom properties cross the shadow boundary,** so the Upcoming-cards border injection uses `var(--umd-color-gray-light)` inside the shadow root and resolves against the host. Verified: the injected `.layout-block-stacked-container` computes `1px solid rgb(230,230,230)`.
 
 ### Upcoming Events — and the bordered-event-card gap
 
@@ -427,7 +442,8 @@ The heading is the **tailwing** treatment — `umd-text-line-trailing-light` (ak
 
 ### Month grid
 
-- **Grid lines are the 1px `gap` showing through a `#E6E6E6` backdrop**, not per-cell borders — nothing to collapse, and no double line at the seams. Cells paint `#fff` on top; leading/trailing blanks paint `#FAFAFA` (the live grid's `.empty-date`) and carry no number.
+- **Grid lines are the 1px `gap` showing through a gray-light backdrop**, not per-cell borders — nothing to collapse, and no double line at the seams. Cells paint white on top; leading/trailing blanks paint gray-lightest (the live grid's `.empty-date`) and carry no number.
+- **The weekday header row is black with white labels**, and each `.cal-wd` carries `box-shadow: 0 0 0 1px var(--umd-color-black)`. That bleed is load-bearing: the same 1px `gap` that draws the grid lines would otherwise cut the header into seven black chips separated by light seams. The shadow fills each cell's own gutters so the row reads as one solid band. Verified the gaps are still 1px structurally while the row paints continuous.
 - **Cells list their events.** The live grid's cells contain only a date number — a day with events is pixel-identical to an empty one, and `data-hasevents`/`data-hasmodal` drive nothing visible (verified by diffing every computed property between the two states; the only difference is 38px of bottom padding). Not reproduced. Each cell prints up to `CELL_LIMIT` (3) linked titles with their times, then a **"+N more"** toggle using the same `.is-collapsed` / `.cal-*-extra` idiom as the programs rail's "Show all".
 - **Below 768px the toggle is hidden and the page is list-only.** A seven-column grid with content in the cells cannot be done honestly at 375px. The live site agrees by omission — its `umd-calendar-grid` measures 0×0 at that width. Between 768 and 1019px cells drop to 130px with 12px titles (93px columns at 768).
 - Row heights stay uniform within a week and grow only when a day actually holds three items — verify by grouping cells on `getBoundingClientRect().top` and asserting one distinct height per row.

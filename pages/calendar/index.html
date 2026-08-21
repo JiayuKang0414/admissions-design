@@ -743,7 +743,13 @@
 
   <!-- Calendar — page-specific styles -->
   <style>
-    :root { --umd-red: #e21833; }
+    /* No page colour variables. Every colour on this page is a DS token
+       from tokens.min.css (TEMPLATE links it second, so they are live):
+       --umd-color-red / -red-dark / -gold / -white / -black /
+       -gray-darker / -gray-dark / -gray-medium-a-a / -gray-light /
+       -gray-lighter / -gray-lightest. A local `--umd-red: #e21833` alias
+       used to sit here; it was a hand-rolled duplicate of
+       --umd-color-red and is gone. */
 
     .sr-only {
       position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;
@@ -795,16 +801,29 @@
       margin:0; min-width:11ch; text-align:center; text-transform:uppercase;
     }
 
+    /* Colours are DS tokens from tokens.min.css: gray-light chip, black
+       glyph, glyph goes Maryland red on hover. The chip itself does NOT
+       change — the point of moving off a red button was to take the red
+       block out of the bar, so reintroducing it on hover would undo that.
+       The glyph carries the state instead, which is also how the DS's own
+       gray-to-red interactions read (umd-animation-line-slide-graydark-red). */
     .cal-nav {
       flex:0 0 auto; width:var(--umd-space-lg); height:var(--umd-space-lg);
       padding:0; border:0; cursor:pointer;
-      background:var(--umd-red); display:flex; align-items:center; justify-content:center;
-      transition:background-color .3s;
+      background-color:var(--umd-color-gray-light);
+      display:flex; align-items:center; justify-content:center;
     }
 
-    .cal-nav:hover, .cal-nav:focus-visible { background:#a90007; }
+    .cal-nav svg {
+      width:14px; height:14px;
+      fill:var(--umd-color-black); transition:fill .3s;
+    }
 
-    .cal-nav svg { width:14px; height:14px; fill:#fff; }
+    /* `fill` on the <svg> does not reach a <path> that sets its own fill, and
+       the DS chevron markup does not — but be explicit so a future glyph swap
+       can't quietly break the hover. */
+    .cal-nav:hover svg, .cal-nav:focus-visible svg,
+    .cal-nav:hover svg path, .cal-nav:focus-visible svg path { fill:var(--umd-color-red); }
 
     /* Desktop takes a smaller glyph in the same 32px button — more air around
        the chevron. Tighter viewports keep 14px, where the button is also a
@@ -821,27 +840,27 @@
     .cal-nav[data-dir="prev"] svg { transform:scaleX(-1); }
 
     .cal-today {
-      background:none; border:0; padding:0 0 0 8px; cursor:pointer; color:#000;
+      background:none; border:0; padding:0 0 0 8px; cursor:pointer; color:var(--umd-color-black);
       font:inherit; font-size:14px; font-weight:700;
       text-transform:uppercase; letter-spacing:.08em;
       transition:color .3s;
     }
 
-    .cal-today:hover, .cal-today:focus-visible { color:var(--umd-red); }
+    .cal-today:hover, .cal-today:focus-visible { color:var(--umd-color-red); }
 
     .cal-view-group { display:flex; }
 
     .cal-view {
       background:none; border:0; border-bottom:2px solid transparent;
-      padding:6px 14px; cursor:pointer; color:#454545;
+      padding:6px 14px; cursor:pointer; color:var(--umd-color-gray-dark);
       font:inherit; font-size:14px; font-weight:700;
       text-transform:uppercase; letter-spacing:.08em;
       transition:color .3s, border-color .3s;
     }
 
-    .cal-view:hover, .cal-view:focus-visible { color:#000; }
+    .cal-view:hover, .cal-view:focus-visible { color:var(--umd-color-black); }
 
-    .cal-view[aria-pressed="true"] { color:#000; border-bottom-color:var(--umd-red); }
+    .cal-view[aria-pressed="true"] { color:var(--umd-color-black); border-bottom-color:var(--umd-color-red); }
 
     /* The month grid needs ~90px per column to hold a readable title. Below
        768px there is no honest way to render seven of them, so the toggle
@@ -905,9 +924,9 @@
     /* ============================================================
        MINI MONTH CALENDAR
        Recreated from the calendar.umd.edu right-rail month grid:
-       #FAFAFA panel, 7-column 1px-gutter grid of square cells, 12px/800
+       var(--umd-color-gray-lightest) panel, 7-column 1px-gutter grid of square cells, 12px/800
        centered numerals, days-with-events underlined, out-of-month cells
-       knocked back to #F1F1F1, selected day ringed in UMD red.
+       knocked back to var(--umd-color-gray-lighter), selected day ringed in UMD red.
 
        Two deliberate departures from the source:
        - cells are <button>s, not <a>s — there is no per-day URL here, a
@@ -919,7 +938,7 @@
        It carries no month nav of its own: the control bar owns the month
        cursor, and two sets of arrows for one value invites them to drift.
        ============================================================ */
-    .cal-mini { background:#FAFAFA; padding:24px 14px; }
+    .cal-mini { background:var(--umd-color-gray-lightest); padding:24px 14px; }
 
     .cal-mini h2 {
       margin:0 0 var(--umd-space-sm); text-align:center;
@@ -936,32 +955,32 @@
       font-size:var(--umd-font-size-min); line-height:var(--umd-font-size-min);
     }
 
-    .cal-mini-days p { color:#454545; }
+    .cal-mini-days p { color:var(--umd-color-gray-dark); }
 
     .cal-mini-days span, .cal-day .num {
       position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
     }
 
     .cal-day {
-      display:block; border:0; background:#fff; color:#000; cursor:pointer;
+      display:block; border:0; background:var(--umd-color-white); color:var(--umd-color-black); cursor:pointer;
       transition:background-color .2s, box-shadow .2s;
     }
 
-    .cal-day[data-ismonth="false"] { background:#f1f1f1; }
+    .cal-day[data-ismonth="false"] { background:var(--umd-color-gray-lighter); }
 
-    .cal-day[data-ispast="true"] { color:#454545; }
+    .cal-day[data-ispast="true"] { color:var(--umd-color-gray-dark); }
 
     /* the source's only "there is something here" cue */
     .cal-day[data-hasevents="true"] .num { text-decoration:underline; }
 
     .cal-day[data-hasevents="true"]:hover,
-    .cal-day[data-hasevents="true"]:focus-visible { background:#ffd200; }
+    .cal-day[data-hasevents="true"]:focus-visible { background:var(--umd-color-gold); }
 
     .cal-day[data-hasevents="false"] { cursor:default; }
 
-    .cal-day[data-istoday="true"] { box-shadow:inset 0 0 0 2px #000; }
+    .cal-day[data-istoday="true"] { box-shadow:inset 0 0 0 2px var(--umd-color-black); }
 
-    .cal-day[data-isselected="true"] { box-shadow:inset 0 0 0 2px var(--umd-red); }
+    .cal-day[data-isselected="true"] { box-shadow:inset 0 0 0 2px var(--umd-color-red); }
 
     /* Numeral size follows the RAIL's own width, not the viewport's.
        A media query was tried first and was wrong: at a 760px viewport the
@@ -999,10 +1018,10 @@
 
     /* the band's heading row puts the h2 and Clear on one line; the DS rule
        gives the first child flex:1 0 auto, so the trailing rule fills */
-    #cal-filters .umd-text-line-trailing-light { background-color:#f1f1f1; }
+    #cal-filters .umd-text-line-trailing-light { background-color:var(--umd-color-gray-lighter); }
 
     #cal-filters button[type="reset"] {
-      background:none; border:0; padding:0; cursor:pointer; color:#242424;
+      background:none; border:0; padding:0; cursor:pointer; color:var(--umd-color-gray-darker);
       font:inherit; font-size:14px; white-space:nowrap;
     }
 
@@ -1010,9 +1029,9 @@
        itself only needs the box model */
     #cal-filters select { width:100%; padding:12px 16px; border:0; font:inherit; font-size:16px; }
 
-    #cal-filters select:focus-visible { outline:2px solid var(--umd-red); outline-offset:-2px; }
+    #cal-filters select:focus-visible { outline:2px solid var(--umd-color-red); outline-offset:-2px; }
 
-    /* active-filter pills use the DS .umd-pill-list chip (#FAFAFA, 12px);
+    /* active-filter pills use the DS .umd-pill-list chip (var(--umd-color-gray-lightest), 12px);
        neutralize its wrapping-margin hack and use flex gap instead. */
     /* 32px below, matching the band's own gap above, so the pill row sits in
        its own band of space rather than crowding the month line under it */
@@ -1027,17 +1046,17 @@
 
     .pf-pill-cluster.umd-pill-list { margin-top:0; display:inline-flex; flex-wrap:wrap; gap:8px; }
 
-    .pf-pills .umd-pill-list > * { margin-top:0; border:0; cursor:pointer; color:#000; }
+    .pf-pills .umd-pill-list > * { margin-top:0; border:0; cursor:pointer; color:var(--umd-color-black); }
 
     .pf-pills .umd-pill-list > button:hover,
-    .pf-pills .umd-pill-list > button:focus-visible { background-color:#FFD200; }
+    .pf-pills .umd-pill-list > button:focus-visible { background-color:var(--umd-color-gold); }
 
     .pf-clear {
-      background:none; border:0; padding:0 0 0 6px; cursor:pointer; color:#000;
+      background:none; border:0; padding:0 0 0 6px; cursor:pointer; color:var(--umd-color-black);
       text-decoration:underline; text-underline-offset:.15em;
     }
 
-    .pf-clear:hover { color:var(--umd-red); }
+    .pf-clear:hover { color:var(--umd-color-red); }
 
     .cal-empty { font-size:18px; }
 
@@ -1049,7 +1068,7 @@
        The cards are direct siblings of #cal-list, which is what upstream
        web-components.min.css needs for its
        `umd-element-event[data-display="list"] + umd-element-event[...]`
-       divider (24px + 1px #E6E6E6). Do not wrap them in a section. */
+       divider (24px + 1px var(--umd-color-gray-light)). Do not wrap them in a section. */
 
     /* ============================================================
        UPCOMING EVENTS — bordered, image-less event cards, three up
@@ -1066,7 +1085,7 @@
 
        So the border comes from a shadow injection (end of body) that
        reproduces exactly what `hasBorder` renders on card-standard:
-       1px #E6E6E6 on .layout-block-stacked-container, 24px padding on
+       1px var(--umd-color-gray-light) on .layout-block-stacked-container, 24px padding on
        .layout-block-stacked-text.
 
        Omitting slot="image" is what makes these image-less. It also
@@ -1079,7 +1098,7 @@
        filter band's "FILTER EVENTS" uses. It masks its trailing rule with
        `background-color: inherit` on the <span>, so the <h2> MUST carry an
        explicit background or the rule runs straight through the text. */
-    .cal-upcoming-heading { background-color:#fff; margin:0; }
+    .cal-upcoming-heading { background-color:var(--umd-color-white); margin:0; }
 
     .cal-upcoming { margin-top:var(--umd-space-xl); }
 
@@ -1103,11 +1122,11 @@
 
        Page boxes are numbers, exactly as on the source — page N is the
        Nth month the data covers, so stepping a page steps a month.
-       8px gaps, 40×40 boxes, 2px black current, 1px #E6E6E6 page, black
-       40px steppers going #E6E6E6 when disabled, 16px white chevron
+       8px gaps, 40×40 boxes, 2px black current, 1px var(--umd-color-gray-light) page, black
+       40px steppers going var(--umd-color-gray-light) when disabled, 16px white chevron
        rotated 180° for prev.
        ============================================================ */
-    .cal-pager { margin-top:56px; padding-top:32px; border-top:1px solid #e6e6e6; }
+    .cal-pager { margin-top:56px; padding-top:32px; border-top:1px solid var(--umd-color-gray-light); }
 
     .umd-shell-pagination-wrapper,
     .umd-shell-pagination-list {
@@ -1118,19 +1137,19 @@
     .umd-shell-pagination-page-action {
       display:flex; align-items:center; justify-content:center;
       min-width:40px; height:40px; padding:8px;
-      background-color:#fff; color:#000; text-decoration:none;
+      background-color:var(--umd-color-white); color:var(--umd-color-black); text-decoration:none;
       font-family:inherit; font-size:18px; font-weight:700; line-height:18px;
     }
 
-    .umd-shell-pagination-current { border:2px solid #000; }
+    .umd-shell-pagination-current { border:2px solid var(--umd-color-black); }
 
     .umd-shell-pagination-page-action {
-      border:1px solid #e6e6e6; cursor:pointer;
+      border:1px solid var(--umd-color-gray-light); cursor:pointer;
       transition:border-color .3s, color .3s;
     }
 
     .umd-shell-pagination-page-action:hover,
-    .umd-shell-pagination-page-action:focus-visible { border-color:#000; color:var(--umd-red); }
+    .umd-shell-pagination-page-action:focus-visible { border-color:var(--umd-color-black); color:var(--umd-color-red); }
 
     .umd-shell-pagination-ellipsis {
       display:flex; align-items:center;
@@ -1139,24 +1158,24 @@
 
     .umd-shell-pagination-stepper-action {
       flex:0 0 auto; width:40px; height:40px; padding:12px; border:0; cursor:pointer;
-      background-color:#000; display:flex; align-items:center; justify-content:center;
+      background-color:var(--umd-color-black); display:flex; align-items:center; justify-content:center;
       transition:background-color .3s;
     }
 
     .umd-shell-pagination-stepper-action:hover:not([disabled]),
-    .umd-shell-pagination-stepper-action:focus-visible:not([disabled]) { background-color:var(--umd-red); }
+    .umd-shell-pagination-stepper-action:focus-visible:not([disabled]) { background-color:var(--umd-color-red); }
 
-    .umd-shell-pagination-stepper-action[disabled] { background-color:#e6e6e6; cursor:default; }
+    .umd-shell-pagination-stepper-action[disabled] { background-color:var(--umd-color-gray-light); cursor:default; }
 
-    .umd-shell-pagination-stepper-action svg { width:16px; height:16px; fill:#fff; }
+    .umd-shell-pagination-stepper-action svg { width:16px; height:16px; fill:var(--umd-color-white); }
 
     .umd-shell-pagination-stepper-action[data-page="prev"] svg { transform:rotate(180deg); }
 
     /* ============================================================
        GRID VIEW — full month
-       Grid lines are the 1px gap showing through a #E6E6E6 backdrop,
+       Grid lines are the 1px gap showing through a var(--umd-color-gray-light) backdrop,
        so there are no double borders to collapse. Weekday header row
-       and #FAFAFA leading/trailing blanks follow the live calendar.
+       and var(--umd-color-gray-lightest) leading/trailing blanks follow the live calendar.
 
        Unlike the live grid — whose cells carry nothing but a date
        number, making a day with events indistinguishable from an empty
@@ -1164,38 +1183,45 @@
        ============================================================ */
     .cal-grid {
       display:grid; grid-template-columns:repeat(7,1fr); gap:1px;
-      background:#e6e6e6; border:1px solid #e6e6e6;
+      background:var(--umd-color-gray-light); border:1px solid var(--umd-color-gray-light);
     }
 
+    /* The grid's lines are the 1px `gap` showing the gray-light backdrop
+       through. That is right between date cells, but it would cut the black
+       header into seven chips with light seams — so the header cells bleed
+       1px outward via box-shadow to fill their own gutters and read as one
+       solid band. */
     .cal-wd {
-      background:#e6e6e6; padding:8px 4px; text-align:center;
+      background-color:var(--umd-color-black); color:var(--umd-color-white);
+      box-shadow:0 0 0 1px var(--umd-color-black);
+      padding:8px 4px; text-align:center;
       font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.08em;
     }
 
-    .cal-cell { background:#fff; min-height:170px; padding:12px 10px; }
+    .cal-cell { background:var(--umd-color-white); min-height:170px; padding:12px 10px; }
 
-    .cal-cell.is-blank { background:#fafafa; min-height:0; }
+    .cal-cell.is-blank { background:var(--umd-color-gray-lightest); min-height:0; }
 
-    .cal-cell[data-istoday="true"] { box-shadow:inset 0 0 0 2px var(--umd-red); }
+    .cal-cell[data-istoday="true"] { box-shadow:inset 0 0 0 2px var(--umd-color-red); }
 
     .cal-cell-date {
       margin:0 0 10px; font-size:14px; font-weight:700; line-height:1;
-      font-variant-numeric:tabular-nums; color:#000;
+      font-variant-numeric:tabular-nums; color:var(--umd-color-black);
     }
 
-    .cal-cell[data-ispast="true"] .cal-cell-date { color:#767676; }
+    .cal-cell[data-ispast="true"] .cal-cell-date { color:var(--umd-color-gray-medium-a-a); }
 
     .cal-cell-events { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px; }
 
     .cal-cell-events a {
-      display:block; padding-left:8px; border-left:2px solid var(--umd-red);
-      font-size:13px; line-height:1.3; color:#000; text-decoration:none;
+      display:block; padding-left:8px; border-left:2px solid var(--umd-color-red);
+      font-size:13px; line-height:1.3; color:var(--umd-color-black); text-decoration:none;
       transition:color .3s;
     }
 
-    .cal-cell-events a:hover, .cal-cell-events a:focus-visible { color:var(--umd-red); text-decoration:underline; }
+    .cal-cell-events a:hover, .cal-cell-events a:focus-visible { color:var(--umd-color-red); text-decoration:underline; }
 
-    .cal-cell-time { display:block; color:#767676; font-size:12px; font-weight:700; }
+    .cal-cell-time { display:block; color:var(--umd-color-gray-medium-a-a); font-size:12px; font-weight:700; }
 
     /* days past CELL_LIMIT hide behind a "+N more" toggle rather than
        stretching one week's row to the height of its busiest day */
@@ -1203,11 +1229,11 @@
 
     .cal-more {
       margin-top:8px; padding:0; background:none; border:0; cursor:pointer;
-      font:inherit; font-size:12px; font-weight:700; color:#454545;
+      font:inherit; font-size:12px; font-weight:700; color:var(--umd-color-gray-dark);
       text-decoration:underline; text-underline-offset:.15em;
     }
 
-    .cal-more:hover, .cal-more:focus-visible { color:var(--umd-red); }
+    .cal-more:hover, .cal-more:focus-visible { color:var(--umd-color-red); }
 
     @media (max-width:1019px) {
       .cal-cell { min-height:130px; padding:8px 6px; }
@@ -1987,7 +2013,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
     (function () {
       // exactly what card.block({ hasBorder: true }) renders on card-standard
       const CARD_BORDER_CSS =
-        '.layout-block-stacked-container{border:1px solid #e6e6e6}' +
+        '.layout-block-stacked-container{border:1px solid var(--umd-color-gray-light)}' +
         '.layout-block-stacked-text{padding:24px}';
 
       function inject(el) {
