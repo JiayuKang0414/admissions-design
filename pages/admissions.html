@@ -755,15 +755,11 @@
 
     .umd-layout-grid-cards-no-gap > * { height: 100%; }
 
-    /* OVERLAY CARD .size-large MIN-HEIGHT
-       From design-system/packages/styles/source/web-components.ts. Required
-       whenever an overlay card sits in a no-gap row or alongside a feature
-       card so the tile fills its allotted space. */
-    umd-element-card-overlay.size-large { min-height: 320px; }
-
-    @media (min-width: 768px) {
-      umd-element-card-overlay.size-large { min-height: 560px; }
-    }
+    /* OVERLAY CARD .size-large MIN-HEIGHT — RETIRED here.
+       web-components.min.css ships
+       umd-element-card-overlay.size-large { min-height:320px; 560px @768px }
+       verbatim, so the page copy that used to sit here is gone. This is the
+       same rule critical.css section 16 retired upstream. */
 
     /* TUITION & AID 2-COLUMN GRID */
     .umd-layout-grid-tuition-two { display: grid; grid-template-columns: 1fr; gap: 32px; }

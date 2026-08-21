@@ -464,11 +464,24 @@ Carried over from the programs rail (`d152be2`) and preserved through the relayo
 
 `tokens.min.css` is TEMPLATE's second `<link>`, so `--umd-color-*` is live before any page rule runs. **No page in this repo declares a colour of its own.** Verified across all ten: zero bare hex in page CSS, inline `style=""` attributes, or shadow-injection strings.
 
-Two patterns are in use, both fine:
+**One form only: `var(--umd-color-x)`.** No hex fallbacks. `build-colleges-schools.py` used to write `var(--umd-color-x, #HEX)` to guard against `tokens.min.css` failing to load, and all 29 were removed: if that stylesheet is unreachable then so are the other eight bundles and `cdn.js`, and the page has no components and no layout — a correct border colour is not the problem at that point. Four of those fallbacks had also silently drifted from their token values (`gray-medium, #C1C1C1`; `gray-lightest, #F1F1F1` ×2; `gray-light, #DCDCDC`), which is the maintenance cost the form was buying.
 
-- `var(--umd-color-x)` — most pages.
-- `var(--umd-color-x, #HEX)` — `build-colleges-schools.py`, which guards against `tokens.min.css` failing to load. Worth knowing: **the inlined `critical.css` does NOT define the colour tokens**, so a bare `var()` resolves to nothing if the CDN is unreachable. In practice the whole DS is broken in that case anyway.
-  - If you use the fallback form, **the fallback must equal the token's value.** Four had drifted (`gray-medium, #C1C1C1`; `gray-lightest, #F1F1F1` ×2; `gray-light, #DCDCDC`) — dead code, since the token always wins, but they would have rendered a different design on CDN failure. All 29 fallbacks are now normalised to their token values.
+### Hand-rolled CSS removed because the DS already ships it
+
+Order of preference on this project: **DS component (registry) → styles-package class/token → hand-rolled CSS, last resort.** An audit comparing every class we define against the 264 the styles package ships turned up three duplicates:
+
+| removed from | rule | shipped by |
+|---|---|---|
+| `build-programs.py`, `build-calendar.py` | `.sr-only` | `accessibility.min.css` |
+| `pages/admissions.html` | `umd-element-card-overlay.size-large { min-height:320px; 560px @768px }` | `web-components.min.css` — and `critical.css` §16 had **already retired the same rule upstream**, so the page copy was stale twice over |
+
+Verified after removal: `.sr-only` still computes `position:absolute; width:1px; height:1px; overflow:hidden` with nothing leaking (60 instances on the calendar, 1 on programs), and the admissions overlay cards still compute `min-height: 560px` at desktop.
+
+The other class-name collisions the audit found are **legitimate and should stay** — they are scoped overrides, not redefinitions: `.pf-body .umd-field-checkbox-wrapper`, `.pf-pill-cluster.umd-pill-list`, `#cal-filters .umd-text-line-trailing-light`, `.wta-section > .umd-layout-space-horizontal-larger`. Each adjusts a DS class in one context; none restates it.
+
+### Known drift, not yet resolved
+
+`pages/admissions.html` carries `.umd-text-rich-advanced > .umd-sans-extralarge-bold { font-size: 18px }`. The comment says the intent is "bump specificity so the utilities win" — but the utility's base size is now **22px** upstream, so the page is overriding the utility with a stale copy of its old value rather than restoring it. The two larger breakpoints (`calc(18px + 1.16vw)`, `32px`) still match, so the drift only shows below 650px. Left alone deliberately: correcting it to 22px is a visible design change on that page, not a refactor.
 
 ### Four colours had no exact token
 

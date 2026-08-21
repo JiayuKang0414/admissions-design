@@ -88,15 +88,15 @@ PAGE_CSS = '''
       display: flex;
       flex-direction: column;
       background: var(--umd-color-white);
-      border: 1px solid var(--umd-color-gray-light, #E6E6E6);
+      border: 1px solid var(--umd-color-gray-light);
       transition: border-color .3s ease, box-shadow .3s ease;
     }
     .cs-tile:hover {
-      border-color: var(--umd-color-gray-medium, #7F7F7F);
+      border-color: var(--umd-color-gray-medium);
       box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
     }
     .cs-tile[data-open="true"] {
-      border-color: var(--umd-color-red, #E21833);
+      border-color: var(--umd-color-red);
       box-shadow: 0 4px 16px rgba(0, 0, 0, .10);
     }
 
@@ -104,7 +104,7 @@ PAGE_CSS = '''
       margin: 0;
       overflow: hidden;
       aspect-ratio: 2 / 1;
-      background: var(--umd-color-gray-lightest, #FAFAFA);
+      background: var(--umd-color-gray-lightest);
     }
     .cs-tile-figure img {
       display: block;
@@ -134,7 +134,7 @@ PAGE_CSS = '''
     }
     .cs-tile-abbr {
       margin: 0 0 8px;
-      color: var(--umd-color-red, #E21833);
+      color: var(--umd-color-red);
       font-size: 12px;
       font-weight: 700;
       line-height: 1.16em;
@@ -143,7 +143,7 @@ PAGE_CSS = '''
     }
     .cs-tile-name { margin: 0; }
     .cs-tile-name a {
-      color: var(--umd-color-black, #000000);
+      color: var(--umd-color-black);
       text-decoration: none;
       background-image: linear-gradient(var(--umd-color-black), var(--umd-color-black));
       background-position: left calc(100% - 1px);
@@ -153,7 +153,7 @@ PAGE_CSS = '''
     }
     .cs-tile-name a:hover,
     .cs-tile-name a:focus {
-      color: var(--umd-color-red, #E21833);
+      color: var(--umd-color-red);
       background-image: linear-gradient(var(--umd-color-red), var(--umd-color-red));
       background-size: 100% 1px;
     }
@@ -164,7 +164,7 @@ PAGE_CSS = '''
       -webkit-box-orient: vertical;
       overflow: hidden;
       margin: 12px 0 0;
-      color: var(--umd-color-gray-dark, #454545);
+      color: var(--umd-color-gray-dark);
     }
 
     /* --- toggle ------------------------------------------------ */
@@ -178,16 +178,16 @@ PAGE_CSS = '''
       margin: 0;
       padding: 14px 0 0;
       border: 0;
-      border-top: 1px solid var(--umd-color-gray-light, #E6E6E6);
+      border-top: 1px solid var(--umd-color-gray-light);
       background: none;
-      color: var(--umd-color-black, #000000);
+      color: var(--umd-color-black);
       font-weight: 700;
       text-align: left;
       cursor: pointer;
     }
-    .cs-toggle:hover { color: var(--umd-color-red, #E21833); }
+    .cs-toggle:hover { color: var(--umd-color-red); }
     .cs-toggle:focus-visible {
-      outline: 2px solid var(--umd-color-red, #E21833);
+      outline: 2px solid var(--umd-color-red);
       outline-offset: 4px;
     }
     .cs-toggle-chev {
@@ -203,22 +203,22 @@ PAGE_CSS = '''
     .cs-tile-link {
       display: inline-block;
       padding-top: 14px;
-      border-top: 1px solid var(--umd-color-gray-light, #E6E6E6);
+      border-top: 1px solid var(--umd-color-gray-light);
       width: 100%;
-      color: var(--umd-color-black, #000000);
+      color: var(--umd-color-black);
       font-weight: 700;
       text-decoration: none;
     }
-    .cs-tile-link:hover { color: var(--umd-color-red, #E21833); }
+    .cs-tile-link:hover { color: var(--umd-color-red); }
 
     /* --- panel ------------------------------------------------- */
     .cs-panel { grid-column: 1 / -1; }
     .cs-panel[hidden] { display: none; }
     .cs-panel-inner {
       padding: 32px 24px;
-      border: 1px solid var(--umd-color-gray-light, #E6E6E6);
-      border-top: 4px solid var(--umd-color-red, #E21833);
-      background: var(--umd-color-gray-lightest, #FAFAFA);
+      border: 1px solid var(--umd-color-gray-light);
+      border-top: 4px solid var(--umd-color-red);
+      background: var(--umd-color-gray-lightest);
       animation: cs-panel-in .35s ease both;
     }
     @media (min-width: 1024px) { .cs-panel-inner { padding: 40px; } }
@@ -237,11 +237,11 @@ PAGE_CSS = '''
       justify-content: space-between;
       gap: 16px 32px;
       padding-bottom: 24px;
-      border-bottom: 1px solid var(--umd-color-gray-light, #E6E6E6);
+      border-bottom: 1px solid var(--umd-color-gray-light);
     }
     .cs-panel-headline { margin: 0; font-weight: 700; }
     .cs-panel-headline a {
-      color: var(--umd-color-black, #000000);
+      color: var(--umd-color-black);
       text-decoration: none;
       background-image: linear-gradient(var(--umd-color-black), var(--umd-color-black));
       background-position: left calc(100% - 1px);
@@ -251,7 +251,7 @@ PAGE_CSS = '''
     }
     .cs-panel-headline a:hover,
     .cs-panel-headline a:focus {
-      color: var(--umd-color-red, #E21833);
+      color: var(--umd-color-red);
       background-image: linear-gradient(var(--umd-color-red), var(--umd-color-red));
     }
     .cs-panel-head > div { flex: 1 1 480px; }
@@ -266,22 +266,22 @@ PAGE_CSS = '''
     .cs-panel-desc {
       max-width: 960px;
       margin: 12px 0 0;
-      color: var(--umd-color-gray-dark, #454545);
+      color: var(--umd-color-gray-dark);
     }
     .cs-panel-close {
       flex: 0 0 auto;
       padding: 8px 0;
       border: 0;
       background: none;
-      color: var(--umd-color-gray-dark, #454545);
+      color: var(--umd-color-gray-dark);
       font-weight: 700;
       letter-spacing: .06em;
       text-transform: uppercase;
       cursor: pointer;
     }
-    .cs-panel-close:hover { color: var(--umd-color-red, #E21833); }
+    .cs-panel-close:hover { color: var(--umd-color-red); }
     .cs-panel-close:focus-visible {
-      outline: 2px solid var(--umd-color-red, #E21833);
+      outline: 2px solid var(--umd-color-red);
       outline-offset: 2px;
     }
 
@@ -307,7 +307,7 @@ PAGE_CSS = '''
       border-bottom: 1px solid var(--umd-color-gray-light);
     }
     .cs-major a {
-      color: var(--umd-color-black, #000000);
+      color: var(--umd-color-black);
       font-weight: 700;
       text-decoration: none;
       background-image: linear-gradient(var(--umd-color-black), var(--umd-color-black));
@@ -318,7 +318,7 @@ PAGE_CSS = '''
     }
     .cs-major a:hover,
     .cs-major a:focus {
-      color: var(--umd-color-red, #E21833);
+      color: var(--umd-color-red);
       background-image: linear-gradient(var(--umd-color-red), var(--umd-color-red));
       background-size: 100% 1px;
     }
@@ -341,8 +341,8 @@ PAGE_CSS = '''
     }
     .cs-types > .cs-type {
       margin-top: 0;
-      border: 1px solid var(--umd-color-gray-light, #E6E6E6);
-      color: var(--umd-color-gray-dark, #454545);
+      border: 1px solid var(--umd-color-gray-light);
+      color: var(--umd-color-gray-dark);
       white-space: nowrap;
     }
 '''
