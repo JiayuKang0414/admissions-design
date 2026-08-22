@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Freshman Applicants — Undergraduate Admissions | University of Maryland</title>
+  <title>Transfer Applicants — Undergraduate Admissions | University of Maryland</title>
 
   <!-- ============================================================
        UMD Critical CSS — Hybrid CDN + Local
@@ -733,7 +733,7 @@
   <script src="https://unpkg.com/@universityofmaryland/web-components-library@1.19.5/dist/cdn.js"></script>
 
   <style>
-    /* Brand chevron animation flanking the Apply as a Freshman rich text and
+    /* Brand chevron animation flanking the Transfer to UMD rich text and
        overlapping ~120px up into the hero above. Hidden below tablet
        to avoid crowding the single-column stacked content. */
     .study-here-section {
@@ -866,67 +866,41 @@
       margin-bottom: 0;
     }
 
-    /* ---- Early Action / Application Platforms — brand chevron under the cards ----
-       Same treatment as the When-to-Apply band on pages/how-to-apply.html: the
-       DS brand-logo-animation entering from the screen's LEFT edge and tucking
-       behind the content lock. Kept UNMIRRORED (mirroring reverses the arrows)
-       and shifted a full viewport left.
+    /* ---- Overlay feature card: .size-large needs an EXPLICIT height ----
+       web-components.min.css ships ONLY the min-height half of this class:
 
-       The component anchors its chevron cluster to the RIGHT of a 100vw internal
-       box, so pure-CSS viewport math drifts it off-screen on wide monitors — the
-       end-of-body script anchors it to the card grid's left edge instead and
-       recomputes on resize. Entry is an IntersectionObserver toggling .is-in plus
-       a CSS transition; the DS view-timeline animation snaps to its end state
-       here rather than scrubbing. */
-    .fa-cta-section { position: relative; }
-    .fa-cta-section > .umd-layout-space-horizontal-larger {
-      position: relative;
-      z-index: 1;
-    }
+         umd-element-card-overlay.size-large { min-height: 320px }   (mobile)
+         umd-element-card-overlay.size-large { min-height: 560px }   (768px+)
 
-    .fa-chevron {
-      position: absolute;
-      top: 0; right: 0; bottom: 0; left: 0;
-      pointer-events: none;
-      z-index: 0;
-      transform: translateX(-24vw);
-      transition: transform 1.1s cubic-bezier(.16, 1, .3, 1);
-    }
+       That sizes the HOST but not the card. The shadow's .card-overlay-image
+       uses height:100%, and a percentage height does not resolve against a
+       parent whose own height is auto — so it falls back to content height and
+       .card-overlay-image-container's internal min-height (360px mobile /
+       424px tablet+) wins. Measured before this rule: host 549x560 with the
+       painted card only 549x424 — 136px of dead space under it.
 
-    .fa-chevron.is-in { transform: translateX(0); }
+       An explicit height on the host gives the percentage something to resolve
+       against. Registry documents this (registry-cards.json, card-overlay
+       .classes[].description); the "RETIRED §16" note in the critical-CSS block
+       above is what is out of date — the bundle took over min-height only.
 
-    @media (prefers-reduced-motion: reduce) {
-      .fa-chevron { transition: none; }
-    }
-
-    /* The DS ':defined' rule clips this element to a 25vw box (overflow: clip),
-       cropping the lower two chevrons. Scoped to .fa-chevron so the study-here
-       chevron on this page is unaffected. */
-    .fa-chevron > umd-element-brand-logo-animation {
-      position: absolute;
-      top: 50%; left: 0; right: 0;
-      transform: translateY(-151px) translateX(calc(-100vw + 170px));
-      display: block;
-      overflow: visible;
-    }
-
-    @media (max-width: 1023px) {
-      .fa-chevron { display: none; }
-    }
-
-    /* ---- Application requirements: masonry icon cards (.fa-req-*) ----
-       umd-layout-grid-masonry offsets children 2 and 3 by ±40px, which only
-       reads as a zigzag when the cards share a height — card-icon sizes to its
-       own copy, so without this the "stagger" is just uneven ragging. Height is
-       set on the card, not the grid, because the offsets are margins on the
-       children themselves. */
-    .fa-req-grid umd-element-card-icon {
-      min-height: 220px;
-    }
-
+       TABLET+ ONLY. The registry also prescribes height:320px at mobile, but the
+       inner container's mobile min-height is 360px, so an explicit 320 CLAMPS the
+       card 40px SHORTER than its natural size — size-large would make the card
+       smaller, which is backwards. Below 768px the card is left alone at its
+       natural 360px and the bundle's min-height:320px stands as a floor.
+       ------------------------------------------------------------------- */
     @media (min-width: 768px) {
-      .fa-req-grid umd-element-card-icon { min-height: 260px; }
+      umd-element-card-overlay.size-large { height: 560px; }
     }
+
+    /* ---- Application deadlines carousel ----
+       .relative is a Tailwind-shaped utility that admissions.umd.edu carries on
+       this component's host but that the DS bundles do NOT ship (verified: absent
+       from every css/*.min.css in web-styles-library). Defined here so the host
+       markup behaves as written rather than silently no-opping. The companion
+       .bg-white was dropped when the band went dark. */
+    .relative { position: relative; }
   </style>
   <!-- SHARED:chrome-css:START — generated from shared/chrome.css; do not edit here -->
   <style>
@@ -1056,82 +1030,96 @@ umd-element-scroll-top[data-layout-fixed="true"] {
   </umd-element-navigation-header>
   <!-- SHARED:header:END -->
 
-  <!-- 2. HERO — small background, centered (matches pages/how-to-apply.html) -->
+  <!-- 2. HERO — small background, centered (matches pages/how-to-apply/freshman-applicants.html) -->
   <section class="umd-layout-vertical-landing">
     <umd-element-hero data-layout-height="small" data-layout-text="center">
-      <img slot="image" src="../../images/freshman-applicants/students-outdoors.jpg" alt="Students outdoors on the University of Maryland campus" />
-      <h1 slot="headline">Freshman Applicants</h1>
-      <div slot="text"><p>Apply to the University of Maryland (UMD) as a freshman using the Common App or ApplyWeb platform.</p></div>
+      <img slot="image" src="../../images/transfer-applicants/IribeCenter_01282019_5806.jpg" alt="Students studying in the open lounge of the Brendan Iribe Center for Computer Science and Engineering" />
+      <h1 slot="headline">Transfer Applicants</h1>
+      <div slot="text"><p>Transfer students play a pivotal role at the University of Maryland (UMD), where they bring unique perspectives from their college studies as well as a diversity of backgrounds, geographic origins and personal experiences.</p></div>
     </umd-element-hero>
   </section>
 
-  <!-- 3. APPLY AS A FRESHMAN — eyebrow intro + brand chevron, apply CTAs pulled out of the hero -->
+  <!-- 3. TRANSFER TO UMD — eyebrow intro + brand chevron, apply CTA pulled out of the hero -->
   <section class="umd-layout-vertical-landing study-here-section">
     <div class="study-here-chevron" aria-hidden="true">
       <umd-element-brand-logo-animation></umd-element-brand-logo-animation>
     </div>
     <div class="umd-layout-space-horizontal-small study-here-content">
       <hr style="border:none;border-top:1px solid var(--umd-color-black);margin:0 0 24px 0;" />
-      <p class="umd-sans-large mb-md text-black" style="text-transform:uppercase;">Apply as a Freshman</p>
+      <p class="umd-sans-large mb-md text-black" style="text-transform:uppercase;">Transfer to UMD</p>
       <div class="umd-text-rich-advanced">
-        <p>If you are a high school student or a student with fewer than 12 semester hours or 18 quarter hours of university-level credit beyond secondary school, you should apply as a freshman applicant.</p>
-        <p>Below you will find information on freshman application requirements and deadlines, a complete list of required application materials and more.</p>
+        <p>Apply as a transfer student if you are a high school graduate who has completed at least 12 semester hours or 18 quarter hours after high school graduation at a regionally accredited college or university.</p>
+        <p>Below you will find information on transfer application requirements and deadlines, a complete list of required application materials and more.</p>
       </div>
       <div style="margin-top:24px;display:flex;flex-wrap:wrap;gap:16px;">
         <umd-element-call-to-action data-display="primary">
-          <a href="https://www.commonapp.org/explore/university-maryland" target="_blank" rel="noreferrer noopener">Apply through the Common App</a>
-        </umd-element-call-to-action>
-        <umd-element-call-to-action data-display="primary">
-          <a href="https://www.applyweb.com/forms/UMDFYR" target="_blank" rel="noreferrer noopener">Apply through ApplyWeb</a>
+          <a href="https://www.applyweb.com/forms/UMDTERPS" target="_blank" rel="noreferrer noopener">Apply through ApplyWeb</a>
         </umd-element-call-to-action>
       </div>
     </div>
   </section>
 
-  <!-- 4. APPLICATION REQUIREMENTS — sticky intro + masonry icon cards (LAYOUT-PATTERNS.md §Masonry Grid) -->
+  <!-- 4. APPLICANT REQUIREMENTS — sticky intro + card list (RULES §33).
+       The source's dark band photo (Financial-Aid-Resources.jpg) is deliberately
+       dropped: the sticky-columns treatment is imageless. Theme is LIGHT for now
+       — dark/light pass is a separate round. -->
   <section class="umd-layout-vertical-landing">
     <umd-element-sticky-columns class="umd-layout-space-horizontal-larger" data-layout-position="100px">
       <div slot="sticky-column">
-        <h2 class="umd-sans-largest-uppercase mb-md">Application Requirements</h2>
+        <h2 class="umd-sans-largest-uppercase mb-md">Applicant Requirements</h2>
         <div class="umd-text-rich-advanced mb-sm">
-          <p>As prescribed by the <a href="http://www.usmd.edu/regents/" target="_blank" rel="noreferrer noopener">Board of Regents</a>, the university expects you, at a minimum, to have completed the following coursework by high school graduation.</p>
-          <p>The most competitive freshman applicants exceed these minimum requirements, earning a strong A-/B+ or better average in their high school coursework while taking several honors and/or Advanced Placement or International Baccalaureate courses and additional academic electives.</p>
+          <p>Admission to UMD is competitive and the number of students seeking admission exceeds the number who can be accommodated. Admission is based on the overall strength of the student's academic performance and is assessed through a holistic review. In accordance with the Maryland Higher Education Commission and Board of Regents transfer policies, certain applicants from Maryland public institutions are given special consideration and are admitted when space is available.</p>
+          <p>The university expects you, at a minimum, to meet the following requirements:</p>
         </div>
       </div>
+      <!-- Accordion items are BARE ADJACENT SIBLINGS — no umd-layout-grid-gap-stacked
+           wrapper. The upstream bundle already ships an 8px sibling margin; a grid
+           gap stacks with it and doubles the space (RULES §32). And per §32's
+           sticky-columns exception, no inner lock either — the host's
+           umd-layout-space-horizontal-larger governs the width. -->
       <div slot="static-column">
-        <div class="umd-layout-grid-masonry fa-req-grid">
-          <umd-element-card-icon>
-            <img slot="image" src="../../images/freshman-applicants/icons/icon-english.svg" alt="" />
-            <h3 slot="headline">4 Years of English</h3>
-          </umd-element-card-icon>
-          <umd-element-card-icon>
-            <img slot="image" src="../../images/freshman-applicants/icons/icon-foreign-language.svg" alt="" />
-            <h3 slot="headline">2 Years of Foreign Language</h3>
-          </umd-element-card-icon>
-          <umd-element-card-icon>
-            <img slot="image" src="../../images/freshman-applicants/icons/icon-history.svg" alt="" />
-            <h3 slot="headline">3 Years of History or Social Science</h3>
-          </umd-element-card-icon>
-          <umd-element-card-icon>
-            <img slot="image" src="../../images/freshman-applicants/icons/icon-science.svg" alt="" />
-            <h3 slot="headline">3 Years of Science</h3>
-            <p slot="text">In at least 2 different areas, with at least 2 lab experiences.</p>
-          </umd-element-card-icon>
-          <umd-element-card-icon>
-            <img slot="image" src="../../images/freshman-applicants/icons/icon-math.svg" alt="" />
-            <h3 slot="headline">4 Years of Math</h3>
-            <p slot="text">Including Algebra I, Geometry and Algebra II. If you complete Algebra II prior to your final year, you must complete the 4-year math requirement by taking a course that utilizes non-trivial algebra, such as Trigonometry, Precalculus, Calculus, Statistics or College Algebra.</p>
-          </umd-element-card-icon>
-        </div>
+        <umd-element-accordion-item>
+          <p slot="headline">High School</p>
+          <div slot="text">
+            <div class="umd-text-rich-advanced">
+              <p>To be considered a transfer applicant, you must have graduated high school or have completion of high school equivalency.</p>
+            </div>
+          </div>
+        </umd-element-accordion-item>
+        <umd-element-accordion-item>
+          <p slot="headline">College Credits</p>
+          <div slot="text">
+            <div class="umd-text-rich-advanced">
+              <p>You must complete at least 12 semester hours or 18 quarter hours at a regionally accredited college or university. (AP/IB credits or placement tests cannot be used toward this requirement.)</p>
+              <p>If you are in progress of completing 12 credits, please email us prior to submitting an application for guidance on how to complete your application. Email <a href="mailto:applymaryland@umd.edu?subject=12%20Credits%20In-Progress%20Transfer%20Applicant">ApplyMaryland@umd.edu</a> with the subject line "12 Credits In-Progress Transfer Applicant".</p>
+            </div>
+          </div>
+        </umd-element-accordion-item>
+        <umd-element-accordion-item>
+          <p slot="headline">College Courses</p>
+          <div slot="text">
+            <div class="umd-text-rich-advanced">
+              <p>You are expected to have completed an English composition course, and a college-level mathematics course.</p>
+            </div>
+          </div>
+        </umd-element-accordion-item>
       </div>
     </umd-element-sticky-columns>
   </section>
 
-  <!-- 5. CHOOSING A MAJOR — pathway, image left -->
-  <section class="umd-layout-vertical-landing">
-    <umd-element-pathway data-display="overlay" data-theme="dark" data-layout-image-position="left">
-      <img slot="image" src="../../images/freshman-applicants/students-esj.jpg" alt="Students walking into the Edward St. John Learning and Teaching Center." />
-      <h2 slot="headline">Choosing A Major</h2>
+  <!-- 5. CHOOSING A MAJOR — WHITE OVERLAY pathway on the dark band, image left.
+       data-theme="white" is the white panel (the overlay variant's theme names the
+       PANEL, not the surround), which lifts off the black and breaks up the run.
+       NOT "light" — that is a GRAY panel and it also adds 80px 0 padding to
+       .pathway-overlay-container-lock-wrapper, inflating this pathway from 758
+       to 918px. See OVERRIDES.md § "Overlay pathway on a dark band".
+       First of three consecutive dark bands (5-7). No umd-layout-vertical-landing:
+       the next section is also dark, so its margin would punch a white gap
+       (RULES §19). .umd-layout-background-full-dark supplies the 48/80/104px pad. -->
+  <section class="umd-layout-background-full-dark">
+    <umd-element-pathway data-display="overlay" data-theme="white" data-layout-image-position="left">
+      <img slot="image" src="../../images/transfer-applicants/students-esj.jpg" alt="Students walking into the Edward St. John Learning and Teaching Center." />
+      <h2 slot="headline">Choosing a Major</h2>
       <div slot="text">
         <p>Whether you know exactly what you want to study or are still figuring it out, we encourage you to <a href="../academics/programs.html">explore UMD's academic programs</a>. As you explore you may see that some of our majors are considered <a href="https://admissions.umd.edu/academics/limited-enrollment-programs">Limited Enrollment Programs (LEP)</a>. These programs have limited space and, therefore, have more competitive admission criteria.</p>
         <p>On the UMD application, you'll select a preferred major. This information will not impact whether or not you are admissible to the university. If you selected an LEP, you will also be reviewed by the specific program to determine admission to your preferred major.</p>
@@ -1140,63 +1128,90 @@ umd-element-scroll-top[data-layout-fixed="true"] {
     </umd-element-pathway>
   </section>
 
-  <!-- 6. EARLY ACTION + APPLICATION PLATFORMS — dark band, overlay-card pair.
-       On the source these are the two halves of one CTA strip, so they stay paired. -->
-  <section class="umd-layout-background-full-dark umd-layout-vertical-landing fa-cta-section">
-    <div class="fa-chevron" aria-hidden="true">
-      <umd-element-brand-logo-animation></umd-element-brand-logo-animation>
-    </div>
+  <!-- 6. APPLICATION DEADLINES — the source's "Benefits of Applying Early Action"
+       band. The early-action copy carries the whole benefit argument, so it moves
+       into the section intro and the four deadline data points become the four
+       carousel slides. Slides are text-only cards (no slot="image", no
+       data-thumbnail) — RULES §27's transparent-surface card, per the pattern
+       used on admissions.umd.edu's own deadlines band. -->
+  <section class="umd-layout-background-full-dark">
     <div class="umd-layout-space-horizontal-larger">
-      <div class="umd-layout-grid-gap-two umd-animation-grid">
-        <umd-element-card-overlay data-theme="dark" class="size-large">
-          <h2 slot="headline">Benefits of Applying Early Action</h2>
-          <div slot="text">
-            <p>We strongly encourage you to apply early action to <strong>receive priority consideration for admission, merit-based scholarships and invitations to special programs</strong>. UMD's November 1 early action deadline is non-binding and students who submit a completed application by this date will receive an admission decision by February 1. <em>By applying for admission to the fall semester, you will also be automatically considered for admission to the spring semester.</em></p>
-          </div>
-          <div slot="actions">
-            <umd-element-call-to-action data-display="secondary" data-theme="dark">
-              <a href="https://admissions.umd.edu/apply/application-deadlines">View All Application Deadlines</a>
-            </umd-element-call-to-action>
-          </div>
-        </umd-element-card-overlay>
-        <umd-element-card-overlay data-theme="dark" class="size-large">
-          <h2 slot="headline">Application Platforms</h2>
-          <div slot="text">
-            <p>Freshman students can apply to UMD using either of the following platforms:</p>
-            <p>
-              <a href="https://www.commonapp.org/explore/university-maryland" target="_blank" rel="noreferrer noopener">Common App</a><br />
-              <a href="https://www.applyweb.com/forms/UMDFYR" target="_blank" rel="noreferrer noopener">ApplyWeb</a>
-            </p>
-            <p>The application platform you choose will not make a difference on how your application will be reviewed. Choose the platform you are comfortable using.</p>
-          </div>
-          <div slot="actions">
-            <umd-element-call-to-action data-display="secondary" data-theme="dark">
-              <a href="https://admissions.umd.edu/apply-now">Apply Now</a>
-            </umd-element-call-to-action>
-          </div>
-        </umd-element-card-overlay>
-      </div>
+      <umd-element-section-intro data-theme="dark" class="umd-layout-vertical-landing-child">
+        <h2 slot="headline">Application Deadlines</h2>
+        <div slot="text">
+          <p>We strongly encourage you to apply early action to <strong>receive priority consideration for admission and merit-based scholarships</strong>. Your application must be complete by the early action deadline in order to be reviewed. Applications that are not complete by the early action deadline will be considered for the regular application deadline.</p>
+        </div>
+        <div slot="actions">
+          <umd-element-call-to-action data-display="secondary" data-theme="dark">
+            <a href="https://admissions.umd.edu/apply/application-deadlines">View All Application Deadlines</a>
+          </umd-element-call-to-action>
+        </div>
+      </umd-element-section-intro>
+    </div>
+
+    <div class="umd-layout-space-horizontal-larger">
+      <umd-element-carousel-thumbnail data-theme="dark" class="relative">
+        <div slot="blocks">
+          <umd-element-card data-theme="dark" data-visual-transparent="true" data-visual-image-aligned="true">
+            <p slot="eyebrow">Fall</p>
+            <p slot="headline">Early Action Deadline</p>
+            <div slot="text"><p>March 1</p></div>
+          </umd-element-card>
+          <umd-element-card data-theme="dark" data-visual-transparent="true" data-visual-image-aligned="true">
+            <p slot="eyebrow">Fall</p>
+            <p slot="headline">Regular Deadline</p>
+            <div slot="text"><p>June 1</p></div>
+          </umd-element-card>
+          <umd-element-card data-theme="dark" data-visual-transparent="true" data-visual-image-aligned="true">
+            <p slot="eyebrow">Spring</p>
+            <p slot="headline">Early Action Deadline</p>
+            <div slot="text"><p>August 1</p></div>
+          </umd-element-card>
+          <umd-element-card data-theme="dark" data-visual-transparent="true" data-visual-image-aligned="true">
+            <p slot="eyebrow">Spring</p>
+            <p slot="headline">Regular Deadline</p>
+            <div slot="text"><p>November 15</p></div>
+          </umd-element-card>
+        </div>
+      </umd-element-carousel-thumbnail>
     </div>
   </section>
 
-  <!-- 7. APPLICATION CHECKLIST — intro + page-built numbered stepper (.fa-*; see OVERRIDES.md) -->
+  <!-- 7. APPLICATION PLATFORM — WHITE OVERLAY pathway on the dark band, image
+       right (mirrors §5). Last of the three dark bands; §8 is light, so
+       critical.css §22's dark -> light rule supplies the 120px transition gap. -->
+  <section class="umd-layout-background-full-dark umd-layout-vertical-landing">
+    <umd-element-pathway data-display="overlay" data-theme="white">
+      <img slot="image" src="../../images/transfer-applicants/M_Gate_09212006_20.jpg" alt="The red M on a wrought-iron campus gate, seen against a bright blue sky" />
+      <h2 slot="headline">Application Platform</h2>
+      <div slot="text">
+        <p>Transfer students can apply to UMD using the <a href="https://www.applyweb.com/forms/UMDTERPS" target="_blank" rel="noreferrer noopener">ApplyWeb</a> platform. We encourage you to reference our frequently asked questions if you need help completing the UMD application, especially parts that focus on high school information.</p>
+      </div>
+      <div slot="actions">
+        <umd-element-call-to-action data-display="secondary">
+          <a href="https://admissions.umd.edu/apply/transfer-application-faqs">Transfer Application FAQs</a>
+        </umd-element-call-to-action>
+      </div>
+    </umd-element-pathway>
+  </section>
+
+  <!-- 8. APPLICATION CHECKLIST — intro + page-built numbered stepper (.fa-*; see OVERRIDES.md).
+       Same stepper as pages/how-to-apply/freshman-applicants.html; the source's
+       "Step" label is dropped, the numeral alone carries the sequence. -->
   <section class="umd-layout-vertical-landing">
     <div class="umd-layout-space-horizontal-small">
       <h2 class="umd-sans-largest-uppercase mb-md">Application Checklist</h2>
       <!-- umd-layout-vertical-landing-child, not mb-md: the DS child gap is
            32 / 40 / 48px, giving the required 48px above the stepper at desktop. -->
       <div class="umd-text-rich-advanced umd-layout-vertical-landing-child">
-        <p>Utilize our application checklist to ensure you're submitting all required freshman application materials.</p>
+        <p>Utilize our application checklist to ensure you're submitting all required transfer application materials.</p>
         <p>Before you get started, consider the following questions:</p>
-        <!-- Question / answer pairs, not a <ul> with `<strong>Q</strong> | A`:
-             each question is its own umd-sans-large sub-heading followed by a
-             plain answer paragraph, matching the source page. -->
-        <p class="text-black umd-sans-large">Are you an international student?</p>
-        <p>If you are a non-U.S. citizen or non-permanent U.S. resident you apply as an <a href="https://admissions.umd.edu/apply/international-applicants">international applicant</a>.</p>
-        <p class="text-black umd-sans-large">Do you need to provide proof of English proficiency?</p>
-        <p>If English is not your native language, regardless of your citizenship, or if you have taken English Second Language courses in high school, you must provide verification of your <a href="https://admissions.umd.edu/apply/english-language-proficiency">proficiency in English</a>.</p>
+        <!-- Question / answer pairs, not a <ul> with `<strong>Q</strong> | A` —
+             matching the freshman page's treatment of the same source pattern. -->
         <p class="text-black umd-sans-large">Do you have non-U.S. academic records?</p>
         <p>If you have non-U.S. academic records for post-secondary/university work, please review our <a href="https://admissions.umd.edu/apply/international-applicants">international applicant requirements</a> for instructions on submitting these records.</p>
+        <p class="text-black umd-sans-large">Do you have a Joint Services Transcript?</p>
+        <p>If you have a Joint Services Transcript, please review the special audiences section of our <a href="https://admissions.umd.edu/persona/prospective-students">Prospective Students</a> page for information regarding U.S. veterans and transferrable credits.</p>
       </div>
 
       <!-- role="list" restores list semantics that `list-style: none` strips
@@ -1207,11 +1222,10 @@ umd-element-scroll-top[data-layout-fixed="true"] {
           <div class="fa-step-body">
             <h3 class="fa-step-title umd-sans-larger-bold text-black">Completed online application</h3>
             <div class="umd-text-rich-advanced">
-              <p>The freshman application can be submitted online via the <a href="https://www.commonapp.org/explore/university-maryland" target="_blank" rel="noreferrer noopener">Common App</a> or <a href="https://www.applyweb.com/forms/UMDFYR" target="_blank" rel="noreferrer noopener">ApplyWeb</a>. The online application only needs to be submitted once, so choose the platform you are most comfortable using.</p>
+              <p>The transfer application can be submitted online via the <a href="https://www.applyweb.com/forms/UMDTERPS" target="_blank" rel="noreferrer noopener">ApplyWeb</a>.</p>
               <p><strong>As part of the online application you will be required to submit a(n):</strong></p>
               <ul>
-                <li><strong>Essay</strong> | This is your opportunity to share your personality and experiences with the Admission Committee. Get inspired by one of our <a href="https://admissions.umd.edu/apply/essay-questions">essay questions</a>.</li>
-                <li><strong>Activities and awards list or resume</strong> | Tell us how you spend your time outside the classroom! Please start by sharing the two experiences outside of academics that are most important to you. Whether community involvement, the arts, sports, work experience, research opportunities, family involvements or other activities and hobbies, you should share only what has been particularly meaningful.</li>
+                <li><strong>Essay</strong> | This is your opportunity to share your personality and experiences with the Admission Committee. Please use our transfer student <a href="https://admissions.umd.edu/apply/essay-questions">essay prompt</a>.</li>
                 <li><strong>Nonrefundable application fee of $80</strong> | When submitting your application you will be required to pay a $80 application fee on our secure website with a credit card unless you have received a <a href="https://admissions.umd.edu/persona/fee-waiver">fee waiver</a>. Fee waivers must be submitted prior to application submission for consideration. We cannot accept cash or check payments.</li>
               </ul>
             </div>
@@ -1220,38 +1234,39 @@ umd-element-scroll-top[data-layout-fixed="true"] {
         <li class="fa-step">
           <div class="fa-step-num"><span class="umd-campaign-large">2</span></div>
           <div class="fa-step-body">
-            <h3 class="fa-step-title umd-sans-larger-bold text-black">Two letters of recommendation</h3>
+            <h3 class="fa-step-title umd-sans-larger-bold text-black">Official copy of your college transcripts</h3>
             <div class="umd-text-rich-advanced">
-              <p>Two letters of recommendation are required: one from your school counselor and one from a teacher. Recommendations must be sent to us directly from the recommender. Learn how recommendation letters can be submitted on our <a href="https://admissions.umd.edu/apply/submitting-documents">Submitting Documents</a> page.</p>
+              <p>Each institution you've attended must submit an official copy of your college transcripts listing all courses you have attempted. A final official transcript from your current institution must be sent upon completion of any courses in progress. Learn how transcripts can be submitted on our <a href="https://admissions.umd.edu/apply/submitting-documents">Submitting Documents</a> page.</p>
+              <p>If you have non-U.S. academic records for post-secondary work, please review our <a href="https://admissions.umd.edu/apply/international-applicants">international applicant requirements</a> as they might apply to you.</p>
             </div>
           </div>
         </li>
         <li class="fa-step">
           <div class="fa-step-num"><span class="umd-campaign-large">3</span></div>
           <div class="fa-step-body">
-            <h3 class="fa-step-title umd-sans-larger-bold text-black">Official copy of your high school transcripts</h3>
+            <h3 class="fa-step-title umd-sans-larger-bold text-black">Official copy of your high school transcripts (if necessary)</h3>
             <div class="umd-text-rich-advanced">
-              <p>Each high school you've attended must submit an official copy of your high school transcript(s) listing all courses you attempted/completed. Learn how transcripts can be submitted on our <a href="https://admissions.umd.edu/apply/submitting-documents">Submitting Documents</a> page.</p>
+              <p>If you have completed fewer than 30 semester or 45 quarter hours post high school graduation, then at the time of applying you will need to request an official copy of your final high school transcript listing all courses you have completed. Learn how transcripts can be submitted on our <a href="https://admissions.umd.edu/apply/submitting-documents">Submitting Documents</a> page.</p>
+              <p>AP/IB credits and placement tests cannot be used towards the overall 30 semester hours or 45 quarter hours.</p>
             </div>
           </div>
         </li>
         <li class="fa-step">
           <div class="fa-step-num"><span class="umd-campaign-large">4</span></div>
           <div class="fa-step-body">
-            <h3 class="fa-step-title umd-sans-larger-bold text-black">Official copy of your college transcripts (if necessary)</h3>
+            <h3 class="fa-step-title umd-sans-larger-bold text-black">Official standardized test scores (optional)</h3>
             <div class="umd-text-rich-advanced">
-              <p>If you have completed any collegiate coursework, each institution you've attended must submit an official copy of your college transcripts listing all courses you attempted/completed. Learn how transcripts can be submitted on our <a href="https://admissions.umd.edu/apply/submitting-documents">Submitting Documents</a> page.</p>
-              <p>If you have non-U.S. academic records for post-secondary work, please review our <a href="https://admissions.umd.edu/apply/international-applicants">international applicant requirements</a> as they might apply to you.</p>
+              <p>Traditionally, students who completed fewer than 30 semester or 45 quarter hours post high school graduation, would need to submit their SAT and/or ACT scores at the time of applying. However, UMD is currently test-optional through to the Spring and Fall 2027 application cycles, which means you have the option to choose whether or not you would like your test scores considered as a part of your application review. If you choose to include your test scores, learn how to submit them on our <a href="https://admissions.umd.edu/apply/submitting-documents">Submitting Documents</a> page.</p>
+              <p>If you would like to receive credit toward your degree for successfully completing <a href="http://www.transfercredit.umd.edu/plc.html#ap" target="_blank" rel="noreferrer noopener">Advanced Placement (AP)</a>, <a href="http://www.transfercredit.umd.edu/plc.html#ib" target="_blank" rel="noreferrer noopener">International Baccalaureate (IB)</a>, <a href="http://www.transfercredit.umd.edu/plc.html#alevel" target="_blank" rel="noreferrer noopener">A/AS level examinations</a> or certain other standard exams, you must submit those official scores upon receiving an offer of admission.</p>
             </div>
           </div>
         </li>
         <li class="fa-step">
           <div class="fa-step-num"><span class="umd-campaign-large">5</span></div>
           <div class="fa-step-body">
-            <h3 class="fa-step-title umd-sans-larger-bold text-black">Official standardized test scores (optional)</h3>
+            <h3 class="fa-step-title umd-sans-larger-bold text-black">Letter of recommendation (optional)</h3>
             <div class="umd-text-rich-advanced">
-              <p>UMD is currently test-optional through to the Spring and Fall 2027 application cycles. Students can choose whether or not to submit SAT/ACT scores with their application. As part of the online application, you will be able to indicate your test-optional status. If you choose to include your test scores, learn how to submit them on our <a href="https://admissions.umd.edu/apply/submitting-documents">Submitting Documents</a> page.</p>
-              <p>If you would like to receive credit toward your degree for successfully completing <a href="http://www.transfercredit.umd.edu/plc.html#ap" target="_blank" rel="noreferrer noopener">Advanced Placement (AP)</a>, <a href="http://www.transfercredit.umd.edu/plc.html#ib" target="_blank" rel="noreferrer noopener">International Baccalaureate (IB)</a>, <a href="http://www.transfercredit.umd.edu/plc.html#alevel" target="_blank" rel="noreferrer noopener">A/AS level</a> examinations or certain other standard exams, you must submit those official scores upon receiving an offer of admission.</p>
+              <p>You may choose to submit a letter of recommendation with your application. Recommendations must be sent to us directly from the recommender, and they can be written by anyone of the applicant's choosing including teachers, counselors, coaches and mentors. Learn how recommendation letters can be submitted on our <a href="https://admissions.umd.edu/apply/submitting-documents">Submitting Documents</a> page.</p>
             </div>
           </div>
         </li>
@@ -1260,7 +1275,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
           <div class="fa-step-body">
             <h3 class="fa-step-title umd-sans-larger-bold text-black">School of Music application (School of Music applicants only)</h3>
             <div class="umd-text-rich-advanced">
-              <p>In addition to the above items, students seeking enrollment into the School of Music must submit an <a href="https://music.umd.edu/admissions/undergraduate" target="_blank" rel="noreferrer noopener">online application supplement</a> and <a href="http://www.music.umd.edu/prospective_students/auditions/undergraduate/" target="_blank" rel="noreferrer noopener">audition</a>. These items will only be used to determine your eligibility for admission into the School of Music and will not be used in the review of your eligibility for admission to UMD.</p>
+              <p>In addition to the above items, students seeking enrollment into the School of Music must submit the <a href="https://music.umd.edu/admissions/undergraduate" target="_blank" rel="noreferrer noopener">online application supplement</a> and <a href="http://www.music.umd.edu/prospective_students/auditions/undergraduate/" target="_blank" rel="noreferrer noopener">audition</a>. These items will only be used to determine your eligibility for admission into the School of Music and will not be used in the review of your eligibility for admission to UMD.</p>
             </div>
           </div>
         </li>
@@ -1268,27 +1283,81 @@ umd-element-scroll-top[data-layout-fixed="true"] {
     </div>
   </section>
 
-  <!-- 8. MAKING SURE YOUR APPLICATION IS COMPLETE — dark band, white overlay pathway.
-       No umd-layout-vertical-landing: section 9 is also dark (RULES §19). -->
-  <section class="umd-layout-background-full-dark" style="padding: 80px 0;">
-    <umd-element-pathway data-display="overlay" data-theme="light">
-      <img slot="image" src="../../images/freshman-applicants/students-studying.jpg" alt="Students studying and reading class notes on a piece of paper" />
+  <!-- 9. MAKING SURE YOUR APPLICATION IS COMPLETE — standard pathway, image right
+       (the component default), normal background. -->
+  <section class="umd-layout-vertical-landing">
+    <umd-element-pathway>
+      <img slot="image" src="../../images/transfer-applicants/students-studying.jpg" alt="Students studying and reading class notes on a piece of paper" />
       <h2 slot="headline">Making Sure Your UMD Application is Complete</h2>
       <div slot="text">
         <p>Applications are considered complete when the online application and all required documents have been submitted electronically or postmarked by the <a href="https://admissions.umd.edu/apply/application-deadlines">appropriate deadline</a>. <strong>It is your responsibility to confirm receipt of all materials.</strong></p>
-        <p>To do so, you will need to create a Terps Application Portal (TAP) account. You'll receive an email with instructions on how to create a TAP account within two business days of submitting your online application.</p>
-        <p>Through your TAP account, you can:</p>
+        <p>Through your <a href="https://terpengage.umd.edu/tap/s/" target="_blank" rel="noreferrer noopener">Terps Application Portal</a> (TAP) account, you can:</p>
         <ul>
           <li>Track your application status.</li>
-          <li>Confirm receipt of required materials.</li>
+          <li>Confirm receipt of application materials.</li>
           <li>Receive your admission decision when it becomes available.</li>
         </ul>
-        <p><strong>Keep in mind:</strong> It may take up to 10 business days for recently submitted materials to be listed as received within TAP</p>
+        <p><strong>Keep in mind:</strong> It may take up to two weeks for recently submitted materials to be listed as received on your checklist.</p>
       </div>
     </umd-element-pathway>
   </section>
 
-  <!-- 9. RESOURCES — dark section intro + dark icon-link cards -->
+  <!-- 10. SERVICES FOR TRANSFER STUDENTS — sticky columns, feature overlay card in
+       the sticky slot (RULES §20 "featured item + list"), the three services as a
+       card list in the static slot. The section's headline lives IN the card, so
+       there is no separate section heading. -->
+  <section class="umd-layout-vertical-landing">
+    <umd-element-sticky-columns class="umd-layout-space-horizontal-larger" data-layout-position="100px">
+      <div slot="sticky-column">
+        <umd-element-card-overlay type="image" class="size-large">
+          <img slot="image" src="../../images/transfer-applicants/students-kirwan.jpg" alt="Students walking and riding a bike in front of Kirwan Hall" />
+          <h2 slot="headline">Services for Transfer Students</h2>
+        </umd-element-card-overlay>
+      </div>
+      <div slot="static-column">
+        <umd-element-card data-display="list">
+          <img slot="image" src="../../images/transfer-applicants/classroom-papers.jpg" alt="Papers and coursework spread across a classroom desk" />
+          <h3 slot="headline">Pre-Transfer Advising</h3>
+          <div slot="text">
+            <p>Transfer students from two-year and four-year schools are encouraged to take advantage of Pre-Transfer Advising before applying to UMD. Pre-Transfer Advising will help assess your readiness to transfer and estimate your time to degree completion. You can also review <a href="https://www.4yearplans.umd.edu/" target="_blank" rel="noreferrer noopener">4-Year Plans</a> for information about the major and graduation requirements for specific programs.</p>
+            <p>The advisors from your Maryland community college can work closely with pre-transfer advisors for issues related to transfer credits and major options. Pre-Transfer advisors help you determine how previous coursework will apply to your UMD degree, identify remaining general education and major requirements, and locate specific resources for additional assistance.</p>
+          </div>
+          <div slot="actions">
+            <umd-element-call-to-action data-display="secondary">
+              <a href="https://pretransferadvising.umd.edu/" target="_blank" rel="noreferrer noopener">Reach Out to Pre-Transfer Advising</a>
+            </umd-element-call-to-action>
+          </div>
+        </umd-element-card>
+        <umd-element-card data-display="list">
+          <img slot="image" src="../../images/transfer-applicants/annearundel-hall.jpg" alt="Anne Arundel Hall on the University of Maryland campus" />
+          <h3 slot="headline">Transfer Credit Services</h3>
+          <div slot="text">
+            <p>Transfer Credit Services facilitates the evaluation of credit for new students who have earned college credit or <a href="http://www.transfercredit.umd.edu/plc.html" target="_blank" rel="noreferrer noopener">prior learning credits</a> (such as AP, IB, A/AS level exams). They provide a course database to help students and advisors estimate what credits will transfer to UMD. A final determination will be made after being admitted to UMD and a review of your official college transcripts.</p>
+          </div>
+          <div slot="actions">
+            <umd-element-call-to-action data-display="secondary">
+              <a href="https://www.transfercredit.umd.edu/index.html" target="_blank" rel="noreferrer noopener">Learn About Transfer Credit Services</a>
+            </umd-element-call-to-action>
+          </div>
+        </umd-element-card>
+        <umd-element-card data-display="list">
+          <img slot="image" src="../../images/transfer-applicants/maryland-logo.jpg" alt="The University of Maryland horizontal logo" />
+          <h3 slot="headline">Maryland Transfer Advantage Program (MTAP)</h3>
+          <div slot="text">
+            <p>MTAP provides a guaranteed admission pathway for students at participating community colleges to earn a bachelor's degree at UMD. Students who participate in MTAP have access to transfer advising resources and can take discounted courses at UMD before officially transferring.</p>
+          </div>
+          <div slot="actions">
+            <umd-element-call-to-action data-display="secondary">
+              <a href="https://admissions.umd.edu/apply/maryland-transfer-advantage-program">Explore the Maryland Transfer Advantage Program</a>
+            </umd-element-call-to-action>
+          </div>
+        </umd-element-card>
+      </div>
+    </umd-element-sticky-columns>
+  </section>
+
+  <!-- 11. RESOURCES — dark section intro + dark icon-link cards (same bank as
+       pages/how-to-apply/freshman-applicants.html §9, with this page's copy) -->
   <section class="umd-layout-background-full-dark umd-layout-vertical-landing">
     <div class="umd-layout-space-horizontal-larger">
       <umd-element-section-intro data-theme="dark" class="umd-layout-vertical-landing-child">
@@ -1314,7 +1383,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
     </div>
   </section>
 
-  <!-- 10. STAY CONNECTED — banner-promo (gold default) inside larger lock -->
+  <!-- 12. STAY CONNECTED — banner-promo (gold default) inside larger lock -->
   <section class="umd-layout-vertical-landing">
     <div class="umd-layout-space-horizontal-larger">
       <umd-element-banner-promo>
@@ -1332,11 +1401,11 @@ umd-element-scroll-top[data-layout-fixed="true"] {
     </div>
   </section>
 
-  <!-- 11. SCROLL TO TOP — long page; pin comes from shared/chrome.css.
+  <!-- 13. SCROLL TO TOP — long page; pin comes from shared/chrome.css.
        data-layout-fixed must be the literal "true" (a boolean "" does not match). -->
   <umd-element-scroll-top data-layout-fixed="true"></umd-element-scroll-top>
 
-  <!-- 12. FOOTER — visual (uses default specially-formatted footer image) -->
+  <!-- 14. FOOTER — visual (uses default specially-formatted footer image) -->
   <!-- SHARED:footer:START — generated from shared/footer.html; do not edit here -->
   <umd-element-footer data-display="visual">
     <a slot="logo" href="../../pages/admissions.html">
@@ -1389,61 +1458,6 @@ umd-element-scroll-top[data-layout-fixed="true"] {
     // Early Action paragraph renders in full, untouched). Carrying the
     // injections here would have been dead code. See OVERRIDES.md.
 
-    // BRAND CHEVRON — Early Action / Application Platforms band.
-    // Ported from the When-to-Apply band on pages/how-to-apply.html; see
-    // OVERRIDES.md § "When-to-Apply left chevron".
-    (function () {
-      const chevronEl = document.querySelector('.fa-chevron');
-      const sectionEl = document.querySelector('.fa-cta-section');
-      const anim = chevronEl && chevronEl.querySelector('umd-element-brand-logo-animation');
-
-      // The cluster is anchored to the RIGHT of a 100vw internal box, so CSS
-      // viewport math drifts it off-screen on wide monitors. Anchor it to the
-      // card GRID's left edge instead (tucking ~70px under) and recompute on
-      // resize so it stays with the content at any width.
-      //
-      // Anchor on the grid, not the .umd-layout-space-horizontal-larger lock:
-      // the lock is full-bleed and creates its inset with padding, so its
-      // getBoundingClientRect().left is 0 and the chevron would stop at the
-      // card's edge instead of tucking under it.
-      function positionChevron() {
-        if (!chevronEl || !anim || !anim.shadowRoot) return;
-        if (getComputedStyle(chevronEl).display === 'none') return;
-        const svg = anim.shadowRoot.querySelector('svg');
-        const grid = sectionEl && sectionEl.querySelector('.umd-layout-grid-gap-two');
-        if (!svg || !grid) return;
-        const wrapTx = new DOMMatrixReadOnly(getComputedStyle(chevronEl).transform).m41;
-        anim.style.transform = 'translateY(-151px)';
-        const natRight = svg.getBoundingClientRect().right - wrapTx;
-        const tx = Math.round((grid.getBoundingClientRect().left + 70) - natRight);
-        anim.style.transform = 'translateY(-151px) translateX(' + tx + 'px)';
-      }
-
-      if (anim && 'customElements' in window) {
-        customElements.whenDefined('umd-element-brand-logo-animation').then(() => {
-          requestAnimationFrame(positionChevron);
-          setTimeout(positionChevron, 400);
-        });
-      }
-      window.addEventListener('resize', positionChevron);
-
-      // Slide in from the left when the band enters view (recompute the rest
-      // position first, now that layout has settled).
-      if (chevronEl && sectionEl && 'IntersectionObserver' in window) {
-        const io = new IntersectionObserver(entries => {
-          entries.forEach(en => {
-            if (!en.isIntersecting) return;
-            positionChevron();
-            chevronEl.classList.add('is-in');
-            io.disconnect();
-          });
-        }, { threshold: 0.2 });
-        io.observe(sectionEl);
-      } else if (chevronEl) {
-        positionChevron();
-        chevronEl.classList.add('is-in');
-      }
-    })();
   </script>
 
   <!-- GRID ENTRY ANIMATIONS — canonical shared implementation. Never inline

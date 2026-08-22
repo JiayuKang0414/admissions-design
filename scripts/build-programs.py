@@ -42,6 +42,11 @@ crit_end = next(i for i, l in enumerate(tpl) if l.strip() == '</style>')
 head = '\n'.join(tpl[:crit_end])
 head = re.sub(r'<title>.*?</title>', '<title>' + TITLE + '</title>', head, count=1)
 assert '{{' not in head, 'unreplaced placeholder in TEMPLATE head'
+# The cdn.js pin below lives in BODY, not in the TEMPLATE-derived head, so it can
+# drift when the submodule bumps. Fail loudly instead of silently emitting a page
+# on a different component version than every hand-written page.
+_tpl_pin = re.search(r'web-components-library@([\d.]+)/dist/cdn\.js',
+                     open(TEMPLATE, encoding='utf-8').read())
 
 # ---------------------------------------------------------------- data
 # The inline PROGRAMS array is a compacted projection of the raw GraphQL
@@ -69,7 +74,7 @@ programs_json = json.dumps(records, ensure_ascii=False, separators=(',', ':'))
 # ---------------------------------------------------------------- body
 BODY = r'''  </style>
 
-  <script src="https://unpkg.com/@universityofmaryland/web-components-library@1.18.12/dist/cdn.js"></script>
+  <script src="https://unpkg.com/@universityofmaryland/web-components-library@1.19.5/dist/cdn.js"></script>
 
   <style>
     /* Brand chevron animation flanking the Study Here rich text and
@@ -686,6 +691,10 @@ BODY = r'''  </style>
 </body>
 </html>
 '''
+_body_pin = re.search(r'web-components-library@([\d.]+)/dist/cdn\.js', BODY)
+assert _tpl_pin and _body_pin and _tpl_pin.group(1) == _body_pin.group(1), (
+    f'cdn.js pin drift: TEMPLATE.html has {_tpl_pin and _tpl_pin.group(1)}, '
+    f'this script emits {_body_pin and _body_pin.group(1)} — update the BODY literal.')
 
 # ---------------------------------------------------------------- assemble
 body = BODY.replace('@@PROGRAMS@@', programs_json)

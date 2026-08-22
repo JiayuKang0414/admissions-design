@@ -95,6 +95,142 @@ Corollary: the "Card-overlay horizontal padding (desktop+)" entry above is also 
 
 Pages using this: none currently. `pages/how-to-apply/freshman-applicants.html` carried the restore injection until its cards moved from the image variant to the colour variant.
 
+## CDN version pins
+
+All 11 pages load **web-components-library 1.19.5** and **web-styles-library 1.8.16**, matching
+`page-builder/TEMPLATE.html`.
+
+Before 2026-08-21 the pages pinned components at `1.18.12` and linked the nine stylesheets
+**unversioned** (`.../web-styles-library/css/…`), i.e. floating on unpkg's `latest`. That is why
+the styles half of the upgrade produced almost no visual change — `latest` already resolved to
+1.8.16 — but it also meant the CSS could change under the pages with no commit. Both halves are
+now pinned.
+
+**The generators hard-code the pin too.** `build-programs.py` and `build-calendar.py` emit the
+`cdn.js` tag from their own `BODY` literal rather than from the TEMPLATE-derived head, so they
+silently kept emitting 1.18.12 after the pages were bumped — re-running either would have
+reverted its page. Both now carry a drift guard that compares the `BODY` pin against
+`TEMPLATE.html` and fails the build on mismatch. (`build-colleges-schools.py` and
+`build-interest.py` take the whole head from TEMPLATE, so they never drift.)
+
+### Expected console output at 1.19.5
+
+Two categories, both benign, both present on a clean load — do not chase them:
+
+- `Uncaught (in promise) ReferenceError: process is not defined` ×2 — thrown by the CDN bundle
+  on **every** page in this project, at 1.18.12 and 1.19.5 alike.
+- `ElementBuilder: "resize" is a DOM event and should use .on('resize', handler)…` — **new at
+  1.19.5**, two per carousel-bearing page. Zero of these at 1.18.12.
+
+  **It is a false positive in ElementBuilder's own heuristic** (upstream `041c88e`, which
+  corrects an earlier, partly-wrong reading). `withEvents()` is used deliberately as *storage
+  for lifecycle-invoked handlers*, not as DOM-listener registration, so the DOM-event-name
+  check misfires. Both handlers do run: `resize` via an explicit
+  `window.addEventListener` at `equal-width-items.ts:556`, and `load` via
+  `Lifecycle.hooks.loadOnConnect` (`model/utilities/lifecycle.ts:17` → `ref.events.load()`)
+  for thumbnail/wide/cards/base plus an explicit `carousel.events.load()` at
+  `image/multiple.ts:118`. Proven at runtime, not inferred: `Event.load` sets inline
+  `display:flex` and a gap on the slide track and both are present, and `EventSwipe` is
+  attached inside `Event.load`, so touch swipe is wired too. Console noise only.
+
+### Upgrade verification (1.18.12 → 1.19.5)
+
+Before/after probe of all 11 pages at 1280px — horizontal overflow, broken images, component
+count, unregistered tags, section count and per-section heights:
+
+- **No structural change on any page.** Same component counts, same section counts, zero broken
+  images, overflow unchanged everywhere (`admissions.html` keeps its documented 64px).
+- Four pages shifted height by small amounts, all in carousel-bearing sections:
+  `academics/index` −8px, `interest-engineering-technology` +81/−6px,
+  `transfer-applicants` +3px, `student-life` −32/−8px. Consistent with the 1.19 carousel
+  refactor; nothing reflowed or broke.
+- `umd-element-utility-header` reports as unregistered with no shadow root on **all 11 pages at
+  both versions** — a pre-existing baseline condition, not an upgrade artifact.
+
+## Overlay pathway on a dark band — use `data-theme="white"`, not `"light"`
+
+`RULES.md` already lists the panel colours (`white` → white panel, `light` → **light gray**
+panel). What it does not say is that the two themes also differ in **layout**:
+
+| `data-theme` | `.pathway-overlay-container-lock-wrapper` padding | Panel colour |
+|---|---|---|
+| `white` | `0` | `#FFFFFF` |
+| `light` | **`80px 0`** | `#F1F1F1` |
+
+So `light` silently adds 160px of vertical space (80 top + 80 bottom) *inside* the pathway, on
+top of the component's own `104px` text padding and on top of the band's `104px`. Measured on
+the same section, same content, changing only that one attribute:
+
+| | `data-theme="light"` | `data-theme="white"` |
+|---|---|---|
+| Choosing a Major — pathway height | 918px | **758px** |
+| Application Platform — pathway height | 729px | **569px** |
+
+The tell is `.pathway-overlay-container-lock-wrapper`: the component's own `:host *` reset
+zeroes padding, so `0px` is the baseline and anything else is the theme adding it. Check that
+node, not the section, when an overlay pathway looks over-padded.
+
+`pages/admissions.html` had this right from the start (`data-display="overlay"
+data-theme="white"` on a `umd-layout-background-full-dark` section) — it is the reference for
+this treatment. Note its section also carries `umd-layout-background-full-dark-no-top`, which
+is **not defined anywhere** (absent from `critical.css`, every `web-styles-library` bundle, and
+the page's own `<style>`); the section still computes `padding-top: 104px`. It is a dead class,
+not part of why that page looks right — don't copy it forward expecting it to do something.
+
+**Registry gap:** `registry-content.json` lists `data-theme` values as `dark | light | maryland`
+for `umd-element-pathway` — `white` is missing, even though `RULES.md` documents it and it is
+the correct value for a white panel on a dark band.
+
+Pages using this: `pages/admissions.html`, `pages/how-to-apply/transfer-applicants.html`.
+
+## Card-overlay `.size-large`: the IMAGE variant needs an explicit `height`
+
+`web-components.min.css` ships only the **min-height** half of this class:
+
+```css
+umd-element-card-overlay.size-large { min-height: 320px }   /* mobile  */
+umd-element-card-overlay.size-large { min-height: 560px }   /* 768px+  */
+```
+
+That sizes the **host** but not the **card**. The image variant's shadow root paints
+`.card-overlay-image`, which is `height: 100%` — and a percentage height does not resolve
+against a parent whose own height is `auto`. It falls back to content height, so
+`.card-overlay-image-container`'s internal `min-height` (360px mobile / **424px** tablet+)
+wins and the painted card stops short inside a taller host.
+
+Measured on `pages/how-to-apply/transfer-applicants.html` before the fix: host **549×560**,
+painted card **549×424** — 136px of dead space under a card that looked simply "not stretching".
+Nothing in the console, nothing broken, the class *is* applied — which is what makes it hard to
+spot. Look at `.card-overlay-image`, never the host, when checking whether `size-large` took.
+
+An explicit height on the host gives the percentage something to resolve against:
+
+```css
+@media (min-width: 768px) {
+  umd-element-card-overlay.size-large { height: 560px; }
+}
+```
+
+**Tablet and up only.** The registry (`registry-cards.json`, `card-overlay.classes[]`) also
+prescribes `height: 320px` at mobile, but the inner container's mobile `min-height` is 360px,
+so an explicit 320 **clamps the card 40px shorter than its natural size** — `size-large` would
+make the card *smaller*, which is backwards. Below 768px leave it alone; the bundle's
+`min-height: 320px` stands as a floor and the card renders at its natural 360px.
+
+**The COLOR variant is unaffected.** `.card-overlay-color` fills from `min-height` alone —
+verified on `pages/how-to-apply/freshman-applicants.html`, whose two colour cards measure
+host 560 / painted 560, zero dead space, with no page CSS at all. This is why the
+"§16 RETIRED — OVERLAY CARD `.size-large` MIN-HEIGHT" note in the critical-CSS block reads as
+correct: it was written when only colour cards were in play. It is accurate for the colour
+variant and **wrong for the image variant** — the bundle took over `min-height` only, and the
+image variant always needed the other half.
+
+**Upstream candidate:** give `.card-overlay-image` a `min-height: inherit` (or make the
+size-large rule set `height`, not `min-height`) so the two variants behave alike.
+
+Pages using this: `pages/how-to-apply/transfer-applicants.html` (Services for Transfer
+Students — feature card in a sticky column).
+
 ## Application checklist stepper (`.fa-*`)
 
 `pages/how-to-apply/freshman-applicants.html` § "Application Checklist" — a numbered stepper. There is **no steps / how-to / process component anywhere in `page-builder/registry/`** (all 15 category files checked); the nearest options are an accordion stack, `umd-element-tabs`, or numbered stats, none of which match the source's always-open numbered blocks. The source page uses its own `<umd-stepper>` element, reproduced here.

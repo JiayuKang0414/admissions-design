@@ -22,15 +22,15 @@
        When updating, edit styles/critical.css first, then copy here.
        See REQUIRED-CSS.md for what each rule does and why.
   ============================================================ -->
-  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/font-faces.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/tokens.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/base.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/typography.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/element.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/web-components.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/layout.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/animation.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library/css/accessibility.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library@1.8.16/css/font-faces.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library@1.8.16/css/tokens.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library@1.8.16/css/base.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library@1.8.16/css/typography.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library@1.8.16/css/element.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library@1.8.16/css/web-components.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library@1.8.16/css/layout.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library@1.8.16/css/animation.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/@universityofmaryland/web-styles-library@1.8.16/css/accessibility.min.css">
   <style>
     /* ============================================================
        1. COMPONENT REGISTRATION GAP-FILLS
@@ -43,7 +43,7 @@
     umd-element-utility-header:not(:defined) { content-visibility: hidden; }
     umd-element-utility-header { display: block; container-type: normal; }
 
-    /* umd-element-carousel* — RETIRED (web-styles-library@1.8.14): all six
+    /* umd-element-carousel* — RETIRED (upstream since web-styles-library@1.8.14): all six
        variants (plus new umd-element-carousel-people) now ship in upstream
        web-components.min.css with content-visibility: auto + min-height
        placeholder sizing. Do NOT re-add — a local content-visibility: hidden
@@ -739,7 +739,7 @@
     .umd-filter-item[hidden] { display: none !important; }
   </style>
 
-  <script src="https://unpkg.com/@universityofmaryland/web-components-library@1.18.12/dist/cdn.js"></script>
+  <script src="https://unpkg.com/@universityofmaryland/web-components-library@1.19.5/dist/cdn.js"></script>
 
   <!-- Calendar — page-specific styles -->
   <style>
@@ -1343,7 +1343,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
         <a slot="primary-link" href="../../pages/how-to-apply/">How To Apply</a>
         <div slot="dropdown-links">
           <a href="../../pages/how-to-apply/freshman-applicants.html">Freshman Applicants</a>
-          <a href="https://admissions.umd.edu/apply/transfer-applicants">Transfer Applicants</a>
+          <a href="../../pages/how-to-apply/transfer-applicants.html">Transfer Applicants</a>
           <a href="https://admissions.umd.edu/apply/international-applicants">International Applicants</a>
           <a href="https://admissions.umd.edu/apply/shady-grove-applicants">Shady Grove Applicants</a>
           <a href="https://admissions.umd.edu/apply/application-deadlines">Application Deadlines</a>
