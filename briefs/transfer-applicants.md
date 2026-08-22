@@ -2,7 +2,7 @@
 
 **Output:** `pages/how-to-apply/transfer-applicants.html`
 **Source:** <https://admissions.umd.edu/apply/transfer-applicants>
-**Source capture:** `tmp/transfer/` (gitignored — `source.html`, `content.txt`, `assets/`)
+**Source capture:** scraped to a scratch dir during the build; not retained.
 **Images:** `images/transfer-applicants/` (8 files)
 **Reference page:** `pages/how-to-apply/freshman-applicants.html` (head + page CSS + SHARED chrome copied verbatim)
 
@@ -21,7 +21,7 @@ The source is the same Craft-CMS stack as the freshman page (`umd-stepper`, `umd
 
 | Section | Choice |
 |---|---|
-| Hero | `umd-element-hero data-layout-height="small" data-layout-text="center"`, `students-sitting-iribe.jpg`. The ApplyWeb CTA moves down into the intro (RULES §22: hero carries the title, not a CTA row), and the hero subhead drops the source's trailing "Apply to UMD as a transfer student using ApplyWeb" now that the button says it. |
+| Hero | `umd-element-hero data-layout-height="small" data-layout-text="center"`, `IribeCenter_01282019_5806.jpg`. The ApplyWeb CTA moves down into the intro (RULES §22: hero carries the title, not a CTA row), and the hero subhead drops the source's trailing "Apply to UMD as a transfer student using ApplyWeb" now that the button says it. |
 | Transfer to UMD | `.study-here-section` lockup — brand chevron + `<hr>` + uppercase eyebrow + rich text — then the single ApplyWeb primary CTA. Identical treatment to the freshman page. |
 | Applicant Requirements | `umd-element-sticky-columns` — sticky heading + intro, three `umd-element-accordion-item` in the static column. **Imageless by direction:** the source's band photo (`Financial-Aid-Resources.jpg`) is not used. |
 | Choosing a Major | **White overlay** pathway on the dark band — `data-display="overlay" data-theme="white"`, image left. First of the three-band dark run. |
@@ -187,9 +187,9 @@ at/over the 1MB threshold in `CLAUDE.md` — so both were resaved in place at q8
 progressive, **at their original pixel dimensions**: 993KB → 288KB (71% smaller) and
 1034KB → 202KB (80% smaller).
 
-**Superseded, still on disk:** `students-sitting-iribe.jpg` and `student-applying.jpg` are no
-longer referenced by any page. Left in place rather than deleted (they are untracked, so a
-delete would not be recoverable); safe to remove.
+**Superseded and removed:** the source page's own hero and platform photos
+(`students-sitting-iribe.jpg`, `student-applying.jpg`) were replaced by the two supplied
+images above and have been deleted — they are re-fetchable from the source URL if ever needed.
 
 ## Page CSS
 
