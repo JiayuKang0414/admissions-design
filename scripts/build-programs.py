@@ -701,7 +701,7 @@ body = BODY.replace('@@PROGRAMS@@', programs_json)
 for key in _chrome.keys():
     token = '@@CHROME:%s@@' % key
     assert token in body, 'BODY lost the %s slot' % key
-    body = body.replace(token, _chrome.block(key, DEPTH))
+    body = body.replace(token, _chrome.block(key, OUT))
 assert '@@' not in body, 'unsubstituted token remains'
 
 page = head + '\n' + body

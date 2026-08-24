@@ -552,11 +552,11 @@ PAGE_JS = '''  <!-- ============================================================
 # ---------------------------------------------------------------- assemble
 page = f'''{head_top}
 {PAGE_CSS}{head_tail_open}
-{_chrome.block('chrome-css', DEPTH)}
+{_chrome.block('chrome-css', OUT)}
 </head>
 <body>
 
-{_chrome.block('header', DEPTH)}
+{_chrome.block('header', OUT)}
 
   <!-- 3. HERO — small background, left-aligned text + CTA.
        Same recipe as pages/academics/programs.html. -->
@@ -603,9 +603,9 @@ page = f'''{head_top}
   <!-- SCROLL TO TOP — fixed 24px from viewport bottom-right (pin lives in shared/chrome.css) -->
   <umd-element-scroll-top data-layout-fixed="true"></umd-element-scroll-top>
 
-{_chrome.block('footer', DEPTH)}
+{_chrome.block('footer', OUT)}
 
-{_chrome.block('chrome-scripts', DEPTH)}
+{_chrome.block('chrome-scripts', OUT)}
 
   <!-- Canonical grid-entry animations (page-builder/CLAUDE.md: never inline). -->
   <script src="../../page-builder/scripts/grid-animations.js"></script>

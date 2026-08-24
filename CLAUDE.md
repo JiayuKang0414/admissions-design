@@ -122,10 +122,47 @@ Only the content between the header and footer is page-specific.
 |---|---|
 | `umd-element-navigation-header div[slot="utility-navigation"] a` | `critical.css` §11's BASE layer styles `.umd-shell-utility-item a`, which never matches this project's plain `<a>` children — they render browser-default blue and underlined without it. Must load **after** the critical block to win at equal specificity. |
 | `umd-element-scroll-top[data-layout-fixed="true"]` | Pins to `right:24px; bottom:24px`; the DS default is `right:40px; bottom:10vh`. Opt-in per page, but styled from `shared/` wherever used. |
+| `.umd-nav-promo` | The nav dropdown promos. `slot="dropdown-callout"` is projected through a real `<slot>`, so the promo stays in the **light DOM** — the nav-item's shadow CSS cannot reach it, and a bare `<a>` there gets no colour from `critical.css` and renders default blue. Same root cause as the utility-nav row above. |
 
 **Chrome vs. page-level shadow injections.** Only injections driven by the *chrome* belong in `shared/chrome-scripts.html` — currently just the nav-header logo width. The pathway aspect-ratio, banner-promo stacked-actions, call-to-action and card-overlay injections are driven by **page content** and stay in the page that uses them. Don't move them to `shared/`; a page with no `umd-element-pathway` should not carry the pathway injection.
 
-**When verifying:** assert utility-nav `gap: 24px` **at ≥1024px** — the DS hides the utility slot below desktop, so it measures 0×0 at tablet width and a narrow viewport masks the bug entirely. Also check `umd-element-scroll-top` computes `right/bottom: 24px` and that the nav logo's shadow `max-width` is `320px`.
+### The mobile drawer is contextual — and its refs are directory names
+
+`umd-element-navigation-header` renders the hamburger **only** when
+`slot="primary-slide-links"` is present (`drawer.CreateElement()` returns `null`
+otherwise and the header silently collapses to logo-only on mobile — that is how
+this project shipped without one). The DS appends the button to the logo column
+with no media query, so the hamburger is **persistent at every width**, beside
+the desktop nav, as on umd.edu.
+
+All three drawer slots (`primary-slide-links`, `primary-slide-secondary-links`,
+`children-slides`) must be **direct children** of the header element — the
+component collects them with `:scope > [slot]` — and are **cloned into the shadow
+root**, so page CSS cannot style them. Every link's text needs its own `<span>`
+or the selected-state underline has nothing to draw on.
+
+The drawer opens on the section the reader is already in. That comes from two DS
+attributes which `scripts/_chrome.py` stamps per page while hrefs are still
+`{{ROOT}}`-relative:
+
+| Attribute | Where | Effect |
+|---|---|---|
+| `data-active` | the `children-slides` group for the page's section | drawer opens on that slide, with a Back button to the top level |
+| `data-selected` | any drawer link pointing at the page itself | gold underline on the current page |
+
+**The `data-child-ref` / `data-parent-ref` values ARE the section directory names
+under `pages/`** (`academics`, `student-life`, `how-to-apply`, `tuition`) — that
+coupling is what lets the stamping work without a lookup table. Rename a section
+directory and its drawer refs have to follow. A page in no section
+(`pages/admissions.html`) or in a section with no drawer group
+(`pages/calendar/`) matches nothing and the drawer opens at its top level, which
+is correct.
+
+Because the chrome is now rendered per page rather than per depth,
+`_chrome.block(key, page)` / `payload(key, page)` take the **output page path**,
+not a depth — `depth_of()` is derived from it.
+
+**When verifying:** assert utility-nav `gap: 24px` **at ≥1024px** — the DS hides the utility slot below desktop, so it measures 0×0 at tablet width and a narrow viewport masks the bug entirely. Also check `umd-element-scroll-top` computes `right/bottom: 24px` and that the nav logo's shadow `max-width` is `320px`. For the drawer, assert the hamburger computes `display: flex` **at desktop too** (it is meant to be persistent) and that the slide carrying `data-active` matches the page's section.
 
 ### Projects that don't yet have a reference page
 

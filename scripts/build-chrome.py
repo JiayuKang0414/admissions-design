@@ -114,8 +114,8 @@ def strip_chrome_script(src):
 
 
 # ---------------------------------------------------------------- splice
-def splice(src, key, locate, depth):
-    block = _chrome.block(key, depth)
+def splice(src, key, locate, page):
+    block = _chrome.block(key, page)
 
     m = re.search(r'(?s)[ \t]*<!-- SHARED:%s:START.*?<!-- SHARED:%s:END -->' % (key, key), src)
     if m:
@@ -171,7 +171,6 @@ changed, report = [], []
 for path in PAGES:
     original = open(path, encoding='utf-8').read()
     src = original
-    depth = _chrome.depth_of(path)
     notes = []
 
     migrating_css = 'SHARED:chrome-css:START' not in src
@@ -191,7 +190,7 @@ for path in PAGES:
             ('chrome-css', locate_css_slot),
             ('chrome-scripts', locate_script_slot),
     ):
-        src, status = splice(src, key, locate, depth)
+        src, status = splice(src, key, locate, path)
         if status not in ('unchanged',):
             notes.append('%s:%s' % (key, status))
 

@@ -103,7 +103,12 @@ PAGE_CSS = '''
 '''
 
 
+def outpath(slug):
+    return os.path.join(OUTDIR, f'interest-{slug}.html')
+
+
 def render(slug, data, programs, colleges_by_slug):
+    out = outpath(slug)          # the chrome is rendered for this exact page
     interest = data['interest']
     hero, intro = data['hero'], data['intro']
     majors_copy, careers = data['majors'], data['careers']
@@ -167,11 +172,11 @@ def render(slug, data, programs, colleges_by_slug):
     # call-to-action and card-overlay injections are not (no such elements).
     return f'''{head_top}
 {PAGE_CSS}{HEAD_TAIL_OPEN}
-{_chrome.block('chrome-css', DEPTH)}
+{_chrome.block('chrome-css', out)}
 </head>
 <body>
 
-{_chrome.block('header', DEPTH)}
+{_chrome.block('header', out)}
 
   <!-- 3. HERO — small background, left-aligned text -->
   <section class="umd-layout-vertical-landing">
@@ -266,9 +271,9 @@ def render(slug, data, programs, colleges_by_slug):
   <!-- SCROLL TO TOP — fixed 24px from viewport bottom-right (pin lives in shared/chrome.css) -->
   <umd-element-scroll-top data-layout-fixed="true"></umd-element-scroll-top>
 
-{_chrome.block('footer', DEPTH)}
+{_chrome.block('footer', out)}
 
-{_chrome.block('chrome-scripts', DEPTH)}
+{_chrome.block('chrome-scripts', out)}
 
   <!-- Pathway shadow injection — page-content-driven (OVERRIDES.md).
        Emitted because this page uses umd-element-pathway.
@@ -335,7 +340,7 @@ def main():
             raise SystemExit(f'unknown interest slug "{slug}" -- valid: '
                              + ', '.join(k for k in interests if not k.startswith('_')))
         page = render(slug, interests[slug], programs, colleges_by_slug)
-        out = os.path.join(OUTDIR, f'interest-{slug}.html')
+        out = outpath(slug)
         # Image paths in interests-data.json are repo-root-relative behind
         # {{ROOT}}, like the chrome's; resolve them for this page's depth.
         page = page.replace(_chrome.ROOT_TOKEN, '../' * DEPTH)

@@ -1007,6 +1007,54 @@ umd-element-scroll-top[data-layout-fixed="true"] {
   right: 24px;
   bottom: 24px;
 }
+
+/* ---- Nav dropdown promos ----
+   umd-element-nav-item projects slot="dropdown-callout" through a real
+   <slot> into .nav-item-dropdown-cta-column, so the promo stays in the
+   LIGHT DOM: the nav-item's shadow CSS never reaches it, and these page
+   rules do. Same root cause as the utility-nav block above — a bare <a>
+   in a header slot gets no colour from critical.css and renders default
+   blue, so the anchor colour has to be stated here.
+
+   The shadow supplies the column box (.nav-item-dropdown-multiple-column
+   > * { min-width: 232px }); everything inside it is ours. */
+.umd-nav-promo a {
+  display: block;
+  width: 232px;
+  max-width: 100%;
+  color: var(--umd-color-black, #000);
+  text-decoration: none;
+  background-image: none;
+}
+.umd-nav-promo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+.umd-nav-promo .umd-nav-promo-title {
+  display: block;
+  margin-top: 12px;
+  font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--umd-color-black, #000);
+  transition: color 0.3s ease-in-out;
+}
+.umd-nav-promo .umd-nav-promo-text {
+  display: block;
+  margin-top: 4px;
+  font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--umd-color-gray-darker, #454545);
+}
+.umd-nav-promo a:hover .umd-nav-promo-title,
+.umd-nav-promo a:focus .umd-nav-promo-title {
+  color: var(--umd-color-red, #e21833);
+}
   </style>
   <!-- SHARED:chrome-css:END -->
 </head>
@@ -1028,7 +1076,6 @@ umd-element-scroll-top[data-layout-fixed="true"] {
            onerror="this.onerror=null;this.src='../../images/logos/primary-logo-dark.svg';" />
     </a>
     <div slot="utility-navigation">
-      <a href="../../pages/calendar/">Calendar</a>
       <a href="https://admissions.umd.edu/visit">Visit UMD</a>
       <a href="https://admissions.umd.edu/connect">Connect</a>
     </div>
@@ -1036,16 +1083,27 @@ umd-element-scroll-top[data-layout-fixed="true"] {
       <umd-element-nav-item>
         <a slot="primary-link" href="../../pages/academics/">Academics</a>
         <div slot="dropdown-links">
+          <a href="../../pages/academics/">Overview</a>
           <a href="../../pages/academics/programs.html">All Programs</a>
           <a href="../../pages/academics/colleges-schools.html">Colleges &amp; Schools</a>
           <a href="https://admissions.umd.edu/programs/interest">Programs by Interest</a>
           <a href="https://admissions.umd.edu/academics/limited-enrollment-programs">Limited Enrollment Programs</a>
           <a href="https://ugst.umd.edu/llsop/index.html">Living-Learning &amp; Special Programs</a>
         </div>
+        <!-- Dropdown promo — projected through a real <slot>, so it stays in the
+             light DOM and is styled by .umd-nav-promo in shared/chrome.css. -->
+        <div slot="dropdown-callout" class="umd-nav-promo">
+          <a href="../../pages/academics/programs.html">
+            <img src="../../images/academics/students-walking.jpg" alt="" />
+            <span class="umd-nav-promo-title">All Programs</span>
+            <span class="umd-nav-promo-text">Over 100 undergraduate majors across 12 colleges and schools.</span>
+          </a>
+        </div>
       </umd-element-nav-item>
       <umd-element-nav-item>
         <a slot="primary-link" href="../../pages/student-life/">Student Life</a>
         <div slot="dropdown-links">
+          <a href="../../pages/student-life/">Overview</a>
           <a href="https://admissions.umd.edu/student/housing-and-dining">Housing &amp; Dining</a>
           <a href="https://admissions.umd.edu/student/student-support">Student Support &amp; Safety</a>
           <a href="https://admissions.umd.edu/student/get-involved">Get Involved on Campus</a>
@@ -1055,6 +1113,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
       <umd-element-nav-item>
         <a slot="primary-link" href="../../pages/how-to-apply/">How To Apply</a>
         <div slot="dropdown-links">
+          <a href="../../pages/how-to-apply/">Overview</a>
           <a href="../../pages/how-to-apply/freshman-applicants.html">Freshman Applicants</a>
           <a href="../../pages/how-to-apply/transfer-applicants.html">Transfer Applicants</a>
           <a href="https://admissions.umd.edu/apply/international-applicants">International Applicants</a>
@@ -1063,17 +1122,106 @@ umd-element-scroll-top[data-layout-fixed="true"] {
           <a href="https://admissions.umd.edu/apply/admission-review-process-factors">Admission Review Process &amp; Factors</a>
           <a href="https://admissions.umd.edu/apply/application-faqs">Application FAQs</a>
         </div>
+        <!-- Dropdown promo — projected through a real <slot>, so it stays in the
+             light DOM and is styled by .umd-nav-promo in shared/chrome.css. -->
+        <div slot="dropdown-callout" class="umd-nav-promo">
+          <a href="https://admissions.umd.edu/apply/application-deadlines">
+            <img src="../../images/admissions/how-to-apply-hero.jpg" alt="" />
+            <span class="umd-nav-promo-title">Application Deadlines</span>
+            <span class="umd-nav-promo-text">Key dates for freshman, transfer and international applicants.</span>
+          </a>
+        </div>
       </umd-element-nav-item>
       <umd-element-nav-item>
         <a slot="primary-link" href="../../pages/tuition/">Tuition &amp; Aid</a>
         <div slot="dropdown-links">
+          <a href="../../pages/tuition/">Overview</a>
           <a href="https://admissions.umd.edu/tuition/cost-of-attendance">Cost of Attendance</a>
           <a href="https://admissions.umd.edu/tuition/freshman-merit-scholarships">Freshman Merit Scholarships</a>
           <a href="https://admissions.umd.edu/tuition/transfer-merit-scholarships">Transfer Merit Scholarships</a>
           <a href="https://financialaid.umd.edu/">Office of Student Financial Aid</a>
         </div>
+        <!-- Dropdown promo — projected through a real <slot>, so it stays in the
+             light DOM and is styled by .umd-nav-promo in shared/chrome.css. -->
+        <div slot="dropdown-callout" class="umd-nav-promo">
+          <a href="https://admissions.umd.edu/tuition/cost-of-attendance">
+            <img src="../../images/tuition/idea-factory-hero.jpg" alt="" />
+            <span class="umd-nav-promo-title">Cost of Attendance</span>
+            <span class="umd-nav-promo-text">See what a year at Maryland actually costs.</span>
+          </a>
+        </div>
       </umd-element-nav-item>
     </nav>
+    <!-- DRAWER:START — mobile / compact navigation.
+         The hamburger renders ONLY when slot="primary-slide-links" is present
+         (drawer.CreateElement returns null without it, which is why this header
+         had no hamburger at all). The DS appends the button to the logo column
+         with no media query, so it is persistent at every width, sitting beside
+         the desktop nav — same as umd.edu.
+
+         All three slots must be DIRECT children of umd-element-navigation-header
+         (the component collects them with `:scope > [slot]`) and are CLONED into
+         the shadow root, so page CSS cannot reach them: the DS drawer styles are
+         the only styling, and every link text needs its own <span> for the
+         selected-state underline.
+
+         data-child-ref values are the section DIRECTORY names under pages/.
+         scripts/_chrome.py relies on that to stamp data-active / data-selected
+         per page — rename a directory and its drawer ref has to follow. -->
+    <div slot="primary-slide-links">
+      <a href="../../pages/academics/" data-child-ref="academics"><span>Academics</span></a>
+      <a href="../../pages/student-life/" data-child-ref="student-life"><span>Student Life</span></a>
+      <a href="../../pages/how-to-apply/" data-child-ref="how-to-apply"><span>How To Apply</span></a>
+      <a href="../../pages/tuition/" data-child-ref="tuition"><span>Tuition &amp; Aid</span></a>
+    </div>
+    <!-- The utility row plus the two things the drawer is the ONLY route to on a
+         phone: Apply Now (the red CTA) and Search (the magnifier) both live in
+         .element-header-navigation-column, which the DS hides at =<1240px — at
+         375px they measure 0 wide. So this list is deliberately NOT a copy of
+         the utility row: Apply Now stays here even though it was dropped from
+         the utility row as a duplicate of the CTA, because on mobile there is
+         no CTA to duplicate. -->
+    <div slot="primary-slide-secondary-links">
+      <a href="https://admissions.umd.edu/visit"><span>Visit UMD</span></a>
+      <a href="https://admissions.umd.edu/apply-now"><span>Apply Now</span></a>
+      <a href="https://admissions.umd.edu/connect"><span>Connect</span></a>
+      <a href="https://admissions.umd.edu/search"><span>Search</span></a>
+    </div>
+    <div slot="children-slides">
+      <div data-parent-ref="academics" data-active>
+        <a href="../../pages/academics/"><span>Overview</span></a>
+        <a href="../../pages/academics/programs.html" data-selected><span>All Programs</span></a>
+        <a href="../../pages/academics/colleges-schools.html"><span>Colleges &amp; Schools</span></a>
+        <a href="https://admissions.umd.edu/programs/interest"><span>Programs by Interest</span></a>
+        <a href="https://admissions.umd.edu/academics/limited-enrollment-programs"><span>Limited Enrollment Programs</span></a>
+        <a href="https://ugst.umd.edu/llsop/index.html"><span>Living-Learning &amp; Special Programs</span></a>
+      </div>
+      <div data-parent-ref="student-life">
+        <a href="../../pages/student-life/"><span>Overview</span></a>
+        <a href="https://admissions.umd.edu/student/housing-and-dining"><span>Housing &amp; Dining</span></a>
+        <a href="https://admissions.umd.edu/student/student-support"><span>Student Support &amp; Safety</span></a>
+        <a href="https://admissions.umd.edu/student/get-involved"><span>Get Involved on Campus</span></a>
+        <a href="https://admissions.umd.edu/student/find-community"><span>Find Your Community</span></a>
+      </div>
+      <div data-parent-ref="how-to-apply">
+        <a href="../../pages/how-to-apply/"><span>Overview</span></a>
+        <a href="../../pages/how-to-apply/freshman-applicants.html"><span>Freshman Applicants</span></a>
+        <a href="../../pages/how-to-apply/transfer-applicants.html"><span>Transfer Applicants</span></a>
+        <a href="https://admissions.umd.edu/apply/international-applicants"><span>International Applicants</span></a>
+        <a href="https://admissions.umd.edu/apply/shady-grove-applicants"><span>Shady Grove Applicants</span></a>
+        <a href="https://admissions.umd.edu/apply/application-deadlines"><span>Application Deadlines</span></a>
+        <a href="https://admissions.umd.edu/apply/admission-review-process-factors"><span>Admission Review Process &amp; Factors</span></a>
+        <a href="https://admissions.umd.edu/apply/application-faqs"><span>Application FAQs</span></a>
+      </div>
+      <div data-parent-ref="tuition">
+        <a href="../../pages/tuition/"><span>Overview</span></a>
+        <a href="https://admissions.umd.edu/tuition/cost-of-attendance"><span>Cost of Attendance</span></a>
+        <a href="https://admissions.umd.edu/tuition/freshman-merit-scholarships"><span>Freshman Merit Scholarships</span></a>
+        <a href="https://admissions.umd.edu/tuition/transfer-merit-scholarships"><span>Transfer Merit Scholarships</span></a>
+        <a href="https://financialaid.umd.edu/"><span>Office of Student Financial Aid</span></a>
+      </div>
+    </div>
+    <!-- DRAWER:END -->
   </umd-element-navigation-header>
   <!-- SHARED:header:END -->
 

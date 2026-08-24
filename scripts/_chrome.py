@@ -23,10 +23,24 @@ Depth
     also pages/academics/programs.html), so the chrome cannot hard-code `../`.
     Every path in shared/header.html and shared/footer.html is written
     repo-root-relative behind a `{{ROOT}}` token, and `payload`/`block` expand
-    it to the right number of `../` for the page being written. Pass `depth` as
-    the number of directories between the repo root and the page's own
-    directory: 1 for pages/admissions.html, 2 for pages/academics/index.html.
-    `depth_of(path)` computes it from a page path.
+    it to the right number of `../` for the page being written.
+
+    `payload`/`block` therefore take the OUTPUT PAGE PATH, not a depth --
+    `depth_of()` derives the depth from it, and the drawer needs the path
+    itself (see below). `depth_of(path)` is still public for callers that
+    resolve {{ROOT}} in their own body markup.
+
+Contextual drawer
+    The mobile drawer in shared/header.html is one shared blob, but it has to
+    open on the section the reader is already in. The DS drives that from two
+    attributes -- `data-active` on the children-slides group, `data-selected`
+    on the current link -- so `_mark_current` stamps them per page, matching
+    the page's own path against the drawer's hrefs while they are still
+    {{ROOT}}-relative. The section is the page's directory under pages/, which
+    is why the drawer's data-child-ref values ARE those directory names.
+
+    Only the DRAWER:START/END region is stamped. The desktop nav deliberately
+    carries no current-page state.
 """
 import os
 
@@ -58,6 +72,57 @@ def _resolve(text, depth):
     return text.replace(ROOT_TOKEN, '../' * depth)
 
 
+_DRAWER_START = '<!-- DRAWER:START'
+_DRAWER_END = '<!-- DRAWER:END -->'
+
+
+def _rel(page):
+    """`page` as a repo-relative, forward-slash path."""
+    return os.path.relpath(os.path.abspath(page), REPO).replace(os.sep, '/')
+
+
+def _self_hrefs(rel):
+    """The {{ROOT}}-relative hrefs that mean "the page being written".
+
+    A section landing page is linked as the directory (pages/tuition/), never
+    as pages/tuition/index.html, so both spellings count as self.
+    """
+    hrefs = {ROOT_TOKEN + rel}
+    if rel.endswith('/index.html'):
+        hrefs.add(ROOT_TOKEN + rel[:-len('index.html')])
+    return hrefs
+
+
+def _mark_current(text, rel):
+    """Stamp data-active / data-selected on the drawer for one page.
+
+    Runs BEFORE {{ROOT}} is resolved, so hrefs are still comparable to `rel`
+    without knowing the page's depth. A page in no section (pages/admissions.html)
+    or in a section with no drawer group (pages/calendar/) simply matches
+    nothing and the drawer opens at its top level -- which is correct.
+    """
+    start = text.find(_DRAWER_START)
+    if start == -1:
+        return text
+    end = text.index(_DRAWER_END, start) + len(_DRAWER_END)
+    drawer = text[start:end]
+
+    parts = rel.split('/')
+    section = parts[1] if parts[0] == 'pages' and len(parts) > 2 else None
+    if section:
+        drawer = drawer.replace(
+            '<div data-parent-ref="%s">' % section,
+            '<div data-parent-ref="%s" data-active>' % section)
+
+    for href in _self_hrefs(rel):
+        # The closing quote is part of the needle so that pages/academics/
+        # does not also match pages/academics/programs.html.
+        drawer = drawer.replace('<a href="%s"' % href,
+                                '<a href="%s" data-selected' % href)
+
+    return text[:start] + drawer + text[end:]
+
+
 def _read(name):
     with open(os.path.join(SHARED, name), encoding='utf-8') as fh:
         return fh.read().rstrip('\n')
@@ -67,15 +132,22 @@ def source_file(key):
     return _REGIONS[key][0]
 
 
-def payload(key, depth=1):
-    """The region's content, without markers, with {{ROOT}} resolved for `depth`."""
+def payload(key, page):
+    """The region's content, without markers, rendered for the page at `page`.
+
+    `page` is the output path (absolute or repo-relative): it fixes both the
+    {{ROOT}} depth and, for the header, which drawer entries are current.
+    """
     src, wrap = _REGIONS[key]
-    return _resolve(wrap(_read(src)), depth)
+    text = wrap(_read(src))
+    if key == 'header':
+        text = _mark_current(text, _rel(page))
+    return _resolve(text, depth_of(page))
 
 
-def block(key, depth=1):
+def block(key, page):
     """The region's content wrapped in its SHARED:<key> markers."""
-    return '\n'.join([_START % (key, source_file(key)), payload(key, depth), _END % key])
+    return '\n'.join([_START % (key, source_file(key)), payload(key, page), _END % key])
 
 
 def keys():
