@@ -77,7 +77,7 @@ Shadow-inject step-up horizontal padding aligned to the upstream token breakpoin
 
 **Scope caveat:** the step-up should only apply when overlay cards sit inside a horizontally-bounded layout (i.e. within `umd-layout-space-horizontal-*`). When the cards are in a "lock" / full-bleed bank that runs edge-to-edge to the browser viewport, the original 24px sides should be retained — the extra side padding is meant to give breathing room inside a constrained card width, not to inset content within an already-edge-to-edge band. Upstream should gate the wider padding on a layout context check (or expose a CSS variable / opt-in attribute so the page can suppress it for full-bleed banks).
 
-Pages using this: `pages/admissions.html`.
+Pages using this: `pages/admissions.html`, `pages/tuition/index.html`.
 
 ## Card-overlay: the IMAGE variant clamps `slot="text"`, the COLOR variant does not
 
@@ -229,7 +229,36 @@ image variant always needed the other half.
 size-large rule set `height`, not `min-height`) so the two variants behave alike.
 
 Pages using this: `pages/how-to-apply/transfer-applicants.html` (Services for Transfer
-Students — feature card in a sticky column).
+Students — feature card in a sticky column), `pages/tuition/index.html` (Terrapin Commitment /
+Office of Student Financial Aid — the flush pair, see below).
+
+## Flush overlay-card pair (`.umd-layout-grid-pair-flush`)
+
+Two image-overlay cards butted edge to edge, so the pair reads as one dark band split down the
+middle rather than two stacked promos. **No upstream class does this** — every `layout.min.css`
+two-column grid ships a gap (`umd-layout-grid-gap-two` = 32px), and `gap: 0` is the entire point,
+so it is page CSS rather than a missing bundle rule.
+
+```css
+.umd-layout-grid-pair-flush { display: grid; grid-template-columns: 1fr; gap: 0; }
+@media (min-width: 768px) {
+  .umd-layout-grid-pair-flush { grid-template-columns: 1fr 1fr; }
+  .umd-layout-grid-pair-flush umd-element-card-overlay.size-large { height: 560px; }
+}
+```
+
+The `height: 560px` half is not optional — it is the `.size-large` image-variant fix documented
+directly above. Without it the two cards paint at 424px inside 560px hosts and the seam between
+them shows as a band of dead space.
+
+**The component clones, it does not slot.** `umd-element-card-overlay`'s shadow root contains no
+`<slot>` elements at all; it copies `image` / `headline` / `text` / `actions` out of the light DOM.
+So every light-DOM child measures `0×0` and reports `assignedSlot: null` **on a card that is
+rendering perfectly** — verify against the clone inside `shadowRoot`, never the original. The CTA
+nests one level deeper again (the cloned `umd-element-call-to-action` has its own shadow root), so
+a visible-anchor check has to walk both roots.
+
+Pages using this: `pages/tuition/index.html`.
 
 ## Application checklist stepper (`.fa-*`)
 
