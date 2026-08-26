@@ -37,7 +37,7 @@ def e(s):
 # upstream edit.
 crit_end = next(i for i, l in enumerate(tpl) if l.strip() == '</style>')
 head_close = next(i for i, l in enumerate(tpl) if l.strip() == '</head>' and i > crit_end)
-head_top = '\n'.join(tpl[:crit_end])
+head_top = _chrome.with_robots('\n'.join(tpl[:crit_end]))
 # </style> .. cdn.js, WITHOUT </head> — the shared chrome-CSS block is emitted
 # after it (so it wins at equal specificity) and this file closes </head> itself.
 head_tail_open = '\n'.join(tpl[crit_end:head_close])

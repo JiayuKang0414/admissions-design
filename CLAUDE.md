@@ -181,6 +181,25 @@ Not every design project will start with an existing `shared/` chrome. In that c
 
 That scoping is why `shared/chrome.css` is not upstreamed: the flat-`<a>` utility-nav treatment is *this project's* composition choice, not a design-system default. The one genuinely generic bug it exposed — `critical.css` §11 zeroing the slot gap unconditionally — was fixed upstream instead (`design-system-page-builder` `be3ea6c`).
 
+## Search indexing — every page is `noindex`
+
+Every page under `pages/` carries, immediately after the viewport meta:
+
+```html
+<meta name="robots" content="noindex, follow">
+```
+
+These are prototypes; none of them should surface in search results. `follow`
+is deliberate — a crawler that reaches one may still walk its links, so nothing
+here becomes an accidental dead end.
+
+`page-builder/TEMPLATE.html` does **not** carry the meta (indexing is a project
+decision, not a design-system one), so a new hand-written page has to add it.
+The generated pages get it from `_chrome.with_robots(head)`, which the four
+`build-*.py` scripts apply to the TEMPLATE-derived head — a rebuild cannot drop
+it. The helper is idempotent and asserts if TEMPLATE ever loses its viewport
+meta anchor.
+
 ## Logos
 
 | Slot | Path |

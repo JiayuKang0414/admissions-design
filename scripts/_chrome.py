@@ -43,6 +43,7 @@ Contextual drawer
     carries no current-page state.
 """
 import os
+import re
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SHARED = os.path.join(REPO, 'shared')
@@ -60,6 +61,24 @@ _REGIONS = {
 
 
 ROOT_TOKEN = '{{ROOT}}'
+
+
+# TEMPLATE.html carries no robots meta -- it is the generic page-builder
+# skeleton, and whether a page should be indexed is a project decision, not a
+# design-system one. Every page in THIS repo is a prototype, so none of them
+# should surface in search; `follow` still lets a crawler walk the links out.
+# Hand-written pages carry the meta in their own head; the generated pages get
+# it here so a rebuild cannot silently drop it.
+ROBOTS_META = '<meta name="robots" content="noindex, follow">'
+
+
+def with_robots(head):
+    """Insert the noindex meta right after the viewport meta. Idempotent."""
+    if 'name="robots"' in head:
+        return head
+    m = re.search(r'^(\s*)<meta name="viewport"[^>]*>[^\n]*$', head, re.M)
+    assert m, 'TEMPLATE head has no viewport meta to anchor the robots meta to'
+    return head[:m.end()] + '\n' + m.group(1) + ROBOTS_META + head[m.end():]
 
 
 def depth_of(path):

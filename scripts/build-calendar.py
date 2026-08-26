@@ -38,7 +38,7 @@ TITLE = 'Calendar — Undergraduate Admissions | University of Maryland'
 # content, not line number -- TEMPLATE grows whenever critical.css does.
 tpl = open(TEMPLATE, encoding='utf-8').read().split('\n')
 crit_end = next(i for i, l in enumerate(tpl) if l.strip() == '</style>')
-head = '\n'.join(tpl[:crit_end])
+head = _chrome.with_robots('\n'.join(tpl[:crit_end]))
 head = re.sub(r'<title>.*?</title>', '<title>' + TITLE + '</title>', head, count=1)
 assert '{{' not in head, 'unreplaced placeholder in TEMPLATE head'
 # The cdn.js pin below lives in BODY, not in the TEMPLATE-derived head, so it can
