@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Undergraduate Admissions — University of Maryland</title>
+  <title>Prospective Students | Office of Undergraduate Admissions | University of Maryland</title>
 
   <!-- ============================================================
        UMD Critical CSS — Hybrid CDN + Local
@@ -148,10 +148,6 @@
     @media (min-width: 1200px) {
       .umd-layout-background-full-dark { padding: 104px 0; }
     }
-    /* Drop the bottom padding when a dark section is chained directly onto
-       another dark section below — the lower section's own top padding already
-       supplies the breathing room, so keeping both doubles the black band. */
-    .umd-layout-background-full-dark-no-bottom { padding-bottom: 0; }
 
 
     /* ============================================================
@@ -351,8 +347,17 @@
 
     /* ---- B. NAV-HEADER: scoped to the utility-navigation slot ---- */
     /* Override the shadow ::slotted(*) gap:24px (the wrapper margins above
-       handle item spacing in the shell pattern). */
-    umd-element-navigation-header div[slot="utility-navigation"] {
+       handle item spacing in the shell pattern).
+
+       GATED ON :has(.umd-shell-utility-item) — this reset is ONLY correct for
+       the shell pattern, where each item supplies its own 16+1+16px
+       margin/border separator. A slot holding plain <a> children has no such
+       margins, so an unconditional `gap: 0` collapsed them into a single
+       run-on string of links. The shadow's own gap:24px is the right default
+       there, so leave it alone. Projects using flat links then need no spacing
+       override at all — only link colour/decoration, which the BASE layer
+       above does not cover for bare <a>. */
+    umd-element-navigation-header div[slot="utility-navigation"]:has(.umd-shell-utility-item) {
       gap: 0;
     }
     umd-element-navigation-header div[slot="utility-navigation"] .umd-shell-utility-item {
@@ -648,7 +653,7 @@
        dark class. Add overflow: hidden to the dark section if its
        content bleeds into this gap.
        ============================================================ */
-    .umd-layout-background-full-dark + section:not(.umd-layout-background-full-dark):not(.quote-with-chevron) {
+    .umd-layout-background-full-dark + section:not(.umd-layout-background-full-dark) {
       margin-top: 120px;
     }
 
@@ -737,180 +742,83 @@
   <script src="https://unpkg.com/@universityofmaryland/web-components-library@1.19.5/dist/cdn.js"></script>
 
   <style>
-    /* ---- Preserved page-specific overrides (were in the pre-migration
-         inline block; not provided by the CDN bundles or critical.css).
-         Utility-navigation rules rescoped to beat critical.css §11. ---- */
+    /* ============================================================
+       PAGE — PROSPECTIVE STUDENTS
+       ============================================================ */
 
-    /* Information-For outline CTAs — make the DS call-to-action host fill its
-       grid cell (the inner anchor is stretched via shadow injection). */
-    .information-for-actions umd-element-call-to-action {
-      display: block;
-      width: 100%;
-    }
-
-    /* NO-GAP CARD GRID */
-    .umd-layout-grid-cards-no-gap { display: grid; grid-template-columns: 1fr; }
-
-    @media (min-width: 768px) { .umd-layout-grid-cards-no-gap { grid-template-columns: repeat(3, 1fr); } }
-
-    .umd-layout-grid-cards-no-gap > * { height: 100%; }
-
-    /* OVERLAY CARD .size-large MIN-HEIGHT — RETIRED here.
-       web-components.min.css ships
-       umd-element-card-overlay.size-large { min-height:320px; 560px @768px }
-       verbatim, so the page copy that used to sit here is gone. This is the
-       same rule critical.css section 16 retired upstream. */
-
-    /* TUITION & AID 2-COLUMN GRID */
-    .umd-layout-grid-tuition-two { display: grid; grid-template-columns: 1fr; gap: 32px; }
-
-    @media (min-width: 1024px) { .umd-layout-grid-tuition-two { grid-template-columns: 1.5fr 1fr; gap: 80px; } }
-
-    /* FULL-WIDTH OUTLINE BUTTON — light-DOM, fills grid cell.
-       Mirrors umd-action-outline visual (border/padding/hover) but
-       Shadow DOM's max-width:380px on the DS component prevents it
-       from stretching, so we use plain <a> with this class instead. */
-    .umd-action-outline-block {
-      display: block; width: 100%; box-sizing: border-box; padding: 12px 24px;
-      font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif;
-      font-size: 16px; font-weight: 800; line-height: 1.28em;
-      text-align: center; text-decoration: none;
-      background-color: var(--umd-color-white); border: 1px solid var(--umd-color-gray-darker); color: var(--umd-color-black);
-      transition: background 0.5s ease-in-out, border 0.5s ease-in-out, color 0.5s ease-in-out;
-    }
-
-    .umd-action-outline-block:hover,
-    .umd-action-outline-block:focus { background-color: var(--umd-color-gray-darker); color: var(--umd-color-white); }
-
-    .umd-action-outline-block.dark {
-      background-color: transparent; border: 1px solid var(--umd-color-white); color: var(--umd-color-white);
-    }
-
-    .umd-action-outline-block.dark:hover,
-    .umd-action-outline-block.dark:focus { background-color: var(--umd-color-white); color: var(--umd-color-black); }
-
-    /* HERO-GRID HEIGHT GUARD — keep the 100vh hero behaving correctly
-       in environments where unset min-heights collapse. */
-    umd-element-hero-grid { min-height: 100vh; background-color: var(--umd-color-black); }
-
-    umd-element-hero-grid [slot="column-center"] video { display: block; width: 100%; height: 100%; object-fit: cover; }
-
-    /* QUOTE + BRAND CHEVRON OVERLAP — Massey quote sits in the white
-       band between the dark About UMD section and the overlay cards.
-       The brand chevron is absolutely positioned, layered behind the
-       quote (z-index 1) and visually overlapping ~150px into both
-       neighbors. The quote (z-index 2) stays interactive on top.
-       Section uses vertical-landing-style padding so the quote has
-       breathing room; chevron extends past via overflow:visible. */
-    .quote-with-chevron {
+    /* ---- Getting Started: eyebrow + rich-text intro over the brand chevron.
+       Same lockup as .study-here-section on pages/how-to-apply/index.html and
+       pages/tuition/index.html; kept under the same class names so the three
+       stay recognisably one pattern. */
+    .study-here-section {
       position: relative;
-      min-height: 400px;
-      display: flex;
-      align-items: center;
+      overflow: visible;
+      z-index: 100;
+    }
+
+    .study-here-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* The brand-logo-animation hardcodes its inner container to
+       width:100vw, height:50vw and anchors chevrons to right:0. So
+       the host must span full width — sizing/clipping won't work. */
+    .study-here-chevron {
+      position: absolute;
+      top: -180px;
+      left: 0;
+      right: 0;
+      bottom: -80px;
+      pointer-events: none;
+      z-index: 1;
       overflow: visible;
     }
 
-    .quote-with-chevron-content {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-    }
-
-    .chevron-overlap {
-      position: absolute;
-      top: -150px;
-      left: 0;
-      right: 0;
-      bottom: -150px;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .chevron-overlap > umd-element-brand-logo-animation {
+    .study-here-chevron > umd-element-brand-logo-animation {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      pointer-events: none;
+      display: block;
     }
 
-    /* BANNER-PROMO STACKED ACTIONS — add 8px vertical gap between
-       the primary and secondary CTA when they wrap to a column. The
-       slotted CTAs render inline by default; this stacks them with
-       a small consistent gap. */
-    .banner-promo-actions {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 8px;
+    @media (max-width: 1023px) {
+      .study-here-chevron { display: none; }
     }
 
-    /* RICH-TEXT HEADING SCALING
-       Section headings inside a .umd-text-rich-advanced block are
-       <h2 class="text-black umd-sans-extralarge-bold">.
-
-       element.min.css ships `:is(.umd-text-rich-advanced,.umd-rich-text) > *
-       { font-size:18px }` and `… * { color:#454545 }`. Both are (0,1,0), and
-       element.min.css loads AFTER typography.min.css, so a bare typography
-       utility on a direct child can never win on its own — whichever size you
-       pick. The bump below is the fix, not a hack. Note this pins headings by
-       TAG too: an <h2> in rich text is 18px unless something outranks it.
-
-       The colour half needs no rule here — critical.css §6 already ships
-       `.umd-text-rich-advanced .text-black { color:#000 }` for this exact
-       collision. A duplicate of it used to sit on this line and is gone.
-
-       Sizes come from the typography package: umd-sans-large is a flat 18px,
-       umd-sans-larger ramps 18->22px, umd-sans-extralarge ramps 22->32px
-       (each with a -bold sibling). These headings use extralarge-bold, so the
-       rules below restore that ramp above 650px; below 650px they agree with
-       the 18px pin. */
-    .umd-text-rich-advanced > .umd-sans-extralarge-bold {
-      font-size: 18px; line-height: 1.25em;
+    /* Responsive 16:9 frame for the Getting Started YouTube embed.
+       The design system has no generic video-embed component:
+       umd-element-card-video wants a <video> element, not an iframe. */
+    .ps-video {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: var(--umd-color-black, #000);
+      overflow: hidden;
     }
 
-    @media (min-width: 650px) {
-      .umd-text-rich-advanced > .umd-sans-extralarge-bold {
-        font-size: calc(18px + 1.16vw);
-      }
+    .ps-video iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
     }
 
-    @media (min-width: 1024px) {
-      .umd-text-rich-advanced > .umd-sans-extralarge-bold {
-        font-size: 32px; line-height: 1.125em;
-      }
+    /* Accordion stack in the sticky-columns static column (RULES.md §20 —
+       single-column stacked list; no custom CSS grid). */
+    .ps-accordion-stack {
+      display: grid;
+      gap: var(--umd-space-min, 8px);
     }
 
-    /* Simple two-column deadlines table — used in the Important Dates rich
-       text column to align label/date pairs without a heavy data-table look. */
-    .deadlines-table { width: 100%; border-collapse: collapse; }
-
-    .deadlines-table td {
-      padding: 12px 0;
-      border-bottom: 1px solid var(--umd-color-black);
-      vertical-align: top;
-    }
-
-    .deadlines-table td:last-child {
-      text-align: right;
-      white-space: nowrap;
-      font-weight: 700;
-    }
-
-    .deadlines-table tr:last-child td { border-bottom: 0; }
-
-    /* Neutralize the styles-package rich-text table treatment (alternating row
-       backgrounds, grey row borders, and 24px first-child left padding) so this
-       stays a clean label/date list with black rules. */
-    .umd-text-rich-advanced .deadlines-table tr,
-    .umd-text-rich-advanced .deadlines-table tr:nth-child(even) {
-      background: transparent;
-      border-top: 0;
-    }
-
-    .umd-text-rich-advanced .deadlines-table td:first-child { padding-left: 0; }
-
-    .umd-text-rich-advanced .deadlines-table td:last-child { padding-right: 0; }
+    /* Sub-headings inside an accordion item's rich text (U.S. Veterans splits
+       into Freshman / Transfer) carry `umd-sans-large text-black` — the same
+       pair the home page uses for its "Early Action Deadlines" label. No page
+       rule needed: umd-sans-large is already 18px/700, `.text-black` beats
+       rich text's blanket #454545 (critical.css §7), and the 24px top margin
+       comes from `.umd-text-rich-advanced > *`. */
   </style>
   <!-- SHARED:chrome-css:START — generated from shared/chrome.css; do not edit here -->
   <style>
@@ -1023,14 +931,10 @@ umd-element-scroll-top[data-layout-fixed="true"] {
 </head>
 <body>
 
-  <!-- ============================================================
-       SITE HEADER STACK
-       1) Global UMD university bar (utility nav from umd.edu)
-       2) Site utility header (search + audience links)
-       3) Site navigation header (logo + main nav, sticky)
-       Local-fallback logo via onerror so a hotlink-blocked external
-       URL swaps cleanly to the bundled wordmark.
-  ============================================================ -->
+  <!-- ========================================
+       1-2. SITE CHROME — utility bar, utility header, navigation header.
+       Generated from shared/; run scripts/build-chrome.py after editing.
+  ======================================== -->
   <!-- SHARED:header:START — generated from shared/header.html; do not edit here -->
   <umd-element-navigation-utility data-alert-off="true" role="navigation" aria-label="Utility navigation"></umd-element-navigation-utility>
   <umd-element-utility-header></umd-element-utility-header>
@@ -1041,9 +945,9 @@ umd-element-scroll-top[data-layout-fixed="true"] {
     search-url="https://admissions.umd.edu/search"
     cta-url="https://admissions.umd.edu/apply-now"
     cta-text="Apply Now">
-    <a slot="logo" href="../pages/admissions.html">
-      <img src="../images/logos/admissions-logo.svg" alt="University of Maryland Admissions"
-           onerror="this.onerror=null;this.src='../images/logos/primary-logo-dark.svg';" />
+    <a slot="logo" href="../../pages/admissions.html">
+      <img src="../../images/logos/admissions-logo.svg" alt="University of Maryland Admissions"
+           onerror="this.onerror=null;this.src='../../images/logos/primary-logo-dark.svg';" />
     </a>
     <div slot="utility-navigation">
       <a href="https://admissions.umd.edu/visit">Visit UMD</a>
@@ -1051,11 +955,11 @@ umd-element-scroll-top[data-layout-fixed="true"] {
     </div>
     <nav slot="main-navigation">
       <umd-element-nav-item>
-        <a slot="primary-link" href="../pages/academics/">Academics</a>
+        <a slot="primary-link" href="../../pages/academics/">Academics</a>
         <div slot="dropdown-links">
-          <a href="../pages/academics/">Overview</a>
-          <a href="../pages/academics/programs.html">All Programs</a>
-          <a href="../pages/academics/colleges-schools.html">Colleges &amp; Schools</a>
+          <a href="../../pages/academics/">Overview</a>
+          <a href="../../pages/academics/programs.html">All Programs</a>
+          <a href="../../pages/academics/colleges-schools.html">Colleges &amp; Schools</a>
           <a href="https://admissions.umd.edu/programs/interest">Programs by Interest</a>
           <a href="https://admissions.umd.edu/academics/limited-enrollment-programs">Limited Enrollment Programs</a>
           <a href="https://ugst.umd.edu/llsop/index.html">Living-Learning &amp; Special Programs</a>
@@ -1063,17 +967,17 @@ umd-element-scroll-top[data-layout-fixed="true"] {
         <!-- Dropdown promo — projected through a real <slot>, so it stays in the
              light DOM and is styled by .umd-nav-promo in shared/chrome.css. -->
         <div slot="dropdown-callout" class="umd-nav-promo">
-          <a href="../pages/academics/programs.html">
-            <img src="../images/academics/students-walking.jpg" alt="" />
+          <a href="../../pages/academics/programs.html">
+            <img src="../../images/academics/students-walking.jpg" alt="" />
             <span class="umd-nav-promo-title">All Programs</span>
             <span class="umd-nav-promo-text">Over 100 undergraduate majors across 12 colleges and schools.</span>
           </a>
         </div>
       </umd-element-nav-item>
       <umd-element-nav-item>
-        <a slot="primary-link" href="../pages/student-life/">Student Life</a>
+        <a slot="primary-link" href="../../pages/student-life/">Student Life</a>
         <div slot="dropdown-links">
-          <a href="../pages/student-life/">Overview</a>
+          <a href="../../pages/student-life/">Overview</a>
           <a href="https://admissions.umd.edu/student/housing-and-dining">Housing &amp; Dining</a>
           <a href="https://admissions.umd.edu/student/student-support">Student Support &amp; Safety</a>
           <a href="https://admissions.umd.edu/student/get-involved">Get Involved on Campus</a>
@@ -1081,11 +985,11 @@ umd-element-scroll-top[data-layout-fixed="true"] {
         </div>
       </umd-element-nav-item>
       <umd-element-nav-item>
-        <a slot="primary-link" href="../pages/how-to-apply/">How To Apply</a>
+        <a slot="primary-link" href="../../pages/how-to-apply/">How To Apply</a>
         <div slot="dropdown-links">
-          <a href="../pages/how-to-apply/">Overview</a>
-          <a href="../pages/how-to-apply/freshman-applicants.html">Freshman Applicants</a>
-          <a href="../pages/how-to-apply/transfer-applicants.html">Transfer Applicants</a>
+          <a href="../../pages/how-to-apply/">Overview</a>
+          <a href="../../pages/how-to-apply/freshman-applicants.html">Freshman Applicants</a>
+          <a href="../../pages/how-to-apply/transfer-applicants.html">Transfer Applicants</a>
           <a href="https://admissions.umd.edu/apply/international-applicants">International Applicants</a>
           <a href="https://admissions.umd.edu/apply/shady-grove-applicants">Shady Grove Applicants</a>
           <a href="https://admissions.umd.edu/apply/application-deadlines">Application Deadlines</a>
@@ -1096,16 +1000,16 @@ umd-element-scroll-top[data-layout-fixed="true"] {
              light DOM and is styled by .umd-nav-promo in shared/chrome.css. -->
         <div slot="dropdown-callout" class="umd-nav-promo">
           <a href="https://admissions.umd.edu/apply/application-deadlines">
-            <img src="../images/admissions/how-to-apply-hero.jpg" alt="" />
+            <img src="../../images/admissions/how-to-apply-hero.jpg" alt="" />
             <span class="umd-nav-promo-title">Application Deadlines</span>
             <span class="umd-nav-promo-text">Key dates for freshman, transfer and international applicants.</span>
           </a>
         </div>
       </umd-element-nav-item>
       <umd-element-nav-item>
-        <a slot="primary-link" href="../pages/tuition/">Tuition &amp; Aid</a>
+        <a slot="primary-link" href="../../pages/tuition/">Tuition &amp; Aid</a>
         <div slot="dropdown-links">
-          <a href="../pages/tuition/">Overview</a>
+          <a href="../../pages/tuition/">Overview</a>
           <a href="https://admissions.umd.edu/tuition/cost-of-attendance">Cost of Attendance</a>
           <a href="https://admissions.umd.edu/tuition/freshman-merit-scholarships">Freshman Merit Scholarships</a>
           <a href="https://admissions.umd.edu/tuition/transfer-merit-scholarships">Transfer Merit Scholarships</a>
@@ -1115,7 +1019,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
              light DOM and is styled by .umd-nav-promo in shared/chrome.css. -->
         <div slot="dropdown-callout" class="umd-nav-promo">
           <a href="https://admissions.umd.edu/tuition/cost-of-attendance">
-            <img src="../images/tuition/idea-factory-hero.jpg" alt="" />
+            <img src="../../images/tuition/idea-factory-hero.jpg" alt="" />
             <span class="umd-nav-promo-title">Cost of Attendance</span>
             <span class="umd-nav-promo-text">See what a year at Maryland actually costs.</span>
           </a>
@@ -1139,10 +1043,10 @@ umd-element-scroll-top[data-layout-fixed="true"] {
          scripts/_chrome.py relies on that to stamp data-active / data-selected
          per page — rename a directory and its drawer ref has to follow. -->
     <div slot="primary-slide-links">
-      <a href="../pages/academics/" data-child-ref="academics"><span>Academics</span></a>
-      <a href="../pages/student-life/" data-child-ref="student-life"><span>Student Life</span></a>
-      <a href="../pages/how-to-apply/" data-child-ref="how-to-apply"><span>How To Apply</span></a>
-      <a href="../pages/tuition/" data-child-ref="tuition"><span>Tuition &amp; Aid</span></a>
+      <a href="../../pages/academics/" data-child-ref="academics"><span>Academics</span></a>
+      <a href="../../pages/student-life/" data-child-ref="student-life"><span>Student Life</span></a>
+      <a href="../../pages/how-to-apply/" data-child-ref="how-to-apply"><span>How To Apply</span></a>
+      <a href="../../pages/tuition/" data-child-ref="tuition"><span>Tuition &amp; Aid</span></a>
     </div>
     <!-- The utility row plus the two things the drawer is the ONLY route to on a
          phone: Apply Now (the red CTA) and Search (the magnifier) both live in
@@ -1159,24 +1063,24 @@ umd-element-scroll-top[data-layout-fixed="true"] {
     </div>
     <div slot="children-slides">
       <div data-parent-ref="academics">
-        <a href="../pages/academics/"><span>Overview</span></a>
-        <a href="../pages/academics/programs.html"><span>All Programs</span></a>
-        <a href="../pages/academics/colleges-schools.html"><span>Colleges &amp; Schools</span></a>
+        <a href="../../pages/academics/"><span>Overview</span></a>
+        <a href="../../pages/academics/programs.html"><span>All Programs</span></a>
+        <a href="../../pages/academics/colleges-schools.html"><span>Colleges &amp; Schools</span></a>
         <a href="https://admissions.umd.edu/programs/interest"><span>Programs by Interest</span></a>
         <a href="https://admissions.umd.edu/academics/limited-enrollment-programs"><span>Limited Enrollment Programs</span></a>
         <a href="https://ugst.umd.edu/llsop/index.html"><span>Living-Learning &amp; Special Programs</span></a>
       </div>
       <div data-parent-ref="student-life">
-        <a href="../pages/student-life/"><span>Overview</span></a>
+        <a href="../../pages/student-life/"><span>Overview</span></a>
         <a href="https://admissions.umd.edu/student/housing-and-dining"><span>Housing &amp; Dining</span></a>
         <a href="https://admissions.umd.edu/student/student-support"><span>Student Support &amp; Safety</span></a>
         <a href="https://admissions.umd.edu/student/get-involved"><span>Get Involved on Campus</span></a>
         <a href="https://admissions.umd.edu/student/find-community"><span>Find Your Community</span></a>
       </div>
       <div data-parent-ref="how-to-apply">
-        <a href="../pages/how-to-apply/"><span>Overview</span></a>
-        <a href="../pages/how-to-apply/freshman-applicants.html"><span>Freshman Applicants</span></a>
-        <a href="../pages/how-to-apply/transfer-applicants.html"><span>Transfer Applicants</span></a>
+        <a href="../../pages/how-to-apply/"><span>Overview</span></a>
+        <a href="../../pages/how-to-apply/freshman-applicants.html"><span>Freshman Applicants</span></a>
+        <a href="../../pages/how-to-apply/transfer-applicants.html"><span>Transfer Applicants</span></a>
         <a href="https://admissions.umd.edu/apply/international-applicants"><span>International Applicants</span></a>
         <a href="https://admissions.umd.edu/apply/shady-grove-applicants"><span>Shady Grove Applicants</span></a>
         <a href="https://admissions.umd.edu/apply/application-deadlines"><span>Application Deadlines</span></a>
@@ -1184,7 +1088,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
         <a href="https://admissions.umd.edu/apply/application-faqs"><span>Application FAQs</span></a>
       </div>
       <div data-parent-ref="tuition">
-        <a href="../pages/tuition/"><span>Overview</span></a>
+        <a href="../../pages/tuition/"><span>Overview</span></a>
         <a href="https://admissions.umd.edu/tuition/cost-of-attendance"><span>Cost of Attendance</span></a>
         <a href="https://admissions.umd.edu/tuition/freshman-merit-scholarships"><span>Freshman Merit Scholarships</span></a>
         <a href="https://admissions.umd.edu/tuition/transfer-merit-scholarships"><span>Transfer Merit Scholarships</span></a>
@@ -1195,443 +1099,395 @@ umd-element-scroll-top[data-layout-fixed="true"] {
   </umd-element-navigation-header>
   <!-- SHARED:header:END -->
 
-  <!-- ============================================================
-       IMAGE MANIFEST — single source for find/replace
-       Each <img> below is preceded by an HTML comment naming the
-       slot/section it belongs to so swapping images is trivial.
-
-       Real source assets (downloaded from admissions.umd.edu's
-       svdcdn.com CDN to images/projects/admissions-recreation/):
-         Header logo  : ../images/admissions/logo-default.svg
-         About UMD    : ../page-builder/images/small/campus/Testudo-Statue-650x820.webp
-         Academics    : ../images/admissions/academics-tech.jpg
-         Student Life : ../images/admissions/student-life-terpzone.jpg
-         Hero poster  : ../images/admissions/hero-video-poster.jpg
-         (Footer image kept as the local large/campus/footer-campus.jpg —
-          umd-element-footer data-display="visual" needs a tall, full-bleed
-          image; the source CDN footer.jpg is a 1440x313 letterbox that
-          renders broken in the visual footer.)
-
-       Hero grid (8 local large images + 1 real video, split 3 left / 3 center / 3 right):
-         LEFT   1: ../page-builder/images/large/campus/hornbake-plaza-fall.jpg
-         LEFT   2: ../page-builder/images/large/campus/tltc-ESJLTC_Students.jpg
-         LEFT   3: ../page-builder/images/large/events/0381_UMD%20Comencement%202024.jpg
-         CENTER 1 (img):   ../page-builder/images/large/campus/thurgood-marshall-hall-spring.webp
-         CENTER 2 (video): https://servd-umd-admissions.b-cdn.net/production/videos/admissions-hero-compressed_6.mp4
-                  poster:  ../images/admissions/hero-video-poster.jpg (real CDN still)
-         CENTER 3 (img):   ../page-builder/images/large/default/visit-m-lawn.jpg
-         RIGHT  1: ../page-builder/images/small/events/sports-stands.jpg
-         RIGHT  2: ../page-builder/images/large/campus/PaintBranchBridge_Lights_07152018_6745_Final.jpg
-         RIGHT  3: ../page-builder/images/large/people/ENGR_LabShots_Battery_02222024_JC_9717.jpg
-
-       How to Apply pathway (no real CDN match — local only):
-         ../page-builder/images/large/default/CampusSpring-students.jpg
-
-       Public Policy quote (image-expand, large local image):
-         ../page-builder/images/large/people/umd-smiling-graduates.jpg
-
-       Three overlay cards (small, local — admissions.umd.edu uses
-       different content here so we keep our originals):
-         Card 1 (Plan Your Visit): ../page-builder/images/small/campus/testudo-student.webp
-         Card 2 (Get in Touch):    ../page-builder/images/small/people/professor-portrait.jpg
-         Card 3 (Apply Now):       ../page-builder/images/small/people/student-group.jpg
-  ============================================================ -->
-
   <!-- ========================================
-       1. HERO GRID — 3 / 3 (image, video, image) / 3 layout
-       Dark theme on a black-background section so the area around
-       the grid stays black if the component renders any padding.
-       "Be A Terp" headline + body + Discover UMD CTA.
+       3. HERO — small, centred; matches pages/how-to-apply/index.html
   ======================================== -->
-  <section style="background-color:var(--umd-color-black);">
-    <umd-element-hero-grid data-theme="dark">
-
-      <!-- HERO LEFT COLUMN — 3 images -->
-      <div slot="column-left">
-        <!-- HERO LEFT 1 -->
-        <img src="../page-builder/images/small/people/2-students-desk-StartUpUMD_02092023_JC_9121.webp" alt="Two students working at a desk at StartUp UMD" />
-        <!-- HERO LEFT 2 -->
-        <img src="../page-builder/images/small/events/sports-stands.jpg" alt="Fans filling the stands at a Maryland football game" />
-        <!-- HERO LEFT 3 -->
-        <img src="../page-builder/images/large/people/students-walking-around.webp" alt="Students walking around campus" />
-      </div>
-
-      <!-- HERO CENTER COLUMN — image (top), admissions hero video, image (bottom) -->
-      <div slot="column-center">
-        <!-- HERO CENTER 1 (image above video) -->
-        <img src="../page-builder/images/small/events/Square-Commencement_SC_05202018_4727.webp" alt="University of Maryland commencement ceremony" />
-        <!-- HERO CENTER 2 (admissions hero video) -->
-        <video src="https://servd-umd-admissions.b-cdn.net/production/videos/admissions-hero-compressed_6.mp4"
-               autoplay muted loop playsinline
-               poster="../images/admissions/hero-video-poster.jpg"
-               aria-label="University of Maryland admissions montage"></video>
-        <!-- HERO CENTER 3 (image below video) -->
-        <img src="../page-builder/images/large/campus/Testudo_Students_03042022_SC_9823.webp" alt="Students gathered around the Testudo statue" />
-      </div>
-
-      <!-- HERO RIGHT COLUMN — 3 images -->
-      <div slot="column-right">
-        <!-- HERO RIGHT 1 -->
-        <img src="../page-builder/images/small/people/Online-Learning.webp" alt="Student engaged in online learning" />
-        <!-- HERO RIGHT 2 -->
-        <img src="../page-builder/images/large/people/dance.webp" alt="Students dancing" />
-        <!-- HERO RIGHT 3 -->
-        <img src="../page-builder/images/large/campus/FirstDayofClasses_01242024_DS_3248_BYNDER.webp" alt="First day of classes at the University of Maryland" />
-      </div>
-
-      <h1 slot="headline">Be A Terp</h1>
-      <div slot="text">
-        <p>Terps love a challenge. A problem that needs a solution. A barrier that needs breaking down. You are smart, scrappy and determined. You value diversity, innovation, entrepreneurship and imagination. Ready to start your fearless journey?</p>
-      </div>
-      <div slot="actions">
-        <umd-element-call-to-action data-display="primary" data-theme="dark">
-          <a href="academics/">Explore Academics at UMD</a>
-        </umd-element-call-to-action>
-      </div>
-    </umd-element-hero-grid>
+  <section class="umd-layout-vertical-landing">
+    <umd-element-hero data-layout-height="small" data-layout-text="center">
+      <img slot="image" src="../../images/personas/prospective-students-hero.jpg" alt="Students crossing the University of Maryland campus mall" />
+      <h1 slot="headline">Prospective Students</h1>
+      <div slot="text"><p>Ready to learn more about what it takes to #BeATerp? You're in the right place! We are here to help guide you through the University of Maryland (UMD) application and admission process.</p></div>
+    </umd-element-hero>
   </section>
 
   <!-- ========================================
-       2. INFORMATION FOR — DARK SECTION
-       Trailing-line label + 4 outline CTAs in a 4-up grid.
-       Adjacent dark sections: this section is followed by another
-       dark-background section (About UMD pathway, white overlay on
-       black band). Per RULES §19, drop umd-layout-vertical-landing
-       here so there's no white gap between the two black bands.
+       4. GETTING STARTED — section intro + campus video
   ======================================== -->
-  <section class="umd-layout-background-full-dark umd-layout-background-full-dark-arrow-right umd-layout-background-full-dark-no-bottom">
-    <div class="umd-layout-space-horizontal-larger">
-      <p class="umd-text-line-trailing-dark"><span>Information For</span></p>
-      <div class="umd-layout-grid-gap-four information-for-actions">
-        <umd-element-call-to-action data-display="outline" data-theme="dark"><a href="personas/prospective-students.html">Prospective Students</a></umd-element-call-to-action>
-        <umd-element-call-to-action data-display="outline" data-theme="dark"><a href="#parents">Parents &amp; Families</a></umd-element-call-to-action>
-        <umd-element-call-to-action data-display="outline" data-theme="dark"><a href="#counselors">Counselors &amp; Advisors</a></umd-element-call-to-action>
-        <umd-element-call-to-action data-display="outline" data-theme="dark"><a href="#admitted">Admitted Students</a></umd-element-call-to-action>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========================================
-       3. ABOUT UMD PATHWAY — image-right, overlay display, white theme
-       Section background stays BLACK; the white overlay panel sits
-       on top of the dark band. The next section (3-up edge-to-edge
-       overlay cards) reads as a dark panel, so we drop
-       umd-layout-vertical-landing here per RULES §19 to chain the
-       two dark visual bands with no white gap between them.
-       Pathway-dark-padding still gives the 80px breathing room
-       inside this section per RULES §24.
-       Rich text uses the light variant since it sits on the white panel.
-  ======================================== -->
-  <section class="umd-layout-background-full-dark umd-layout-background-full-dark-no-top">
-    <umd-element-pathway data-display="overlay" data-theme="white">
-      <h2 slot="headline">About UMD</h2>
-      <div slot="text">
-        <div class="umd-text-rich-advanced">
-          <p>The University of Maryland (UMD) is the state of Maryland's flagship institution, a top-ranked public research university, and a global leader in research, entrepreneurship and innovation. Our campus community is strengthened by the richness of perspectives, lifestyles and personalities brought together here. We are home to students, faculty, staff, and nearly 405,000 alumni dedicated to moving Fearlessly Forward in pursuit of excellence and impact for the public good.</p>
-        </div>
-      </div>
-      <div slot="stats">
-        <umd-element-stat data-decoration-line="false">
-          <h2 slot="stat">1856</h2>
-          <div slot="text">The year UMD was founded as Maryland Agricultural College.</div>
-        </umd-element-stat>
-      </div>
-      <!-- ABOUT UMD PATHWAY IMAGE -->
-      <img slot="image"
-           src="../page-builder/images/small/campus/Testudo-Statue-650x820.webp"
-           alt="Bronze Testudo statue looking out over McKeldin Mall at sunset" />
-      <div slot="actions">
-        <umd-element-call-to-action data-display="secondary">
-          <a href="#land-acknowledgement">Read our Land Acknowledgement</a>
-        </umd-element-call-to-action>
-        <umd-element-call-to-action data-display="secondary">
-          <a href="#diversity">Our Commitment to Diversity</a>
-        </umd-element-call-to-action>
-      </div>
-    </umd-element-pathway>
-  </section>
-
-  <!-- ========================================
-       3.5 MASSEY QUOTE + BRAND CHEVRON ANIMATION
-       The Massey student quote sits in the white band between the
-       dark About UMD section and the overlay-card bank. The brand
-       chevron animation is absolutely positioned on the right edge,
-       layered behind the quote and overlapping ~150px into both the
-       dark section above and the cards below.
-  ======================================== -->
-  <section class="quote-with-chevron">
-    <div class="umd-layout-space-horizontal-normal quote-with-chevron-content">
-      <umd-element-quote>
-        <blockquote slot="quote">You will get to know the university as a world-class leader in research and teaching, entrepreneurship and innovation, and sustainability and security. But most of all, you will get to know us as caring people who are committed to the success of our university and students.</blockquote>
-        <p slot="attribution">James B. Massey, Jr.</p>
-        <p slot="attribution-sub-text">Director of Undergraduate Admissions</p>
-      </umd-element-quote>
-    </div>
-    <div class="chevron-overlap" aria-hidden="true">
+  <section class="umd-layout-vertical-landing study-here-section">
+    <div class="study-here-chevron" aria-hidden="true">
       <umd-element-brand-logo-animation></umd-element-brand-logo-animation>
     </div>
-  </section>
-
-  <!-- ========================================
-       4. THREE OVERLAY CARD BANK — no gap, type="image"
-       After About UMD pathway. Each card is a flagship action.
-  ======================================== -->
-  <section class="umd-layout-vertical-landing">
-    <div class="umd-layout-grid-cards-no-gap">
-
-      <umd-element-card-overlay type="image" class="size-large">
-        <h3 slot="headline"><a href="#visit">You can only learn so much about the University of Maryland from a website.</a></h3>
-        <p slot="text">Speaking to UMD students during an on-campus event can help you learn first-hand what it's like to #BeATerp!</p>
-        <!-- OVERLAY CARD 1 — Plan Your Visit -->
-        <img slot="image" src="../page-builder/images/large/default/mckeldin-mall.jpg" alt="McKeldin Mall on the University of Maryland campus" />
-        <div slot="actions">
-          <umd-element-call-to-action data-display="secondary" data-theme="dark">
-            <a href="#visit">Plan Your Visit</a>
-          </umd-element-call-to-action>
-        </div>
-      </umd-element-card-overlay>
-
-      <umd-element-card-overlay type="image" class="size-large">
-        <h3 slot="headline"><a href="#contact">Have questions?</a></h3>
-        <p slot="text">The Office of Undergraduate Admissions is here for you.</p>
-        <!-- OVERLAY CARD 2 — Get in Touch -->
-        <img slot="image" src="../page-builder/images/small/default/testudo-square.jpg" alt="Testudo statue on the University of Maryland campus" />
-        <div slot="actions">
-          <umd-element-call-to-action data-display="secondary" data-theme="dark">
-            <a href="#contact">Get in Touch</a>
-          </umd-element-call-to-action>
-        </div>
-      </umd-element-card-overlay>
-
-      <umd-element-card-overlay type="image" class="size-large">
-        <h3 slot="headline"><a href="#apply">If you know UMD is the perfect place for you, get started on your application.</a></h3>
-        <p slot="text">Apply for first-year, transfer, or international admission.</p>
-        <!-- OVERLAY CARD 3 — Apply Now -->
-        <img slot="image" src="../page-builder/images/small/people/student-group.jpg" alt="Group of UMD students together" />
-        <div slot="actions">
-          <umd-element-call-to-action data-display="secondary" data-theme="dark">
-            <a href="#apply">Apply Now</a>
-          </umd-element-call-to-action>
-        </div>
-      </umd-element-card-overlay>
-
+    <div class="umd-layout-space-horizontal-small umd-layout-space-vertical-landing-child study-here-content">
+      <hr style="border:none;border-top:1px solid var(--umd-color-black);margin:0 0 24px 0;" />
+      <p class="umd-sans-large mb-md text-black" style="text-transform:uppercase;">Getting Started</p>
+      <div class="umd-text-rich-advanced">
+        <p>Get started on the right track, right from the beginning. Use the information on this page to understand exactly what you need to begin your journey to UMD.</p>
+      </div>
+      <div style="margin-top:24px;">
+        <umd-element-call-to-action data-display="primary">
+          <a href="../how-to-apply/">How to Apply</a>
+        </umd-element-call-to-action>
+      </div>
     </div>
-  </section>
-
-  <!-- ========================================
-       6. ACADEMICS PATHWAY — image-left, with 18:1 stat
-       1 primary CTA + 2 secondary CTAs.
-  ======================================== -->
-  <section class="umd-layout-vertical-landing">
-    <umd-element-pathway data-layout-image-position="left">
-      <h2 slot="headline">Academics</h2>
-      <div slot="text">
-        <div class="umd-text-rich-advanced">
-          <p>With more than 100 undergraduate majors and minors across 12 schools and colleges, you'll find your path — and the faculty mentors, research labs, and study abroad opportunities to take it further than you imagined.</p>
-        </div>
-      </div>
-      <div slot="stats">
-        <umd-element-stat data-decoration-line="false">
-          <h2 slot="stat">18:1</h2>
-          <div slot="text">Student-to-faculty ratio for personalized learning across more than 100 majors.</div>
-        </umd-element-stat>
-      </div>
-      <!-- ACADEMICS PATHWAY IMAGE -->
-      <img slot="image"
-           src="../images/admissions/academics-tech.jpg"
-           alt="Students working with tech at the University of Maryland" />
-      <div slot="actions">
-        <umd-element-call-to-action data-display="primary">
-          <a href="academics/">Explore Academics</a>
-        </umd-element-call-to-action>
-        <umd-element-call-to-action data-display="secondary">
-          <a href="academics/programs.html">All Programs</a>
-        </umd-element-call-to-action>
-        <umd-element-call-to-action data-display="secondary">
-          <a href="academics/colleges-schools.html">Colleges &amp; Schools</a>
-        </umd-element-call-to-action>
-      </div>
-    </umd-element-pathway>
-  </section>
-
-  <!-- ========================================
-       7. MOM QUOTE — parent testimonial (simple inline)
-  ======================================== -->
-  <section class="umd-layout-vertical-landing">
-    <div class="umd-layout-space-horizontal-normal">
-      <umd-element-quote>
-        <blockquote slot="quote">I was nervous to send my child so far away, but the support and resources at UMD have made her feel at home. She's made great friends.</blockquote>
-        <p slot="attribution">Dorothy P.</p>
-        <p slot="attribution-sub-text">Mom of a class of '24 student</p>
-      </umd-element-quote>
-    </div>
-  </section>
-
-  <!-- ========================================
-       8. STUDENT LIFE PATHWAY — image-right, 800+ and 40+ stats
-  ======================================== -->
-  <section class="umd-layout-vertical-landing">
-    <umd-element-pathway>
-      <h2 slot="headline">Student Life</h2>
-      <div slot="text">
-        <div class="umd-text-rich-advanced">
-          <p>There is more to the University of Maryland than what you learn in the classroom. Whatever experience you're looking for to round out your education, you can find it here. And our proximity to Washington, D.C. means limitless opportunities.</p>
-        </div>
-      </div>
-      <div slot="stats">
-        <umd-element-stat data-decoration-line="false">
-          <h2 slot="stat">800+</h2>
-          <div slot="text">Student Clubs &amp; Organizations</div>
-        </umd-element-stat>
-        <umd-element-stat data-decoration-line="false">
-          <h2 slot="stat">40+</h2>
-          <div slot="text">Club Sports</div>
-        </umd-element-stat>
-      </div>
-      <!-- STUDENT LIFE PATHWAY IMAGE -->
-      <img slot="image"
-           src="../page-builder/images/small/events/NEXTNOW_SilentDiscGlo_09052024_DS_1538_DAM.jpg"
-           alt="Students at the NEXTNOW silent disco glow event" />
-      <div slot="actions">
-        <umd-element-call-to-action data-display="primary">
-          <a href="student-life/">Explore Student Life</a>
-        </umd-element-call-to-action>
-      </div>
-    </umd-element-pathway>
-  </section>
-
-  <!-- ========================================
-       9. PUBLIC POLICY STUDENT QUOTE — image-expand inside dark wrapper
-       Per RULES §17: image-expand needs the dark section wrapper, the
-       quote uses data-visual-transparent="true" + data-theme="dark",
-       and the slot="content" div carries the alignment classes.
-  ======================================== -->
-  <section class="umd-layout-vertical-landing">
-    <umd-layout-image-expand>
-      <div slot="content" class="block max-w-[480px] w-full mr-auto">
-        <umd-element-quote data-visual-transparent="true" data-theme="dark" data-display="featured">
-          <blockquote slot="quote">I am proud to #BeATerp! You'll find that students and professors on campus are welcoming and want you to succeed. I'm part of an accomplished campus that values diversity, academics, and social and professional opportunities. With 800+ clubs and 100+ majors, you'll find people with the same passions as you.</blockquote>
-          <p slot="attribution">Angelica G. '23</p>
-          <p slot="attribution-sub-text">Public Policy Student</p>
-        </umd-element-quote>
-      </div>
-      <!-- PUBLIC POLICY QUOTE IMAGE-EXPAND BACKGROUND -->
-      <img slot="image" src="../page-builder/images/large/campus/Campus_Blossoms_ThurgoodMarshallHall_03262026_JC_3738.jpg" alt="Cherry blossoms in front of Thurgood Marshall Hall on the UMD campus" />
-    </umd-layout-image-expand>
-  </section>
-
-  <!-- ========================================
-       10. HOW TO APPLY PATHWAY — with 24 stat (admission review factors)
-  ======================================== -->
-  <section class="umd-layout-vertical-landing">
-    <umd-element-pathway data-layout-image-position="left">
-      <h2 slot="headline">How to Apply</h2>
-      <div slot="text">
-        <div class="umd-text-rich-advanced">
-          <p>You've done your research and explored your options, and you know that UMD is the perfect place for you. Now you're ready to apply! To get started, review the steps to apply on the freshman, transfer, or international application page.</p>
-        </div>
-      </div>
-      <div slot="stats">
-        <umd-element-stat data-decoration-line="false">
-          <h2 slot="stat">24</h2>
-          <div slot="text">Admission Review Factors</div>
-        </umd-element-stat>
-      </div>
-      <!-- HOW TO APPLY PATHWAY IMAGE -->
-      <img slot="image" src="../page-builder/images/large/default/CampusSpring-students.jpg" alt="Students walking across campus in spring" />
-      <div slot="actions">
-        <umd-element-call-to-action data-display="primary">
-          <a href="#apply">Apply Now</a>
-        </umd-element-call-to-action>
-        <umd-element-call-to-action data-display="secondary">
-          <a href="#submitting-documents">Submitting Documents</a>
-        </umd-element-call-to-action>
-        <umd-element-call-to-action data-display="secondary">
-          <a href="#review">Admission Review Process</a>
-        </umd-element-call-to-action>
-      </div>
-    </umd-element-pathway>
-  </section>
-
-  <!-- ========================================
-       11. TUITION & AID — 2-column rich text layout
-       (umd-layout-space-horizontal-small lock + umd-layout-grid-gap-two
-       + per-column rich-text panels with umd-sans-larger-bold subhead)
-  ======================================== -->
-  <section class="umd-layout-space-vertical-landing">
-    <div class="umd-layout-space-horizontal-small">
-      <div class="umd-layout-grid-gap-two">
-
-        <div class="umd-text-rich-advanced">
-          <hr>
-          <h2 class="text-black umd-sans-extralarge-bold">Tuition &amp; Aid</h2>
-          <p>The University of Maryland offers an array of financial aid programs—including scholarships, grants, loans and student employment—as part of our commitment to making an excellent education affordable. We encourage you to visit the Office of Student Financial Aid to explore types of aid and ways to finance a higher education.</p>
-          <div class="umd-layout-grid-inline-tablet-rows">
-            <umd-element-call-to-action data-display="primary">
-              <a href="#tuition-aid">Learn about tuition &amp; aid at UMD</a>
-            </umd-element-call-to-action>
-          </div>
-        </div>
-
-        <div class="umd-text-rich-advanced">
-          <hr>
-          <p class="text-black umd-sans-large">RESOURCES</p>
-          <div class="umd-layout-grid-inline-tablet-rows">
-            <umd-element-call-to-action data-display="secondary">
-              <a href="#cost-of-attendance">Estimated cost of attendance</a>
-            </umd-element-call-to-action>
-            <umd-element-call-to-action data-display="secondary">
-              <a href="#financial-aid">Office of Student Financial Aid</a>
-            </umd-element-call-to-action>
-            <umd-element-call-to-action data-display="secondary">
-              <a href="#terrapin-commitment">Learn about Terrapin Commitment</a>
-            </umd-element-call-to-action>
-          </div>
-        </div>
-
+    <!-- Video sits in the 992px list-card lock (RULES.md §33), not the wider
+         landing lock — the embed reads as one item in the column, not a band.
+         The landing-child gap is a margin-BOTTOM, so it is carried by the
+         intro block above, not by this one. -->
+    <div class="umd-layout-space-horizontal-small study-here-content">
+      <div class="ps-video">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/jgKQQO95VWg"
+          title="Welcome to the University of Maryland"
+          loading="lazy"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
       </div>
     </div>
   </section>
 
   <!-- ========================================
-       12. IMPORTANT DATES — 2-column rich text layout (same pattern)
-       Left: list of 5 deadlines as rich text. Right: intro + CTAs.
+       5. FRESHMAN APPLICANTS — applicant spotlight
+       Sticky pathway carrying a stat pair + a deadline table in slot="stats".
+       See OVERRIDES.md → "Applicant spotlight". The stats slot is CLONED into
+       the shadow root, so .applicant-* is styled by the injection at the foot
+       of this page, never by the <style> block above.
   ======================================== -->
-  <section class="umd-layout-space-vertical-landing">
-    <div class="umd-layout-space-horizontal-small">
-      <div class="umd-layout-grid-gap-two">
-
-        <div class="umd-text-rich-advanced">
-          <hr>
-          <h2 class="text-black umd-sans-extralarge-bold">Important Dates</h2>
-          <p>We have several application deadlines, depending on what type of applicant you are and the semester you wish to start at the University of Maryland. Review all deadlines to determine when you should apply and when you can expect to receive an admission decision.</p>
-          <div class="umd-layout-grid-inline-tablet-rows">
-            <umd-element-call-to-action data-display="primary">
-              <a href="#deadlines">View all application deadlines</a>
-            </umd-element-call-to-action>
-          </div>
+  <section class="umd-layout-vertical-landing">
+    <umd-element-pathway data-display="sticky" data-layout-image-position="left">
+      <img slot="image" src="../../images/admissions/freshman-kirwan.jpg" alt="Students walking and biking near Kirwan Hall" />
+      <h2 slot="headline">Freshman Applicants</h2>
+      <div slot="text">
+        <p>If you are a high school student or student with fewer than 12 semester hours or 18 quarter hours of university-level credit beyond secondary school, then you are considered a freshman applicant. Take advantage of the following resources to learn more.</p>
+        <p>It's never too early to start preparing for college. As you progress through your high school career, look for opportunities to demonstrate leadership skills, expand upon your non-academic interests and/or to get involved in your community. These are the types of things, along with a distinctive essay, that will help you stand out to our Admission Committee.</p>
+        <p><strong>Freshman Profile</strong></p>
+        <p>For the Fall 2026 freshman class, we received just over 67,000 applications for a class of 5,459. Due to UMD's test-optional policy, applicants were able to indicate whether they would submit standardized test scores for consideration in their application review. Admitted freshmen earned primarily As and Bs in a rigorous curriculum.</p>
+      </div>
+      <div slot="stats">
+        <div class="applicant-stat">
+          <p class="applicant-stat-value">67k</p>
+          <div class="applicant-stat-text"><p>Applications received for a class of 5,459 for Fall 2026.</p></div>
         </div>
-
-        <div class="umd-text-rich-advanced">
-          <hr>
-          <p class="text-black umd-sans-large">EARLY ACTION DEADLINES</p>
-          <table class="deadlines-table">
+        <div class="applicant-stat">
+          <p class="applicant-stat-value">A's or B's</p>
+          <div class="applicant-stat-text"><p>Primarily earned by admitted freshmen in a rigorous curriculum.</p></div>
+        </div>
+        <div class="applicant-deadlines">
+          <h3 class="applicant-deadlines-title">Application Deadlines</h3>
+          <p class="applicant-deadlines-group">U.S. Students</p>
+          <table class="applicant-deadlines-table">
             <tbody>
-              <tr><td>Freshman Applying for Fall</td><td>November 1</td></tr>
-              <tr><td>Transfers Applying for Fall</td><td>March 1</td></tr>
-              <tr><td>Shady Grove Applying for Fall</td><td>June 1</td></tr>
-              <tr><td>Transfers Applying for Spring</td><td>August 1</td></tr>
-              <tr><td>Shady Grove Applying for Spring</td><td>November 15</td></tr>
+              <tr><td>Early Action Deadline</td><td>November 1</td></tr>
+              <tr><td>Regular Deadline</td><td>January 20</td></tr>
             </tbody>
           </table>
         </div>
+      </div>
+      <div slot="actions">
+        <umd-element-call-to-action data-display="secondary">
+          <a href="../how-to-apply/freshman-applicants.html">Freshman Requirements &amp; Checklist</a>
+        </umd-element-call-to-action>
+        <umd-element-call-to-action data-display="secondary">
+          <a href="https://admissions.umd.edu/apply/freshman-application-faqs">Freshman Application FAQs</a>
+        </umd-element-call-to-action>
+      </div>
+    </umd-element-pathway>
+  </section>
 
+  <!-- ========================================
+       6. TRANSFER APPLICANTS — applicant spotlight, image right
+  ======================================== -->
+  <section class="umd-layout-vertical-landing">
+    <umd-element-pathway data-display="sticky">
+      <img slot="image" src="../../images/admissions/transfer-mcircle.jpg" alt="The M Circle in front of Symons Hall" />
+      <h2 slot="headline">Transfer Applicants</h2>
+      <div slot="text">
+        <p>If you are a high school graduate who, at the time of applying, have completed at least 12 semester or 18 quarter hours after high school graduation at a regionally accredited college or university, then you are considered a transfer applicant. Take advantage of the following resources to learn more.</p>
+        <p>As a transfer student, we strongly encourage you to take advantage of UMD's <a href="https://transfer.umd.edu/">transfer student resources</a>, which include academic planning, major and career exploration, and estimating when you'll graduate from UMD.</p>
+        <p><strong>Transfer Profile</strong></p>
+        <p>For the Fall 2026 transfer class, we received more than 4,800 applications for a class of 1,850. Our most successful transfer students have a B average or better and have completed an English composition course that satisfies the university's fundamental studies academic writing requirement and a college-level math course that satisfies the university's fundamental studies math requirement.</p>
+      </div>
+      <div slot="stats">
+        <div class="applicant-stat">
+          <p class="applicant-stat-value">4,800</p>
+          <div class="applicant-stat-text"><p>Applications received for a class of 1,850 for Fall 2026.</p></div>
+        </div>
+        <div class="applicant-stat">
+          <p class="applicant-stat-value">B or better</p>
+          <div class="applicant-stat-text"><p>Grade average earned by our most successful transfer students.</p></div>
+        </div>
+        <div class="applicant-deadlines">
+          <h3 class="applicant-deadlines-title">Application Deadlines</h3>
+          <p class="applicant-deadlines-group">U.S. Students</p>
+          <table class="applicant-deadlines-table">
+            <tbody>
+              <tr><td>Fall Early Action Deadline</td><td>March 1</td></tr>
+              <tr><td>Spring Early Action Deadline</td><td>August 1</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div slot="actions">
+        <umd-element-call-to-action data-display="secondary">
+          <a href="../how-to-apply/transfer-applicants.html">Transfer Requirements &amp; Checklist</a>
+        </umd-element-call-to-action>
+        <umd-element-call-to-action data-display="secondary">
+          <a href="https://admissions.umd.edu/apply/transfer-application-faqs">Transfer Application FAQs</a>
+        </umd-element-call-to-action>
+      </div>
+    </umd-element-pathway>
+  </section>
+
+  <!-- ========================================
+       7. INTERNATIONAL APPLICANTS — applicant spotlight, no deadline table
+       (the source page routes to the deadlines page instead of listing them,
+       which is why the deadlines block is optional in this pattern)
+  ======================================== -->
+  <section class="umd-layout-vertical-landing">
+    <umd-element-pathway data-display="sticky" data-layout-image-position="left">
+      <img slot="image" src="../../images/admissions/international-flags.jpg" alt="Country flags on display during Maryland Day" />
+      <h2 slot="headline">International Applicants</h2>
+      <div slot="text">
+        <p>Freshman and transfer students are considered international applicants if they are non-U.S. citizens or non-permanent U.S. residents.</p>
+        <p>In addition to the freshman or transfer applicant requirements, international students must also satisfy international specific requirements such as English language proficiency and non-U.S. academic credential evaluations.</p>
+        <p>Please refer to the appropriate <a href="https://admissions.umd.edu/apply/application-deadlines">application deadline</a> based on the semester you intend to enroll and whether you are applying as a freshman or transfer student.</p>
+      </div>
+      <div slot="stats">
+        <div class="applicant-stat">
+          <p class="applicant-stat-value">4,777</p>
+          <div class="applicant-stat-text"><p>International students across campus.</p></div>
+        </div>
+        <div class="applicant-stat">
+          <p class="applicant-stat-value">119</p>
+          <div class="applicant-stat-text"><p>Countries represented at UMD.</p></div>
+        </div>
+      </div>
+      <div slot="actions">
+        <umd-element-call-to-action data-display="secondary">
+          <a href="https://admissions.umd.edu/apply/international-applicants">International Requirements &amp; Checklist</a>
+        </umd-element-call-to-action>
+        <umd-element-call-to-action data-display="secondary">
+          <a href="https://admissions.umd.edu/apply/application-faqs">Application FAQs</a>
+        </umd-element-call-to-action>
+      </div>
+    </umd-element-pathway>
+  </section>
+
+  <!-- ========================================
+       8. SHADY GROVE APPLICANTS — applicant spotlight, deadlines with no
+       audience label (the group line is optional)
+  ======================================== -->
+  <section class="umd-layout-vertical-landing">
+    <umd-element-pathway data-display="sticky">
+      <img slot="image" src="../../images/personas/shady-grove-students.jpg" alt="Students talking outside at the Universities at Shady Grove" />
+      <h2 slot="headline">Shady Grove Applicants</h2>
+      <div slot="text">
+        <p>UMD at the Universities at Shady Grove (USG) applicants are students with approximately 60 transferable university-level credits who are interested in earning a UMD degree at the Shady Grove location.</p>
+        <p>UMD students studying at our Shady Grove location still have all of the benefits of being a Terp while enjoying a smaller campus environment.</p>
+      </div>
+      <div slot="stats">
+        <div class="applicant-stat">
+          <p class="applicant-stat-value">4,000</p>
+          <div class="applicant-stat-text"><p>Students attend programs at USG each year.</p></div>
+        </div>
+        <div class="applicant-stat">
+          <p class="applicant-stat-value">11</p>
+          <div class="applicant-stat-text"><p>UMD majors offered at USG.</p></div>
+        </div>
+        <div class="applicant-deadlines">
+          <h3 class="applicant-deadlines-title">Application Deadlines</h3>
+          <table class="applicant-deadlines-table">
+            <tbody>
+              <tr><td>Fall Application Deadline</td><td>June 1</td></tr>
+              <tr><td>Spring Application Deadline</td><td>November 15</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div slot="actions">
+        <umd-element-call-to-action data-display="secondary">
+          <a href="https://admissions.umd.edu/apply/shady-grove-applicants">Shady Grove Requirements &amp; Checklist</a>
+        </umd-element-call-to-action>
+        <umd-element-call-to-action data-display="secondary">
+          <a href="https://admissions.umd.edu/apply/application-faqs">Application FAQs</a>
+        </umd-element-call-to-action>
+      </div>
+    </umd-element-pathway>
+  </section>
+
+  <!-- ========================================
+       9. SPECIAL AUDIENCES — sticky-columns + accordion
+       Eleven long-form entries; an accordion keeps the section scannable and
+       the sticky column holds the editorial framing (RULES.md §20).
+  ======================================== -->
+  <section class="umd-layout-vertical-landing">
+    <umd-element-sticky-columns
+      class="umd-layout-space-horizontal-larger"
+      data-layout-position="100px">
+
+      <div slot="sticky-column">
+        <h2 class="umd-sans-largest-uppercase mb-md">Special Audiences</h2>
+        <div class="umd-text-rich-advanced mb-sm">
+          <p>We understand no two applicants are the same and not every applicant fits neatly into the category of freshman or transfer student. That is why we will consider your specific circumstances through an application process developed just for you.</p>
+        </div>
+        <div class="umd-layout-grid-inline-tablet-rows">
+          <umd-element-call-to-action data-display="secondary">
+            <a href="https://admissions.umd.edu/apply-now">Start an Application</a>
+          </umd-element-call-to-action>
+        </div>
+      </div>
+
+      <div slot="static-column">
+        <div class="ps-accordion-stack">
+
+          <umd-element-accordion-item>
+            <p slot="headline">Agriculture Forward at Maryland</p>
+            <div slot="text">
+              <div class="umd-text-rich-advanced">
+                <p><a href="https://iaa.umd.edu/agriculture-forward">Agriculture Forward at Maryland</a> is an access program for students who plan to pursue a career in agriculture and natural resources. Participants in the Ag Forward program receive dual academic advising from the Institute of Applied Agriculture (IAA) and College of Agriculture and Natural Resources (AGNR) faculty members to ensure all program requirements are met. At the end of four years, students who have met all program requirements graduate with both an IAA certificate and a bachelor's degree from their selected AGNR major.</p>
+              </div>
+            </div>
+          </umd-element-accordion-item>
+
+          <umd-element-accordion-item>
+            <p slot="headline">Concurrent Enrollment</p>
+            <div slot="text">
+              <div class="umd-text-rich-advanced">
+                <p>You can enroll at the University of Maryland (UMD) even before you graduate from high school. We allow talented high school seniors to take up to two courses or seven credits during the fall, spring and summer semesters. We're looking for students who've demonstrated exceptional performance and ability in a rigorous high school program.</p>
+                <p>To apply, submit a completed application, high school transcript, an essay explaining why you're interested in attending UMD concurrently, a letter of recommendation from your high school and a letter of permission from your parents or legal guardians. You also must live within commuting distance. In order to be considered, students must apply by the following deadlines:</p>
+                <ul>
+                  <li><strong>Spring</strong>: January 2</li>
+                  <li><strong>Summer</strong>: May 15</li>
+                  <li><strong>Fall</strong>: August 8</li>
+                </ul>
+              </div>
+            </div>
+          </umd-element-accordion-item>
+
+          <umd-element-accordion-item>
+            <p slot="headline">General Education Development (GED)</p>
+            <div slot="text">
+              <div class="umd-text-rich-advanced">
+                <p>If you did not graduate from a regionally accredited high school, then you will need to submit results of the Tests of General Education Development, along with academic letters of recommendation, an essay and SAT scores with your <a href="https://admissions.umd.edu/apply-now">UMD application</a>.</p>
+              </div>
+            </div>
+          </umd-element-accordion-item>
+
+          <umd-element-accordion-item>
+            <p slot="headline">Golden ID Program</p>
+            <div slot="text">
+              <div class="umd-text-rich-advanced">
+                <p>If you are 60 or older, a legal resident of the state of Maryland and retired, the University of Maryland has courses and services available to you. To participate in the <a href="https://registrar.umd.edu/current/registration/golden-id.html">Golden ID program</a>, you must submit a completed <a href="https://admissions.umd.edu/apply-now">UMD application</a>. If admitted to the university, you can register on a space-available basis for credit courses as a regular or special student in any session. You must pay an administrative fee for each semester registered.</p>
+              </div>
+            </div>
+          </umd-element-accordion-item>
+
+          <umd-element-accordion-item>
+            <p slot="headline">Home-Schooled Students</p>
+            <div slot="text">
+              <div class="umd-text-rich-advanced">
+                <p>If you've been home-schooled, you should submit your completed <a href="https://admissions.umd.edu/apply-now">UMD application</a> and provide a transcript with the following: course descriptions, books used, methods of evaluation and grades received. You should meet the same minimum high school course requirements expected of all applicants; your SAT and/or ACT scores will be strongly considered in the review of your application.</p>
+                <p>Please also include general information about your home-schooling program or agency and a letter of recommendation from both an academic professional and the home-schooling teacher/parent. If you've taken college-level courses, you should also include an official college transcript with your application.</p>
+              </div>
+            </div>
+          </umd-element-accordion-item>
+
+          <umd-element-accordion-item>
+            <p slot="headline">Non-Degree Seeking Students</p>
+            <div slot="text">
+              <div class="umd-text-rich-advanced">
+                <p>Transfer students interested in taking courses at UMD without pursuing a degree must apply for admission as non-degree seeking students using the <a href="https://admissions.umd.edu/apply-now">transfer application</a>.</p>
+                <p><strong>If you have not completed a bachelor's degree</strong>, you must submit a completed application, official transcripts from all colleges and universities previously attended and the application fee.</p>
+                <p><strong>If you have already completed a bachelor's degree</strong>, transcripts are not required. However, since you may need to demonstrate that you have met prerequisites, we recommend having one available to provide.</p>
+                <p><strong>If you wish to enroll for one semester as a visiting student and transfer the coursework back to your home institution</strong>, you must submit the transfer application, official transcripts, the application fee and a letter of permission from an academic advisor or dean at your home institution.</p>
+                <p>On the application, please be sure to indicate that you are applying as a "non-degree seeking" student. You will be reviewed under the same standards for admission as degree-seeking students and we cannot guarantee that non-degree seeking applications received after the application deadline will be reviewed.</p>
+                <p>Non-degree seeking students wishing to take a single course during a summer or winter term must complete the application available on the <a href="https://exst.umd.edu/">Extended Studies</a> website.</p>
+              </div>
+            </div>
+          </umd-element-accordion-item>
+
+          <umd-element-accordion-item>
+            <p slot="headline">Post-Baccalaureate Programs</p>
+            <div slot="text">
+              <div class="umd-text-rich-advanced">
+                <p>If you earned a bachelor's degree and wish to apply for admission to earn another undergraduate degree or to take courses as a non-degree seeking student at UMD, you will use the transfer application in ApplyWeb. Follow the <a href="../how-to-apply/transfer-applicants.html">transfer applicant requirements</a>. For more information on applying as a non-degree seeking student, please review the previous Non-Degree Seeking Students section on this page.</p>
+                <p>Students interested in Science in the Evening or Hearing and Speech in the Evening should apply through the <a href="https://exst.umd.edu/">Extended Studies Post-Baccalaureate Programs</a>.</p>
+              </div>
+            </div>
+          </umd-element-accordion-item>
+
+          <umd-element-accordion-item>
+            <p slot="headline">Re-enrollment</p>
+            <div slot="text">
+              <div class="umd-text-rich-advanced">
+                <p>Re-enrollment pertains only to students who have previously attended the University of Maryland, College Park. If you are interested in returning to the university after a period of dismissal or withdrawal, then you can complete a re-enrollment application. Students who attended on a "term only" basis or who were admitted to the university but did not attend must complete a regular application for undergraduate admission. For more information about the re-enrollment process, please visit the <a href="https://studentsuccess.umd.edu/reenrollment-faqs">Student Success Office</a> website.</p>
+              </div>
+            </div>
+          </umd-element-accordion-item>
+
+          <umd-element-accordion-item>
+            <p slot="headline">School of Music Applicants</p>
+            <div slot="text">
+              <div class="umd-text-rich-advanced">
+                <p>If you're interested in the School of Music, you will need to submit the <a href="https://music.umd.edu/admissions/undergraduate">online application supplement</a> and complete an <a href="https://www.music.umd.edu/prospective_students/auditions/undergraduate/">audition</a> by November 1 for an early action decision or by December 1 for a regular decision. The application supplement and audition will only be used to determine your eligibility for admission into the School of Music and will not be used in the review of your eligibility for admission to UMD. For more information, please visit the <a href="https://music.umd.edu/admissions/undergraduate">School of Music</a> website or email their office at <a href="mailto:musicadmissions@umd.edu">musicadmissions@umd.edu</a>.</p>
+              </div>
+            </div>
+          </umd-element-accordion-item>
+
+          <umd-element-accordion-item>
+            <p slot="headline">Undocumented Students</p>
+            <div slot="text">
+              <div class="umd-text-rich-advanced">
+                <p>The University of Maryland is committed to creating a welcoming and inclusive environment for all students, including <a href="https://stamp.umd.edu/engagement/immigrant_undocumented_student_life">undocumented students</a>.</p>
+              </div>
+            </div>
+          </umd-element-accordion-item>
+
+          <umd-element-accordion-item>
+            <p slot="headline">U.S. Veterans</p>
+            <div slot="text">
+              <div class="umd-text-rich-advanced">
+                <p>Thank you for your service! As a veteran, you face unique challenges navigating the admission process and we want to support you through it. At the University of Maryland, you are considered a veteran if you're currently enlisted or have served in the U.S. armed forces or one of its reserve units. We highly encourage veterans like you to apply to Maryland, where we look forward to helping you achieve your personal and academic goals and get involved in campus life. As a <a href="https://www.va.gov/education/choosing-a-school/principles-of-excellence/">Principles of Excellence Program</a> institution, we are committed to helping you continue your education and get involved in <a href="https://thestamp.umd.edu/veteran_student_life">Veteran Student Life</a>.</p>
+                <p class="umd-sans-large text-black">Freshman</p>
+                <p>Freshman applicants are students who did not attend college out of high school and have not earned more than 12 college credits. To be considered for freshman admission, you need to submit the completed application, your high school transcript and letters of recommendation from current or former military superiors or civilian supervisors. If you've been out of school more than three years, you don't need to submit SAT or ACT scores. Please review all <a href="../how-to-apply/freshman-applicants.html">requirements for freshman applicants</a>. We do not need proof of military documentation until after you are offered admission to the university. To help us determine eligibility for student aid and priority registration, during the application process you will be asked to upload a copy of your Certificate of Release or Discharge from Active Duty (DD form 214). For information regarding application fee waiver eligibility, please review our <a href="https://admissions.umd.edu/persona/fee-waiver">Fee Waivers</a> page.</p>
+                <p class="umd-sans-large text-black">Transfer</p>
+                <p>Transfer applicants should have attended college after high school or while you were on active duty and earned at least 12 college credits. Credit for basic military training is awarded to qualified students based on submission of required documentation. However, the Joint Services Transcript does not count towards the 12 credits necessary to be a transfer student or the 30 credits necessary to no longer be required to submit high school information. Visit the <a href="https://www.transfercredit.umd.edu/plc.html#bmt">basic military credit policy</a> for details. Please review all <a href="../how-to-apply/transfer-applicants.html">requirements for transfer applicants</a>. We do not need proof of military documentation until after you are offered admission to the university. For information regarding application fee waiver eligibility, please review our <a href="https://admissions.umd.edu/persona/fee-waiver">Fee Waivers</a> page.</p>
+              </div>
+            </div>
+          </umd-element-accordion-item>
+
+        </div>
+      </div>
+    </umd-element-sticky-columns>
+  </section>
+
+  <!-- ========================================
+       10. VISIT UMD — dark band, two overlay cards
+  ======================================== -->
+  <section class="umd-layout-background-full-dark umd-layout-vertical-landing">
+    <div class="umd-layout-space-horizontal-larger">
+      <umd-element-section-intro data-theme="dark" class="umd-layout-vertical-landing-child">
+        <h2 slot="headline">Visit UMD</h2>
+        <div slot="text"><p>You can only learn so much about a school from a website. Even if we tell you how beautiful our campus is, or how fantastic our students and faculty are, you will not know for yourself until you experience it for yourself!</p></div>
+      </umd-element-section-intro>
+      <div class="umd-layout-grid-columns-two umd-animation-grid">
+        <umd-element-card-overlay type="image" data-theme="dark" class="size-large">
+          <img slot="image" src="../../images/calendar/next-stop-maryland.jpg" alt="A Next Stop Maryland sign on campus" />
+          <h3 slot="headline">Plan Your Visit</h3>
+          <div slot="text"><p>View upcoming tours and information sessions on our calendar.</p></div>
+          <a slot="cta-icon" href="../calendar/" aria-label="View upcoming tours and information sessions on our calendar"><span aria-hidden="true">Explore Our Calendar</span></a>
+        </umd-element-card-overlay>
+        <umd-element-card-overlay type="image" data-theme="dark" class="size-large">
+          <img slot="image" src="../../images/calendar/edward-st-john.jpg" alt="The Edward St. John Learning and Teaching Center" />
+          <h3 slot="headline">Virtual Tour</h3>
+          <div slot="text"><p>Unable to make it to campus? Explore our beautiful campus from anywhere in the world.</p></div>
+          <a slot="cta-icon" href="https://www.youtube.com/playlist?list=PLt2nfbujtlNR_Sa7ShV3OMlX5jlux5z0v" aria-label="Watch the UMD virtual tour playlist on YouTube"><span aria-hidden="true">Watch Now</span></a>
+        </umd-element-card-overlay>
       </div>
     </div>
   </section>
 
   <!-- ========================================
-       13. STAY CONNECTED — banner-promo (gold default)
+       11. STAY CONNECTED — banner-promo
   ======================================== -->
   <section class="umd-layout-vertical-landing">
     <div class="umd-layout-space-horizontal-larger">
@@ -1640,10 +1496,10 @@ umd-element-scroll-top[data-layout-fixed="true"] {
         <p slot="text">Let's stay in touch!</p>
         <div slot="actions" class="banner-promo-actions">
           <umd-element-call-to-action data-display="primary">
-            <a href="#mailing-list">Join the Mailing List</a>
+            <a href="https://admissions.umd.edu/connect">Join the Mailing List</a>
           </umd-element-call-to-action>
           <umd-element-call-to-action data-display="secondary">
-            <a href="#connect">Connect</a>
+            <a href="https://admissions.umd.edu/apply-now">Apply Now</a>
           </umd-element-call-to-action>
         </div>
       </umd-element-banner-promo>
@@ -1651,197 +1507,221 @@ umd-element-scroll-top[data-layout-fixed="true"] {
   </section>
 
   <!-- ========================================
-       14. FOOTER — visual variant with local fallback logo
+       12. FOOTER — visual variant
   ======================================== -->
   <!-- SHARED:footer:START — generated from shared/footer.html; do not edit here -->
   <umd-element-footer data-display="visual">
-    <a slot="logo" href="../pages/admissions.html">
-      <img src="../images/logos/footer-logo.svg" alt="University of Maryland" />
+    <a slot="logo" href="../../pages/admissions.html">
+      <img src="../../images/logos/footer-logo.svg" alt="University of Maryland" />
     </a>
-    <img slot="image" src="../page-builder/images/large/campus/footer-campus.jpg" alt="University of Maryland campus" />
+    <img slot="image" src="../../page-builder/images/large/campus/footer-campus.jpg" alt="University of Maryland campus" />
   </umd-element-footer>
   <!-- SHARED:footer:END -->
 
+  <!-- ============================================================
+       SHADOW OVERRIDES
+  ============================================================ -->
   <script>
-    // Force all pathway images to a 1:1 aspect ratio.
-    // The pathway image-container has no part exposed and sizes from the
-    // image's intrinsic ratio. Inject shadow CSS once each pathway hydrates.
+    // umd-element-pathway (sticky) — APPLICANT SPOTLIGHT.
+    //
+    // The pathway's slot="stats" content is CLONED into the shadow root
+    // (`statWrapper.innerHTML = stats.innerHTML` in the composite), so the
+    // page's own <style> block cannot reach .applicant-*. Everything that
+    // styles the stat pair and the deadline table has to be injected here.
+    //
+    // What the component already supplies on .text-lockup-medium-stats:
+    // a grid with 24px gap, becoming two equal columns with 32px gap at
+    // container width >= 800px. The stat pair fills those two columns; the
+    // deadline block spans the full row underneath.
+    //
+    // NO NEW TYPE STYLES. A shadow root cannot see the CDN stylesheets, so the
+    // styles-package classes are restated here declaration for declaration —
+    // including their viewport @media steps, which work in a shadow root
+    // unchanged. If you need a size that is not on this list, take another
+    // class off the scale rather than inventing one.
+    //
+    //   .applicant-stat-value       .umd-campaign-small   + red
+    //   .applicant-deadlines-title  .umd-sans-medium      + font-weight 700
+    //   .applicant-stat-text p      .umd-sans-small       + gray-dark
+    //   .applicant-deadlines-group  .umd-sans-small       + gray-medium-aa
+    //   .applicant-deadlines-table  .umd-sans-small
+    //
+    // Only .umd-campaign-small's size ramp is re-keyed, from viewport media
+    // queries to CONTAINER queries — see the note on that rule below.
+    //
+    // NOTE: no 1:1 aspect-ratio injection on this page. That override (see
+    // OVERRIDES.md) is for the STANDARD pathway; a sticky pathway needs its
+    // image column to run the full height of the text column, which is what
+    // makes it stick.
     (function () {
-      const PATHWAY_SQUARE_CSS =
-        '.pathway-image-container,.pathway-image-container-wrapper,.image-container,.umd-asset-image-wrapper-scaled{aspect-ratio:1/1!important;height:auto!important}' +
-        '.image-container img,.umd-asset-image-wrapper-scaled img{object-fit:cover!important;width:100%!important;height:100%!important}';
+      var SANS = "'Interstate', Helvetica, Arial, Verdana, sans-serif";
+      var CAMPAIGN = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
+      var CSS = [
+        '.text-lockup-medium-stats { align-items: start; }',
+        '.text-lockup-medium-stats p,',
+        '.text-lockup-medium-stats h3 { margin: 0; }',
+
+        /* --- stat pair: gold rule on the left, matching umd-element-stat's
+           data-decoration-line treatment. One uniform value size for every
+           stat, numeric or not — umd-element-stat truncates slot="stat" to
+           6 characters, which "A's or B's" and "B or better" do not survive. */
+        '.applicant-stat {',
+        '  padding-left: var(--umd-space-md, 24px);',
+        '  border-left: 2px solid var(--umd-color-gold, #FFD200);',
+        '}',
+
+        /* .umd-campaign-small, in Maryland red. Its size ramp is re-keyed from
+           VIEWPORT media queries to CONTAINER queries below, because what has
+           to fit is the stat column, not the window. */
+        '.applicant-stat-value {',
+        '  font-family: ' + CAMPAIGN + ';',
+        '  font-style: italic;',
+        '  font-weight: 700;',
+        '  font-size: 32px;',
+        '  letter-spacing: 0.02em;',
+        '  line-height: 0.94em;',
+        '  color: var(--umd-color-red, #E21833);',
+        '  text-wrap: balance;',
+        '}',
+        '.applicant-stat-text { margin-top: var(--umd-space-min, 8px); }',
+
+        /* --- deadline table: spans both stat columns. Visually the same
+           label/date list as the Important Dates block on the home page
+           (pages/admissions.html .deadlines-table) — black rules, date right
+           aligned and bold. */
+        '.applicant-deadlines {',
+        '  grid-column: 1 / -1;',
+        '  padding-top: 32px;',
+        '}',
+        /* .umd-sans-medium at font-weight 700, set in caps. The caps come from
+           text-transform rather than from typing "APPLICATION DEADLINES" in the
+           markup, so the accessible name stays sentence case — this is an <h3>,
+           and screen readers spell out some all-caps strings letter by letter. */
+        '.applicant-deadlines-title {',
+        '  font-family: ' + SANS + ';',
+        '  font-size: 16px;',
+        '  line-height: 1.375em;',
+        '  font-weight: 700;',
+        '  text-transform: uppercase;',
+        '  color: var(--umd-color-black, #000);',
+        '}',
+        '@media (min-width: 650px) {',
+        '  .applicant-deadlines-title { font-size: calc(16px + 0.16vw); }',
+        '}',
+        '@media (min-width: 1024px) {',
+        '  .applicant-deadlines-title { font-size: 18px; line-height: 1.55em; }',
+        '}',
+        '.applicant-deadlines-group { margin-top: var(--umd-space-min, 8px); }',
+        '.applicant-deadlines-table {',
+        '  width: 100%;',
+        '  margin-top: var(--umd-space-sm, 16px);',
+        '  border-collapse: collapse;',
+        '}',
+        '.applicant-deadlines-table td {',
+        '  padding: var(--umd-space-xs, 12px) 0;',
+        '  border-bottom: 1px solid var(--umd-color-black, #000);',
+        '  vertical-align: top;',
+        '}',
+        '.applicant-deadlines-table td:last-child {',
+        '  text-align: right;',
+        '  white-space: nowrap;',
+        '  font-weight: 700;',
+        '}',
+        '.applicant-deadlines-table tr:last-child td { border-bottom: 0; }',
+
+        /* --- .umd-sans-small, verbatim including its viewport steps, for the
+           three places that take it: the stat label, the audience line and the
+           deadline cells. Only the colours differ. */
+        '.applicant-stat-text p,',
+        '.applicant-deadlines-group,',
+        '.applicant-deadlines-table td {',
+        '  font-family: ' + SANS + ';',
+        '  font-size: 14px;',
+        '  line-height: 1.375em;',
+        '}',
+        '@media (min-width: 480px) {',
+        '  .applicant-stat-text p,',
+        '  .applicant-deadlines-group,',
+        '  .applicant-deadlines-table td { font-size: 16px; line-height: 1.375em; }',
+        '}',
+        '@media (min-width: 650px) {',
+        '  .applicant-stat-text p,',
+        '  .applicant-deadlines-group,',
+        '  .applicant-deadlines-table td { font-size: calc(14px + 0.16vw); }',
+        '}',
+        '@media (min-width: 1024px) {',
+        '  .applicant-stat-text p,',
+        '  .applicant-deadlines-group,',
+        '  .applicant-deadlines-table td { font-size: 16px; line-height: 1.375em; }',
+        '}',
+        '.applicant-stat-text p { color: var(--umd-color-gray-dark, #454545); }',
+        '.applicant-deadlines-group { color: var(--umd-color-gray-medium-a-a, #757575); }',
+
+        '@container (min-width: 800px) {',
+        '  .applicant-deadlines { margin-top: var(--umd-space-min, 8px); }',
+        '}',
+
+        /* --- when the stat pair is allowed to go two-up.
+           The component splits into two equal columns from container width
+           800px, but half a 800px container leaves ~125px of text per stat —
+           enough for "4,777", not for "B or better", so the numeric stat sat
+           on one line beside a two-line phrase. Hold the single column until
+           the container is wide enough for the LONGEST value to stay on one
+           line. Measure before changing this breakpoint.
+
+           The DS rule is `.text-lockup-medium-stats:has(> *:nth-child(2))`,
+           and :has() takes the specificity of its argument — matching that
+           selector exactly is what lets this override win on source order. */
+        '@container (max-width: 999px) {',
+        '  .text-lockup-medium-stats:has(> *:nth-child(2)) {',
+        '    grid-template-columns: 1fr;',
+        '  }',
+        '}',
+        /* .umd-campaign-small steps to 44px at 1024px of VIEWPORT. Keyed to
+           the container instead: at a 1024px viewport the stats are still a
+           single full-width column, and the size that has to fit is the one
+           the two-up column can hold. */
+        '@container (min-width: 1400px) {',
+        '  .applicant-stat-value { font-size: 44px; line-height: 0.91em; }',
+        '}'
+      ].join('\n');
+
       function inject(el) {
-        if (!el.shadowRoot || el.__pathwaySquareInjected) return;
-        const style = document.createElement('style');
-        style.textContent = PATHWAY_SQUARE_CSS;
+        if (!el.shadowRoot || el.__applicantSpotlightInjected) return;
+        var style = document.createElement('style');
+        style.textContent = CSS;
         el.shadowRoot.appendChild(style);
-        el.__pathwaySquareInjected = true;
+        el.__applicantSpotlightInjected = true;
       }
+
       function applyAll() {
-        document.querySelectorAll('umd-element-pathway').forEach(inject);
+        document.querySelectorAll('umd-element-pathway[data-display="sticky"]').forEach(inject);
       }
-      customElements.whenDefined('umd-element-pathway').then(() => {
+
+      customElements.whenDefined('umd-element-pathway').then(function () {
         applyAll();
-        // Re-run after hydration completes
         setTimeout(applyAll, 0);
         setTimeout(applyAll, 250);
       });
     })();
 
-    // BANNER-PROMO ACTIONS GAP — banner-promo reprojects slot="actions"
-    // into its shadow DOM under .banner-promo-actions. Inject column-flex
-    // with 8px gap so the stacked CTAs aren't flush against each other.
-    (function () {
-      const BANNER_PROMO_ACTIONS_CSS =
-        '.banner-promo-actions{display:flex!important;flex-direction:column!important;align-items:flex-end!important;gap:8px!important}';
-      function inject(el) {
-        if (!el.shadowRoot || el.__bannerPromoActionsInjected) return;
+    // umd-element-banner-promo — stack actions vertically with 8px gap.
+    // Banner-promo reprojects slot="actions" into shadow DOM under
+    // .banner-promo-actions with no gap when stacked.
+    customElements.whenDefined('umd-element-banner-promo').then(() => {
+      document.querySelectorAll('umd-element-banner-promo').forEach(el => {
         const style = document.createElement('style');
-        style.textContent = BANNER_PROMO_ACTIONS_CSS;
-        el.shadowRoot.appendChild(style);
-        el.__bannerPromoActionsInjected = true;
-      }
-      function applyAll() {
-        document.querySelectorAll('umd-element-banner-promo').forEach(inject);
-      }
-      customElements.whenDefined('umd-element-banner-promo').then(() => {
-        applyAll();
-        setTimeout(applyAll, 0);
-        setTimeout(applyAll, 250);
+        style.textContent = '.banner-promo-actions{display:flex!important;flex-direction:column!important;align-items:flex-end!important;gap:8px!important}';
+        el.shadowRoot && el.shadowRoot.appendChild(style);
       });
-    })();
-
-    // INFORMATION-FOR OUTLINE CTAS — the DS call-to-action inner anchor is
-    // inline-block with a shadow-DOM max-width:380px, so it sizes to its text
-    // instead of filling the grid cell. Inject full-width + centered so the
-    // outline buttons stretch across their column. Spacing between buttons
-    // comes from umd-layout-grid-gap-four (32px), not the component.
-    (function () {
-      const CTA_STRETCH_CSS =
-        '[class*="umd-action-outline"]{max-width:none!important;width:100%!important;display:block!important;box-sizing:border-box!important;text-align:center!important}';
-      function inject(el) {
-        if (!el.shadowRoot || el.__ctaStretchInjected) return;
-        const style = document.createElement('style');
-        style.textContent = CTA_STRETCH_CSS;
-        el.shadowRoot.appendChild(style);
-        el.__ctaStretchInjected = true;
-      }
-      function applyAll() {
-        document.querySelectorAll('.information-for-actions umd-element-call-to-action').forEach(inject);
-      }
-      customElements.whenDefined('umd-element-call-to-action').then(() => {
-        applyAll();
-        setTimeout(applyAll, 0);
-        setTimeout(applyAll, 250);
-      });
-    })();
-
-    // CARD-OVERLAY HORIZONTAL PADDING — the shadow DOM container
-    // .card-overlay-image-container hard-codes horizontal padding to
-    // token.spacing.md (24px) at all sizes with no CSS variable hook.
-    // Step it up at desktop+ so headlines/CTAs aren't crowded against
-    // the card edges. Breakpoints mirror the upstream token system
-    // (highDef.min = 1200px, maximum.min = 1500px).
-    (function () {
-      const CARD_OVERLAY_PADDING_CSS =
-        '.card-overlay-image-container{padding-left:24px!important;padding-right:24px!important}' +
-        '@media (min-width:1200px){.card-overlay-image-container{padding-left:32px!important;padding-right:32px!important}}' +
-        '@media (min-width:1500px){.card-overlay-image-container{padding-left:48px!important;padding-right:48px!important}}';
-      function inject(el) {
-        if (!el.shadowRoot || el.__cardOverlayPaddingInjected) return;
-        const style = document.createElement('style');
-        style.textContent = CARD_OVERLAY_PADDING_CSS;
-        el.shadowRoot.appendChild(style);
-        el.__cardOverlayPaddingInjected = true;
-      }
-      function applyAll() {
-        document.querySelectorAll('umd-element-card-overlay').forEach(inject);
-      }
-      customElements.whenDefined('umd-element-card-overlay').then(() => {
-        applyAll();
-        setTimeout(applyAll, 0);
-        setTimeout(applyAll, 250);
-      });
-    })();
-
-
-    // GRID ENTRY ANIMATIONS — auto-applied to layout grids. Mirrors the
-    // upstream observeGridAnimations() logic but expands the selector
-    // set to all umd-layout-grid-* containers so authors don't need to
-    // add umd-animation-grid manually. (This block is also in
-    // page-builder/TEMPLATE.html — every new page gets it for free.)
-    (function () {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      var GRID_SELECTORS = [
-        '.umd-layout-grid-gap-two',
-        '.umd-layout-grid-gap-three',
-        '.umd-layout-grid-gap-stacked',
-        '.umd-layout-grid-columns-four',
-        '.umd-layout-grid-masonry',
-        '.umd-layout-grid-inline-tablet-rows',
-        '.umd-animation-grid',
-        '.umd-grid-animation'
-      ].join(',');
-      var FADE_CLASS = 'umd-animation-transition-fade-bottom';
-      var OFFSET_ATTR = 'data-animation';
-
-      var style = document.createElement('style');
-      style.textContent =
-        '@keyframes fade-in-from-bottom{from{opacity:0;transform:translateY(50px)}to{opacity:1;transform:translateY(0)}}' +
-        '@media (prefers-reduced-motion: no-preference){' +
-          ':where(' + GRID_SELECTORS + ') > *{opacity:0;transform:translateY(50px)}' +
-          '.' + FADE_CLASS + '{animation:fade-in-from-bottom 1s forwards;opacity:0;transform:translateY(50px)}' +
-        '}';
-      document.head.appendChild(style);
-
-      function init() {
-        var children = [];
-        document.querySelectorAll(GRID_SELECTORS).forEach(function (grid) {
-          Array.prototype.push.apply(children, grid.children);
-        });
-        if (!children.length) return;
-
-        function setRowOffsets() {
-          var prevTop = null;
-          children.forEach(function (el) {
-            var top = el.getBoundingClientRect().top;
-            if (prevTop !== null && Math.abs(top - prevTop) < 1) {
-              el.setAttribute(OFFSET_ATTR, 'offset');
-            } else {
-              el.removeAttribute(OFFSET_ATTR);
-              prevTop = top;
-            }
-          });
-        }
-
-        var observer = new IntersectionObserver(function (entries) {
-          var delay = 0;
-          entries.forEach(function (entry) {
-            if (!entry.isIntersecting) return;
-            var el = entry.target;
-            if (el.getAttribute(OFFSET_ATTR) === 'offset') {
-              delay += 350;
-            } else {
-              delay = 0;
-            }
-            el.style.animationDelay = delay + 'ms';
-            el.classList.add(FADE_CLASS);
-            observer.unobserve(el);
-          });
-        }, { rootMargin: '0px', threshold: [0.35] });
-
-        children.forEach(function (el) { observer.observe(el); });
-        setRowOffsets();
-        window.addEventListener('resize', setRowOffsets);
-      }
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-      } else {
-        init();
-      }
-    })();
+    });
   </script>
+
+  <!-- ========================================
+       GRID ENTRY ANIMATIONS — canonical shared implementation.
+  ======================================== -->
+  <script src="../../page-builder/scripts/grid-animations.js"></script>
+
   <!-- SHARED:chrome-scripts:START — generated from shared/chrome-scripts.html; do not edit here -->
   <!-- ============================================================
        SHARED CHROME — shadow injections
@@ -1881,5 +1761,6 @@ umd-element-scroll-top[data-layout-fixed="true"] {
     })();
   </script>
   <!-- SHARED:chrome-scripts:END -->
+
 </body>
 </html>

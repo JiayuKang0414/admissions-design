@@ -8,7 +8,7 @@ Admissions-specific shadow-DOM injections, class overrides, and utility classes 
 
 Source: **`shared/chrome-scripts.html`** — this is the one shadow injection driven by the chrome rather than by page content, so it ships with the header. Inlined into every page by `scripts/build-chrome.py`; do not copy it into a page.
 
-Pages using this: all eight (verified rendering at `max-width: 320px`).
+Pages using this: all twelve (verified rendering at `max-width: 320px`).
 
 ## Pathway 1:1 image aspect ratio
 
@@ -295,6 +295,132 @@ Pages using this: `pages/how-to-apply/freshman-applicants.html`.
 ## Deadlines table
 
 `.deadlines-table` — simple two-column rich-text table for the Important Dates section. Admissions-specific.
+
+## Applicant spotlight — stats and deadlines in the pathway `stats` slot
+
+The legacy site has a `umd-spotlight-deadlines` component: photo beside a text
+lockup carrying **intro copy + two CTAs + a two-up stat pair + an
+application-deadline table**. The design system covers the first two and nothing
+covers the last two together. The recreation is
+`umd-element-pathway data-display="sticky"` with the stat pair and the deadline
+table both living in `slot="stats"`.
+
+Pages using this: `pages/personas/prospective-students.html` (four instances).
+
+### Why the CSS is a shadow injection and not page CSS
+
+`slot="stats"` is the one pathway slot that is **cloned rather than slotted** —
+`createCompositeStat` does `statWrapper.element.innerHTML = stats.innerHTML`
+(`web-elements-library/dist/composite/pathway/_common.js`). The markup ends up
+inside the shadow root, so the page `<style>` block cannot reach `.applicant-*`.
+Every rule for the stat pair and the deadline table is injected into
+`el.shadowRoot` at the foot of the page.
+
+`slot="text"`, by contrast, goes through `createStyledSlotOrClone`: adding a bare
+`styled` attribute to that div would make the component emit a real `<slot>` and
+keep the content in the light DOM. **Do not try that on `stats`** — the composite
+reads `stats.innerHTML`, and a `<slot>` element's `innerHTML` is empty, so the
+whole block silently disappears.
+
+### What the component already gives you
+
+`.text-lockup-medium-stats` is a grid: one column with a 24px gap, becoming
+`repeat(2, 1fr)` with a 32px gap from container width 800px. The stat pair fills
+those two columns; `.applicant-deadlines` takes `grid-column: 1 / -1` and spans
+the row beneath them. Below 800px the whole thing stacks and picks up the
+component's own `border-top`.
+
+### Why not `umd-element-stat`
+
+`createStatElement` **hard-truncates `slot="stat"` to six characters** and logs
+`Stat text is too long` — `A's or B's` renders as `A's or`, `B or better` as
+`B or b`. The component is correct for numeric metrics and was left alone; the
+applicant profile stats are qualitative, so `.applicant-stat` is a separate
+treatment: one uniform value size for numeric and phrase stats alike, on the
+gold left rule that `umd-element-stat data-decoration-line` uses.
+
+The value is `.umd-campaign-small` (Barlow Condensed italic 700, `0.02em`
+tracking) in `--umd-color-red`, stepping 32px → 44px.
+
+### No new type styles in the injection
+
+A shadow root cannot see the CDN stylesheets, so **every type style in the
+injection is an existing styles-package class restated declaration for
+declaration**, including its viewport `@media` steps — those work in a shadow
+root unchanged. Nothing here is a new scale entry. If a size is needed that is
+not on this list, take another class off the scale rather than inventing one.
+
+| Selector | Restates | Plus |
+|---|---|---|
+| `.applicant-stat-value` | `.umd-campaign-small` | `--umd-color-red` |
+| `.applicant-deadlines-title` | `.umd-sans-medium` | `font-weight: 700`, caps |
+| `.applicant-stat-text p` | `.umd-sans-small` | `--umd-color-gray-dark` |
+| `.applicant-deadlines-group` | `.umd-sans-small` | `--umd-color-gray-medium-a-a` |
+| `.applicant-deadlines-table td` | `.umd-sans-small` | — |
+
+The deadline header is set in caps by `text-transform`, not by typing
+"APPLICATION DEADLINES" into the markup — it is an `<h3>`, and the transform
+keeps the accessible name sentence case (some screen readers spell all-caps
+strings out letter by letter). The home page's "EARLY ACTION DEADLINES" label
+predates this and is typed literally.
+
+Verified by comparison against live reference elements carrying the real CDN
+classes: at 1280px the title computes 18px/27.9px (matching `.umd-sans-medium`)
+and the small text 16px/22px (matching `.umd-sans-small`); at 375px, 16px/22px
+and 14px/19.25px respectively.
+
+The one exception is `.umd-campaign-small`'s **size ramp**, re-keyed from
+viewport media queries to **container** queries — what the value has to fit is
+the stat column, not the window.
+
+Everything outside the shadow root uses the CDN classes directly and adds no
+page CSS: the accordion sub-headings are `umd-sans-large text-black` (the pair
+the home page uses for its "Early Action Deadlines" label), which works because
+`umd-element-accordion-item` projects `slot="text"` through a real `<slot>` and
+leaves the content in the light DOM.
+
+The two-up grid is **held back to container width ≥ 1000px**, overriding the
+component's own 800px. Half an 800px container leaves ~125px of text per stat:
+`4,777` fits, `B or better` (127px at 32px) does not, and the row ends up with a
+one-line stat beside a two-line one. Verified slack at each tier: 27px at
+container 1009, 53px at container 1400 where the size steps up.
+
+**Both numbers are tied to the typeface.** They were first set for an Interstate
+value (`B or better` = 172px at 32px) and needed a 1150px breakpoint; Barlow
+Condensed is narrow enough to bring it back to 1000. Measure the longest value
+before changing either.
+
+The override selector must be written
+`.text-lockup-medium-stats:has(> *:nth-child(2))`, matching the component's own
+rule. `:has()` takes the specificity of its argument, so the DS rule scores
+(0,2,0) and a plain `.text-lockup-medium-stats` would lose.
+
+### Content, not CSS
+
+Two of the source page's stat values were rewritten rather than styled around.
+`B average or better` became **`B or better`**, with the displaced sentence moved
+into the stat's label ("Grade average earned by our most successful transfer
+students."). The value slot is a display line; a sentence belongs underneath it.
+
+### No 1:1 aspect-ratio injection on sticky pathways
+
+The "Pathway 1:1 image aspect ratio" override above is for the standard and
+overlay variants. A **sticky** pathway needs its image column to run the full
+height of the text column — that is what it sticks against — so capping the
+ratio would defeat the variant. Verified: at 1700px the Freshman block's image
+column holds at 656px while its text column runs 1050px.
+
+### Deadline table
+
+Visually the same label/date list as `.deadlines-table` on the home page — black
+rules, right-aligned bold dates — restated inside the injection because the
+shadow root cannot see the page stylesheet. Both the audience label
+(`.applicant-deadlines-group`, e.g. "U.S. Students") and the whole deadline block
+are optional: International omits the block, Shady Grove omits the label.
+
+No rule above "Application Deadlines" — the block is separated from the stats by
+its `padding-top` alone. The gold left rules on the stats already read as the
+divider; a border on top of them doubled it.
 
 ## Small pathway zig-zag — responsive image + balanced grid
 

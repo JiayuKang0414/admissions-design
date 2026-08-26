@@ -33,10 +33,17 @@ pages/
 ├── student-life/index.html
 ├── how-to-apply/
 │   ├── index.html
-│   └── freshman-applicants.html
+│   ├── freshman-applicants.html
+│   └── transfer-applicants.html
+├── personas/
+│   └── prospective-students.html            audience landing pages
 ├── tuition/index.html
 └── calendar/index.html
 ```
+
+`personas/` has no `data-child-ref` group in `shared/header.html`, so its pages
+open the mobile drawer at the top level rather than on a section — correct until
+the section earns a nav item.
 
 - New admissions pages → `pages/<section>/<page-name>.html`; a new section starts with its own `index.html`
 - New admissions images → `images/academics/`, `images/admissions/`, `images/calendar/`, or a new `images/<page>/` folder per page

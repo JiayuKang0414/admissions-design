@@ -4,31 +4,69 @@
     {
       "name": "admissions-static",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "4173"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4173"
+      ],
       "port": 4173
+    },
+    {
+      "name": "admissions-static-alt",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4183"
+      ],
+      "port": 4183
     },
     {
       "name": "strategic-plan-static",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "4174", "--directory", "/Users/zjocson/repos/strategic-plan-design"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4174",
+        "--directory",
+        "/Users/zjocson/repos/strategic-plan-design"
+      ],
       "port": 4174
     },
     {
       "name": "belonging-static",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "4175", "--directory", "/Users/zjocson/repos/belonging-design"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4175",
+        "--directory",
+        "/Users/zjocson/repos/belonging-design"
+      ],
       "port": 4175
     },
     {
       "name": "page-builder-static",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "4176", "--directory", "/Users/zjocson/repos/design-system-page-builder"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4176",
+        "--directory",
+        "/Users/zjocson/repos/design-system-page-builder"
+      ],
       "port": 4176
     },
     {
       "name": "examples-static",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "4177", "--directory", "/Users/zjocson/repos/page-builder-examples"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4177",
+        "--directory",
+        "/Users/zjocson/repos/page-builder-examples"
+      ],
       "port": 4177
     }
   ]
