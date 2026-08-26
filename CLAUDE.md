@@ -186,12 +186,17 @@ That scoping is why `shared/chrome.css` is not upstreamed: the flat-`<a>` utilit
 Every page under `pages/` carries, immediately after the viewport meta:
 
 ```html
-<meta name="robots" content="noindex, follow">
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex, nofollow">
 ```
 
-These are prototypes; none of them should surface in search results. `follow`
-is deliberate — a crawler that reaches one may still walk its links, so nothing
-here becomes an accidental dead end.
+These are prototypes; none of them should surface in search results.
+
+**A `robots.txt` would not work here.** It is only fetched from the *host* root,
+and a GitHub Pages project site is served from `/<repo>/` — a `robots.txt`
+committed to this repo never gets read. The meta is the mechanism that actually
+applies. The `googlebot` line is a deliberate belt-and-braces duplicate, matching
+the treatment on the page-builder's own preview harness.
 
 `page-builder/TEMPLATE.html` does **not** carry the meta (indexing is a project
 decision, not a design-system one), so a new hand-written page has to add it.

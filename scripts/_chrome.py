@@ -66,10 +66,14 @@ ROOT_TOKEN = '{{ROOT}}'
 # TEMPLATE.html carries no robots meta -- it is the generic page-builder
 # skeleton, and whether a page should be indexed is a project decision, not a
 # design-system one. Every page in THIS repo is a prototype, so none of them
-# should surface in search; `follow` still lets a crawler walk the links out.
+# should surface in search. The googlebot line is a belt-and-braces duplicate:
+# a robots.txt is only read from the HOST root, and a GitHub Pages project
+# site is served from /<repo>/, so a robots.txt in this repo would never be
+# fetched -- the meta is the only mechanism that actually applies there.
 # Hand-written pages carry the meta in their own head; the generated pages get
 # it here so a rebuild cannot silently drop it.
-ROBOTS_META = '<meta name="robots" content="noindex, follow">'
+ROBOTS_META = ('<meta name="robots" content="noindex, nofollow">\n'
+               '  <meta name="googlebot" content="noindex, nofollow">')
 
 
 def with_robots(head):
