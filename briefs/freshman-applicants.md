@@ -22,7 +22,7 @@ the numbered materials checklist, which has no DS equivalent and is page-built.
 | Early Action + Application Platforms | Kept as a **pair**, as in the source's `umd-cta-strip`: one dark band, two imageless `umd-element-card-overlay data-theme="dark"` (the colour variant), with an animated brand chevron entering from the left and tucking under the cards — the same motif as the When-to-Apply band on `how-to-apply.html`. |
 | Application Checklist | **New page-built stepper** (`.fa-*`), not an accordion stack — reproduces the source's own `umd-stepper`. See `OVERRIDES.md`. |
 | Choosing A Major | Dark **overlay** pathway (`data-display="overlay" data-theme="dark"`) rather than a standard pathway — the section needed more weight. Self-contained, so no dark section wrapper. |
-| Making Sure … Complete | Dark band with a light **overlay** pathway (`data-display="overlay" data-theme="light"`). Source treats this as a dark highlight band. |
+| Making Sure … Complete | **Light band with a sticky pathway** (`data-display="sticky" data-layout-image-position="left"`), matching `international-applicants.html` §8. Was a dark band with a white overlay pathway; the overlay put a long procedural list on top of a photo, and the band ran straight into the dark Resources band below it. |
 | Resources | Dark `section-intro` + three dark `umd-element-card-icon` — the same bank as `how-to-apply.html` §11, with this page's copy. |
 | `stamp.jpg` | **Not used.** Its only home was the Application Requirements band, which is imageless under the sticky-columns treatment. |
 | Breadcrumb | Dropped — no page in this project uses `umd-element-breadcrumb` (same call as `colleges-schools.html`). |
@@ -35,13 +35,13 @@ the numbered materials checklist, which has no DS equivalent and is page-built.
 4. **Choosing A Major** — `umd-element-pathway data-display="overlay" data-theme="dark" data-layout-image-position="left"`, `students-esj.jpg`. Black panel, white copy, image overlapping on the left.
 5. **Early Action + Application Platforms** — dark band (`.fa-cta-section`), `umd-layout-grid-gap-two umd-animation-grid`, two `umd-element-card-overlay data-theme="dark" class="size-large"` (no image → colour variant; `size-large` gives the 320 → 560px min-height that keeps the pair level) with secondary dark CTAs in `slot="actions"`, plus `.fa-chevron` behind them. The two platform links are `<a>` + `<br>`, not a `<ul>`.
 6. **Application Checklist** — `umd-layout-space-horizontal-small` (992px): heading + intro + the three preliminary questions as a rich-text `<ul>` (carrying `umd-layout-vertical-landing-child` for the 48px gap), then the `.fa-steps` stepper (6 items).
-7. **Making Sure Your UMD Application is Complete** — dark band (`padding: 80px 0`, no `umd-layout-vertical-landing` — §19), light overlay pathway, `students-studying.jpg`.
+7. **Making Sure Your UMD Application is Complete** — light band (`umd-layout-vertical-landing`, now required since §8 Resources is dark and this is not), `umd-element-pathway data-display="sticky" data-layout-image-position="left"`, `students-studying.jpg`. The 1:1 injection squares the image; the container keeps `position: sticky` and, at 495px against a 756px text column, actually pins while the steps scroll.
 8. **Resources** — dark band, `umd-element-section-intro data-theme="dark"` + `umd-layout-grid-gap-three` of three dark `umd-element-card-icon`.
 9. **Stay in touch** — gold `umd-element-banner-promo` closer (site convention).
 10. **Scroll-to-top** — `umd-element-scroll-top data-layout-fixed="true"`.
 
 Rhythm: light hero → light intro → light sticky-stats → **dark overlay pathway** → **dark cards** →
-light checklist → **dark overlay pathway** → **dark card bank** → gold closer. Two dark
+light checklist → light sticky pathway → **dark card bank** → gold closer. Two dark
 pathway-plus-cards pairs bracket the long light checklist.
 
 ## Copy fidelity
@@ -81,6 +81,11 @@ python3 scripts/build-chrome.py
 ```
 
 ## Notes / open items
+
+- **The 1:1 injection now covers the sticky variant too.** `registry-content.json` warns against
+  capping a sticky pathway's image, but that warning is about a cap leaving the container with no
+  resolved height. This page's injection pairs `aspect-ratio` with `height: auto`, so the container
+  resolves a definite square height and keeps `position: sticky`. Verified in-browser.
 
 - **`students-studying.jpg` is 607×932.** Its portrait aspect was what made § "Making Sure … Complete"
   1316px tall: the overlay pathway lays the image out as a grid column, so at 649px wide it rendered
