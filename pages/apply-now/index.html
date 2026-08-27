@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <meta name="googlebot" content="noindex, nofollow">
-  <title>Student Life — Undergraduate Admissions | University of Maryland</title>
+  <title>Apply Now — Undergraduate Admissions | University of Maryland</title>
 
   <!-- ============================================================
        UMD Critical CSS — Hybrid CDN + Local
@@ -735,7 +735,7 @@
   <script src="https://unpkg.com/@universityofmaryland/web-components-library@1.19.5/dist/cdn.js"></script>
 
   <style>
-    /* Brand chevron animation flanking the Study Here rich text and
+    /* Brand chevron animation flanking the #BeATerp Resources rich text and
        overlapping ~120px up into the hero above. Hidden below tablet
        to avoid crowding the single-column stacked content. */
     .study-here-section {
@@ -775,28 +775,13 @@
       .study-here-chevron { display: none; }
     }
 
-    /* Small pathway zig-zag sections — the inlined critical CSS has no global
-       responsive-image rule, so figure images render at intrinsic width. Left
-       unconstrained, a wide image's min-content forces its 1fr grid track to
-       the image's natural width and unbalances the two columns. Constrain the
-       images to fill their column and let the tracks shrink (min-width: 0). */
-    .umd-layout-grid-gap-two > * { min-width: 0; }
-
-    .umd-layout-grid-gap-two figure.umd-layout-alignment-block-stacked img {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-
-    /* Divider rule under each zig-zag headline — 1px black, as in the source.
-       The inlined critical CSS gives <hr> no styling; the default UA border is
-       an inset ~2px grey. Sits as the first child of the rich-text block, so
-       vertical spacing is handled by .umd-text-rich-advanced. */
-    .umd-layout-grid-gap-two .umd-text-rich-advanced hr {
-      border: 0;
-      border-top: 1px solid var(--umd-color-black);
-      height: 0;
-    }
+    /* ---- Application deadlines carousel ----
+       .relative is a Tailwind-shaped utility that admissions.umd.edu carries on
+       this component's host but that the DS bundles do NOT ship (verified: absent
+       from every css/*.min.css in web-styles-library). Defined here so the host
+       markup behaves as written rather than silently no-opping. Same note as
+       how-to-apply/transfer-applicants.html, which uses the same band. */
+    .relative { position: relative; }
   </style>
   <!-- SHARED:chrome-css:START — generated from shared/chrome.css; do not edit here -->
   <style>
@@ -909,6 +894,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
 </head>
 <body>
 
+
   <!-- 1. GLOBAL UNIVERSITY HEADER -->
   <!-- SHARED:header:START — generated from shared/header.html; do not edit here -->
   <umd-element-navigation-utility data-alert-off="true" role="navigation" aria-label="Utility navigation"></umd-element-navigation-utility>
@@ -1019,7 +1005,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
          per page — rename a directory and its drawer ref has to follow. -->
     <div slot="primary-slide-links">
       <a href="../../pages/academics/" data-child-ref="academics"><span>Academics</span></a>
-      <a href="../../pages/student-life/" data-selected data-child-ref="student-life"><span>Student Life</span></a>
+      <a href="../../pages/student-life/" data-child-ref="student-life"><span>Student Life</span></a>
       <a href="../../pages/how-to-apply/" data-child-ref="how-to-apply"><span>How To Apply</span></a>
       <a href="../../pages/tuition/" data-child-ref="tuition"><span>Tuition &amp; Aid</span></a>
     </div>
@@ -1032,7 +1018,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
          no CTA to duplicate. -->
     <div slot="primary-slide-secondary-links">
       <a href="https://admissions.umd.edu/visit"><span>Visit UMD</span></a>
-      <a href="../../pages/apply-now/"><span>Apply Now</span></a>
+      <a href="../../pages/apply-now/" data-selected><span>Apply Now</span></a>
       <a href="https://admissions.umd.edu/connect"><span>Connect</span></a>
       <a href="https://admissions.umd.edu/search"><span>Search</span></a>
     </div>
@@ -1045,8 +1031,8 @@ umd-element-scroll-top[data-layout-fixed="true"] {
         <a href="https://admissions.umd.edu/academics/limited-enrollment-programs"><span>Limited Enrollment Programs</span></a>
         <a href="https://ugst.umd.edu/llsop/index.html"><span>Living-Learning &amp; Special Programs</span></a>
       </div>
-      <div data-parent-ref="student-life" data-active>
-        <a href="../../pages/student-life/" data-selected><span>Overview</span></a>
+      <div data-parent-ref="student-life">
+        <a href="../../pages/student-life/"><span>Overview</span></a>
         <a href="https://admissions.umd.edu/student/housing-and-dining"><span>Housing &amp; Dining</span></a>
         <a href="https://admissions.umd.edu/student/student-support"><span>Student Support &amp; Safety</span></a>
         <a href="https://admissions.umd.edu/student/get-involved"><span>Get Involved on Campus</span></a>
@@ -1074,193 +1060,205 @@ umd-element-scroll-top[data-layout-fixed="true"] {
   </umd-element-navigation-header>
   <!-- SHARED:header:END -->
 
-  <!-- 3. HERO — small background, mirrors academics hero pattern -->
+  <!-- 2. HERO — small image hero, centered text. The photo is the SAME asset the
+       source page uses; it is byte-identical (md5 415b41b1…) to the one already
+       committed for the How to Apply landing page, so it is reused in place
+       rather than duplicated under images/apply-now/. -->
   <section class="umd-layout-vertical-landing">
     <umd-element-hero data-layout-height="small" data-layout-text="center">
-      <img slot="image" src="../../images/student-life/Original_medium-FirstLookFair_09082023_SC_3385.jpg" alt="Students talking amid the crowd at the First Look Fair" />
-      <h1 slot="headline">Student Life</h1>
-      <div slot="text"><p>We want you to feel at home at the University of Maryland (UMD). We're committed to fostering a campus environment that supports a healthy mind, body and spirit for all members of the university community.</p></div>
+      <img slot="image" src="../../images/admissions/how-to-apply-hero.jpg" alt="McKeldin Library on the University of Maryland campus" />
+      <h1 slot="headline">Apply to UMD Now</h1>
+      <div slot="text"><p>You've done your research and explored your options, and you know that the University of Maryland (UMD) is the perfect place for you. Now it's time to apply.</p></div>
     </umd-element-hero>
   </section>
 
-  <!-- 4. MAKE UMD YOURS — eyebrow + rich text intro, mirrors academics study-here pattern -->
+  <!-- 3. #BeATerp RESOURCES — rule + uppercase eyebrow + rich text, with the
+       brand chevron overlapping up into the hero. Same lockup as the sibling
+       landing pages (academics/index.html §4, how-to-apply/index.html §4,
+       transfer-applicants.html §3). No CTA row: the source's intro carries none,
+       and the apply platforms are one section below. -->
   <section class="umd-layout-vertical-landing study-here-section">
     <div class="study-here-chevron" aria-hidden="true">
       <umd-element-brand-logo-animation></umd-element-brand-logo-animation>
     </div>
     <div class="umd-layout-space-horizontal-small study-here-content">
       <hr style="border:none;border-top:1px solid var(--umd-color-black);margin:0 0 24px 0;" />
-      <p class="umd-sans-large mb-md text-black" style="text-transform:uppercase;">Make UMD Yours</p>
+      <p class="umd-sans-large mb-md text-black" style="text-transform:uppercase;">#BeATerp Resources</p>
       <div class="umd-text-rich-advanced">
-        <p>You'll make the most of your UMD experience not just in the classroom, but beyond. Opportunities to get involved, have fun and make a difference are as rich and diverse as the homemade ice cream flavors at the Maryland Dairy! You won't only make your home here, you'll be part of a close-knit community.</p>
-        <p>Bond with your roommate, meet up with friends at the Food Court in the Stamp. Work up a sweat by playing Ultimate Frisbee or learning to ballroom dance. Pledge a service fraternity, join one club—or 10! Attend a concert or movie screening on campus, belt out the Maryland fight song at a football game. No matter what you want to do, you can find it at UMD.</p>
+        <p>Welcome to your one-stop shop for applying to UMD. We encourage you to reference our checklists and frequently asked questions as often as you need!</p>
       </div>
     </div>
   </section>
 
-  <!-- 5. STUDENTS IN ACTION — section intro + wide image carousel -->
+  <!-- 4. HOW TO APPLY — pathway, image left. The source runs the three platform
+       links inline inside the paragraph; on a page whose entire job is "apply",
+       they are promoted to the actions slot so the platforms are the visible
+       target. Common App leads as primary; the two ApplyWeb routes are secondary
+       and named by applicant type, which the source's bare "ApplyWeb" is not. -->
   <section class="umd-layout-vertical-landing">
-    <div class="umd-layout-space-horizontal-larger umd-layout-vertical-landing-child">
-      <umd-element-section-intro>
-        <h2 slot="headline">Students in Action</h2>
-        <div slot="text"><p>You'll make the most of your UMD experience not just in the classroom, but beyond. You won't only make your home here, you'll be part of a close-knit community.</p></div>
-      </umd-element-section-intro>
-    </div>
-    <umd-element-carousel-image-wide title="Students in Action">
-      <div slot="slides">
-        <figure>
-          <img src="../../images/student-life/ServiceDay_SuitlandArts_08232024_RS_0128.jpg" alt="Two students painting a pavement mural during a day of service" />
-          <div data-text>Terps painting a pavement mural at Suitland Arts on Service Day</div>
-        </figure>
-        <figure>
-          <img src="../../images/student-life/testudo-sports-image-carousel.jpg" alt="Testudo and sports fans" />
-          <div data-text>Sports fans and the University of Maryland mascot, Testudo, getting into the spirit</div>
-        </figure>
-        <figure>
-          <img src="../../images/student-life/alumni-cup-image-carousel.jpg" alt="Alumni Cup" />
-          <div data-text>Friendly competition at the Alumni Cup</div>
-        </figure>
-        <figure>
-          <img src="../../images/student-life/outdoor-class-image-carousel.jpg" alt="Ag outdoor classroom" />
-          <div data-text>Agriculture students enjoy an outdoor classroom day</div>
-        </figure>
-        <figure>
-          <img src="../../images/student-life/Students-Yoga-Carousel.jpg" alt="UMD students participating in yoga." />
-          <div data-text>Students participating in yoga.</div>
-        </figure>
+    <umd-element-pathway data-layout-image-position="left">
+      <img slot="image" src="../../images/apply-now/students-talk.jpg" alt="Two University of Maryland students talking together" />
+      <h2 slot="headline">How to Apply</h2>
+      <div slot="text">
+        <p>Freshman students can apply to UMD using either the Common App or the ApplyWeb platform. At this time, transfer students can only apply via ApplyWeb.</p>
       </div>
-    </umd-element-carousel-image-wide>
+      <div slot="actions">
+        <umd-element-call-to-action data-display="primary">
+          <a href="https://www.commonapp.org/explore/university-maryland" target="_blank" rel="noreferrer noopener">Apply with the Common App</a>
+        </umd-element-call-to-action>
+        <umd-element-call-to-action data-display="secondary">
+          <a href="https://www.applyweb.com/forms/UMDFYR" target="_blank" rel="noreferrer noopener">Freshman Application on ApplyWeb</a>
+        </umd-element-call-to-action>
+        <umd-element-call-to-action data-display="secondary">
+          <a href="https://www.applyweb.com/forms/UMDTERPS" target="_blank" rel="noreferrer noopener">Transfer Application on ApplyWeb</a>
+        </umd-element-call-to-action>
+      </div>
+    </umd-element-pathway>
   </section>
 
-  <!-- 6. GETTING INVOLVED — dark section-intro (with CTAs) + aligned 3-card grid -->
-  <section class="umd-layout-background-full-dark umd-layout-vertical-landing">
+  <!-- 5. WHEN TO APPLY — dark band, section intro + thumbnail carousel. Same
+       treatment as transfer-applicants.html §6 so "Application Deadlines" reads
+       the same wherever it appears in this project: text-only cards on a
+       transparent surface (RULES §27), eyebrow / deadline name / date.
+       The source groups five dates under three applicant-type headings; the
+       eyebrow carries that grouping so each slide stands alone. -->
+  <section class="umd-layout-background-full-dark">
     <div class="umd-layout-space-horizontal-larger">
       <umd-element-section-intro data-theme="dark" class="umd-layout-vertical-landing-child">
-        <h2 slot="headline">Getting Involved</h2>
-        <div slot="text"><p>Looking for a fencing club, a cappella singing group, mock trial team or Buddhist thought and meditation group? We have you covered on this and more.</p></div>
+        <h2 slot="headline">When to Apply</h2>
+        <div slot="text">
+          <p>Mark your calendar with UMD's application deadlines! We strongly encourage you to apply by the appropriate early action deadline, as this will give you <strong>priority consideration for admission and merit scholarships</strong>.</p>
+        </div>
         <div slot="actions">
           <umd-element-call-to-action data-display="secondary" data-theme="dark">
-            <a href="https://admissions.umd.edu/student/get-involved">Getting Involved on Campus</a>
-          </umd-element-call-to-action>
-          <umd-element-call-to-action data-display="secondary" data-theme="dark">
-            <a href="https://calendar.umd.edu/" target="_blank" rel="noopener">Events Calendar</a>
+            <a href="https://admissions.umd.edu/apply/application-deadlines">View All Application Deadlines</a>
           </umd-element-call-to-action>
         </div>
       </umd-element-section-intro>
-      <div class="umd-layout-grid-gap-three">
-        <umd-element-card data-visual-image-aligned="true" data-visual-transparent="true" data-theme="dark" class="umd-layout-grid-child-fill-height">
-          <img slot="image" src="../../images/student-life/Students_STAMP_08252020_SC_0424.jpg" alt="The Adele H. Stamp Student Union entrance" />
-          <h3 slot="headline">800+ Clubs</h3>
-          <div slot="text"><p>With more than 800 clubs, fraternities/sororities and sports, getting involved at UMD couldn't be easier.</p></div>
-        </umd-element-card>
-        <umd-element-card data-visual-image-aligned="true" data-visual-transparent="true" data-theme="dark" class="umd-layout-grid-child-fill-height">
-          <img slot="image" src="../../images/student-life/athletics.jpg" alt="A Maryland football player crossing into the end zone" />
-          <h3 slot="headline">Athletics</h3>
-          <div slot="text"><p>Fear the Turtle! It's the rallying cry at the University of Maryland, which has one of the country's most comprehensive and successful athletic programs. From intramural and club sports to our Division I teams, Terps are active.</p></div>
-        </umd-element-card>
-        <umd-element-card data-visual-image-aligned="true" data-visual-transparent="true" data-theme="dark" class="umd-layout-grid-child-fill-height">
-          <img slot="image" src="../../images/student-life/Students_03142024_DS_1898.jpg" alt="Students playing volleyball and relaxing in hammocks on the lawn" />
-          <h3 slot="headline">Always things to do</h3>
-          <div slot="text"><p>Discover events happening on campus or in the area.</p></div>
-        </umd-element-card>
-      </div>
+    </div>
+
+    <div class="umd-layout-space-horizontal-larger">
+      <umd-element-carousel-thumbnail data-theme="dark" class="relative">
+        <div slot="blocks">
+          <umd-element-card data-theme="dark" data-visual-transparent="true" data-visual-image-aligned="true">
+            <p slot="eyebrow">Freshman</p>
+            <p slot="headline">Fall Early Action</p>
+            <div slot="text"><p>November 1</p></div>
+          </umd-element-card>
+          <umd-element-card data-theme="dark" data-visual-transparent="true" data-visual-image-aligned="true">
+            <p slot="eyebrow">Transfer</p>
+            <p slot="headline">Fall Early Action</p>
+            <div slot="text"><p>March 1</p></div>
+          </umd-element-card>
+          <umd-element-card data-theme="dark" data-visual-transparent="true" data-visual-image-aligned="true">
+            <p slot="eyebrow">Transfer</p>
+            <p slot="headline">Spring Early Action</p>
+            <div slot="text"><p>August 1</p></div>
+          </umd-element-card>
+          <umd-element-card data-theme="dark" data-visual-transparent="true" data-visual-image-aligned="true">
+            <p slot="eyebrow">Shady Grove</p>
+            <p slot="headline">Fall Early Action</p>
+            <div slot="text"><p>June 1</p></div>
+          </umd-element-card>
+          <umd-element-card data-theme="dark" data-visual-transparent="true" data-visual-image-aligned="true">
+            <p slot="eyebrow">Shady Grove</p>
+            <p slot="headline">Spring Early Action</p>
+            <div slot="text"><p>November 15</p></div>
+          </umd-element-card>
+        </div>
+      </umd-element-carousel-thumbnail>
     </div>
   </section>
 
-  <!-- 7. FINDING COMMUNITY — small pathway zig-zag, text left / image right -->
+  <!-- 6. WHAT TO SUBMIT — pathway, image right (default), mirroring §4. The
+       source's bulleted checklist becomes the actions row; the two applicant
+       types this project has already built link locally, the other two stay on
+       admissions.umd.edu. -->
   <section class="umd-layout-vertical-landing">
-    <div class="umd-layout-space-horizontal-small">
-      <div class="umd-layout-grid-gap-two">
-        <div>
-          <h2 class="text-black umd-sans-extralarge-bold umd-layout-space-vertical-headline-large">Finding Community</h2>
-          <div class="umd-text-rich-advanced">
-            <hr>
-            <p>With so many ways to get involved on-campus and in the community, it's easy to find your people—Terps who share your interests and hobbies. You'll form lifelong friendships and networks you can rely on beyond college.</p>
-            <div class="umd-layout-grid-inline-tablet-rows">
-              <umd-element-call-to-action data-display="primary">
-                <a href="https://admissions.umd.edu/student/find-community">Find Your Community at UMD</a>
-              </umd-element-call-to-action>
-            </div>
-          </div>
-        </div>
-        <div class="umd-text-rich-advanced">
-          <figure class="umd-layout-alignment-block-stacked">
-            <img src="../../images/student-life/Education-Abroad-fields_2023-06-06-200744_ksck.jpg" alt="Terps studying abroad" />
-          </figure>
-        </div>
+    <umd-element-pathway>
+      <img slot="image" src="../../images/apply-now/students-studying.jpg" alt="Students studying inside a building with large windows" />
+      <h2 slot="headline">What to Submit</h2>
+      <div slot="text">
+        <p>To be reviewed for admission, you must submit an online application and all required materials by the appropriate deadline. It is your responsibility to confirm receipt of all materials.</p>
+        <p>To help you stay on track and submit all required materials, we've put together a checklist for each applicant type:</p>
       </div>
-    </div>
+      <div slot="actions">
+        <umd-element-call-to-action data-display="secondary">
+          <a href="../how-to-apply/freshman-applicants.html">Freshman Applicants</a>
+        </umd-element-call-to-action>
+        <umd-element-call-to-action data-display="secondary">
+          <a href="../how-to-apply/transfer-applicants.html">Transfer Applicants</a>
+        </umd-element-call-to-action>
+        <umd-element-call-to-action data-display="secondary">
+          <a href="https://admissions.umd.edu/apply/international-applicants">International Applicants</a>
+        </umd-element-call-to-action>
+        <umd-element-call-to-action data-display="secondary">
+          <a href="https://admissions.umd.edu/apply/shady-grove-applicants">Shady Grove Applicants</a>
+        </umd-element-call-to-action>
+      </div>
+    </umd-element-pathway>
   </section>
 
-  <!-- 8. HOUSING & DINING — small pathway zig-zag, image left / text right -->
+  <!-- 7. RESOURCES — LIGHT band. Section intro + icon-link cards in ONE section
+       and ONE lock, with the gap coming from umd-layout-vertical-landing-child
+       on the intro (32/40/48px). That class is the only thing that should set
+       this gap: splitting the intro and the grid into two sections stacks each
+       one's own vertical padding instead and the heading floats far above its
+       cards. See LAYOUT-PATTERNS.md § "Section-Intro to Content Spacing".
+
+       Light two-up icon cards, same lockup as academics/index.html §7. The
+       light-theme spelling of the asset is icon-link.svg; it is byte-identical
+       to the dark one (both md5 7877acfc…) and draws the same red glyph, so
+       this is the same icon under the name the light cards use.
+
+       The source's decorative arrow graphic is dropped; the icon-link card
+       carries that affordance already. -->
   <section class="umd-layout-vertical-landing">
-    <div class="umd-layout-space-horizontal-small">
+    <div class="umd-layout-space-horizontal-larger">
+      <umd-element-section-intro class="umd-layout-vertical-landing-child">
+        <h2 slot="headline">Resources</h2>
+      </umd-element-section-intro>
+
       <div class="umd-layout-grid-gap-two">
-        <div class="umd-text-rich-advanced">
-          <figure class="umd-layout-alignment-block-stacked">
-            <img src="../../images/student-life/students-dorm@2x.jpg" alt="Scene from a dorm" />
-          </figure>
-        </div>
-        <div>
-          <h2 class="text-black umd-sans-extralarge-bold umd-layout-space-vertical-headline-large">Housing &amp; Dining</h2>
-          <div class="umd-text-rich-advanced">
-            <hr>
-            <p>College is a big adjustment. Knowing where you'll call home and where you can find a home cooked meal is important. There are many options for living on- or off-campus and students can grab a bite at a dining hall, food court or cafe across campus.</p>
-            <div class="umd-layout-grid-inline-tablet-rows">
-              <umd-element-call-to-action data-display="primary">
-                <a href="https://admissions.umd.edu/student/housing-and-dining">Discover housing &amp; dining at UMD</a>
-              </umd-element-call-to-action>
-            </div>
-          </div>
-        </div>
+        <umd-element-card-icon>
+          <img slot="image" src="../../page-builder/images/icons/icon-link.svg" alt="" />
+          <h3 slot="headline"><a href="https://admissions.umd.edu/apply/application-faqs">Application FAQs</a></h3>
+          <p slot="text">If questions come up as you're filling out the UMD application, be sure to reference our frequently asked questions. We've gathered answers about the application platforms, required materials, what to do after you've applied, and more.</p>
+        </umd-element-card-icon>
+        <umd-element-card-icon>
+          <img slot="image" src="../../page-builder/images/icons/icon-link.svg" alt="" />
+          <h3 slot="headline"><a href="https://admissions.umd.edu/apply/submitting-documents">Submitting Documents</a></h3>
+          <p slot="text">Find details on the best way to submit all of your required application materials.</p>
+        </umd-element-card-icon>
       </div>
     </div>
   </section>
 
-  <!-- 9. STUDENT SUPPORT & SAFETY — small pathway zig-zag, text left / image right -->
-  <section class="umd-layout-vertical-landing">
-    <div class="umd-layout-space-horizontal-small">
-      <div class="umd-layout-grid-gap-two">
-        <div>
-          <h2 class="text-black umd-sans-extralarge-bold umd-layout-space-vertical-headline-large">Student Support &amp; Safety</h2>
-          <div class="umd-text-rich-advanced">
-            <hr>
-            <p>UMD is committed to ensuring our students well-being and success. We offer a variety of services to help students master their classes, stay active and to make campus a safe place to navigate.</p>
-            <div class="umd-layout-grid-inline-tablet-rows">
-              <umd-element-call-to-action data-display="primary">
-                <a href="https://admissions.umd.edu/student/student-support">Learn about support &amp; safety at UMD</a>
-              </umd-element-call-to-action>
-            </div>
-          </div>
-        </div>
-        <div class="umd-text-rich-advanced">
-          <figure class="umd-layout-alignment-block-stacked">
-            <img src="../../images/student-life/safety@2x.jpg" alt="Safety" />
-          </figure>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 10. STAY IN TOUCH — banner-promo, mirrors academics Stay Connected pattern -->
+  <!-- 8. STAY CONNECTED — banner-promo (gold default) inside the larger lock.
+       Same block as how-to-apply/index.html §13; it is the source's own
+       footer CTA band. -->
   <section class="umd-layout-vertical-landing">
     <div class="umd-layout-space-horizontal-larger">
       <umd-element-banner-promo>
         <h2 slot="headline">There is a lot more to learn about UMD</h2>
-        <p slot="text">Let's stay in touch!</p>
+        <p slot="text">So let's stay in touch!</p>
         <div slot="actions" class="banner-promo-actions">
           <umd-element-call-to-action data-display="primary">
-            <a href="https://apply.umd.edu/register/request-info" target="_blank" rel="noopener">Join Our Mailing List</a>
+            <a href="https://apply.umd.edu/register/request-info">Join Our Mailing List</a>
           </umd-element-call-to-action>
           <umd-element-call-to-action data-display="secondary">
-            <a href="https://admissions.umd.edu/connect" target="_blank" rel="noopener">Connect</a>
+            <a href="https://admissions.umd.edu/connect">Connect</a>
           </umd-element-call-to-action>
         </div>
       </umd-element-banner-promo>
     </div>
   </section>
 
-  <!-- 13. FOOTER — visual (uses default specially-formatted footer image) -->
+  <!-- 9. SCROLL TO TOP — pin comes from shared/chrome.css.
+       data-layout-fixed must be the literal "true" (a boolean "" does not match). -->
+  <umd-element-scroll-top data-layout-fixed="true"></umd-element-scroll-top>
+
+  <!-- 10. FOOTER — visual (uses default specially-formatted footer image) -->
   <!-- SHARED:footer:START — generated from shared/footer.html; do not edit here -->
   <umd-element-footer data-display="visual">
     <a slot="logo" href="../../pages/admissions.html">
@@ -1271,9 +1269,28 @@ umd-element-scroll-top[data-layout-fixed="true"] {
   <!-- SHARED:footer:END -->
 
   <!-- ============================================================
-       SHADOW OVERRIDES
+       SHADOW OVERRIDES — content-driven only. Chrome-driven injections
+       live in shared/chrome-scripts.html (see OVERRIDES.md).
   ============================================================ -->
   <script>
+    // umd-element-pathway — force 1:1 image aspect ratio.
+    // No CSS variable / ::part hook for the pathway image container; inject
+    // shadow CSS to override intrinsic image ratio.
+    //
+    // Applies to BOTH pathways on this page. The overlay variant lays its image
+    // out as a grid column too (not as a full-bleed background), and without the
+    // cap the column inherits the source photo's portrait aspect: 607x932 shown
+    // at 649 wide is 996px tall, which outgrows the 816px text column and drives
+    // the whole component. Capping it at 1:1 makes the TEXT the tallest child and
+    // takes section 8 from 1316px to 1136px.
+    customElements.whenDefined('umd-element-pathway').then(() => {
+      document.querySelectorAll('umd-element-pathway').forEach(el => {
+        const style = document.createElement('style');
+        style.textContent = '.pathway-image-container,.image-container,.umd-asset-image-wrapper-scaled{aspect-ratio:1/1!important;height:auto!important}.pathway-image-container img,.image-container img,.umd-asset-image-wrapper-scaled img{width:100%!important;height:100%!important;object-fit:cover!important}';
+        el.shadowRoot && el.shadowRoot.appendChild(style);
+      });
+    });
+
     // umd-element-banner-promo — stack actions vertically with 8px gap.
     // Banner-promo reprojects slot="actions" into shadow DOM under
     // .banner-promo-actions with no gap when stacked.
@@ -1285,84 +1302,20 @@ umd-element-scroll-top[data-layout-fixed="true"] {
       });
     });
 
+    // NOTE — no card-overlay injections on this page. The two documented ones
+    // (horizontal padding step-up, and the 300/220-char destructive text clamp)
+    // both target the IMAGE variant's shadow nodes: .card-overlay-image-container
+    // and .card-overlay-image-text-content. These cards are the COLOR variant
+    // (no slot="image"), whose shadow is .card-overlay-color — it has neither
+    // node, and it does not clamp slot="text" at all (verified: the 451-char
+    // Early Action paragraph renders in full, untouched). Carrying the
+    // injections here would have been dead code. See OVERRIDES.md.
 
-    // GRID ENTRY ANIMATIONS — auto-applied to layout grids. Mirrors the
-    // upstream observeGridAnimations() logic but expands the selector
-    // set to all umd-layout-grid-* containers so authors don't need to
-    // add umd-animation-grid manually. (This block is also in
-    // page-builder/TEMPLATE.html — every new page gets it for free.)
-    (function () {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      var GRID_SELECTORS = [
-        '.umd-layout-grid-gap-two',
-        '.umd-layout-grid-gap-three',
-        '.umd-layout-grid-gap-stacked',
-        '.umd-layout-grid-columns-four',
-        '.umd-layout-grid-masonry',
-        '.umd-layout-grid-inline-tablet-rows',
-        '.umd-animation-grid',
-        '.umd-grid-animation'
-      ].join(',');
-      var FADE_CLASS = 'umd-animation-transition-fade-bottom';
-      var OFFSET_ATTR = 'data-animation';
-
-      var style = document.createElement('style');
-      style.textContent =
-        '@keyframes fade-in-from-bottom{from{opacity:0;transform:translateY(50px)}to{opacity:1;transform:translateY(0)}}' +
-        '@media (prefers-reduced-motion: no-preference){' +
-          ':where(' + GRID_SELECTORS + ') > *{opacity:0;transform:translateY(50px)}' +
-          '.' + FADE_CLASS + '{animation:fade-in-from-bottom 1s forwards;opacity:0;transform:translateY(50px)}' +
-        '}';
-      document.head.appendChild(style);
-
-      function init() {
-        var children = [];
-        document.querySelectorAll(GRID_SELECTORS).forEach(function (grid) {
-          Array.prototype.push.apply(children, grid.children);
-        });
-        if (!children.length) return;
-
-        function setRowOffsets() {
-          var prevTop = null;
-          children.forEach(function (el) {
-            var top = el.getBoundingClientRect().top;
-            if (prevTop !== null && Math.abs(top - prevTop) < 1) {
-              el.setAttribute(OFFSET_ATTR, 'offset');
-            } else {
-              el.removeAttribute(OFFSET_ATTR);
-              prevTop = top;
-            }
-          });
-        }
-
-        var observer = new IntersectionObserver(function (entries) {
-          var delay = 0;
-          entries.forEach(function (entry) {
-            if (!entry.isIntersecting) return;
-            var el = entry.target;
-            if (el.getAttribute(OFFSET_ATTR) === 'offset') {
-              delay += 350;
-            } else {
-              delay = 0;
-            }
-            el.style.animationDelay = delay + 'ms';
-            el.classList.add(FADE_CLASS);
-            observer.unobserve(el);
-          });
-        }, { rootMargin: '0px', threshold: [0.35] });
-
-        children.forEach(function (el) { observer.observe(el); });
-        setRowOffsets();
-        window.addEventListener('resize', setRowOffsets);
-      }
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-      } else {
-        init();
-      }
-    })();
   </script>
+
+  <!-- GRID ENTRY ANIMATIONS — canonical shared implementation. Never inline
+       this script; pages must share one copy (page-builder/CLAUDE.md §5). -->
+  <script src="../../page-builder/scripts/grid-animations.js"></script>
 
   <!-- SHARED:chrome-scripts:START — generated from shared/chrome-scripts.html; do not edit here -->
   <!-- ============================================================
