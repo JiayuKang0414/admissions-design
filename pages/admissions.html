@@ -913,6 +913,26 @@
     .umd-text-rich-advanced .deadlines-table td:first-child { padding-left: 0; }
 
     .umd-text-rich-advanced .deadlines-table td:last-child { padding-right: 0; }
+
+    /* HERO-GRID OVERHANG — trap the hero's z-index so the band below stays
+       clickable.
+
+       umd-element-hero-grid's shadow gives .hero-expand-text-container
+       `position: relative; z-index: 9999` and the full host height (3468px)
+       while offsetting it upward, so the box ends ~1150px BELOW the host. The
+       host creates no stacking context of its own, so that 9999 competes at the
+       root, and the invisible overhang sits on top of the "Information For"
+       band and swallows every click in it — all four CTAs, not just one.
+
+       `isolation: isolate` gives the host a stacking context, which keeps the
+       9999 inside the hero. The section below is later in DOM order at
+       `z-index: auto`, so it now hit-tests above the overhang.
+
+       Do NOT use `overflow: hidden` here — it also stops the escape, but it
+       clips the hero's own scroll-driven collage and breaks the component.
+       `isolation` changes no geometry and no painting: verified host height,
+       every image height and total page height identical before and after. */
+    umd-element-hero-grid { isolation: isolate; }
   </style>
   <!-- SHARED:chrome-css:START — generated from shared/chrome.css; do not edit here -->
   <style>

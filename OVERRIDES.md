@@ -422,6 +422,64 @@ No rule above "Application Deadlines" — the block is separated from the stats 
 its `padding-top` alone. The gold left rules on the stats already read as the
 divider; a border on top of them doubled it.
 
+## Hero-grid overhang swallows clicks on the section below
+
+`umd-element-hero-grid` renders `.hero-expand-text-container` in its shadow at
+`position: relative; z-index: 9999` with the full host height, while offsetting
+it upward — so the box ends roughly 1150px **below** the bottom of the host. The
+host creates no stacking context of its own, so that `9999` competes at the
+root, and the invisible overhang lies over whatever follows and intercepts every
+pointer event in it.
+
+On `pages/admissions.html` that is the "Information For" band: all four CTAs
+were unclickable. The markup was never the problem — `document.elementFromPoint`
+at each button's centre returned `UMD-ELEMENT-HERO-GRID`, and a scripted
+`a.click()` still navigated because it bypasses hit-testing. **If a link looks
+correct but "doesn't work", hit-test it before touching the href.**
+
+Fix — a light-DOM rule on the host, in the page's own `<style>`:
+
+```css
+umd-element-hero-grid { isolation: isolate; }
+```
+
+That gives the host a stacking context, which keeps the `9999` inside the hero.
+The section below is later in DOM order at `z-index: auto`, so it hit-tests
+above the overhang. Verified: host height, every image height and total page
+height identical before and after, and a real mouse click at the button's screen
+coordinates navigates.
+
+### ⚠️ Do not use `overflow: hidden` here
+
+It also stops the escape, and a scan of painted descendants suggests it clips
+nothing — but it **breaks the hero component**. The collage is scroll-driven and
+`overflow: hidden` on the host cuts it off; the scan misses this because it
+measures one frame of a component whose children move. `isolation` changes paint
+order only, never geometry, which is why it is the safe form of this fix.
+
+### Hit-testing across a shadow boundary
+
+`document.elementFromPoint()` **retargets** anything inside a shadow root to its
+host. A point over content inside `umd-element-hero-grid` therefore always
+returns `UMD-ELEMENT-HERO-GRID`, whether that content is reachable or not — so
+the method only diagnoses a block when the element you expect is in the **light
+DOM**, as the "Information For" CTAs are. For anything inside a shadow root,
+descend explicitly:
+
+```js
+let node = document.elementFromPoint(x, y);
+while (node && node.shadowRoot) {
+  const next = node.shadowRoot.elementFromPoint(x, y);
+  if (!next || next === node) break;
+  node = next;
+}
+```
+
+Run against the hero's own "Explore Academics at UMD" CTA that yields
+`UMD-ELEMENT-HERO-GRID → UMD-ELEMENT-CALL-TO-ACTION → A.umd-action-primary`:
+reachable, and clicking it works. The bare `elementFromPoint` reading that
+suggested otherwise was retargeting, not a block.
+
 ## Small pathway zig-zag — responsive image + balanced grid
 
 Two-column image + text (zig-zag) rich-text sections — **now generalized in `page-builder/LAYOUT-PATTERNS.md`** ("Light background — two-column image + text (zig-zag)"), including the responsive-image / balanced-grid and `<hr>` border CSS; the headline-flattening gotcha (a true 32px headline must sit outside the `umd-text-rich-advanced` wrapper) lives in `page-builder/RULES.md §18`. Modeled on the QA design-team `/components/images-and-media` sections `section-60493` / `section-60498`.
