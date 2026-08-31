@@ -173,6 +173,7 @@ def render(slug, data, programs, colleges_by_slug):
     return f'''{head_top}
 {PAGE_CSS}{HEAD_TAIL_OPEN}
 {_chrome.block('chrome-css', out)}
+{_chrome.block('gate', out)}
 </head>
 <body>
 

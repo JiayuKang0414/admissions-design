@@ -285,6 +285,7 @@ BODY = r'''  </style>
   </style>
 
 @@CHROME:chrome-css@@
+@@CHROME:gate@@
 </head>
 <body>
 

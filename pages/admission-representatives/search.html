@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <meta name="googlebot" content="noindex, nofollow">
-  <title>Engineering &amp; Technology — Undergraduate Admissions | University of Maryland</title>
+  <title>Search Admission Representatives — Undergraduate Admissions | University of Maryland</title>
 
   <!-- ============================================================
        UMD Critical CSS — Hybrid CDN + Local
@@ -777,38 +777,157 @@
     .umd-filter-item[hidden] { display: none !important; }
 
     /* ============================================================
-       25. INTEREST PAGE — majors grid + careers list
-       Two page-specific needs on top of the DS components:
-       a 4-up grid for the (text-only) major cards, and a two-column
-       list for the careers bullets inside the pathway text slot.
+       26. ADMISSION REPRESENTATIVES — intro lockup + rep pages
        ============================================================ */
 
-    /* --- majors list ------------------------------------------
-       NO page CSS for the majors. They are the DS card-list pattern exactly as
-       RULES.md §33 documents it: a plain stack of
-       umd-element-card[data-display="list"] inside a
-       umd-layout-space-horizontal-small (992px) lock. The separator between
-       cards is the DS's own adjacent-sibling rule in web-components.min.css:
+    /* --- intro lockup with brand chevron (landing page) --------
+       Same treatment as how-to-apply/index.html and tuition/index.html:
+       rule, uppercase eyebrow, rich text, with the brand animation
+       riding behind it and overlapping ~180px up into the hero.
+       The animation hardcodes its inner container to width:100vw /
+       height:50vw and anchors chevrons to right:0, so the host must
+       span full width -- sizing or clipping it does not work. */
+    .reps-intro-section {
+      position: relative;
+      overflow: visible;
+      z-index: 100;
+    }
 
-         umd-element-card[data-display="list"] + umd-element-card[data-display="list"]
-           { margin-top: 24px; padding-top: 24px; border-top: 1px solid #E6E6E6 }
+    .reps-intro-content {
+      position: relative;
+      z-index: 2;
+    }
 
-       That rule is why this must NOT go in a border grid. An earlier revision
-       put these cards in umd-layout-grid-border-two with
-       umd-shell-person-grid-helper, and the two separator systems fought:
-       the sibling rule overrode the helper's 48px padding-top back to 24px on
-       every card but the first, and its 24px margin-top opened bands that the
-       cells' own borders do not paint -- while the border grid's continuous
-       left border ran straight through them. Net effect was misaligned first
-       row, uneven top padding, and rules on the left that stopped on the right.
-       Stacked in one column, the same rule is exactly the list separator this
-       section wants.
+    .reps-chevron {
+      position: absolute;
+      top: -180px;
+      left: 0;
+      right: 0;
+      bottom: -80px;
+      pointer-events: none;
+      z-index: 1;
+      overflow: visible;
+    }
 
-       Also note data-visual-bordered has NO effect on data-display="list" --
-       measured, zero bordered nodes in that variant's shadow tree.
+    .reps-chevron > umd-element-brand-logo-animation {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: block;
+    }
 
-       The careers list is likewise unstyled: it is the plain rich-text <ul>
-       the source page uses, single-column, bullets from the DS. */
+    @media (max-width: 1023px) {
+      .reps-chevron { display: none; }
+    }
+
+    /* --- rep grid ----------------------------------------------
+       No grid CSS of its own. The cards are the documented border-grid
+       pattern exactly as LAYOUT-PATTERNS.md describes it:
+       umd-layout-grid-border-four + class="umd-shell-person-grid-helper"
+       on every umd-element-person host (that class is the container-query
+       target -- without it the 24/32/48px cell padding never applies).
+       Partial rows are handled by critical.css §19's :not(:has(...)) rules,
+       so 24 reps in a 4-up grid needs no filler markup.
+
+       The one thing added: the grid's own left/right border is drawn by
+       layout.min.css against the cell edge, and a headshot sitting flush
+       in a 24px cell reads as unaligned next to a name that wraps to two
+       lines. umd-layout-grid-child-fill-height equalises the cells so the
+       job-title baselines line up across a row. */
+
+    /* --- search page: filter form ------------------------------
+       The CMS person-index template (omc.umd.edu/people) is built almost
+       entirely from design-system classes that ARE in our bundles:
+       umd-layout-background-highlight-light (grey panel + red left rule),
+       umd-layout-grid-gap-stacked / -two, umd-layout-grid-inline-stretch,
+       umd-text-line-trailing-light, umd-field-select-wrapper, umd-field-input,
+       umd-action-outline, umd-skip-content, sr-only.
+
+       What is NOT in our bundles, and is therefore reproduced below:
+         - the `umd-shell-*` classes (shellcraft site CSS, not the DS)
+         - the Tailwind utilities the template leans on for the search row
+           (flex, gap-min, items-center, aspect-square, bg-red, h-[44px])
+       Measured against the loaded bundles, not assumed. The rules below are
+       the "minimal lift" from briefs/experts-filter.md, which documents this
+       same search bar on the experts page. */
+    .reps-search-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .reps-search-row input { flex: 1; }
+    /* 44x44 red submit, matching the template's Tailwind box exactly. */
+    .reps-search-submit {
+      flex: none;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--umd-color-red, #e21833);
+      border: 0;
+      cursor: pointer;
+      transition: background-color .5s;
+    }
+    .reps-search-submit:hover,
+    .reps-search-submit:focus-visible { background: #a90007; }
+    .reps-search-submit svg { width: 20px; height: 20px; fill: #fff; }
+
+    /* Gap between the results grid and whatever follows it.
+
+       The DS vertical rhythm classes are margin-BOTTOM only -- measured,
+       umd-layout-vertical-landing is `margin-bottom: 120px; margin-top: 0`
+       (the same thing CLAUDE.md notes about -child, and it holds for the
+       parent class too). The grid's own wrapper is a bare
+       umd-layout-space-horizontal-larger with no vertical class, so nothing
+       separated it from the next block and both the Load More button and the
+       trailing copy sat flush against the last row of cards.
+
+       Putting the space on the WRAPPER rather than on either follower is what
+       makes it hold in both states: Load More is display:none when every match
+       is already shown, so a margin on that section would vanish with it and
+       the copy would jump back up against the grid the moment a filter
+       narrowed the results. Followers have margin-top: 0, so there is no
+       collapsing to reason about -- the gap is exactly this value. */
+    .reps-results-wrap { margin-bottom: 80px; }
+
+    /* Results count + empty state. The template's .umd-shell-pagination-results
+       is site CSS, not DS, so the type is set here. */
+    .reps-results-status {
+      font-size: 14px;
+      color: var(--umd-color-gray-dark, #757575);
+      margin-top: 24px;
+    }
+    .reps-empty { padding: 48px 0; text-align: center; }
+    .reps-load-more { display: flex; justify-content: center; }
+    /* JS hides this when every match is already on screen; without JS the
+       whole set is rendered, so the button has nothing to do and stays gone. */
+    .reps-load-more[hidden] { display: none; }
+
+    /* --- territory list (bio pages) ----------------------------
+       The territories are a plain list, but a rep can cover nine of them
+       (Abigail Trice) or none at all, so a single column runs long and a
+       fixed multi-column grid leaves a ragged hole. Columns that fill on
+       width keep both ends honest. */
+    .rep-regions-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px 32px;
+    }
+    @media (min-width: 650px) {
+      .rep-regions-list { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1024px) {
+      .rep-regions-list { grid-template-columns: repeat(3, 1fr); }
+    }
+    .rep-regions-list li {
+      border-top: 1px solid var(--umd-color-gray-light, #e6e6e6);
+      padding-top: 12px;
+    }
   </style>
 
   <script src="https://unpkg.com/@universityofmaryland/web-components-library@1.19.5/dist/cdn.js"></script>
@@ -1262,7 +1381,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
       <a href="https://admissions.umd.edu/search"><span>Search</span></a>
     </div>
     <div slot="children-slides">
-      <div data-parent-ref="academics" data-active>
+      <div data-parent-ref="academics">
         <a href="../../pages/academics/"><span>Overview</span></a>
         <a href="../../pages/academics/programs.html"><span>All Programs</span></a>
         <a href="../../pages/academics/colleges-schools.html"><span>Colleges &amp; Schools</span></a>
@@ -1299,288 +1418,332 @@ umd-element-scroll-top[data-layout-fixed="true"] {
   </umd-element-navigation-header>
   <!-- SHARED:header:END -->
 
-  <!-- 3. HERO — small background, left-aligned text -->
+  <!-- 3. HERO — identical to index.html (same image, copy, and centred small
+       variant). The two pages are the same directory in two presentations, so
+       the hero deliberately does not differentiate them. -->
   <section class="umd-layout-vertical-landing">
-    <umd-element-hero data-layout-height="small">
-      <img slot="image" src="../../images/interest/hero-kim-building.jpg" alt="The entrance to the Jeong H. Kim Engineering Building" />
-      <h1 slot="headline">Engineering &amp; Technology</h1>
-      <div slot="text"><p>Turn your passion for creating systems and structures through science and technology into a career.</p></div>
-      <div slot="actions">
-        <umd-element-call-to-action data-display="primary">
-          <a href="programs.html">Explore All Programs</a>
-        </umd-element-call-to-action>
-      </div>
+    <umd-element-hero data-layout-height="small" data-layout-text="center">
+      <img slot="image" src="../../images/admission-representatives/representatives-hero.jpg" alt="University of Maryland students walking together on campus" />
+      <h1 slot="headline">Admission Representatives</h1>
+      <div slot="text"><p>Our admission counselors are traveling the globe to find the next class of fearless Terps!</p></div>
     </umd-element-hero>
   </section>
 
-  <!-- 4. INTRO — the interior-page lockup used on how-to-apply.html and
-       colleges-schools.html: narrow -small lock, rule, uppercase lead,
-       rich-text body. Deliberately NOT a pathway. -->
+  <!-- 4. FILTER — the CMS person-index template's form, rebuilt from the DS
+       classes our bundles actually carry (see page CSS §26 for what had to be
+       reproduced). Structure mirrors omc.umd.edu/people: a highlight panel
+       holding a heading + reset on one row, then the term dropdown and the
+       search bar in a two-up grid.
+
+       No "Please select a valid option." error <p>. That exists on the CMS
+       page because its dropdown is populated from a taxonomy that can go
+       stale; ours is generated from the same JSON that renders the cards, so
+       an invalid option cannot occur.
+
+       The form is progressive enhancement: it POSTs nowhere and has no
+       no-JS fallback endpoint, so it is hidden until the script confirms it
+       can run. Without JS the full set of 24 reps renders below, which is
+       the correct fallback for a directory. -->
+  <section class="umd-layout-vertical-landing">
+    <div class="umd-layout-space-horizontal-small">
+      <a href="#reps-results" class="umd-skip-content">
+        <span class="sr-only">Skip search form</span><span>Skip to Content</span>
+      </a>
+      <form id="reps-filter" class="umd-layout-background-highlight-light umd-layout-grid-gap-stacked" hidden>
+        <div class="umd-layout-grid-inline-stretch">
+          <h2 class="umd-text-line-trailing-light"><span>Filter Representatives</span></h2>
+          <button type="reset" id="reps-reset" class="umd-sans-smaller umd-animation-line-slide-graydark-red"
+                  aria-label="Clear and reset search">
+            <span aria-hidden="true">Clear filters</span>
+          </button>
+        </div>
+
+        <div class="umd-layout-grid-gap-two">
+          <div>
+            <label for="reps-territory" class="sr-only">Filter by Territory</label>
+            <div class="umd-field-select-wrapper">
+              <select id="reps-territory" name="territory">
+                <option value="">All Territories</option>
+            <optgroup label="Maryland">
+              <option value="maryland-allegany-county">Allegany County</option>
+              <option value="maryland-anne-arundel-county">Anne Arundel County</option>
+              <option value="maryland-baltimore-city">Baltimore City</option>
+              <option value="maryland-baltimore-county">Baltimore County</option>
+              <option value="maryland-baltimore-private-independent-schools">Baltimore Private/Independent Schools</option>
+              <option value="maryland-calvert-county">Calvert County</option>
+              <option value="maryland-caroline-county">Caroline County</option>
+              <option value="maryland-carroll-county">Carroll County</option>
+              <option value="maryland-cecil-county">Cecil County</option>
+              <option value="maryland-charles-county">Charles County</option>
+              <option value="maryland-dorchester-county">Dorchester County</option>
+              <option value="maryland-frederick-county">Frederick County</option>
+              <option value="maryland-garrett-county">Garrett County</option>
+              <option value="maryland-harford-county">Harford County</option>
+              <option value="maryland-howard-county">Howard County</option>
+              <option value="maryland-kent-county">Kent County</option>
+              <option value="maryland-montgomery-county">Montgomery County</option>
+              <option value="maryland-prince-george-s-county">Prince George&#x27;s County</option>
+              <option value="maryland-queen-anne-s-county">Queen Anne&#x27;s County</option>
+              <option value="maryland-somerset-county">Somerset County</option>
+              <option value="maryland-st-mary-s-county">St. Mary&#x27;s County</option>
+              <option value="maryland-talbot-county">Talbot County</option>
+              <option value="maryland-washington-county">Washington County</option>
+              <option value="maryland-wicomico-county">Wicomico County</option>
+              <option value="maryland-worcester-county">Worcester County</option>
+            </optgroup>
+            <optgroup label="New Jersey">
+              <option value="new-jersey-central">Central</option>
+              <option value="new-jersey-northern">Northern</option>
+              <option value="new-jersey-southern">Southern</option>
+            </optgroup>
+            <optgroup label="New York">
+              <option value="new-york-long-island-nassau">Long Island, Nassau</option>
+              <option value="new-york-new-york-city">New York City</option>
+              <option value="new-york-rockland-county">Rockland County</option>
+              <option value="new-york-suffolk-county">Suffolk County</option>
+              <option value="new-york-upstate">Upstate</option>
+              <option value="new-york-westchester-county">Westchester County</option>
+            </optgroup>
+            <optgroup label="Pennsylvania">
+              <option value="pennsylvania-philadelphia">Philadelphia</option>
+              <option value="pennsylvania-pittsburgh">Pittsburgh</option>
+            </optgroup>
+            <optgroup label="Virginia">
+              <option value="virginia-northern">Northern</option>
+              <option value="virginia-richmond">Richmond</option>
+              <option value="virginia-tidewater-region">Tidewater Region</option>
+            </optgroup>
+            <optgroup label="States &amp; Regions">
+              <option value="california">California</option>
+              <option value="colorado">Colorado</option>
+              <option value="connecticut">Connecticut</option>
+              <option value="delaware">Delaware</option>
+              <option value="district-of-columbia">District of Columbia</option>
+              <option value="florida">Florida</option>
+              <option value="georgia">Georgia</option>
+              <option value="illinois">Illinois</option>
+              <option value="international">International</option>
+              <option value="massachusetts">Massachusetts</option>
+              <option value="north-carolina">North Carolina</option>
+              <option value="puerto-rico">Puerto Rico</option>
+              <option value="rhode-island">Rhode Island</option>
+              <option value="texas">Texas</option>
+              <option value="washington">Washington</option>
+              <option value="washington-d-c-area-private-schools">Washington, D.C. Area Private Schools</option>
+              <option value="washington-d-c-public-schools">Washington, D.C. Public Schools</option>
+            </optgroup>
+              </select>
+            </div>
+          </div>
+
+          <div class="reps-search-row">
+            <label for="reps-search" class="sr-only">Search</label>
+            <input type="text" id="reps-search" name="search" class="umd-field-input"
+                   placeholder="Search by name or title" autocomplete="off" />
+            <button type="submit" class="reps-search-submit" aria-label="Submit search"><svg aria-hidden="true" width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M79.3401 42.2306C79.3401 54.1438 69.6826 63.8013 57.7694 63.8013C45.8562 63.8013 36.1987 54.1438 36.1987 42.2306C36.1987 30.3174 45.8562 20.6599 57.7694 20.6599C69.6826 20.6599 79.3401 30.3174 79.3401 42.2306ZM91 42.2306C91 60.5833 76.1222 75.4612 57.7694 75.4612C51.3447 75.4612 45.3458 73.6379 40.2619 70.4806L24.2216 86.5209H5L30.2245 60.8255C26.6351 55.5189 24.5388 49.1195 24.5388 42.2306C24.5388 23.8778 39.4167 9 57.7694 9C76.1222 9 91 23.8778 91 42.2306Z" /></svg></button>
+          </div>
+        </div>
+      </form>
+
+      <p class="reps-results-status" id="reps-status" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- 5. RESULTS — the same umd-layout-grid-border-four and the same
+       umd-element-person cards as index.html, server-rendered in full. The
+       script takes a copy of these 24 nodes on init and thereafter owns the
+       grid's children, so a filtered view is a real re-render rather than
+       hidden cells: critical.css §19's partial-row rules key off :nth-child,
+       and display:none-ing a card leaves it in the count and paints the
+       borders wrong. -->
+  <div class="umd-layout-space-horizontal-larger reps-results-wrap">
+    <section id="reps-results" class="umd-layout-grid-border-four">
+
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="colorado|maryland-caroline-county|maryland-dorchester-county|maryland-kent-county|maryland-queen-anne-s-county|maryland-somerset-county|maryland-talbot-county|maryland-wicomico-county|maryland-worcester-county" data-search="abigail trice senior coordinator of admissions and rural recruitment colorado maryland - caroline county maryland - dorchester county maryland - kent county maryland - queen anne&#x27;s county maryland - somerset county maryland - talbot county maryland - wicomico county maryland - worcester county">
+          <img slot="image" src="../../images/admission-representatives/abigail-trice.jpg" alt="Portrait of Abigail Trice, Senior Coordinator of Admissions and Rural Recruitment" loading="lazy" />
+          <a href="abigail-trice.html" slot="name"><span>Abigail Trice</span></a>
+          <p slot="job-title">Senior Coordinator of Admissions and Rural Recruitment</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="maryland-baltimore-city|maryland-baltimore-county" data-search="albert clarke senior coordinator of admissions &amp; diversity initiatives maryland - baltimore city maryland - baltimore county">
+          <img slot="image" src="../../images/admission-representatives/albert-clarke.jpg" alt="Portrait of Albert Clarke, Senior Coordinator of Admissions &amp; Diversity Initiatives" loading="lazy" />
+          <p slot="name">Albert Clarke</p>
+          <p slot="job-title">Senior Coordinator of Admissions &amp; Diversity Initiatives</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="connecticut|rhode-island|new-york-upstate|new-york-new-york-city" data-search="amanda hudson northeast regional coordinator connecticut rhode island new york - upstate new york - new york city">
+          <img slot="image" src="../../images/admission-representatives/amanda-hudson.jpg" alt="Portrait of Amanda Hudson, Northeast Regional Coordinator" loading="lazy" />
+          <p slot="name">Amanda Hudson</p>
+          <p slot="job-title">Northeast Regional Coordinator</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="" data-search="brandon moten coordinator of recruitment at shady grove">
+          <img slot="image" src="../../images/admission-representatives/brandon-moten.jpg" alt="Portrait of Brandon Moten, Coordinator of Recruitment at Shady Grove" loading="lazy" />
+          <p slot="name">Brandon Moten</p>
+          <p slot="job-title">Coordinator of Recruitment at Shady Grove</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="maryland-anne-arundel-county|new-jersey-northern" data-search="colin crow admission counselor maryland - anne arundel county new jersey - northern">
+          <img slot="image" src="../../images/admission-representatives/colin-crow.jpg" alt="Portrait of Colin Crow, Admission Counselor" loading="lazy" />
+          <p slot="name">Colin Crow</p>
+          <p slot="job-title">Admission Counselor</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="" data-search="courtney milton associate director of admissions &amp; diversity initiatives">
+          <img slot="image" src="../../images/admission-representatives/courtney-milton.jpg" alt="Portrait of Courtney Milton, Associate Director of Admissions &amp; Diversity Initiatives" loading="lazy" />
+          <p slot="name">Courtney Milton</p>
+          <p slot="job-title">Associate Director of Admissions &amp; Diversity Initiatives</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="maryland-prince-george-s-county|washington-d-c-public-schools" data-search="dominique tucker senior coordinator of student transition maryland - prince george&#x27;s county washington, d.c. public schools">
+          <img slot="image" src="../../images/admission-representatives/dominique-tucker.jpg" alt="Portrait of Dominique Tucker, Senior Coordinator of Student Transition" loading="lazy" />
+          <p slot="name">Dominique Tucker</p>
+          <p slot="job-title">Senior Coordinator of Student Transition</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="california|washington" data-search="ebony freeman west coast regional coordinator california washington">
+          <img slot="image" src="../../images/admission-representatives/ebony-freeman.jpg" alt="Portrait of Ebony Freeman, West Coast Regional Coordinator" loading="lazy" />
+          <a href="ebony-freeman.html" slot="name"><span>Ebony Freeman</span></a>
+          <p slot="job-title">West Coast Regional Coordinator</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="" data-search="james b. massey, jr. director of undergraduate admissions">
+          <img slot="image" src="../../images/admission-representatives/james-b-massey-jr.jpg" alt="Portrait of James B. Massey, Jr., Director of Undergraduate Admissions" loading="lazy" />
+          <a href="james-b-massey-jr.html" slot="name"><span>James B. Massey, Jr.</span></a>
+          <p slot="job-title">Director of Undergraduate Admissions</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="illinois|puerto-rico" data-search="javier mena assistant director of regional recruitment &amp; alumni relations illinois puerto rico">
+          <img slot="image" src="../../images/admission-representatives/javier-mena.jpg" alt="Portrait of Javier Mena, Assistant Director of Regional Recruitment &amp; Alumni Relations" loading="lazy" />
+          <p slot="name">Javier Mena</p>
+          <p slot="job-title">Assistant Director of Regional Recruitment &amp; Alumni Relations</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="" data-search="karen pryor sr. associate director of recruitment and strategic planning">
+          <img slot="image" src="../../images/admission-representatives/karen-pryor.jpg" alt="Portrait of Karen Pryor, Sr. Associate Director of Recruitment and Strategic Planning" loading="lazy" />
+          <p slot="name">Karen Pryor</p>
+          <p slot="job-title">Sr. Associate Director of Recruitment and Strategic Planning</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="" data-search="karina reid assistant director for transfer admission">
+          <img slot="image" src="../../images/admission-representatives/karina-reid.jpg" alt="Portrait of Karina Reid, Assistant Director for Transfer Admission" loading="lazy" />
+          <p slot="name">Karina Reid</p>
+          <p slot="job-title">Assistant Director for Transfer Admission</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="maryland-montgomery-county|new-jersey-central|new-jersey-southern|pennsylvania-philadelphia" data-search="katya kuzemka admission counselor maryland - montgomery county new jersey - central new jersey - southern pennsylvania - philadelphia">
+          <img slot="image" src="../../images/admission-representatives/katya-kuzemka.jpg" alt="Portrait of Katya Kuzemka, Admission Counselor" loading="lazy" />
+          <p slot="name">Katya Kuzemka</p>
+          <p slot="job-title">Admission Counselor</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="texas" data-search="kegan duncan southwest regional coordinator texas">
+          <img slot="image" src="../../images/admission-representatives/kegan-duncan.jpg" alt="Portrait of Kegan Duncan, Southwest Regional Coordinator" loading="lazy" />
+          <p slot="name">Kegan Duncan</p>
+          <p slot="job-title">Southwest Regional Coordinator</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="delaware|maryland-cecil-county|maryland-harford-county" data-search="maggie much senior coordinator of admissions delaware maryland - cecil county maryland - harford county">
+          <img slot="image" src="../../images/admission-representatives/maggie-much.jpg" alt="Portrait of Maggie Much, Senior Coordinator of Admissions" loading="lazy" />
+          <p slot="name">Maggie Much</p>
+          <p slot="job-title">Senior Coordinator of Admissions</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="maryland-howard-county|new-york-long-island-nassau|virginia-northern" data-search="matt leichman admission counselor maryland - howard county new york - long island, nassau virginia - northern">
+          <img slot="image" src="../../images/admission-representatives/matt-leichman.jpg" alt="Portrait of Matt Leichman, Admission Counselor" loading="lazy" />
+          <p slot="name">Matt Leichman</p>
+          <p slot="job-title">Admission Counselor</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="maryland-baltimore-private-independent-schools|maryland-calvert-county|maryland-charles-county|maryland-st-mary-s-county" data-search="matt tick admission counselor maryland - baltimore private/independent schools maryland - calvert county maryland - charles county maryland - st. mary&#x27;s county">
+          <img slot="image" src="../../images/admission-representatives/matt-tick.jpg" alt="Portrait of Matt Tick, Admission Counselor" loading="lazy" />
+          <p slot="name">Matt Tick</p>
+          <p slot="job-title">Admission Counselor</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="" data-search="mike nixon senior associate director of undergraduate admissions">
+          <img slot="image" src="../../images/admission-representatives/mike-nixon.jpg" alt="Portrait of Mike Nixon, Senior Associate Director of Undergraduate Admissions" loading="lazy" />
+          <p slot="name">Mike Nixon</p>
+          <p slot="job-title">Senior Associate Director of Undergraduate Admissions</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="massachusetts|maryland-carroll-county|virginia-tidewater-region|virginia-richmond" data-search="nico magpantay admission counselor massachusetts maryland - carroll county virginia - tidewater region virginia - richmond">
+          <img slot="image" src="../../images/admission-representatives/nico-magpantay.jpg" alt="Portrait of Nico Magpantay, Admission Counselor" loading="lazy" />
+          <a href="nico-magpantay.html" slot="name"><span>Nico Magpantay</span></a>
+          <p slot="job-title">Admission Counselor</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="florida|georgia" data-search="olander fleming southeast regional coordinator florida georgia">
+          <img slot="image" src="../../images/admission-representatives/olander-fleming.jpg" alt="Portrait of Olander Fleming, Southeast Regional Coordinator" loading="lazy" />
+          <p slot="name">Olander Fleming</p>
+          <p slot="job-title">Southeast Regional Coordinator</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="international|north-carolina|maryland-allegany-county|maryland-frederick-county|maryland-garrett-county|maryland-washington-county|new-york-rockland-county|new-york-westchester-county" data-search="raquel sobczak admission counselor international north carolina maryland - allegany county maryland - frederick county maryland - garrett county maryland - washington county new york - rockland county new york - westchester county">
+          <img slot="image" src="../../images/admission-representatives/raquel-sobczak.jpg" alt="Portrait of Raquel Sobczak, Admission Counselor" loading="lazy" />
+          <p slot="name">Raquel Sobczak</p>
+          <p slot="job-title">Admission Counselor</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="maryland-montgomery-county|new-york-suffolk-county|pennsylvania-pittsburgh" data-search="seth johnson admission counselor maryland - montgomery county new york - suffolk county pennsylvania - pittsburgh">
+          <img slot="image" src="../../images/admission-representatives/seth-johnson.jpg" alt="Portrait of Seth Johnson, Admission Counselor" loading="lazy" />
+          <p slot="name">Seth Johnson</p>
+          <p slot="job-title">Admission Counselor</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="district-of-columbia|washington-d-c-area-private-schools" data-search="sofia cisneros admission counselor district of columbia washington, d.c. area private schools">
+          <img slot="image" src="../../images/admission-representatives/sofia-cisneros.jpg" alt="Portrait of Sofia Cisneros, Admission Counselor" loading="lazy" />
+          <a href="sofia-cisneros.html" slot="name"><span>Sofia Cisneros</span></a>
+          <p slot="job-title">Admission Counselor</p>
+        </umd-element-person>
+        <umd-element-person class="umd-shell-person-grid-helper umd-layout-grid-child-fill-height"
+          data-regions="" data-search="taylor duvall coordinator of scholarships &amp; special programs; liaison for military connected and veteran students">
+          <img slot="image" src="../../images/admission-representatives/taylor-duvall.jpg" alt="Portrait of Taylor Duvall, Coordinator of Scholarships &amp; Special Programs; Liaison for Military Connected and Veteran Students" loading="lazy" />
+          <a href="taylor-duvall.html" slot="name"><span>Taylor Duvall</span></a>
+          <p slot="job-title">Coordinator of Scholarships &amp; Special Programs; Liaison for Military Connected and Veteran Students</p>
+        </umd-element-person>
+
+    </section>
+    <p class="reps-empty" id="reps-empty" hidden>No representatives match those filters.</p>
+  </div>
+
+  <section class="umd-layout-vertical-landing reps-load-more" id="reps-load-more" hidden>
+    <button type="button" class="umd-action-outline" id="reps-load-more-button">Load More</button>
+  </section>
+
+  <!-- 6. WE'RE HERE FOR YOU — the index's intro copy, moved to the FOOT of the
+       page. The CMS person-index template has no rich-text region above the
+       filter, so on this page the copy cannot lead; below the results it still
+       answers "how do I actually reach these people".
+
+       No brand chevron here. On index.html that animation is positioned to
+       overlap ~180px UP into the hero above it; at the bottom of the page it
+       has nothing to bite into and would instead ride over the results grid. -->
   <section class="umd-layout-vertical-landing">
     <div class="umd-layout-space-horizontal-small">
       <hr style="border:none;border-top:1px solid var(--umd-color-black);margin:0 0 24px 0;" />
-      <p class="umd-sans-large mb-md text-black" style="text-transform:uppercase;">Find the YOU in UMD!</p>
+      <p class="umd-sans-large mb-md text-black" style="text-transform:uppercase;">We're Here for You</p>
       <div class="umd-text-rich-advanced">
-        <p>Students interested in Engineering and Technology programs will learn how to innovate the digital and physical world through science and technology.</p>
+        <p>Your admission representative can answer your questions, offer advice and guide you through the admission process. We understand selecting a college is a big decision, but it doesn&rsquo;t have to be a stressful one. <strong>Learn more about each of our reps, and the territories they cover, on their profile pages.</strong></p>
+        <p>To get in touch with your admission representative, simply email <a href="mailto:ApplyMaryland@umd.edu">ApplyMaryland@umd.edu</a> and include your city and state in the subject line (for example, &ldquo;Student Inquiry from College Park, Maryland&rdquo;).</p>
       </div>
     </div>
   </section>
 
-  <!-- 5. RELATED MAJORS — pathway carries the headline + copy, the DS card-list
-       stack follows it inside the same section (RULES §33: standalone card list
-       takes the umd-layout-space-horizontal-small 992px lock).
-       34 programs tagged "Engineering & Technology".
-
-       The pathway wrapper takes umd-layout-vertical-landing (120px desktop),
-       NOT -child (48px): the pathway and the grid are two components stacked
-       in one section, not a section-intro and the content it introduces. The
-       -child gap belongs on a section intro -- see the colleges section below,
-       where it is what produces the required 48px. -->
-  <section class="umd-layout-vertical-landing">
-    <div class="umd-layout-vertical-landing">
-      <umd-element-pathway data-layout-image-position="right">
-        <img slot="image" src="../../images/interest/wind-tunnel.jpg" alt="Students working in the Glenn L. Martin wind tunnel" />
-        <h2 slot="headline">Related Majors</h2>
-        <div slot="text">
-          <p>Students will learn how to make innovative scientific and technological contributions to an evolving world through research and experimentation to design, build and use an array of different systems, machines and structures.</p>
-        </div>
-      </umd-element-pathway>
-    </div>
-    <div class="umd-layout-space-horizontal-small">
-      <div class="interest-majors-grid">
-
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://aces.umd.edu/minor" target="_blank" rel="noopener">Advanced Cybersecurity Experience for Students</a></h3>
-          <p slot="text" class="interest-major-desc">ACES is housed in the Honors College but is open to all undergraduate students in all majors. This minor takes a multidisciplinary approach to cybersecurity education in that students gain knowledge about many of the fields that intersect in cybersecurity. With an emphasis on hands-on experiences, students will gain practical skills through coursework, seminars, group projects, internships, and research, both on and off campus.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://aero.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Aerospace Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">Understanding flight, exploring space and designing components, vehicles and systems are the abiding interests of the faculty and students at the Clark School&#x27;s Department of Aerospace Engineering. Specializations include aeronautics, astronautics, rotorcraft and hypersonics.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Minor</p>
-          <h3 slot="headline"><a href="https://agnr.umd.edu/academics/programs-study/agricultural-science-technology" target="_blank" rel="noopener">Agricultural Science &amp; Technology</a></h3>
-          <p slot="text" class="interest-major-desc">Agricultural Science and Technology offers 3 distinct specializations in Agricultural &amp; Extension Education, Agronomy, and Environmental Horticulture. Specific areas of study include crop science, sustainable production, precision agriculture, agriculture education, greenhouses and nurseries, urban agriculture, viticulture, and much more. Graduates enter a wide range of fields including K-12 teacher, specialty crop and greenhouse production, food safety, and Extension educator.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major</p>
-          <h3 slot="headline"><a href="https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/computer-science/artificial-intelligence-computational-structures-ai-systems-major/" target="_blank" rel="noopener">Artificial Intelligence: Computational Structures for AI Systems</a></h3>
-          <p slot="text" class="interest-major-desc">The Bachelor of Science in Artificial Intelligence: Computational Structures for AI Systems (BSAI) is a highly technical program that trains students to build new AI systems and algorithms from the ground up, understand the training of models from both a data and systems perspective, and then use those techniques in interdisciplinary applications. The first two years of the program develop a strong technical foundation in programming and understanding the theory of statistical learning, symbolic reasoning, and optimization. The following two years focus on deploying those techniques in interdisciplinary applications enabling students to build state-of-the-art AI systems and also think critically about the effective, ethical application of AI. The BSAI will offer specializations in: Generative AI; AI Algorithms; Accessibility; and AI, Society, and Decision Making.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major</p>
-          <h3 slot="headline"><a href="https://biocomp.umd.edu/" target="_blank" rel="noopener">Biocomputational Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">In the Biocomputational Engineering program, students will develop skills in computation and data science that can be applied to the modeling of complex biological systems and the analysis of complex biological data sets. Even more, students will have the opportunity to impact human health by applying skills in computer modeling, bioinformatics, analysis of large and complex data sets, and other important computational skills.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://bioe.umd.edu/undergraduate/bachelor-science" target="_blank" rel="noopener">Bioengineering</a></h3>
-          <p slot="text" class="interest-major-desc">The undergraduate program in Bioengineering is founded in biology, driven by human health issues, and is forward-thinking. Our objective is to marry the principles and applications embedded in engineering with the sciences of biology, medicine, and health.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://chbe.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Chemical Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">The Department of Chemical and Biomolecular Engineering offers a Bachelor of Science in Chemical Engineering, which combines chemical, physical and life sciences with engineering to solve a wide variety of problems. The graduate in this major finds interesting and diverse career opportunities in such fields as petroleum, pharmaceuticals, polymers and biotechnologies.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://cee.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Civil Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">The Department of Civil and Environmental Engineering offers a Bachelor of Science in Civil Engineering, which is a very diverse field, concerned with such things as planning, design, construction and operation of large systems such as buildings and bridges; water purification and distribution systems; traffic and transportation systems; and water and land pollution treatment.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Minor / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://ece.umd.edu/undergraduate/degrees" target="_blank" rel="noopener">Computer Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">Computer engineers apply the principles and techniques of electrical engineering, computer science, and mathematical analysis to the design, development, testing, and evaluation of the software and hardware systems that enable computers to perform increasingly demanding functions. Computer engineers design robots, develop microprocessors, design supercomputers and smart devices, create integrated circuits for semiconductor fabrication, program computer-vision capabilities, create security/cryptographic systems, and develop software systems and network protocols.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Minor / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://undergrad.cs.umd.edu/future" target="_blank" rel="noopener">Computer Science</a></h3>
-          <p slot="text" class="interest-major-desc">Computer science is the study of computers and computational systems: their application, design, development and theory. A computer scientist is concerned with problem solving. Problems range from abstract questions of what problems can be solved with computers to practical matters such as the design of computer systems that are efficient, secure, and easy for people to use.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://pm.umd.edu/program/cpm-minor/" target="_blank" rel="noopener">Construction Project Management</a></h3>
-          <p slot="text" class="interest-major-desc">Undergraduate students wishing to pursue a career in the design or construction of capital projects will have a distinct competitive advantage if they have a working knowledge of the fundamentals of managing construction. The minor, along with completion of your full degree program, will provide you a distinct competitive advantage over other potential job candidates. When completed with the minor, students should have a good understanding of construction project management concepts, tools, and techniques and be able to be productive on project teams in their first employment after graduation. The minor also aligns students with career paths leading to increased management responsibility.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://shadygrove.ece.umd.edu/" target="_blank" rel="noopener">Cyber-Physical Systems Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">The overarching goal of the Cyber-Physical Systems Engineering program is to train the workforce in the areas of software, hardware, and applications involving widely deployed smart devices and their interactions with resources in the cloud.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://www.geol.umd.edu/undergraduate/Geology_Minors.php" target="_blank" rel="noopener">Earth Material Properties</a></h3>
-          <p slot="text" class="interest-major-desc">The undergraduate minor in Earth Material Properties recognizes concentrated study in this designated field in the College of Computer, Mathematical, and Natural Sciences. The award of a minor will be noted on the student&#x27;s transcript at the time of graduation.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://ece.umd.edu/undergraduate/degrees/bs-electrical-engineering" target="_blank" rel="noopener">Electrical Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">Electrical engineers create innovative technology solutions in a wide range of areas from handheld communications to solar panels; from cardiac pacemakers to autonomous robots; from wireless networks to bio-engineered sensors that detect dangerous pathogens; and intelligent surveillance systems that perform face and motion recognition.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major</p>
-          <h3 slot="headline"><a href="https://agnr.umd.edu/academics/programs-study/environmental-science-technology" target="_blank" rel="noopener">Environmental Science &amp; Technology</a></h3>
-          <p slot="text" class="interest-major-desc">Environmental Science and Technology educates and prepares students to work in natural resources management, ecological technology design, soil and watershed science, or ecosystem health. Government agencies, environmental consulting firms, &quot;green&quot;/renewable energy industries, and non-governmental organizations are all potential career paths allowing students to solve grand challenges and contribute to a sustainable future.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://fpe.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Fire Protection Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">Fire Protection Engineering provides graduates with the tools needed to safeguard lives and property from fire. Undergraduate students receive a unique education (see sidebar) that focuses on topics such as fire-related safety, suppression systems, and health and environmental issues.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://geog.umd.edu/undergraduate/gis-minor" target="_blank" rel="noopener">Geographic Information Science</a></h3>
-          <p slot="text" class="interest-major-desc">The GIS minor is designed to give students the technical skills needed to acquire, manage and analyze geographic data. Geographic information science and remote sensing have evolved dramatically in the past few decades. Students in the minor will receive extensive training in digital processing of remote sensing observations and cartographic vector data, spatial analysis, and the display of information products.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://www.geol.umd.edu/undergraduate/Geology_Minors.php" target="_blank" rel="noopener">Geophysics</a></h3>
-          <p slot="text" class="interest-major-desc">The undergraduate minor in Geophysics recognizes concentrated study in this designated field in the College of Computer, Mathematical, and Natural Sciences. The award of a minor will be noted on the student&#x27;s transcript at the time of graduation.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://eng.umd.edu/global/coursework" target="_blank" rel="noopener">Global Engineering Leadership</a></h3>
-          <p slot="text" class="interest-major-desc">The minor in global engineering leadership is designed to develop the skills necessary to lead with a global vision, work effectively with others to address social issues, and engineer solutions that improve communities and organizations.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://imd.umd.edu/about" target="_blank" rel="noopener">Immersive Media Design</a></h3>
-          <p slot="text" class="interest-major-desc">Immersive Media Design (IMD) allows students to unleash their creativity through technology. Students learn to design, develop, and produce various forms of immersive media—ranging from tactical and audio platforms to virtual and augmented reality. Through IMD courses, students integrate technical and artistic skills by studying digital media and collaborating to design immersive media works and build portfolios.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major</p>
-          <h3 slot="headline"><a href="https://ivsp.umd.edu/" target="_blank" rel="noopener">Individual Studies Program</a></h3>
-          <p slot="text" class="interest-major-desc">Individual Studies (IVSP) students enjoy broad academic freedom and flexibility to pursue their degrees in ways that best suit their intellectual interests and passions. Under the guidance of a faculty mentor and the IVSP staff, students create their own unique, interdisciplinary majors that approach important issues, questions, and problems from a range of disciplines and perspectives.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-majors" target="_blank" rel="noopener">Information Systems</a></h3>
-          <p slot="text" class="interest-major-desc">Maryland Smith’s Information Systems (IS) major is ranked No. 6 in the country (and the school is No. 11 among publics) by U.S. News &amp; World Report and includes stellar faculty with real-world experience and influential research. The IS major prepares you to effectively plan, use and manage information technologies and systems through a focus on system design and implementation skills, including database and web design.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://mse.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Materials Science &amp; Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">Many major advances in science and technology, from computer chips to hypersonic aircraft, are attributable to advances in the underlying materials systems. Materials Science and Engineering is a multidisciplinary field focused on developing materials and materials systems for future technological advancements.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Minor</p>
-          <h3 slot="headline"><a href="https://www-math.umd.edu/undergraduate/math-majors.html" target="_blank" rel="noopener">Mathematics</a></h3>
-          <p slot="text" class="interest-major-desc">The Department of Mathematics educates its majors in a broad range of modern mathematics while instilling in them a strong ability to solve problems, apply mathematics to other areas, and create rigorous mathematical arguments. The program prepares the majors to further their mathematical education in graduate school, or to teach at the secondary school level, or to work in government or business.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://enme.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Mechanical Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">Mechanical Engineering is a dynamic and expanding field with emphasis in such areas as energy, thermal sciences, and instrumentation. New programs in manufacturing, microelectronics, and nanotechnology prepare our graduates for the emerging technologies of the 21st century.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major</p>
-          <h3 slot="headline"><a href="https://shadygrove.umd.edu/academics/degree-programs/bs-mechatronics-engineering" target="_blank" rel="noopener">Mechatronics Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">Mechatronics is the combination of mechanical, electrical, and information systems engineering. Mechatronics engineers design, develop, and test automated production systems, transportation and vehicle systems, robotics, computer-machine controls, and other integrated systems. Mechatronics engineers also develop new technologies for use in the automotive and aviation industry, advanced manufacturing operations, and often specialize in areas like robotics, autonomous vehicles, and manufacturing systems.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://www.nanocenter.umd.edu/education/nano-minor/" target="_blank" rel="noopener">Nanoscale Science &amp; Technology</a></h3>
-          <p slot="text" class="interest-major-desc">To meet the rapidly growing interest of students in nano, and to prepare students for careers in the exciting, rapidly growing field of nanoscale science and technology, we offer an innovative undergraduate program, the Interdisciplinary Minor Program in Nanoscale Science and Technology (NS&amp;T).</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://enme.umd.edu/undergraduate/degrees/minor-nuclear-engineering" target="_blank" rel="noopener">Nuclear Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">The minor in Nuclear Engineering provides the engineering student with the understanding of nuclear engineering and its application to many different fields, such as power generation, reactor operation, and industrial uses. Students in the minor will learn the fundamentals of nuclear reactor engineering, radiation interactions and measurement, power plant design concepts, and reactor safety.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Minor</p>
-          <h3 slot="headline"><a href="https://umdphysics.umd.edu/academics/undergraduate/ugrad-prospective-students.html" target="_blank" rel="noopener">Physics</a></h3>
-          <p slot="text" class="interest-major-desc">The world-class faculty in the University of Maryland’s Physics Department teach students to think analytically and empirically about the physical world. Whether you plan to continue to study physics in graduate school or work in fields such as engineering, software development, law, business, or education, a bachelor&#x27;s degree in physics from Maryland provides an excellent foundation.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://pm.umd.edu/program/undergraduate-minor-in-project-management/" target="_blank" rel="noopener">Project Management</a></h3>
-          <p slot="text" class="interest-major-desc">Employers increasingly seek candidates whose career preparation includes an understanding of project management fundamentals. Students that complete this minor should have a good understanding of project management concepts, tools, and techniques and be able to be productive on project teams in their first employment after graduation. The minor also aligns students with career paths leading to increased management responsibility.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://geog.umd.edu/undergraduate/remote-sensing-minor" target="_blank" rel="noopener">Remote Sensing of Environmental Change</a></h3>
-          <p slot="text" class="interest-major-desc">The Remote Sensing of Environmental Change minor program (RSEC) is designed to build students’ understanding of global environmental change in order to assess their impacts on the physical and human landscapes, and to use remote sensing as an analytical tool for identifying those impacts.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://robotics.umd.edu/minor" target="_blank" rel="noopener">Robotics &amp; Autonomous Systems</a></h3>
-          <p slot="text" class="interest-major-desc">The undergraduate minor in Robotics and Autonomous Systems (RAS) is a cross-disciplinary program administered by the Maryland Robotics Center in the Institute for Systems Research within the A. James Clark School of Engineering. The minor takes a multidisciplinary approach to robotics in which students gain knowledge about the design, control, programming, and integration of robotics and autonomous systems.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://spp.umd.edu/your-education/undergraduate/minors/science-technology-ethics-and-policy-step-minor" target="_blank" rel="noopener">Science, Technology, Ethics &amp; Policy</a></h3>
-          <p slot="text" class="interest-major-desc">The STEP minor offers you the knowledge and analytical skills to understand and assess the complex interactions among science, technology, ethics and policy. Students in the minor explore the ways that scientific practice and technological development are embedded in social, cultural, humanistic and political systems.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://www.mtech.umd.edu/learning/minor-in-technology-entrepreneurship" target="_blank" rel="noopener">Technology Entrepreneurship &amp; Corporate Innovation</a></h3>
-          <p slot="text" class="interest-major-desc">The Minor in Technology Entrepreneurship and Corporate Innovation aims to help students understand the entrepreneurial process and essential skills. Equipped with an entrepreneurial mindset and skill set, aspiring innovators can drive economic growth by launching successful ventures and bringing new products and services to market.</p>
-        </umd-element-card>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- 6. CAREERS — dark overlay pathway, image opposite the majors pathway.
-       data-display="overlay" data-theme="dark" is self-contained: it paints its
-       own black panel inside the content lock, so NO umd-layout-background-full-dark
-       wrapper (OVERRIDES.md § "Overlay pathway as a dark editorial block").
-       The list is the source page's plain rich-text <ul>, single column. -->
-  <section class="umd-layout-vertical-landing">
-    <umd-element-pathway data-display="overlay" data-theme="dark"
-                         data-layout-image-position="left">
-      <img slot="image" src="../../images/interest/neutral-buoyancy.jpg" alt="A diver in the Neutral Buoyancy Research Facility tank" />
-      <h2 slot="headline">Careers in Engineering &amp; Technology</h2>
-      <div slot="text">
-        <ul class="interest-careers-list">
-            <li>Architecture</li>
-            <li>Bioengineering</li>
-            <li>Construction</li>
-            <li>Engineering</li>
-            <li>Entrepreneurship</li>
-            <li>Materials Science</li>
-            <li>Nanoscale Science</li>
-            <li>Policy</li>
-            <li>Project Management</li>
-            <li>Urban Planning</li>
-        </ul>
-      </div>
-    </umd-element-pathway>
-  </section>
-
-  <!-- 7. RELATED COLLEGES & SCHOOLS — 3-up DS cards, curated in
-       briefs/interests-data.json. Page ends here: the live page repeats the
-       majors grid below this point, which is a bug, not a section. -->
+  <!-- 7. JOIN THE MAILING LIST — banner promo -->
   <section class="umd-layout-vertical-landing">
     <div class="umd-layout-space-horizontal-larger">
-      <umd-element-section-intro class="umd-layout-vertical-landing-child">
-        <h2 slot="headline">Related Colleges &amp; Schools</h2>
-      </umd-element-section-intro>
-      <div class="umd-layout-grid-gap-three" data-animation="off">
-
-        <umd-element-card data-visual-image-aligned="true">
-          <a slot="image" href="https://eng.umd.edu/" target="_blank" rel="noopener"><img src="../../images/colleges-schools/engr.jpg" alt="A James Clark School of Engineering ENGR" loading="lazy" /></a>
-          <p slot="eyebrow">ENGR</p>
-          <h3 slot="headline"><a href="https://eng.umd.edu/" target="_blank" rel="noopener">A. James Clark School of Engineering</a></h3>
-          <p slot="text">The A. James Clark School of Engineering is consistently ranked among the world&#x27;s top engineering schools. Its academic programs offer endless opportunities to explore, and our location near Washington, D.C., will give you access to federal research labs and major technology corporations to land internships and jobs.</p>
-        </umd-element-card>
-        <umd-element-card data-visual-image-aligned="true">
-          <a slot="image" href="https://cmns.umd.edu/" target="_blank" rel="noopener"><img src="../../images/colleges-schools/cmns.jpg" alt="Computer Studies" loading="lazy" /></a>
-          <p slot="eyebrow">CMNS</p>
-          <h3 slot="headline"><a href="https://cmns.umd.edu/" target="_blank" rel="noopener">College of Computer, Mathematical, &amp; Natural Sciences</a></h3>
-          <p slot="text">The thirst for new knowledge is at the heart of scientific endeavor and discovery. As we seek to understand our world across a host of complexly interconnected phenomena, our discoveries shape that world. At the forefront of many of these discoveries is the College of Computer, Mathematical, and Natural Sciences.</p>
-        </umd-element-card>
-        <umd-element-card data-visual-image-aligned="true">
-          <a slot="image" href="https://www.rhsmith.umd.edu/" target="_blank" rel="noopener"><img src="../../images/colleges-schools/bmgt.jpg" alt="Business School" loading="lazy" /></a>
-          <p slot="eyebrow">BMGT</p>
-          <h3 slot="headline"><a href="https://www.rhsmith.umd.edu/" target="_blank" rel="noopener">Robert H. Smith School of Business</a></h3>
-          <p slot="text">At the Robert H. Smith School of Business, we&#x27;ll prepare you to succeed in a competitive global economy. Ranked among the nation&#x27;s top 20 undergraduate business schools, it&#x27;s home to outstanding faculty with real-world experience, cutting-edge research and lots of connections.</p>
-        </umd-element-card>
-
-      </div>
+      <umd-element-banner-promo>
+        <p slot="eyebrow">Join the Mailing List</p>
+        <h2 slot="headline">Stay in touch with UMD</h2>
+        <p slot="text">Complete a brief form to be added to UMD's mailing list. We'll send you emails about upcoming events, deadlines and helpful information about applying to UMD.</p>
+        <div slot="actions" class="banner-promo-actions">
+          <umd-element-call-to-action data-display="primary">
+            <a href="https://admissions.umd.edu/connect/join-mailing-list">Sign Up Now</a>
+          </umd-element-call-to-action>
+        </div>
+      </umd-element-banner-promo>
     </div>
   </section>
 
@@ -1692,53 +1855,139 @@ umd-element-scroll-top[data-layout-fixed="true"] {
   </script>
   <!-- SHARED:chrome-scripts:END -->
 
-  <!-- Pathway shadow injection — page-content-driven (OVERRIDES.md).
-       Emitted because this page uses umd-element-pathway.
+  <!-- Banner-promo shadow injection — page-content-driven (OVERRIDES.md).
+       banner-promo reprojects slot="actions" into its shadow root under
+       .banner-promo-actions with no gap when the actions stack. -->
+  <script>
+    customElements.whenDefined('umd-element-banner-promo').then(() => {
+      document.querySelectorAll('umd-element-banner-promo').forEach(el => {
+        const style = document.createElement('style');
+        style.textContent = '.banner-promo-actions{display:flex!important;flex-direction:column!important;align-items:flex-end!important;gap:8px!important}';
+        el.shadowRoot && el.shadowRoot.appendChild(style);
+      });
+    });
+  </script>
 
-       1:1 image crop. Selector is the project's documented one
-       (.pathway-image-container / .image-container /
-       .umd-asset-image-wrapper-scaled) — verified against the live shadow tree
-       in cdn.js@1.18.12. The component exposes no CSS variable or ::part hook
-       for the image container. Load-bearing on the overlay variant, not just
-       cosmetic: overlay lays its image out as a grid column, so without the cap
-       a tall source drives the height of the whole component. -->
+  <!-- Person-card link affordance — page-content-driven (OVERRIDES.md).
+       umd-element-person styles a linked and an unlinked name the same; this
+       gives the linked ones an underline on hover/focus so the card reads as
+       actionable. Scoped to `a.person-name`, so it is inert on the cards whose
+       rep has no profile page yet.
+
+       Exposed as a re-runnable function, not a one-shot pass: the search page
+       builds fresh cards on every filter, and those need the injection too. The
+       per-element flag keeps repeat calls from stacking <style> nodes. -->
+  <script>
+    window.umdInjectPersonLinkCss = function () {
+      document.querySelectorAll('umd-element-person').forEach(el => {
+        if (!el.shadowRoot || el.dataset.personLinkCssDone) return;
+        const style = document.createElement('style');
+        style.textContent =
+          'a.person-name{text-decoration:none}' +
+          'a.person-name:hover,a.person-name:focus-visible' +
+          '{text-decoration:underline;text-underline-offset:3px;' +
+          'text-decoration-thickness:2px;color:var(--umd-color-red,#e21833)}';
+        el.shadowRoot.appendChild(style);
+        el.dataset.personLinkCssDone = '1';
+      });
+    };
+    customElements.whenDefined('umd-element-person')
+      .then(() => window.umdInjectPersonLinkCss());
+  </script>
+
+  <!-- Filter controller — page-content-driven, this page only. -->
   <script>
   (function () {
-    var CSS = '.pathway-image-container,.image-container,' +
-              '.umd-asset-image-wrapper-scaled' +
-              '{aspect-ratio:1/1 !important;height:auto !important;}' +
-              '.pathway-image-container img,.image-container img' +
-              '{object-fit:cover;width:100%;height:100%;}';
-    function inject(el) {
-      if (!el.shadowRoot || el.dataset.pathwayCssDone) return;
-      var s = document.createElement('style');
-      s.textContent = CSS;
-      el.shadowRoot.appendChild(s);
-      el.dataset.pathwayCssDone = '1';
-    }
-    function run() {
-      document.querySelectorAll('umd-element-pathway').forEach(inject);
-    }
-    if (window.customElements) {
-      customElements.whenDefined('umd-element-pathway').then(function () {
-        run();
-        setTimeout(run, 300);
+    var PAGE = 8;
+    var form = document.getElementById('reps-filter');
+    var grid = document.getElementById('reps-results');
+    var status = document.getElementById('reps-status');
+    var empty = document.getElementById('reps-empty');
+    var more = document.getElementById('reps-load-more');
+    var moreBtn = document.getElementById('reps-load-more-button');
+    var termSel = document.getElementById('reps-territory');
+    var searchIn = document.getElementById('reps-search');
+    if (!form || !grid) return;
+
+    // Capture each card's markup once, up front. outerHTML on an upgraded
+    // umd-element-person serialises its LIGHT DOM only -- the shadow root is
+    // not included -- so this round-trips the original markup, data-* and all.
+    var ALL = Array.prototype.map.call(grid.children, function (el) {
+      return {
+        html: el.outerHTML,
+        regions: (el.getAttribute('data-regions') || '').split('|'),
+        search: el.getAttribute('data-search') || ''
+      };
+    });
+    var shown = 0;
+    var matches = ALL;
+
+    // The form does nothing without this script, so it ships hidden and is
+    // revealed only now.
+    form.hidden = false;
+
+    function filtered() {
+      var term = termSel.value;
+      var q = searchIn.value.trim().toLowerCase();
+      return ALL.filter(function (rec) {
+        if (term && rec.regions.indexOf(term) === -1) return false;
+        if (q && rec.search.indexOf(q) === -1) return false;
+        return true;
       });
     }
-    document.addEventListener('DOMContentLoaded', run);
+
+    // Build fresh elements for matches[from..to). They upgrade -- and therefore
+    // render -- exactly once, when they are appended here.
+    function append(from, to) {
+      if (to <= from) return;
+      var holder = document.createElement('div');
+      holder.innerHTML = matches.slice(from, to).map(function (r) { return r.html; }).join('');
+      while (holder.firstElementChild) grid.appendChild(holder.firstElementChild);
+      // Freshly built cards need the hover injection too.
+      if (window.umdInjectPersonLinkCss) window.umdInjectPersonLinkCss();
+    }
+
+    function paint(target, rebuild) {
+      if (rebuild) { grid.replaceChildren(); shown = 0; }
+      append(shown, target);
+      shown = target;
+      var total = matches.length;
+      empty.hidden = total !== 0;
+      grid.hidden = total === 0;
+      more.hidden = shown >= total;
+      status.textContent = total
+        ? 'Showing ' + shown + ' of ' + total + ' representative' + (total === 1 ? '' : 's')
+        : 'No representatives match those filters.';
+    }
+
+    function apply() {
+      matches = filtered();
+      paint(Math.min(PAGE, matches.length), true);
+    }
+
+    // Debounced so a fast typist does not force a rebuild per keystroke.
+    var t;
+    searchIn.addEventListener('input', function () {
+      clearTimeout(t);
+      t = setTimeout(apply, 200);
+    });
+    termSel.addEventListener('change', apply);
+    form.addEventListener('submit', function (ev) { ev.preventDefault(); clearTimeout(t); apply(); });
+    // Reset fires BEFORE the fields clear, so read them on the next tick.
+    form.addEventListener('reset', function () { setTimeout(apply, 0); });
+    // Grow only: the cards already on screen are correct and are left alone.
+    moreBtn.addEventListener('click', function () {
+      paint(Math.min(shown + PAGE, matches.length), false);
+    });
+
+    apply();
   })();
   </script>
 
-  <!-- NO description clamp. Program descriptions run 250-875 characters and
-       every one displays in full: truncating a program's description is a
-       content decision, not a layout one, and this page is the reader's index
-       of what a major actually is. An earlier revision shadow-injected a
-       4-line -webkit-line-clamp here; it is deliberately gone. Row heights are
-       evened out by umd-layout-grid-child-fill-height on each card instead, so
-       a long description makes its row taller rather than getting cut. -->
-
-  <!-- Canonical grid-entry animations (page-builder/CLAUDE.md: never inline). -->
-  <script src="../../page-builder/scripts/grid-animations.js"></script>
+  <!-- NO grid-animations.js on this page. The canonical script animates grid
+       children in on first reveal; here the grid's children are replaced on
+       every keystroke, so each filter would re-trigger the entry animation and
+       the results would flicker. index.html keeps it. -->
 
 </body>
 </html>

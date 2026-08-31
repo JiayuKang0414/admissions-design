@@ -1,0 +1,369 @@
+{
+  "_note": "Source: https://admissions.umd.edu/admission-representatives (captured 2026-08-31). Bios and territory lists come from the modals on that page. Set \"page\": true on a rep to generate pages/admission-representatives/<slug>.html for them; the grid links only the reps that have one.",
+  "page": {
+    "title": "Admission Representatives",
+    "hero": {
+      "image": "{{ROOT}}images/admission-representatives/representatives-hero.jpg",
+      "alt": "University of Maryland students walking together on campus",
+      "headline": "Admission Representatives",
+      "text": "Our admission counselors are traveling the globe to find the next class of fearless Terps!"
+    },
+    "intro": {
+      "lead": "We're Here for You",
+      "paragraphs": [
+        "Your admission representative can answer your questions, offer advice and guide you through the admission process. We understand selecting a college is a big decision, but it doesn&rsquo;t have to be a stressful one. <strong>Learn more about each of our reps, and the territories they cover, on their profile pages.</strong>",
+        "To get in touch with your admission representative, simply email <a href=\"mailto:ApplyMaryland@umd.edu\">ApplyMaryland@umd.edu</a> and include your city and state in the subject line (for example, &ldquo;Student Inquiry from College Park, Maryland&rdquo;)."
+      ]
+    },
+    "grid": {
+      "headline": "Meet the Office of Undergraduate Admissions"
+    },
+    "promo": {
+      "eyebrow": "Join the Mailing List",
+      "headline": "Stay in touch with UMD",
+      "text": "Complete a brief form to be added to UMD's mailing list. We'll send you emails about upcoming events, deadlines and helpful information about applying to UMD.",
+      "ctaLabel": "Sign Up Now",
+      "ctaHref": "https://admissions.umd.edu/connect/join-mailing-list"
+    }
+  },
+  "people": [
+    {
+      "slug": "abigail-trice",
+      "name": "Abigail Trice",
+      "position": "Senior Coordinator of Admissions and Rural Recruitment",
+      "image": "{{ROOT}}images/admission-representatives/abigail-trice.jpg",
+      "alt": "Portrait of Abigail Trice, Senior Coordinator of Admissions and Rural Recruitment",
+      "bioHeadline": "Favorite Maryland Moment",
+      "bio": "Swimming in the ODK fountain with my roommates the night before our graduation.",
+      "regions": [
+        "Colorado",
+        "Maryland - Caroline County",
+        "Maryland - Dorchester County",
+        "Maryland - Kent County",
+        "Maryland - Queen Anne's County",
+        "Maryland - Somerset County",
+        "Maryland - Talbot County",
+        "Maryland - Wicomico County",
+        "Maryland - Worcester County"
+      ],
+      "page": true
+    },
+    {
+      "slug": "albert-clarke",
+      "name": "Albert Clarke",
+      "position": "Senior Coordinator of Admissions & Diversity Initiatives",
+      "image": "{{ROOT}}images/admission-representatives/albert-clarke.jpg",
+      "alt": "Portrait of Albert Clarke, Senior Coordinator of Admissions & Diversity Initiatives",
+      "bioHeadline": "Favorite Maryland Moment",
+      "bio": "As a Resident Assistant, I loved planning various academic and social events for freshmen and sophomore residents. It was a joy to watch growing Terps emerge from their shells.",
+      "regions": [
+        "Maryland - Baltimore City",
+        "Maryland - Baltimore County"
+      ],
+      "page": false
+    },
+    {
+      "slug": "amanda-hudson",
+      "name": "Amanda Hudson",
+      "position": "Northeast Regional Coordinator",
+      "image": "{{ROOT}}images/admission-representatives/amanda-hudson.jpg",
+      "alt": "Portrait of Amanda Hudson, Northeast Regional Coordinator",
+      "bioHeadline": "Favorite Maryland Moment",
+      "bio": "Discovering the TerpZone in the Stamp Student Union. From bowling, to a movie theatre, to ice cream at Maryland Dairy-- it felt like a one stop shop for a fun-filled day! Stamp is always my go-to on campus spot for food and fun!",
+      "regions": [
+        "Connecticut",
+        "Rhode Island",
+        "New York - Upstate",
+        "New York - New York City"
+      ],
+      "page": false
+    },
+    {
+      "slug": "brandon-moten",
+      "name": "Brandon Moten",
+      "position": "Coordinator of Recruitment at Shady Grove",
+      "image": "{{ROOT}}images/admission-representatives/brandon-moten.jpg",
+      "alt": "Portrait of Brandon Moten, Coordinator of Recruitment at Shady Grove",
+      "bioHeadline": "Favorite Maryland Moment",
+      "bio": "Going to go to my first Terps basketball game in 2013 against Duke. We won 83-81! No matter the sport, UMD games are always so exciting.",
+      "regions": [],
+      "page": false
+    },
+    {
+      "slug": "colin-crow",
+      "name": "Colin Crow",
+      "position": "Admission Counselor",
+      "image": "{{ROOT}}images/admission-representatives/colin-crow.jpg",
+      "alt": "Portrait of Colin Crow, Admission Counselor",
+      "bioHeadline": "Favorite Maryland Moment",
+      "bio": "Getting to see all the excited faces of students and families as they step foot on campus for an Admitted Student Open House.",
+      "regions": [
+        "Maryland - Anne Arundel County",
+        "New Jersey - Northern"
+      ],
+      "page": false
+    },
+    {
+      "slug": "courtney-milton",
+      "name": "Courtney Milton",
+      "position": "Associate Director of Admissions & Diversity Initiatives",
+      "image": "{{ROOT}}images/admission-representatives/courtney-milton.jpg",
+      "alt": "Portrait of Courtney Milton, Associate Director of Admissions & Diversity Initiatives",
+      "bioHeadline": null,
+      "bio": null,
+      "regions": [],
+      "page": false
+    },
+    {
+      "slug": "dominique-tucker",
+      "name": "Dominique Tucker",
+      "position": "Senior Coordinator of Student Transition",
+      "image": "{{ROOT}}images/admission-representatives/dominique-tucker.jpg",
+      "alt": "Portrait of Dominique Tucker, Senior Coordinator of Student Transition",
+      "bioHeadline": "Favorite Maryland Moment",
+      "bio": "Seeing students I've worked with throughout their high school careers transition to the University of Maryland and seeing them grow not only as students, but as people.",
+      "regions": [
+        "Maryland - Prince George's County",
+        "Washington, D.C. Public Schools"
+      ],
+      "page": false
+    },
+    {
+      "slug": "ebony-freeman",
+      "name": "Ebony Freeman",
+      "position": "West Coast Regional Coordinator",
+      "image": "{{ROOT}}images/admission-representatives/ebony-freeman.jpg",
+      "alt": "Portrait of Ebony Freeman, West Coast Regional Coordinator",
+      "bioHeadline": "Favorite Maryland Moment",
+      "bio": "Taking a campus tour to see all that University of Maryland has to offer, plus getting to eat ice cream from the Maryland Dairy!",
+      "regions": [
+        "California",
+        "Washington"
+      ],
+      "page": true
+    },
+    {
+      "slug": "james-b-massey-jr",
+      "name": "James B. Massey, Jr.",
+      "position": "Director of Undergraduate Admissions",
+      "image": "{{ROOT}}images/admission-representatives/james-b-massey-jr.jpg",
+      "alt": "Portrait of James B. Massey, Jr., Director of Undergraduate Admissions",
+      "bioHeadline": null,
+      "bio": null,
+      "regions": [],
+      "page": true
+    },
+    {
+      "slug": "javier-mena",
+      "name": "Javier Mena",
+      "position": "Assistant Director of Regional Recruitment & Alumni Relations",
+      "image": "{{ROOT}}images/admission-representatives/javier-mena.jpg",
+      "alt": "Portrait of Javier Mena, Assistant Director of Regional Recruitment & Alumni Relations",
+      "bioHeadline": "Favorite Maryland Moment",
+      "bio": "Every time I step onto campus I enjoy connecting with the vibrant and diverse student body. One of those special moments is during our homecoming football game and seeing all of the #TerpPride.",
+      "regions": [
+        "Illinois",
+        "Puerto Rico"
+      ],
+      "page": false
+    },
+    {
+      "slug": "karen-pryor",
+      "name": "Karen Pryor",
+      "position": "Sr. Associate Director of Recruitment and Strategic Planning",
+      "image": "{{ROOT}}images/admission-representatives/karen-pryor.jpg",
+      "alt": "Portrait of Karen Pryor, Sr. Associate Director of Recruitment and Strategic Planning",
+      "bioHeadline": null,
+      "bio": null,
+      "regions": [],
+      "page": false
+    },
+    {
+      "slug": "karina-reid",
+      "name": "Karina Reid",
+      "position": "Assistant Director for Transfer Admission",
+      "image": "{{ROOT}}images/admission-representatives/karina-reid.jpg",
+      "alt": "Portrait of Karina Reid, Assistant Director for Transfer Admission",
+      "bioHeadline": "Favorite Maryland Moment",
+      "bio": "Attending Maryland Day each year and seeing all that University of Maryland has to offer. I get to meet people that are experiencing the university for the first time and others that have been coming to Maryland Day for years.",
+      "regions": [],
+      "page": false
+    },
+    {
+      "slug": "katya-kuzemka",
+      "name": "Katya Kuzemka",
+      "position": "Admission Counselor",
+      "image": "{{ROOT}}images/admission-representatives/katya-kuzemka.jpg",
+      "alt": "Portrait of Katya Kuzemka, Admission Counselor",
+      "bioHeadline": "Favorite Maryland Moment",
+      "bio": "Seeing the beginning of the school year with all the new students and families stepping on campus for the first time.",
+      "regions": [
+        "Maryland - Montgomery County",
+        "New Jersey - Central",
+        "New Jersey - Southern",
+        "Pennsylvania - Philadelphia"
+      ],
+      "page": false
+    },
+    {
+      "slug": "kegan-duncan",
+      "name": "Kegan Duncan",
+      "position": "Southwest Regional Coordinator",
+      "image": "{{ROOT}}images/admission-representatives/kegan-duncan.jpg",
+      "alt": "Portrait of Kegan Duncan, Southwest Regional Coordinator",
+      "bioHeadline": "Favorite Maryland Moment",
+      "bio": "Seeing students on campus! Our student body represents every state (including the Southwest), many different countries, backgrounds and experiences.",
+      "regions": [
+        "Texas"
+      ],
+      "page": false
+    },
+    {
+      "slug": "maggie-much",
+      "name": "Maggie Much",
+      "position": "Senior Coordinator of Admissions",
+      "image": "{{ROOT}}images/admission-representatives/maggie-much.jpg",
+      "alt": "Portrait of Maggie Much, Senior Coordinator of Admissions",
+      "bioHeadline": "Favorite Maryland Moment",
+      "bio": "One of my many favorite moments was getting to see the original Testudo during a visit to the university's archives.",
+      "regions": [
+        "Delaware",
+        "Maryland - Cecil County",
+        "Maryland - Harford County"
+      ],
+      "page": false
+    },
+    {
+      "slug": "matt-leichman",
+      "name": "Matt Leichman",
+      "position": "Admission Counselor",
+      "image": "{{ROOT}}images/admission-representatives/matt-leichman.jpg",
+      "alt": "Portrait of Matt Leichman, Admission Counselor",
+      "bioHeadline": "Favorite Maryland Moment",
+      "bio": "While attending UMD, a favorite moment was when my parents flew in from California to come on my 100th campus tour my senior year!",
+      "regions": [
+        "Maryland - Howard County",
+        "New York - Long Island, Nassau",
+        "Virginia - Northern"
+      ],
+      "page": false
+    },
+    {
+      "slug": "matt-tick",
+      "name": "Matt Tick",
+      "position": "Admission Counselor",
+      "image": "{{ROOT}}images/admission-representatives/matt-tick.jpg",
+      "alt": "Portrait of Matt Tick, Admission Counselor",
+      "bioHeadline": "Favorite Maryland Moment",
+      "bio": "Welcoming students and families to campus! Whether it's the first week of a new school year or an on-campus admissions event, there's nothing more exciting than bringing new Terps into our community.",
+      "regions": [
+        "Maryland - Baltimore Private/Independent Schools",
+        "Maryland - Calvert County",
+        "Maryland - Charles County",
+        "Maryland - St. Mary's County"
+      ],
+      "page": false
+    },
+    {
+      "slug": "mike-nixon",
+      "name": "Mike Nixon",
+      "position": "Senior Associate Director of Undergraduate Admissions",
+      "image": "{{ROOT}}images/admission-representatives/mike-nixon.jpg",
+      "alt": "Portrait of Mike Nixon, Senior Associate Director of Undergraduate Admissions",
+      "bioHeadline": null,
+      "bio": null,
+      "regions": [],
+      "page": false
+    },
+    {
+      "slug": "nico-magpantay",
+      "name": "Nico Magpantay",
+      "position": "Admission Counselor",
+      "image": "{{ROOT}}images/admission-representatives/nico-magpantay.jpg",
+      "alt": "Portrait of Nico Magpantay, Admission Counselor",
+      "bioHeadline": "Favorite Maryland Moment",
+      "bio": "My friends and I would always hop onto the Metro and before we knew it, we were in our nation's capital. Washington D.C. is home to many free museums and lots of different events! It is always fun to catch a Capitals game or a Nationals game!",
+      "regions": [
+        "Massachusetts",
+        "Maryland - Carroll County",
+        "Virginia - Tidewater Region",
+        "Virginia - Richmond"
+      ],
+      "page": true
+    },
+    {
+      "slug": "olander-fleming",
+      "name": "Olander Fleming",
+      "position": "Southeast Regional Coordinator",
+      "image": "{{ROOT}}images/admission-representatives/olander-fleming.jpg",
+      "alt": "Portrait of Olander Fleming, Southeast Regional Coordinator",
+      "bioHeadline": "Favorite Maryland Moment",
+      "bio": "My first Alumni gathering with Terps in Orlando before a football game. Once you attend UMD you are #AlwaysATerp, and I was able to witness the intense school spirit among graduates from the 60s to the 10s as we enjoyed a thrilling overtime win!",
+      "regions": [
+        "Florida",
+        "Georgia"
+      ],
+      "page": false
+    },
+    {
+      "slug": "raquel-sobczak",
+      "name": "Raquel Sobczak",
+      "position": "Admission Counselor",
+      "image": "{{ROOT}}images/admission-representatives/raquel-sobczak.jpg",
+      "alt": "Portrait of Raquel Sobczak, Admission Counselor",
+      "bioHeadline": "Favorite Maryland Moment",
+      "bio": "Seeing all the offerings students leave for Testudo (our mascot) during finals week for extra luck on their exams.",
+      "regions": [
+        "International",
+        "North Carolina",
+        "Maryland - Allegany County",
+        "Maryland - Frederick County",
+        "Maryland - Garrett County",
+        "Maryland - Washington County",
+        "New York - Rockland County",
+        "New York - Westchester County"
+      ],
+      "page": false
+    },
+    {
+      "slug": "seth-johnson",
+      "name": "Seth Johnson",
+      "position": "Admission Counselor",
+      "image": "{{ROOT}}images/admission-representatives/seth-johnson.jpg",
+      "alt": "Portrait of Seth Johnson, Admission Counselor",
+      "bioHeadline": "Favorite Maryland Moment",
+      "bio": "Attending many events at the Nyumburu Cultural Center (NCC). As one of the many spaces on campus that allow Terps to express themselves and create lifelong connections, NCC aims to promote an understanding of and appreciation for African-American Culture in all of its richness and complexity.",
+      "regions": [
+        "Maryland - Montgomery County",
+        "New York - Suffolk County",
+        "Pennsylvania - Pittsburgh"
+      ],
+      "page": false
+    },
+    {
+      "slug": "sofia-cisneros",
+      "name": "Sofia Cisneros",
+      "position": "Admission Counselor",
+      "image": "{{ROOT}}images/admission-representatives/sofia-cisneros.jpg",
+      "alt": "Portrait of Sofia Cisneros, Admission Counselor",
+      "bioHeadline": null,
+      "bio": null,
+      "regions": [
+        "District of Columbia",
+        "Washington, D.C. Area Private Schools"
+      ],
+      "page": true
+    },
+    {
+      "slug": "taylor-duvall",
+      "name": "Taylor Duvall",
+      "position": "Coordinator of Scholarships & Special Programs; Liaison for Military Connected and Veteran Students",
+      "image": "{{ROOT}}images/admission-representatives/taylor-duvall.jpg",
+      "alt": "Portrait of Taylor Duvall, Coordinator of Scholarships & Special Programs; Liaison for Military Connected and Veteran Students",
+      "bioHeadline": "Favorite Maryland Moment",
+      "bio": "Walking through the campus during homecoming and seeing the huge amount of Maryland pride.",
+      "regions": [],
+      "page": true
+    }
+  ]
+}

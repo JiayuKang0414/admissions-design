@@ -57,6 +57,12 @@ _REGIONS = {
     'footer':         ('footer.html',          lambda s: s),
     'chrome-css':     ('chrome.css',           lambda s: '  <style>\n' + s + '\n  </style>'),
     'chrome-scripts': ('chrome-scripts.html',  lambda s: s),
+    # The access gate is head content and self-contained (its own <style> and
+    # <script>), so it is a region like any other. It MUST be a region rather
+    # than a one-off splice: it was originally inserted by hand, and the next
+    # run of build-programs.py / build-calendar.py silently dropped it -- both
+    # pages sat ungated on main until this was wired up.
+    'gate':           ('gate.html',            lambda s: s),
 }
 
 
@@ -155,6 +161,18 @@ def source_file(key):
     return _REGIONS[key][0]
 
 
+# Regions whose source file may legitimately be deleted. shared/gate.html says
+# so in its own header ("DELETE THIS FILE on a project that should be public --
+# the inliner skips a region whose source file is absent"), so removing it has
+# to strip the block rather than crash every build script.
+_OPTIONAL = {'gate'}
+
+
+def present(key):
+    """Does this region have a source file? Always true except for _OPTIONAL."""
+    return os.path.exists(os.path.join(SHARED, source_file(key)))
+
+
 def payload(key, page):
     """The region's content, without markers, rendered for the page at `page`.
 
@@ -169,7 +187,14 @@ def payload(key, page):
 
 
 def block(key, page):
-    """The region's content wrapped in its SHARED:<key> markers."""
+    """The region's content wrapped in its SHARED:<key> markers.
+
+    An _OPTIONAL region with no source file renders as the empty string, which
+    is what strips it: build-chrome.py replaces the marked span with this, and
+    the generators substitute it for their @@CHROME:<key>@@ slot.
+    """
+    if key in _OPTIONAL and not present(key):
+        return ''
     return '\n'.join([_START % (key, source_file(key)), payload(key, page), _END % key])
 
 

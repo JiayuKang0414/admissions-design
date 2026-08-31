@@ -37,13 +37,17 @@ pages/
 │   └── transfer-applicants.html
 ├── personas/
 │   └── prospective-students.html            audience landing pages
+├── admission-representatives/
+│   ├── index.html                           the 24-person directory
+│   ├── search.html                          same directory, filterable (CMS person-index pattern)
+│   └── <first-last>.html                    one profile page per rep
 ├── tuition/index.html
 └── calendar/index.html
 ```
 
-`personas/` has no `data-child-ref` group in `shared/header.html`, so its pages
-open the mobile drawer at the top level rather than on a section — correct until
-the section earns a nav item.
+`personas/` and `admission-representatives/` have no `data-child-ref` group in
+`shared/header.html`, so their pages open the mobile drawer at the top level
+rather than on a section — correct until the section earns a nav item.
 
 - New admissions pages → `pages/<section>/<page-name>.html`; a new section starts with its own `index.html`
 - New admissions images → `images/academics/`, `images/admissions/`, `images/calendar/`, or a new `images/<page>/` folder per page
@@ -96,6 +100,7 @@ Every page within a single design project must use the **same site header, navig
 | `shared/footer.html` | `umd-element-footer data-display="visual"` |
 | `shared/chrome.css` | CSS companions the chrome markup depends on (see below) |
 | `shared/chrome-scripts.html` | Chrome-driven shadow injections (nav-header logo width) |
+| `shared/gate.html` | Prototype access gate — head-only `<style>` + `<script>`; blanks the page until a reviewer signs in |
 
 **Edit `shared/`, then run the inliner:**
 
@@ -106,7 +111,7 @@ python3 scripts/build-chrome.py --check  # exits non-zero if any page is stale (
 
 Each region sits between `SHARED:<key>:START` / `:END` markers in the page. **Do not hand-edit anything between those markers** — the next run overwrites it. On a page that has no markers yet, the script finds the existing chrome by content and wraps it, so adding a new page needs no special setup.
 
-The generated pages (`scripts/build-programs.py`, `scripts/build-colleges-schools.py`, `scripts/build-interest.py`, `scripts/build-calendar.py`) emit the *same* blocks via `scripts/_chrome.py`, so running any of them converges on identical bytes — there is no ordering dependency between them.
+The generated pages (`scripts/build-programs.py`, `scripts/build-colleges-schools.py`, `scripts/build-interest.py`, `scripts/build-calendar.py`, `scripts/build-representatives.py`) emit the *same* blocks via `scripts/_chrome.py`, so running any of them converges on identical bytes — there is no ordering dependency between them.
 
 ### Generated pages
 
@@ -116,8 +121,13 @@ The generated pages (`scripts/build-programs.py`, `scripts/build-colleges-school
 | `build-colleges-schools.py` | `pages/academics/colleges-schools.html` | `briefs/colleges-schools-data.json` |
 | `build-interest.py [slug]` | `pages/academics/interest-<slug>.html` | `briefs/interests-data.json` + the two above |
 | `build-calendar.py` | `pages/calendar/index.html` | `briefs/calendar-data.json` |
+| `build-representatives.py [slug]` | `pages/admission-representatives/index.html`, `search.html`, + `<slug>.html` | `briefs/representatives-data.json` |
 
 `build-interest.py` derives the majors grid from the `interests` facet already present on every program in `programs-data.json`, so a new interest page is a data edit (one block in `briefs/interests-data.json`), not a code edit. Run with no argument to rebuild every slug.
+
+`build-representatives.py` works the same way: `representatives-data.json` holds all 24 reps, and the ones carrying `"page": true` get a profile page. Adding the rest is a data edit — flip the flag and re-run. Run with a slug to rebuild one rep without touching the landing page.
+
+**Every region in `shared/` must be emitted by every generator.** `_chrome.keys()` is the list, and `build-programs.py` / `build-calendar.py` assert that their template has a slot for each key — so adding a region to `_chrome.py` breaks those builds until they are wired, which is deliberate. The access gate learned this the hard way: it was originally spliced in by hand, and the next run of `build-programs.py` and `build-calendar.py` silently dropped it, leaving both pages ungated on `main` until it became a proper region (2026-08-31).
 
 Only the content between the header and footer is page-specific.
 

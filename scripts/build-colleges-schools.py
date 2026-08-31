@@ -553,6 +553,7 @@ PAGE_JS = '''  <!-- ============================================================
 page = f'''{head_top}
 {PAGE_CSS}{head_tail_open}
 {_chrome.block('chrome-css', OUT)}
+{_chrome.block('gate', OUT)}
 </head>
 <body>
 

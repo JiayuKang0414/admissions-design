@@ -935,3 +935,190 @@ Read them as referring to this file.
 The header and footer logos now link to `{{ROOT}}pages/` rather than the file.
 The directory form is what `chrome.py`'s `_self_hrefs` matches against both
 spellings, so the home page still gets `data-selected` in the drawer.
+
+---
+
+## `umd-element-person-hero` — two things the registry does not tell you (2026-08-31)
+
+Both found building `pages/admission-representatives/<slug>.html` (see
+`briefs/admission-representatives.md`). They matter to any future page that
+uses this component, which is the DS's only "profile page" hero.
+
+### 1. `slot="association"` is silently dropped
+
+`registry-person.json` lists `association` ("Department or unit") as a slot on
+all three person components. `umd-element-person-hero` **does not render it**.
+
+The component does not project the profile content through `<slot>` at all — it
+reads the light DOM and rebuilds a text lockup inside its shadow root, and that
+lockup reads only `name` and `job-title`:
+
+```html
+<div class="person-hero-text">
+  <div class="umd-text-line-adjustent-inset">
+    <h1 class="umd-campaign-large">Abigail Trice</h1>
+    <p class="umd-sans-medium">Senior Coordinator of Admissions and Rural Recruitment</p>
+  </div>
+</div>
+```
+
+Verified against the rendered shadow tree in `cdn.js@1.18.12`. `image`, `email`
+and `actions` *are* picked up (into `.umd-person-hero-image-container`);
+`association` is not. Do not emit it — it is dead markup, and its absence is
+invisible until someone looks for the unit name and cannot find it.
+
+The same clone-don't-slot behaviour is why **page CSS cannot style the name,
+job title, email or actions** on this component. Anything cosmetic there needs
+a shadow injection, not a stylesheet rule.
+
+### 2. `slot="breadcrumb"` takes a `umd-element-breadcrumb`, and the registry's example markup for it is wrong
+
+Two mistakes are easy to make here, and the component only warns about the first.
+
+**The slot validates.** Putting a hand-rolled `<nav>` (or anything else) in it
+logs, and renders unstyled light-DOM links in browser-default blue:
+
+```
+[UMD-DS:umd-element-person-hero] Slot validation failed
+  Slot "breadcrumb" contains invalid elements. Allowed: umd-element-breadcrumb
+```
+
+`registry-person.json`'s "do not also render a standalone
+`umd-element-breadcrumb`" means **put it in this slot** rather than separately
+on the page — not that the slot takes raw markup.
+
+**Then use RULES.md's paths markup, not the registry's.**
+`registry-navigation.json` documents `slot="paths"` as an ordered list:
+
+```html
+<!-- WRONG — registry-navigation.json's example -->
+<ol slot="paths"><li><a href="/">Home</a></li><li aria-current="page">This page</li></ol>
+```
+
+The DS draws its separators with `.breadcrumb-path + *::before`, so the paths
+must be **adjacent siblings**. Wrapping each in its own `<li>` gives every
+anchor a container to itself, the selector never matches, and the trail renders
+as one run-on string — `HomeAdmission RepresentativesAbigail Trice`, no
+separators, no spacing. `RULES.md` § "Breadcrumb" has the correct form, and
+`RULES.md` outranks the registry in the source-of-truth hierarchy:
+
+```html
+<umd-element-breadcrumb slot="breadcrumb">
+  <div slot="paths">
+    <a href="/" aria-label="Return Home"><span aria-hidden="true">Home</span></a>
+    <a href="/section"><span>Section Name</span></a>
+    <p aria-label="Current Page"><span>Current Page Title</span></p>
+  </div>
+</umd-element-breadcrumb>
+```
+
+Each label needs its own `<span>` — that is the element the hover underline
+animates (`background-size: 200% 2px` sliding gray→red).
+
+**Getting it right means no page CSS at all.** The breadcrumb component clones
+`slot="paths"` into its own shadow root and styles it there (`.breadcrumb-path`,
+grey `#757575`, slanted 1px separators). An earlier revision of this page hand-
+styled a light-DOM `<nav>` with a `.rep-breadcrumb` rule set; all of it was
+deleted once the markup was correct.
+
+**Querying it is confusing.** person-hero clones the breadcrumb into a second
+`slot="breadcrumb-copy"` for its mobile layout, and the clone comes **first** in
+document order. So `document.querySelector('umd-element-breadcrumb')` returns
+the mobile one, which is `display: none` and measures 0×0 at desktop — easy to
+misread as "the breadcrumb is broken". Select on the slot:
+
+```js
+Array.from(document.querySelectorAll('umd-element-breadcrumb'))
+     .find(b => b.getAttribute('slot') === 'breadcrumb')
+```
+
+---
+
+## `umd-element-person` styles a linked and an unlinked name identically (2026-08-31)
+
+`<a slot="name">` and `<p slot="name">` both render as
+`.person-name.umd-sans-larger` — black, 700 weight, no underline, no hover
+state. There is no built-in affordance telling a reader which cards go
+somewhere.
+
+That is right for a directory where every card links. It is wrong for a
+**partial** one, which is what `pages/admission-representatives/index.html` is
+while only six of 24 reps have profile pages. The name is cloned into the
+shadow root (same behaviour as person-hero above), so this needs an injection:
+
+```js
+'a.person-name{text-decoration:none}' +
+'a.person-name:hover,a.person-name:focus-visible' +
+'{text-decoration:underline;text-underline-offset:3px;' +
+'text-decoration-thickness:2px;color:var(--umd-color-red,#e21833)}'
+```
+
+Scoped to `a.person-name`, so it is inert on cards whose name is a `<p>`. It
+fixes the hover state, not the resting one — a partial directory still shows
+eighteen names that look identical to the six that work. The real resolution is
+to generate the rest.
+
+---
+
+## `umd-element-person` re-renders ADDITIVELY when it reconnects (2026-08-31)
+
+Take an `umd-element-person` out of the DOM and put it back, and the component
+appends a **second** `.person-block` to its shadow root instead of replacing the
+first. The card then draws the same person twice and doubles in height —
+measured 389px → 694px after a single detach/reattach, with the shadow root
+holding `[STYLE, DIV.person-block, STYLE, STYLE, DIV.person-block]`.
+
+This bites any list that re-renders by moving existing nodes:
+
+```js
+grid.replaceChildren.apply(grid, matches.slice(0, n));   // WRONG
+```
+
+`replaceChildren` re-inserts the nodes that were **already** on screen, so on
+`pages/admission-representatives/search.html` one "Load More" click did this to
+every visible card at once and the grid appeared to repeat its rows.
+
+### `display: none` is NOT the alternative
+
+The obvious fix — leave every card in the DOM and hide non-matches — breaks the
+border grid. `layout.min.css` draws the top border by DOM position:
+
+```css
+:is(.umd-layout-grid-border-four):not(:has(>:last-child:nth-child(4))) > *:nth-child(1),
+… > *:nth-child(2), … > *:nth-child(3), … > *:nth-child(4) { border-top: 1px solid #E6E6E6 }
+```
+
+`:nth-child` counts children, not visible ones. Filter the first four cards out
+and the top border stays stranded on hidden cells while the visible first row
+has none.
+
+### The fix: never reconnect a card
+
+Render from **captured markup**, so every card is a new element that upgrades —
+and therefore renders — exactly once:
+
+```js
+// once, at init: outerHTML on an upgraded umd-element-person serialises its
+// LIGHT DOM only (the shadow root is not included), so this round-trips the
+// original markup, data-* attributes and all.
+var ALL = Array.prototype.map.call(grid.children, el => ({html: el.outerHTML, …}));
+
+function append(from, to) {                 // build fresh, never reuse
+  var holder = document.createElement('div');
+  holder.innerHTML = ALL.slice(from, to).map(r => r.html).join('');
+  while (holder.firstElementChild) grid.appendChild(holder.firstElementChild);
+}
+```
+
+Two consequences worth keeping:
+
+- **Load More must only APPEND the delta**, never repaint the whole slice — the
+  cards already on screen are correct and must be left alone.
+- **Any shadow injection has to be re-runnable.** Cards built after load never
+  saw the one-shot `customElements.whenDefined(...)` pass, so the
+  `a.person-name` hover injection is exposed as `window.umdInjectPersonLinkCss()`
+  with a per-element `data-person-link-css-done` guard and called after every
+  append.
+
+Elements created by `innerHTML` on a **detached** container do not upgrade until
+they are connected, which is what makes this safe: they render once, on append.

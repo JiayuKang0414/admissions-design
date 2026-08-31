@@ -121,7 +121,18 @@ def splice(src, key, locate, page):
     if m:
         if src[m.start():m.end()] == block:
             return src, 'unchanged'
+        if not block:
+            # An optional region whose source file was deleted: take the
+            # block's own trailing newline with it, or removing it leaves a
+            # blank line behind on every page.
+            end = m.end() + 1 if src[m.end():m.end() + 1] == '\n' else m.end()
+            return src[:m.start()] + src[end:], 'removed'
         return src[:m.start()] + block + src[m.end():], 'updated'
+
+    if not block:
+        # Nothing to insert and no markers to clean up. Without this the
+        # zero-width insertion below would add a blank line on every run.
+        return src, 'absent'
 
     span = locate(src)
     if span is None:
@@ -160,6 +171,19 @@ def locate_css_slot(src):
     return (m.start() + 1, m.start() + 1) if m else None
 
 
+def locate_gate_slot(src):
+    """Insert the access gate immediately before </head>.
+
+    Runs after chrome-css in the splice order below, so on a page that has
+    neither yet the gate lands after the chrome CSS -- matching the pages that
+    were gated by hand. Order does not actually matter here (the gate's
+    selectors are on html/body and share nothing with the chrome rules), but
+    keeping it stable is what lets --check stay quiet.
+    """
+    m = re.search(r'\n</head>', src)
+    return (m.start() + 1, m.start() + 1) if m else None
+
+
 def locate_script_slot(src):
     """Insert the chrome scripts immediately before </body>."""
     m = re.search(r'\n</body>', src)
@@ -188,6 +212,7 @@ for path in PAGES:
             ('header', locate_header),
             ('footer', locate_footer),
             ('chrome-css', locate_css_slot),
+            ('gate', locate_gate_slot),
             ('chrome-scripts', locate_script_slot),
     ):
         src, status = splice(src, key, locate, path)
