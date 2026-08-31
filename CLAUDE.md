@@ -24,7 +24,7 @@ landing page as `index.html` so `/pages/<section>/` serves it:
 
 ```
 pages/
-├── admissions.html                          site home (stays at the top)
+├── index.html                               site home (stays at the top)
 ├── academics/
 │   ├── index.html                           Academics landing
 │   ├── programs.html
@@ -51,7 +51,7 @@ the section earns a nav item.
 
 ### Depth: never hard-code `../`
 
-Pages sit at two different depths (`pages/admissions.html` vs
+Pages sit at two different depths (`pages/index.html` vs
 `pages/academics/programs.html`), so a fixed `../` prefix is wrong on half of
 them. Anything shared across pages — `shared/header.html`, `shared/footer.html`,
 and the image paths in `briefs/*-data.json` — writes its paths **repo-root-relative
@@ -63,7 +63,7 @@ behind a `{{ROOT}}` token**:
 ```
 
 `scripts/_chrome.py` expands `{{ROOT}}` to the right number of `../` for the page
-being written (`depth_of(path)` → 1 for `pages/admissions.html`, 2 for anything in
+being written (`depth_of(path)` → 1 for `pages/index.html`, 2 for anything in
 a section folder). Generated pages resolve any remaining tokens from their data
 just before writing. A page that moves between directories is then a path change
 and nothing else.
@@ -161,7 +161,7 @@ attributes which `scripts/_chrome.py` stamps per page while hrefs are still
 under `pages/`** (`academics`, `student-life`, `how-to-apply`, `tuition`) — that
 coupling is what lets the stamping work without a lookup table. Rename a section
 directory and its drawer refs have to follow. A page in no section
-(`pages/admissions.html`) or in a section with no drawer group
+(`pages/index.html`) or in a section with no drawer group
 (`pages/calendar/`) matches nothing and the drawer opens at its top level, which
 is correct.
 

@@ -918,3 +918,20 @@ The side columns are **designed** to sit past the viewport edge and slide away w
 **A `grid-template-columns` override with `!important` freezes the animation.** Important author declarations beat animations in the cascade, so the columns never move and the hero silently stops working — it still *looks* correct at rest, which is why this was once attempted, "verified" against static measurements, and only caught when someone scrolled. If the overflow ever genuinely needs containing, use `overflow-x: clip` on the host (leaves `grid-template-columns` alone) and confirm the sweep still runs first — note §21's warning that `overflow-x: hidden`, unlike `clip`, creates a scroll container and breaks scroll-driven animations.
 
 **Verifying any scroll-driven animation here:** `animation-timeline` advances at frame time, so calling `getComputedStyle` immediately after `window.scrollTo` in the same task returns stale values and *everything* reads as frozen. Scroll in one step, read in a separate one. Check `getAnimations()[0].timeline.currentTime` and `matchMedia('(prefers-reduced-motion: reduce)')` before concluding an animation is broken.
+
+---
+
+## `pages/admissions.html` was renamed to `pages/index.html` (2026-08-31)
+
+The site home now sits at `pages/index.html`, so GitHub Pages serves it at
+`/admissions-design/pages/` and the project matches the convention in
+`page-builder/CLAUDE.md` (a section's landing page is its `index.html`).
+
+**Entries above still name `pages/admissions.html`.** They are a record of what
+was true when each was written and have deliberately not been rewritten — the
+same reason version numbers in `critical.css` comments are left as tombstones.
+Read them as referring to this file.
+
+The header and footer logos now link to `{{ROOT}}pages/` rather than the file.
+The directory form is what `chrome.py`'s `_self_hrefs` matches against both
+spellings, so the home page still gets `data-selected` in the drawer.

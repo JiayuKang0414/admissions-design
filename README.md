@@ -39,7 +39,7 @@ git add page-builder && git commit -m "Bump page-builder submodule"
 
 ## Pages
 
-- `pages/admissions.html` — Undergraduate Admissions homepage (recreation of admissions.umd.edu)
+- `pages/index.html` — Undergraduate Admissions homepage (recreation of admissions.umd.edu)
 - `pages/academics/` — Academics landing, All Programs, Colleges & Schools, and the by-interest pages
 - `pages/student-life/` — Student Life landing
 - `pages/how-to-apply/` — How To Apply landing and Freshman Applicants
