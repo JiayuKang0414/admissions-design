@@ -318,13 +318,16 @@
                     > a.umd-sans-smaller (or button for dropdowns)
        - Dropdown: sibling div.umd-shell-utility-links[aria-hidden] panel
 
-       TWO LAYERS — keep them separate:
+       THREE LAYERS — keep them separate:
        A. BASE (unscoped) — the reusable .umd-shell-utility-item pattern.
           Used in the nav-header utility slot AND reused in pathway /
           banner-promo / section-intro action slots (RULES.md §5). These
           rules MUST stay unscoped or the reuse renders unstyled.
        B. NAV-HEADER (scoped) — overrides the shadow ::slotted(*) gap:24px
           and adds dropdown anchoring + panel. Only meaningful in the slot.
+       C. FLAT LINKS (scoped, gated) — bare <a> children of the slot, which
+          layer A never matches because every one of its selectors goes
+          through .umd-shell-utility-item.
        ============================================================ */
 
     /* ---- A. BASE: reusable shell-item pattern (do NOT scope) ---- */
@@ -351,16 +354,49 @@
     /* Override the shadow ::slotted(*) gap:24px (the wrapper margins above
        handle item spacing in the shell pattern).
 
-       GATED ON :has(.umd-shell-utility-item) — this reset is ONLY correct for
-       the shell pattern, where each item supplies its own 16+1+16px
-       margin/border separator. A slot holding plain <a> children has no such
-       margins, so an unconditional `gap: 0` collapsed them into a single
-       run-on string of links. The shadow's own gap:24px is the right default
-       there, so leave it alone. Projects using flat links then need no spacing
-       override at all — only link colour/decoration, which the BASE layer
-       above does not cover for bare <a>. */
+       GATED ON :has(.umd-shell-utility-item) — this reset is ONLY correct for the
+       shell pattern, where each item supplies its own 16+1+16px margin/border
+       separator. A slot holding plain <a> children has no such margins, so an
+       unconditional `gap: 0` collapsed them into a single run-on string of links.
+       The shadow's own gap:24px is the right default there, so leave it alone.
+       Projects using flat links then need no spacing override at all — only link
+       colour/decoration, which layer C below now supplies. */
     umd-element-navigation-header div[slot="utility-navigation"]:has(.umd-shell-utility-item) {
       gap: 0;
+    }
+
+    /* ---- C. FLAT LINKS: bare <a> children of the utility slot ---- */
+    /* WHY THIS EXISTS. Layer A styles `.umd-shell-utility-item a` — every one of
+       its selectors runs through that wrapper class. A slot holding plain <a>
+       children matches NONE of it, and the component's own shadow ::slotted(*)
+       reaches only the slotted div, never its descendants. So a bare <a> renders
+       browser-default blue-and-underlined, on a white header, with no error.
+
+       That is not an edge case: TEMPLATE.html's own utility-navigation example is
+       bare <a>, so it is the pattern most pages are built from. Before this layer
+       existed the gap was noted in the comment above and left open, and every
+       project rediscovered it and hand-wrote the same override in its own CSS
+       (admissions-design/shared/chrome.css is one such copy). Fixing it here means
+       every page inlining critical.css gets it for free.
+
+       GATED with :not(:has(...)) — the exact mirror of layer B's gate — so these
+       rules never touch the shell pattern, where layer A already owns the anchors
+       and the wrapper supplies its own separators. The two patterns stay disjoint.
+
+       No `gap` is set: the shadow's own gap:24px is correct for flat links, and
+       layer B deliberately leaves it alone. */
+    umd-element-navigation-header div[slot="utility-navigation"]:not(:has(.umd-shell-utility-item)) a {
+      color: #242424;
+      font-family: "Interstate", Helvetica, Arial, Verdana, sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.25;
+      text-decoration: none;
+      transition: color 0.3s ease-in-out;
+    }
+    umd-element-navigation-header div[slot="utility-navigation"]:not(:has(.umd-shell-utility-item)) a:hover,
+    umd-element-navigation-header div[slot="utility-navigation"]:not(:has(.umd-shell-utility-item)) a:focus {
+      color: #E21833;
     }
     umd-element-navigation-header div[slot="utility-navigation"] .umd-shell-utility-item {
       position: relative;
@@ -1346,218 +1382,6 @@ umd-element-scroll-top[data-layout-fixed="true"] {
 }
   </style>
   <!-- SHARED:chrome-css:END -->
-  <!-- SHARED:gate:START — generated from shared/gate.html; do not edit here -->
-  <!-- ============================================================
-       PROTOTYPE ACCESS GATE
-       Inlined into the <head> of every page by
-       page-builder/tools/build-chrome.py. Edit here, not in pages/*.html.
-
-       Keeps a GitHub Pages prototype blank for anyone without the shared
-       credentials, and — with the noindex meta chrome.py stamps into every
-       page — out of search results.
-
-       It is NOT access control. The whole check ships to the browser, so the
-       markup is retrievable with `curl` and the hash can be attacked offline.
-       Keep the project repo PRIVATE and put nothing behind it that would
-       matter if it leaked. See page-builder/scripts/gate.js for the full
-       reasoning.
-
-       DELETE THIS FILE on a project that should be public — the inliner skips
-       a region whose source file is absent, and the next build-chrome.py run
-       strips the block back out of every page.
-
-       ADD AN ACCOUNT — never type a password into this file by hand:
-
-           python3 page-builder/tools/gate.py --write shared/gate.html
-
-       That prompts for the username and password without echoing them, and
-       rewrites the block between the GATE:USERS markers below. The plaintext
-       password is never written to this repo.
-  ============================================================ -->
-  <style>
-    /* The lock is CSS, not JavaScript, and it is unconditional: the page is
-       hidden from the first paint and STAYS hidden if gate.js 404s, throws,
-       or scripting is off. gate.js adds .umd-gate-unlocked only after a
-       password verifies. Do not move this into a JS-added class — that
-       inverts it into fail-open. */
-    html:not(.umd-gate-unlocked) { overflow: hidden; }
-    html:not(.umd-gate-unlocked) body { visibility: hidden; }
-    html:not(.umd-gate-unlocked) body > .umd-gate { visibility: visible; }
-
-    .umd-gate {
-      position: fixed;
-      inset: 0;
-      z-index: 2147483647;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      overflow-y: auto;
-      background: #000;
-      font-family: Interstate, Helvetica, Arial, Verdana, sans-serif;
-    }
-
-    .umd-gate__panel {
-      width: 100%;
-      max-width: 420px;
-      margin: auto;
-      padding: 40px 32px;
-      background: #1a1a1a;
-      border-top: 4px solid #e21833;
-      color: #fff;
-      text-align: left;
-    }
-
-    .umd-gate__eyebrow {
-      margin: 0 0 12px;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: #ffd200;
-    }
-
-    .umd-gate__title {
-      margin: 0 0 8px;
-      font-size: 24px;
-      line-height: 1.2;
-      font-weight: 800;
-      color: #fff;
-    }
-
-    .umd-gate__message {
-      margin: 0 0 24px;
-      font-size: 15px;
-      line-height: 1.5;
-      color: #d1d1d1;
-    }
-
-    .umd-gate__label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 13px;
-      font-weight: 700;
-      color: #e6e6e6;
-    }
-
-    .umd-gate__input {
-      display: block;
-      width: 100%;
-      margin-bottom: 16px;
-      padding: 12px;
-      font-family: inherit;
-      font-size: 16px;   /* below 16px, iOS Safari zooms the page on focus */
-      color: #000;
-      background: #fff;
-      border: 1px solid #757575;
-      border-radius: 0;
-      -webkit-appearance: none;
-      appearance: none;
-    }
-
-    .umd-gate__input:focus-visible {
-      outline: 2px solid #ffd200;
-      outline-offset: 2px;
-    }
-
-    .umd-gate__submit {
-      width: 100%;
-      padding: 14px 16px;
-      font-family: inherit;
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: .05em;
-      text-transform: uppercase;
-      color: #fff;
-      background: #e21833;
-      border: 0;
-      cursor: pointer;
-    }
-
-    .umd-gate__submit:hover { background: #c1152b; }
-    .umd-gate__submit:disabled { background: #757575; cursor: default; }
-    .umd-gate__submit:focus-visible { outline: 2px solid #ffd200; outline-offset: 2px; }
-
-    /* Always in the layout, so filling it in on a failed attempt does not
-       shove the button out from under the cursor. */
-    .umd-gate__error {
-      min-height: 20px;
-      margin: 0 0 8px;
-      font-size: 14px;
-      line-height: 20px;
-      color: #ff9a9a;
-    }
-
-    .umd-gate__note {
-      margin: 16px 0 0;
-      font-size: 13px;
-      line-height: 1.5;
-      color: #a8a8a8;
-    }
-
-    /* gate.js never arrived — say so, rather than leaving a blank page that
-       looks like a broken deploy. Still locked: the rule above is untouched. */
-    html.umd-gate-error body::before {
-      content: "This prototype could not load its sign-in. Check that page-builder/scripts/gate.js is published alongside the site.";
-      visibility: visible;
-      position: fixed;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px;
-      background: #000;
-      color: #fff;
-      font-family: Interstate, Helvetica, Arial, Verdana, sans-serif;
-      font-size: 16px;
-      line-height: 1.5;
-      text-align: center;
-    }
-  </style>
-  <noscript>
-    <style>
-      html:not(.umd-gate-unlocked) body::before {
-        content: "This prototype requires JavaScript to sign in.";
-        visibility: visible;
-        position: fixed;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 40px;
-        background: #000;
-        color: #fff;
-        font-family: Interstate, Helvetica, Arial, Verdana, sans-serif;
-        font-size: 16px;
-        text-align: center;
-      }
-    </style>
-  </noscript>
-  <script>
-    window.UMD_GATE = {
-      title: 'This prototype is private',
-      message: 'Sign in with the credentials shared with you to view this preview.',
-      note: 'Trouble signing in? Contact the project team.',
-
-      /* 0 = this browser tab only. Otherwise the sign-in carries across tabs
-         and pages for this many hours, so a reviewer opening links in new
-         tabs is not asked again. */
-      rememberHours: 12,
-
-      /* PBKDF2 rounds. Must match what tools/gate.py used to make the hashes
-         below — change it and every account stops verifying. */
-      iterations: 310000,
-
-      /* GATE:USERS:START — written by page-builder/tools/gate.py; do not hand-edit */
-      users: [
-        { "user": "WebServices", "salt": "5a93279dee761d80ba3248862508ae49", "hash": "bd591fe7b960965ba6e69917c307bc20b2adbc6f48c7fae4296fe19be605be2d" }
-      ]
-      /* GATE:USERS:END */
-    };
-  </script>
-  <script src="../../page-builder/scripts/gate.js"
-          onerror="document.documentElement.classList.add('umd-gate-error')" defer></script>
-  <!-- SHARED:gate:END -->
 </head>
 
 <body>
@@ -1882,6 +1706,62 @@ umd-element-scroll-top[data-layout-fixed="true"] {
       <img src="../../images/logos/footer-logo.svg" alt="University of Maryland" />
     </a>
     <img slot="image" src="../../page-builder/images/large/campus/footer-campus.jpg" alt="University of Maryland campus" />
+
+    <p slot="contact-headline">Undergraduate Admissions</p>
+    <!-- Every address line needs its own <span>: umd-element-footer extracts and
+         appends this into the shadow root, where color:white is applied only to
+         p / a / span — a bare text node or <br> renders black on the dark bar. -->
+    <address slot="address">
+      <a href="https://www.google.com/maps/place/Mitchell+Bldg,+7999+Regents+Dr,+College+Park,+MD+20742"
+         target="_blank" rel="noopener noreferrer">Mitchell Building</a>
+      <span>7999 Regents Dr.</span>
+      <span>College Park, MD 20742</span>
+    </address>
+    <div slot="contact-links">
+      <a href="tel:18004225867" aria-label="Call: 1-800-422-5867">1-800-422-5867</a>
+      <a href="mailto:ApplyMaryland@umd.edu" aria-label="Email: ApplyMaryland@umd.edu">ApplyMaryland@umd.edu</a>
+    </div>
+
+    <!-- The DS swaps each link's contents for an SVG icon matched on the href
+         domain, so the label has to be on aria-label, not in the link text. -->
+    <ul slot="social-links">
+      <li><a href="https://www.youtube.com/user/UMD2101" target="_blank" rel="noopener noreferrer" aria-label="Link to the YouTube channel for UMD Undergraduate Admissions"></a></li>
+      <li><a href="https://www.facebook.com/ApplyMaryland" target="_blank" rel="noopener noreferrer" aria-label="Link to the Facebook page for UMD Undergraduate Admissions"></a></li>
+      <li><a href="https://twitter.com/ApplyMaryland" target="_blank" rel="noopener noreferrer" aria-label="Link to the Twitter page for UMD Undergraduate Admissions"></a></li>
+      <li><a href="https://www.instagram.com/applymaryland/" target="_blank" rel="noopener noreferrer" aria-label="Link to the Instagram page for UMD Undergraduate Admissions"></a></li>
+    </ul>
+
+    <!-- A link column's heading comes from data-headline on the slot element —
+         a heading tag inside the column is dropped (the DS collects only <a>). -->
+    <div slot="link-column-one">
+      <a href="../../pages/academics/programs.html">Majors &amp; Minors</a>
+      <a href="../../pages/student-life/">Student Life</a>
+      <a href="../../pages/how-to-apply/">Admissions Requirements</a>
+      <a href="https://admissions.umd.edu/apply/application-deadlines">Application Deadlines</a>
+      <a href="../../pages/tuition/">Tuition &amp; Aid</a>
+    </div>
+    <div slot="link-column-two" data-headline="Information For:">
+      <a href="../../pages/personas/prospective-students.html">Prospective Students</a>
+      <a href="https://admissions.umd.edu/persona/parent-families">Parents &amp; Families</a>
+      <a href="https://admissions.umd.edu/persona/counselors-advisors">Counselors &amp; Advisors</a>
+      <a href="https://admissions.umd.edu/persona/admitted-students">Admitted Students</a>
+    </div>
+    <!-- The live site renders Visit UMD / Apply Now / Connect as three stacked
+         buttons. slot="actions" takes a single anchor here, so Apply Now is the
+         button and the other two live in this column rather than being dropped. -->
+    <div slot="link-column-three" data-headline="Get Started:">
+      <a href="https://admissions.umd.edu/visit">Visit UMD</a>
+      <a href="https://admissions.umd.edu/connect">Connect</a>
+      <a href="../../pages/apply-now/">Apply Now</a>
+    </div>
+
+    <a slot="actions" href="../../pages/apply-now/">Apply Now</a>
+
+    <!-- Privacy Policy and Web Accessibility are appended by the component
+         itself — listing them here would render them twice. -->
+    <div slot="utility-links">
+      <a href="https://umd.edu">umd.edu</a>
+    </div>
   </umd-element-footer>
   <!-- SHARED:footer:END -->
 

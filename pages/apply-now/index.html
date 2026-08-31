@@ -1477,6 +1477,62 @@ umd-element-scroll-top[data-layout-fixed="true"] {
       <img src="../../images/logos/footer-logo.svg" alt="University of Maryland" />
     </a>
     <img slot="image" src="../../page-builder/images/large/campus/footer-campus.jpg" alt="University of Maryland campus" />
+
+    <p slot="contact-headline">Undergraduate Admissions</p>
+    <!-- Every address line needs its own <span>: umd-element-footer extracts and
+         appends this into the shadow root, where color:white is applied only to
+         p / a / span — a bare text node or <br> renders black on the dark bar. -->
+    <address slot="address">
+      <a href="https://www.google.com/maps/place/Mitchell+Bldg,+7999+Regents+Dr,+College+Park,+MD+20742"
+         target="_blank" rel="noopener noreferrer">Mitchell Building</a>
+      <span>7999 Regents Dr.</span>
+      <span>College Park, MD 20742</span>
+    </address>
+    <div slot="contact-links">
+      <a href="tel:18004225867" aria-label="Call: 1-800-422-5867">1-800-422-5867</a>
+      <a href="mailto:ApplyMaryland@umd.edu" aria-label="Email: ApplyMaryland@umd.edu">ApplyMaryland@umd.edu</a>
+    </div>
+
+    <!-- The DS swaps each link's contents for an SVG icon matched on the href
+         domain, so the label has to be on aria-label, not in the link text. -->
+    <ul slot="social-links">
+      <li><a href="https://www.youtube.com/user/UMD2101" target="_blank" rel="noopener noreferrer" aria-label="Link to the YouTube channel for UMD Undergraduate Admissions"></a></li>
+      <li><a href="https://www.facebook.com/ApplyMaryland" target="_blank" rel="noopener noreferrer" aria-label="Link to the Facebook page for UMD Undergraduate Admissions"></a></li>
+      <li><a href="https://twitter.com/ApplyMaryland" target="_blank" rel="noopener noreferrer" aria-label="Link to the Twitter page for UMD Undergraduate Admissions"></a></li>
+      <li><a href="https://www.instagram.com/applymaryland/" target="_blank" rel="noopener noreferrer" aria-label="Link to the Instagram page for UMD Undergraduate Admissions"></a></li>
+    </ul>
+
+    <!-- A link column's heading comes from data-headline on the slot element —
+         a heading tag inside the column is dropped (the DS collects only <a>). -->
+    <div slot="link-column-one">
+      <a href="../../pages/academics/programs.html">Majors &amp; Minors</a>
+      <a href="../../pages/student-life/">Student Life</a>
+      <a href="../../pages/how-to-apply/">Admissions Requirements</a>
+      <a href="https://admissions.umd.edu/apply/application-deadlines">Application Deadlines</a>
+      <a href="../../pages/tuition/">Tuition &amp; Aid</a>
+    </div>
+    <div slot="link-column-two" data-headline="Information For:">
+      <a href="../../pages/personas/prospective-students.html">Prospective Students</a>
+      <a href="https://admissions.umd.edu/persona/parent-families">Parents &amp; Families</a>
+      <a href="https://admissions.umd.edu/persona/counselors-advisors">Counselors &amp; Advisors</a>
+      <a href="https://admissions.umd.edu/persona/admitted-students">Admitted Students</a>
+    </div>
+    <!-- The live site renders Visit UMD / Apply Now / Connect as three stacked
+         buttons. slot="actions" takes a single anchor here, so Apply Now is the
+         button and the other two live in this column rather than being dropped. -->
+    <div slot="link-column-three" data-headline="Get Started:">
+      <a href="https://admissions.umd.edu/visit">Visit UMD</a>
+      <a href="https://admissions.umd.edu/connect">Connect</a>
+      <a href="../../pages/apply-now/">Apply Now</a>
+    </div>
+
+    <a slot="actions" href="../../pages/apply-now/">Apply Now</a>
+
+    <!-- Privacy Policy and Web Accessibility are appended by the component
+         itself — listing them here would render them twice. -->
+    <div slot="utility-links">
+      <a href="https://umd.edu">umd.edu</a>
+    </div>
   </umd-element-footer>
   <!-- SHARED:footer:END -->
 
