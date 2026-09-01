@@ -240,19 +240,24 @@ PAGE_CSS = '''
       border-bottom: 1px solid var(--umd-color-gray-light);
     }
     .cs-panel-headline { margin: 0; font-weight: 700; }
+    /* Same treatment as .cs-tile-name above: no underline at rest, a
+       red one wipes in left-to-right on hover/focus. The panel headline
+       and the tile it expands from are the same link, so they animate
+       identically — keep these two rules in sync. */
     .cs-panel-headline a {
       color: var(--umd-color-black);
       text-decoration: none;
       background-image: linear-gradient(var(--umd-color-black), var(--umd-color-black));
       background-position: left calc(100% - 1px);
       background-repeat: no-repeat;
-      background-size: 100% 1px;
-      transition: color .3s, background-image .3s;
+      background-size: 0 1px;
+      transition: color .3s, background-size .3s, background-image .3s;
     }
     .cs-panel-headline a:hover,
     .cs-panel-headline a:focus {
       color: var(--umd-color-red);
       background-image: linear-gradient(var(--umd-color-red), var(--umd-color-red));
+      background-size: 100% 1px;
     }
     .cs-panel-head > div { flex: 1 1 480px; }
     /* Constrained measure — the panel spans the full 1600px lock, far too wide
