@@ -1495,13 +1495,15 @@ umd-element-scroll-top[data-layout-fixed="true"] {
       </div>
     </div>
 
-    <section class="umd-layout-space-vertical-interior">
+    <!-- STAY CONNECTED — matches the Tuition & Aid landing-page banner promo -->
+    <section class="umd-layout-vertical-landing">
       <div class="umd-layout-space-horizontal-larger">
         <umd-element-banner-promo>
-          <h2 slot="headline">There is a lot more to learn about UMD, so let's stay in touch!</h2>
+          <h2 slot="headline">There is a lot more to learn about UMD</h2>
+          <p slot="text">Let's stay in touch!</p>
           <div slot="actions" class="banner-promo-actions">
             <umd-element-call-to-action data-display="primary">
-              <a href="https://apply.umd.edu/register/request-info" target="_blank" rel="noreferrer noopener">Join Our Mailing List</a>
+              <a href="https://admissions.umd.edu/connect/mailing-list">Join the Mailing List</a>
             </umd-element-call-to-action>
             <umd-element-call-to-action data-display="secondary">
               <a href="https://admissions.umd.edu/connect">Connect</a>
@@ -1583,9 +1585,9 @@ umd-element-scroll-top[data-layout-fixed="true"] {
   <!-- SHARED:footer:END -->
 
   <script>
-    // umd-element-banner-promo — stack the two source CTAs with an 8px gap.
-    // The action wrapper is reprojected into shadow DOM, so light-DOM CSS alone
-    // cannot reach the rendered .banner-promo-actions container.
+    // umd-element-banner-promo — stack actions vertically with 8px gap.
+    // Banner-promo reprojects slot="actions" into shadow DOM under
+    // .banner-promo-actions with no gap when stacked.
     customElements.whenDefined('umd-element-banner-promo').then(() => {
       document.querySelectorAll('umd-element-banner-promo').forEach(el => {
         const style = document.createElement('style');
