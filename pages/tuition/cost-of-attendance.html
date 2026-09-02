@@ -779,7 +779,8 @@
 
   <style>
     /* Cost table — page-built because the DS has no table component.
-       Dimensions and typography follow Figma node 5950:1492. */
+       Dimensions and typography follow Figma node 5950:1492; zebra stripes
+       follow the gray-background row variant in node 5968:787. */
     .coa-table-scroll {
       margin-bottom: 32px;
       overflow-x: auto;
@@ -811,6 +812,9 @@
     .coa-table tbody td {
       text-align: right;
     }
+    .coa-table-heading-parenthetical {
+      display: block;
+    }
     .coa-table tbody th,
     .coa-table tbody td {
       border-bottom: 1px solid #242424;
@@ -829,6 +833,10 @@
       font-variant-numeric: tabular-nums;
       white-space: nowrap;
     }
+    .coa-table tbody tr:nth-child(even) th,
+    .coa-table tbody tr:nth-child(even) td {
+      background-color: #fafafa;
+    }
     .coa-table tbody tr:last-child th,
     .coa-table tbody tr:last-child td {
       border-bottom: 0;
@@ -846,9 +854,14 @@
       font-family: var(--umd-font-sans, Interstate, Helvetica, Arial, Verdana, sans-serif);
       font-size: 14px;
       line-height: 1.5;
-      list-style: none;
       margin: 24px 0 0;
-      padding: 0;
+    }
+    .coa-footnotes ul {
+      font-size: 14px;
+      line-height: 1.5;
+      list-style: disc;
+      margin: 0;
+      padding-left: 22px;
     }
     .coa-footnotes li {
       font-size: 14px;
@@ -1425,8 +1438,8 @@ umd-element-scroll-top[data-layout-fixed="true"] {
                 <thead>
                   <tr>
                     <th scope="col"><span class="sr-only">Cost category</span></th>
-                    <th scope="col">Maryland Residents (In-State)</th>
-                    <th scope="col">Nonresidents (Out-of-State)</th>
+                    <th scope="col">Maryland Residents <span class="coa-table-heading-parenthetical">(In-State)</span></th>
+                    <th scope="col">Nonresidents <span class="coa-table-heading-parenthetical">(Out-of-State)</span></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1468,13 +1481,15 @@ umd-element-scroll-top[data-layout-fixed="true"] {
               <p>Please remember, <strong>these are only estimates</strong>. To view current tuition and fee rates for undergraduate students, visit <a href="https://billpay.umd.edu/UndergraduateTuition" target="_blank" rel="noreferrer noopener">billpay.umd.edu</a>. For more information about the cost of attendance, visit <a href="https://go.umd.edu/EstimatedCOA" target="_blank" rel="noreferrer noopener">go.umd.edu/EstimatedCOA</a>.</p>
             </div>
 
-            <ul class="coa-footnotes">
-              <li><em>¹ Notwithstanding any other provision of this or any university publication, the university reserves the right to make changes in tuition, fees and other charges at any time such changes are deemed necessary by the University System of Maryland Board of Regents. Although changes in tuition, fees and charges ordinarily will be announced in advance, the university reserves the right to make such changes without prior announcement.</em></li>
-              <li><em>² Only students pursuing a major in business, engineering and computer science will be charged additional tuition based on credit hours. Get additional information and a breakdown of these charges on the </em><a href="https://financialaid.umd.edu/resources-policies/differential-tuition-faqs" target="_blank" rel="noreferrer noopener">Differential Tuition FAQs</a><em> page.</em></li>
-              <li><em>³ International students may experience higher living expenses. UMD charges a fee of $125 each semester for enrolled students requiring an I-20 or DS-2019 (for degree seeking students in J-1 status) issued by the University. Students enrolled in an academic program operating on the 12-week calendar, who require an I-20 or DS-2019 issued by UMD, will be charged a fee of $62.50 per term. UMD will use the revenue from this fee to enhance support for our international students to include improved academic support, expanded assistance for students transitioning to the U.S. and international student-focused cultural events to foster an engaged, supportive community.</em></li>
-              <li><em>⁴ Costs for housing and dining can vary depending on whether a student lives on- or off-campus, and the level of food plan they choose from Dining Services.</em></li>
-              <li><em>⁵ These figures are averages and will vary from student to student. They are not billed by the university.</em></li>
-            </ul>
+            <div class="umd-text-rich-advanced coa-footnotes">
+              <ul>
+                <li><em>¹ Notwithstanding any other provision of this or any university publication, the university reserves the right to make changes in tuition, fees and other charges at any time such changes are deemed necessary by the University System of Maryland Board of Regents. Although changes in tuition, fees and charges ordinarily will be announced in advance, the university reserves the right to make such changes without prior announcement.</em></li>
+                <li><em>² Only students pursuing a major in business, engineering and computer science will be charged additional tuition based on credit hours. Get additional information and a breakdown of these charges on the </em><a href="https://financialaid.umd.edu/resources-policies/differential-tuition-faqs" target="_blank" rel="noreferrer noopener">Differential Tuition FAQs</a><em> page.</em></li>
+                <li><em>³ International students may experience higher living expenses. UMD charges a fee of $125 each semester for enrolled students requiring an I-20 or DS-2019 (for degree seeking students in J-1 status) issued by the University. Students enrolled in an academic program operating on the 12-week calendar, who require an I-20 or DS-2019 issued by UMD, will be charged a fee of $62.50 per term. UMD will use the revenue from this fee to enhance support for our international students to include improved academic support, expanded assistance for students transitioning to the U.S. and international student-focused cultural events to foster an engaged, supportive community.</em></li>
+                <li><em>⁴ Costs for housing and dining can vary depending on whether a student lives on- or off-campus, and the level of food plan they choose from Dining Services.</em></li>
+                <li><em>⁵ These figures are averages and will vary from student to student. They are not billed by the university.</em></li>
+              </ul>
+            </div>
           </section>
         </div>
       </div>
