@@ -15,3 +15,6 @@ Use the standard interior-page shell: breadcrumb, Tuition & Aid
 source hierarchy as an introductory figure and text block followed by
 `Eligibility` and `How to Apply` rich-text sections. Lists remain semantic and
 retain their nested supporting items.
+
+The opening scholarship summary is placed in the `text` slot of a text-only
+`umd-element-section-intro` directly above the Frederick Douglass image.
