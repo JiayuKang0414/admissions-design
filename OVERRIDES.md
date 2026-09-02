@@ -33,7 +33,7 @@ Pages using this: `pages/how-to-apply/freshman-applicants.html` (§ "Choosing A 
 
 `umd-element-banner-promo` reprojects `slot="actions"` into its shadow DOM under `.banner-promo-actions` with no gap when actions stack. Shadow-inject `display:flex; flex-direction:column; align-items:flex-end; gap:8px` so primary + secondary CTAs stack with 8px spacing.
 
-Pages using this: `pages/academics/index.html`, `pages/student-life/index.html`, `pages/tuition/index.html`, `pages/how-to-apply/freshman-applicants.html`.
+Pages using this: `pages/academics/index.html`, `pages/student-life/index.html`, `pages/tuition/index.html`, `pages/how-to-apply/freshman-applicants.html`, `pages/tuition/cost-of-attendance.html`.
 
 ## Study-here / eyebrow + rich-text intro section
 
@@ -295,6 +295,16 @@ Pages using this: `pages/how-to-apply/freshman-applicants.html`.
 ## Deadlines table
 
 `.deadlines-table` — simple two-column rich-text table for the Important Dates section. Admissions-specific.
+
+## Cost of attendance table (`.coa-*`)
+
+`pages/tuition/cost-of-attendance.html` — a responsive estimated-cost table and its source footnotes. The design system has no table component, so the page builds the treatment from semantic `<table>` markup rather than substituting a component that changes the content structure.
+
+`.coa-table-scroll` is the horizontally scrollable, keyboard-focusable region used when the table's 680px minimum width does not fit the viewport. `.coa-table` supplies the Figma treatment: a black header with white 18px bold type, 64px body rows separated by black rules, right-aligned tabular-number cost columns, and a bold unruled total row. `.coa-footnotes` is the accompanying unstyled list; every footnote, including emphasis and links, is fixed at the requested 14px with the project's gradient-underline link treatment.
+
+There is no DS table counterpart in `page-builder/registry/`. Existing DS typography and spacing tokens are reused where possible; the page-built CSS owns the table geometry, numeric alignment, responsive overflow, and the explicit footnote size.
+
+Pages using this: `pages/tuition/cost-of-attendance.html`.
 
 ## Applicant spotlight — stats and deadlines in the pathway `stats` slot
 

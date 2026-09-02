@@ -1,0 +1,14 @@
+# Cost of Attendance
+
+- Source page: https://admissions.umd.edu/tuition/cost-of-attendance
+- Table design reference: Figma file `cnHS6mxwVqK7E8ebkejTcC`, node `5950:1492`
+- Page role: Tuition & Aid interior page
+- Hero: `umd-element-hero-minimal` with `data-theme="dark"`
+- Copy source: verbatim from the live source page captured on 2026-09-02
+
+## Table treatment
+
+Use the Figma table system: black 71px header, 18px bold white header text,
+64px body rows, 24px horizontal and 16px vertical cell padding, 16px body
+text, right-aligned numeric values, 1px row dividers, and a bold total row.
+All explanatory footnotes below the table use 14px text.
