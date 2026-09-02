@@ -45,6 +45,7 @@ git add page-builder && git commit -m "Bump page-builder submodule"
 - `pages/how-to-apply/` — How To Apply landing and Freshman Applicants
 - `pages/tuition/` — Tuition & Aid landing
 - `pages/tuition/cost-of-attendance.html` — Cost of Attendance interior page
+- `pages/tuition/frederick-douglass-scholarship.html` — Frederick Douglass Scholarship interior page
 
 Each section's landing page is its `index.html`, so `/pages/academics/` serves it.
 The header, footer, and chrome CSS come from `shared/` and are inlined into every

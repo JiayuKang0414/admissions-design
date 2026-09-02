@@ -33,7 +33,13 @@ Pages using this: `pages/how-to-apply/freshman-applicants.html` (§ "Choosing A 
 
 `umd-element-banner-promo` reprojects `slot="actions"` into its shadow DOM under `.banner-promo-actions` with no gap when actions stack. Shadow-inject `display:flex; flex-direction:column; align-items:flex-end; gap:8px` so primary + secondary CTAs stack with 8px spacing.
 
-Pages using this: `pages/academics/index.html`, `pages/student-life/index.html`, `pages/tuition/index.html`, `pages/how-to-apply/freshman-applicants.html`, `pages/tuition/cost-of-attendance.html`.
+Pages using this: `pages/academics/index.html`, `pages/student-life/index.html`, `pages/tuition/index.html`, `pages/how-to-apply/freshman-applicants.html`, `pages/tuition/cost-of-attendance.html`, `pages/tuition/frederick-douglass-scholarship.html`.
+
+## Frederick Douglass feature figure (`.fds-feature-figure`)
+
+Custom light-DOM figure treatment inside an `umd-text-rich-advanced` editorial block. The design-system rich-text pattern provides the surrounding typography but does not constrain standalone figure media or supply a caption treatment, so `.fds-feature-figure` removes the browser figure margin, makes the image responsive, and styles the source caption at 14px with an 8px top gap.
+
+Pages using this: `pages/tuition/frederick-douglass-scholarship.html`.
 
 ## Study-here / eyebrow + rich-text intro section
 

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <meta name="googlebot" content="noindex, nofollow">
-  <title>Cost of Attendance — Undergraduate Admissions | University of Maryland</title>
+  <title>Frederick Douglass Scholarship — Undergraduate Admissions | University of Maryland</title>
 
   <!-- ============================================================
        UMD Critical CSS — Hybrid CDN + Local
@@ -778,117 +778,22 @@
   </style>
 
   <style>
-    /* Cost table — page-built because the DS has no table component.
-       Dimensions and typography follow Figma node 5950:1492; zebra stripes
-       follow the gray-background row variant in node 5968:787. */
-    .coa-table-scroll {
-      margin-bottom: 32px;
-      overflow-x: auto;
-      overscroll-behavior-inline: contain;
-      -webkit-overflow-scrolling: touch;
+    /* Source editorial image — the DS rich-text pattern does not constrain
+       standalone figure media or supply its caption treatment. */
+    .fds-feature-figure {
+      margin: 0 0 32px;
     }
-    .coa-table-scroll:focus-visible {
-      outline: 2px solid #e21833;
-      outline-offset: 4px;
-    }
-    .coa-table {
-      border-collapse: collapse;
-      font-family: var(--umd-font-sans, Interstate, Helvetica, Arial, Verdana, sans-serif);
-      min-width: 680px;
+    .fds-feature-figure img {
+      display: block;
+      height: auto;
       width: 100%;
     }
-    .coa-table thead th {
-      background: #000000;
-      color: #ffffff;
-      font-size: 18px;
-      font-weight: 700;
-      height: 71px;
-      line-height: 1.25;
-      padding: 24px;
-      text-align: left;
-      vertical-align: middle;
-    }
-    .coa-table thead th:not(:first-child),
-    .coa-table tbody td {
-      text-align: right;
-    }
-    .coa-table-heading-parenthetical {
-      display: block;
-    }
-    .coa-table tbody th,
-    .coa-table tbody td {
-      border-bottom: 1px solid #242424;
-      color: #454545;
-      font-size: 16px;
-      font-weight: 400;
-      height: 64px;
-      line-height: 1.25;
-      padding: 16px 24px;
-      vertical-align: middle;
-    }
-    .coa-table tbody th {
-      text-align: left;
-    }
-    .coa-table tbody td {
-      font-variant-numeric: tabular-nums;
-      white-space: nowrap;
-    }
-    .coa-table tbody tr:nth-child(even) th,
-    .coa-table tbody tr:nth-child(even) td {
-      background-color: #fafafa;
-    }
-    .coa-table tbody tr:last-child th,
-    .coa-table tbody tr:last-child td {
-      border-bottom: 0;
-      color: #000000;
-      font-weight: 700;
-    }
-    .coa-table sup {
-      font-size: 0.72em;
-      line-height: 0;
-    }
-
-    /* Every source footnote is 14px, including emphasis and links. */
-    .coa-footnotes {
+    .fds-feature-figure figcaption {
       color: #454545;
       font-family: var(--umd-font-sans, Interstate, Helvetica, Arial, Verdana, sans-serif);
       font-size: 14px;
       line-height: 1.5;
-      margin: 24px 0 0;
-    }
-    .coa-footnotes ul {
-      font-size: 14px;
-      line-height: 1.5;
-      list-style: disc;
-      margin: 0;
-      padding-left: 22px;
-    }
-    .coa-footnotes li {
-      font-size: 14px;
-      line-height: 1.5;
-      margin-top: 16px;
-    }
-    .coa-footnotes li:first-child {
-      margin-top: 0;
-    }
-    .coa-footnotes em,
-    .coa-footnotes a {
-      font-size: 14px;
-      line-height: 1.5;
-    }
-    .coa-footnotes a {
-      background-image: linear-gradient(#000000, #000000);
-      background-position: left calc(100% - 1px);
-      background-repeat: no-repeat;
-      background-size: 100% 1px;
-      color: #000000;
-      position: relative;
-      text-decoration: none;
-      transition: color 0.5s, background-size 0.5s, background-image 0.5s, background-position 0.5s;
-    }
-    .coa-footnotes a:hover,
-    .coa-footnotes a:focus {
-      background-image: linear-gradient(#e21833, #e21833);
+      margin-top: 8px;
     }
   </style>
 
@@ -1374,7 +1279,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
       </div>
       <div data-parent-ref="tuition" data-active>
         <a href="../../pages/tuition/"><span>Overview</span></a>
-        <a href="../../pages/tuition/cost-of-attendance.html" data-selected><span>Cost of Attendance</span></a>
+        <a href="../../pages/tuition/cost-of-attendance.html"><span>Cost of Attendance</span></a>
         <a href="https://admissions.umd.edu/tuition/freshman-merit-scholarships"><span>Freshman Merit Scholarships</span></a>
         <a href="https://admissions.umd.edu/tuition/transfer-merit-scholarships"><span>Transfer Merit Scholarships</span></a>
         <a href="https://financialaid.umd.edu/"><span>Office of Student Financial Aid</span></a>
@@ -1385,10 +1290,11 @@ umd-element-scroll-top[data-layout-fixed="true"] {
   <!-- SHARED:header:END -->
 
   <main id="main-content">
-    <!-- Interior hero: user-specified dark minimal variant. -->
+    <!-- Compact interior hero keeps the scholarship page aligned with the
+         Tuition & Aid section's existing Cost of Attendance subpage. -->
     <section>
       <umd-element-hero-minimal data-theme="dark">
-        <h1 slot="headline">Cost of Attendance</h1>
+        <h1 slot="headline">Frederick Douglass Scholarship</h1>
       </umd-element-hero-minimal>
     </section>
 
@@ -1398,7 +1304,8 @@ umd-element-scroll-top[data-layout-fixed="true"] {
         <div slot="paths">
           <a href="../../pages/" aria-label="Return Home"><span aria-hidden="true">Home</span></a>
           <a href="../../pages/tuition/"><span>Tuition &amp; Aid</span></a>
-          <p aria-label="Current Page"><span>Cost of Attendance</span></p>
+          <a href="https://admissions.umd.edu/tuition/transfer-merit-scholarships"><span>Transfer Merit Scholarships</span></a>
+          <p aria-label="Current Page"><span>Frederick Douglass Scholarship</span></p>
         </div>
       </umd-element-breadcrumb>
     </div>
@@ -1412,10 +1319,10 @@ umd-element-scroll-top[data-layout-fixed="true"] {
             </div>
             <div slot="children-slides">
               <div data-active data-parent-ref="tuition">
-                <a href="../../pages/tuition/cost-of-attendance.html" data-selected><span>Cost of Attendance</span></a>
+                <a href="../../pages/tuition/cost-of-attendance.html"><span>Cost of Attendance</span></a>
                 <a href="https://admissions.umd.edu/tuition/freshman-merit-scholarships"><span>Freshman Merit Scholarships</span></a>
                 <a href="https://admissions.umd.edu/tuition/transfer-merit-scholarships"><span>Transfer Merit Scholarships</span></a>
-                <a href="../../pages/tuition/frederick-douglass-scholarship.html"><span>Frederick Douglass Scholarship</span></a>
+                <a href="../../pages/tuition/frederick-douglass-scholarship.html" data-selected><span>Frederick Douglass Scholarship</span></a>
                 <a href="https://financialaid.umd.edu/"><span>Office of Student Financial Aid</span></a>
               </div>
             </div>
@@ -1425,70 +1332,59 @@ umd-element-scroll-top[data-layout-fixed="true"] {
         <div id="umd-shell-content" class="max-w-[800px]">
           <section class="umd-layout-space-vertical-interior">
             <div class="umd-text-rich-advanced">
-              <p>As a public institution, we are committed to making higher education affordable. Your cost of attendance will include more than just tuition, so we've put together a sample budget as an example of what a year at the University of Maryland (UMD) may cost you, including annual tuition, housing, food and other estimated expenses.</p>
+              <figure class="fds-feature-figure">
+                <img src="../../images/tuition/frederick-douglass-statue.jpg" alt="Weathered bronze statue of abolitionist, social reformer and statesman, Frederick Douglass. His right arm raised while delivering a powerful speech. His left arm holds tight a copy of his autobiography." />
+                <figcaption>Frederick Douglass statue located in Hornbake Plaza.</figcaption>
+              </figure>
+              <p>The Frederick Douglass Scholarship (FDS) is a prestigious University of Maryland (UMD) scholarship for academically talented transfer students from Maryland community colleges.</p>
+              <p>This exceptional merit-based scholarship honors the life and legacy of Frederick Douglass, who made lasting contributions to American history through his work as an abolitionist, suffragist, author and agent of positive change. 30 full and 15 partial tuition scholarships are awarded&nbsp;to students who are selected from a rigorous review and interview process.</p>
+              <p>The FDS application must be submitted no later than March 1 by 5:00 p.m. Selected students will be invited to&nbsp;interview in late March or early April as part of the final scholarship review process. Scholarship recipients will be notified by the end of April. If you have any questions please email <a href="mailto:FDS@umd.edu">FDS@umd.edu</a>.</p>
             </div>
           </section>
 
           <section class="umd-layout-space-vertical-interior">
-            <h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">2025-2026 Estimated Cost of Attendance¹</h2>
-
-            <div class="coa-table-scroll" tabindex="0" role="region" aria-label="2025-2026 estimated cost of attendance table">
-              <table class="coa-table">
-                <caption class="sr-only">2025-2026 estimated cost of attendance for Maryland residents and nonresidents</caption>
-                <thead>
-                  <tr>
-                    <th scope="col"><span class="sr-only">Cost category</span></th>
-                    <th scope="col">Maryland Residents <span class="coa-table-heading-parenthetical">(In-State)</span></th>
-                    <th scope="col">Nonresidents <span class="coa-table-heading-parenthetical">(Out-of-State)</span></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">Tuition<sup>2</sup> &amp; Fees<sup>3</sup></th>
-                    <td>$12,008</td>
-                    <td>$41,974</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">On-Campus Housing &amp; Food⁴</th>
-                    <td>$16,436</td>
-                    <td>$16,436</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Books &amp; Supplies⁵</th>
-                    <td>$1,250</td>
-                    <td>$1,250</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Transportation⁵</th>
-                    <td>$1,514</td>
-                    <td>$1,514</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Misc. Personal Expenses⁵</th>
-                    <td>$1,200</td>
-                    <td>$1,200</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">TOTAL EST. COST OF ATTENDANCE</th>
-                    <td>$32,408</td>
-                    <td>$62,374</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
+            <h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">Eligibility</h2>
             <div class="umd-text-rich-advanced">
-              <p>Please remember, <strong>these are only estimates</strong>. To view current tuition and fee rates for undergraduate students, visit <a href="https://billpay.umd.edu/UndergraduateTuition" target="_blank" rel="noreferrer noopener">billpay.umd.edu</a>. For more information about the cost of attendance, visit <a href="https://go.umd.edu/EstimatedCOA" target="_blank" rel="noreferrer noopener">go.umd.edu/EstimatedCOA</a>.</p>
-            </div>
-
-            <div class="umd-text-rich-advanced coa-footnotes">
+              <p>In order to be eligible for the Frederick Douglass Scholarship, students must:</p>
               <ul>
-                <li><em>¹ Notwithstanding any other provision of this or any university publication, the university reserves the right to make changes in tuition, fees and other charges at any time such changes are deemed necessary by the University System of Maryland Board of Regents. Although changes in tuition, fees and charges ordinarily will be announced in advance, the university reserves the right to make such changes without prior announcement.</em></li>
-                <li><em>² Only students pursuing a major in business, engineering and computer science will be charged additional tuition based on credit hours. Get additional information and a breakdown of these charges on the </em><a href="https://financialaid.umd.edu/resources-policies/differential-tuition-faqs" target="_blank" rel="noreferrer noopener">Differential Tuition FAQs</a><em> page.</em></li>
-                <li><em>³ International students may experience higher living expenses. UMD charges a fee of $125 each semester for enrolled students requiring an I-20 or DS-2019 (for degree seeking students in J-1 status) issued by the University. Students enrolled in an academic program operating on the 12-week calendar, who require an I-20 or DS-2019 issued by UMD, will be charged a fee of $62.50 per term. UMD will use the revenue from this fee to enhance support for our international students to include improved academic support, expanded assistance for students transitioning to the U.S. and international student-focused cultural events to foster an engaged, supportive community.</em></li>
-                <li><em>⁴ Costs for housing and dining can vary depending on whether a student lives on- or off-campus, and the level of food plan they choose from Dining Services.</em></li>
-                <li><em>⁵ These figures are averages and will vary from student to student. They are not billed by the university.</em></li>
+                <li>Be an admitted UMD student for the current spring semester or a transfer applicant with a completed and submitted application (including all required documents) for the upcoming fall semester with no previous degree-seeking status at the university.</li>
+                <li>Be a Maryland resident at the time of applying. This is determined by the applicant's response to the residency questions on the admission application. UMD adheres to the Board of Regents' <a href="https://registrar.umd.edu/residency-reclassification">residency classification policies</a>.</li>
+                <li>Be a U.S. citizen, permanent resident, or qualify for in-state status by way of the <a href="https://registrar.umd.edu/residency-reclassification/non-resident-tuition-exemptions/maryland-dream-act">non-resident tuition exemption status</a> at the time of applying.</li>
+                <li>Have a cumulative GPA of 3.5 or higher for all college work, including work from institutions other than Maryland community colleges.</li>
+                <li>Earned an associate’s degree from a Maryland community college, have completed, or be in the process of completing 56 college credits with the most recent 30 credits earned at a Maryland community college.
+                  <ul>
+                    <li>The degree or credits must be earned by the end of the spring semester during which the application is being completed.</li>
+                    <li>Students completing their 56th credit at the time of applying must reflect that courses are in progress on their transcript or on the transfer application.</li>
+                  </ul>
+                </li>
+                <li>Show English language proficiency, as demonstrated through a review of all materials submitted with the application.</li>
               </ul>
+              <p>If you have questions about&nbsp;scholarship criteria, application completion or residency status, please email <a href="mailto:FDS@umd.edu">FDS@umd.edu</a> before March 1. It is the applicant's responsibility to ensure all scholarship and admission&nbsp;materials are submitted and received by the March 1 application deadline. It is also the applicant's responsibility to resolve any outstanding residency concerns affecting their status as qualifying for in-state tuition status or documents related to their admission application as outlined above.</p>
+              <p>It is recommended that the applicant inquires 7-10 business days prior to the deadline for best consideration.&nbsp;Any discrepancies must be resolved within five business days following the deadline, including the receipt of any additional documentation required for review and final residency determination.</p>
+            </div>
+          </section>
+
+          <section class="umd-layout-space-vertical-interior">
+            <h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">How to Apply</h2>
+            <div class="umd-text-rich-advanced">
+              <p>To apply for the Frederick Douglass Scholarship, candidates must submit the following required materials by March 1:</p>
+              <ol>
+                <li>A completed <a href="../../pages/how-to-apply/transfer-applicants.html">transfer application</a> for admission.</li>
+                <li>A completed FDS application.
+                  <ul>
+                    <li>Students applying to UMD for the fall semester must complete the FDS application online by March 1 to be considered for the scholarship. Transfer students recently admitted for the spring semester are eligible to apply as well by March 1.</li>
+                  </ul>
+                </li>
+                <li>Official transcripts from all post-secondary institutions attended.</li>
+                <li>An activities and awards list or resume detailing your extracurricular and personal activities, including dates, and describing your involvement and participation.</li>
+                <li>A 500 word, typed and double-spaced essay on the following topic:
+                  <ul>
+                    <li>Describe the neighborhood or community you grew up in. How has it shaped your dreams and aspirations, and how do you intend to use your educational and professional goals to impact UMD and beyond?</li>
+                  </ul>
+                </li>
+                <li>Two letters of recommendation, one of which must be from a community college faculty member and one from an individual of your choosing. All recommendation letters must be submitted to <a href="mailto:FDS@umd.edu">FDS@umd.edu</a> directly from the recommenders.</li>
+              </ol>
+              <p>Note: The Frederick Douglass Scholarship has replaced the Transfer Academic Excellence Scholarship.</p>
             </div>
           </section>
         </div>
