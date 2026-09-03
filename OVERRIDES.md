@@ -316,6 +316,8 @@ Project-owned reusable pattern for responsive data tables and source footnotes i
 
 There is no DS table counterpart in `page-builder/registry/`. Existing DS typography and spacing tokens are reused where possible; the page-built CSS owns the table geometry, numeric alignment, responsive overflow, and the explicit footnote size.
 
+The renderer uses a semantic row header in the first column by default. Set `row_headers=False` for equal-data column sets; the English Language Proficiency country list uses this mode and places one country per cell so the shared 64px row rhythm and zebra stripes remain visible.
+
 Pages using this: `pages/tuition/cost-of-attendance.html`, `pages/how-to-apply/english-language-proficiency.html`.
 
 ## Applicant spotlight — stats and deadlines in the pathway `stats` slot

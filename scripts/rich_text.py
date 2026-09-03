@@ -37,6 +37,7 @@ def render_rich_text_table(
     region_label: str | None = None,
     footnotes_html: Sequence[str] = (),
     total_row_indices: Sequence[int] = (),
+    row_headers: bool = True,
 ) -> str:
     """Render the reusable responsive rich-text table pattern.
 
@@ -79,8 +80,11 @@ def render_rich_text_table(
     for index, row in enumerate(rows):
         row_class = ' class="umd-text-rich-table-total"' if index in total_rows else ""
         lines.append(f"      <tr{row_class}>")
-        lines.append(f'        <th scope="row">{row[0]}</th>')
-        lines.extend(f"        <td>{cell}</td>" for cell in row[1:])
+        if row_headers:
+            lines.append(f'        <th scope="row">{row[0]}</th>')
+            lines.extend(f"        <td>{cell}</td>" for cell in row[1:])
+        else:
+            lines.extend(f"        <td>{cell}</td>" for cell in row)
         lines.append("      </tr>")
 
     lines.extend(["    </tbody>", "  </table>", "</div>"])

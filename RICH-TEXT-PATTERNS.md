@@ -55,3 +55,7 @@ The stylesheet provides the established Cost of Attendance treatment:
 `headers_html`, `rows_html`, and `footnotes_html` intentionally accept trusted
 HTML fragments so authored content can contain links, emphasis and superscript
 markers. Never pass user-submitted HTML to those arguments.
+
+By default, the first cell in each row is emitted as a semantic row header.
+Pass `row_headers=False` when every column contains equivalent data, such as a
+multi-column alphabetical country list.

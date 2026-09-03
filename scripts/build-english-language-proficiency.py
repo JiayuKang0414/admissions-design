@@ -51,16 +51,20 @@ countries_table = render_rich_text_table(
             "English-speaking countries, continued", screen_reader_only=True
         ),
     ),
-    rows_html=((
-        "Antigua<br>Australia<br>Bahamas<br>Barbados<br>Belize<br>Bermuda<br>"
-        "British Virgin Islands<br>Canada<sup>1</sup><br>Cayman Islands<br>"
-        "Dominica<br>The Gambia",
-        "Ghana<br>Grenada<br>Guyana<br>Ireland<br>Jamaica<br>Kenya<br>"
-        "Montserrat<br>Namibia<br>New Zealand<br>Nigeria<br>Singapore",
-        "South Africa<br>St. Lucia<br>St. Vincent<br>Swaziland<br>Tanzania<br>"
-        "Trinidad and Tobago<br>Turks and Caicos Islands<br>Uganda<br>"
-        "United Kingdom<br>Zambia<br>Zimbabwe",
-    ),),
+    rows_html=(
+        ("Antigua", "Ghana", "South Africa"),
+        ("Australia", "Grenada", "St. Lucia"),
+        ("Bahamas", "Guyana", "St. Vincent"),
+        ("Barbados", "Ireland", "Swaziland"),
+        ("Belize", "Jamaica", "Tanzania"),
+        ("Bermuda", "Kenya", "Trinidad and Tobago"),
+        ("British Virgin Islands", "Montserrat", "Turks and Caicos Islands"),
+        ("Canada<sup>1</sup>", "Namibia", "Uganda"),
+        ("Cayman Islands", "New Zealand", "United Kingdom"),
+        ("Dominica", "Nigeria", "Zambia"),
+        ("The Gambia", "Singapore", "Zimbabwe"),
+    ),
+    row_headers=False,
 )
 
 body = r'''  </style>

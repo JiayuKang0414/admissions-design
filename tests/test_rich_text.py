@@ -40,6 +40,17 @@ class RichTextTableTests(unittest.TestCase):
                 total_row_indices=(1,),
             )
 
+    def test_can_render_rows_as_equal_data_cells(self):
+        output = render_rich_text_table(
+            caption="Countries",
+            headers_html=("Column one", "Column two"),
+            rows_html=(("Antigua", "Ghana"),),
+            row_headers=False,
+        )
+
+        self.assertIn("<td>Antigua</td>", output)
+        self.assertNotIn('scope="row"', output)
+
 
 if __name__ == "__main__":
     unittest.main()
