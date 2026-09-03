@@ -14,6 +14,8 @@ admissions-design/
 │   └── admissions/     Admissions homepage assets (formerly projects/admissions-recreation)
 ├── briefs/             Page briefs / source notes
 ├── scripts/            Build scripts (HTML partial inlining, etc.)
+├── styles/             Shared Admissions content-pattern styles
+├── RICH-TEXT-PATTERNS.md  Reusable rich-text functions and examples
 ├── page-builder/       Submodule → design-system-page-builder
 │                       Source for critical.css, registry, RULES.md,
 │                       slash commands (.claude/commands/), and shared
@@ -50,3 +52,6 @@ git add page-builder && git commit -m "Bump page-builder submodule"
 Each section's landing page is its `index.html`, so `/pages/academics/` serves it.
 The header, footer, and chrome CSS come from `shared/` and are inlined into every
 page by `scripts/build-chrome.py`.
+
+Reusable editorial tables use `scripts/rich_text.py` and
+`styles/rich-text-table.css`; see `RICH-TEXT-PATTERNS.md` for the function call.

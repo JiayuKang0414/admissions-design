@@ -10,6 +10,9 @@
 
 ## Table treatment
 
+Render this treatment with the project-owned `scripts.rich_text` table function
+and shared `styles/rich-text-table.css`; do not duplicate its CSS in the page.
+
 Use the Figma table system: black 71px header with 16px padding and 18px bold
 white header text; 64px body rows with 16px padding on all sides; 16px body
 text; explicitly left-aligned second and third columns; 1px row dividers;

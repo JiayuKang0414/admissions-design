@@ -14,8 +14,13 @@ This is the **Admissions design project**. It builds on the design-system page b
 | Layout HTML patterns | `page-builder/LAYOUT-PATTERNS.md` |
 | Generic page-builder overrides | `page-builder/OVERRIDES.md` |
 | **Admissions-specific overrides** | `OVERRIDES.md` (this repo) |
+| **Admissions reusable rich-text functions** | `RICH-TEXT-PATTERNS.md` + `scripts/rich_text.py` |
 
 The page-builder's own `CLAUDE.md` (`page-builder/CLAUDE.md`) defines the canonical rules — read it. This file layers admissions-specific guidance on top.
+
+For a styled semantic table inside editorial content, use the project-owned
+`render_rich_text_table()` function documented in `RICH-TEXT-PATTERNS.md`.
+Do not recreate its CSS in an individual page.
 
 ## Output paths
 
