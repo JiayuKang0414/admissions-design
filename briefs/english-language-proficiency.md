@@ -11,12 +11,12 @@
 - `umd-element-breadcrumb` and a two-level `umd-element-nav-slider` matching the page hierarchy.
 - Existing rich-text styles for all editorial copy and waiver requirements.
 - Three full-width `umd-element-accordion-item` components for the accepted tests, with the first item initially open.
-- The project-owned reusable rich-text table function for English-speaking countries and territories.
+- The standard two-column rich-text pattern for the alphabetical English-speaking countries and territories list.
 - Standard image-left `umd-element-pathway` for the Maryland English Institute resource and its secondary CTA.
 - The same `umd-element-banner-promo` used on the other Admissions interior pages.
 
 ## Design check
 
-The three accepted tests contain enough copy that a three-column card grid becomes narrow and vertically stretched, so they use full-width accordions for compact scanning and mobile readability. The country list remains a semantic table because its column structure is meaningful and the design system has no table component. The single MEI resource uses one standard pathway. Dark styling is limited to the minimal hero; the long-form content stays on white for readability.
+The three accepted tests contain enough copy that a three-column card grid becomes narrow and vertically stretched, so they use full-width accordions for compact scanning and mobile readability. The country names are a continuous alphabetical list rather than comparative tabular data, so they use the standard responsive two-column rich-text pattern and stack into source order on mobile. The single MEI resource uses one standard pathway. Dark styling is limited to the minimal hero; the long-form content stays on white for readability.
 
 Visible source copy and links are preserved. Navigation and breadcrumbs are adapted to the prototype's local information architecture.

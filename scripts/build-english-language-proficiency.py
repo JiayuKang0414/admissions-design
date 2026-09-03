@@ -14,7 +14,6 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import _chrome
-from rich_text import render_rich_text_table, rich_text_table_header
 
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -39,36 +38,7 @@ head = re.sub(r"<title>.*?</title>", f"<title>{TITLE}</title>", head, count=1)
 pin = re.search(r"web-components-library@([\d.]+)/dist/cdn\.js", template)
 assert pin, "TEMPLATE.html has no web-components-library cdn.js pin"
 
-countries_table = render_rich_text_table(
-    caption="English-speaking countries",
-    region_label="English-speaking countries and territories",
-    headers_html=(
-        rich_text_table_header("English-speaking countries"),
-        rich_text_table_header(
-            "English-speaking countries, continued", screen_reader_only=True
-        ),
-        rich_text_table_header(
-            "English-speaking countries, continued", screen_reader_only=True
-        ),
-    ),
-    rows_html=(
-        ("Antigua", "Ghana", "South Africa"),
-        ("Australia", "Grenada", "St. Lucia"),
-        ("Bahamas", "Guyana", "St. Vincent"),
-        ("Barbados", "Ireland", "Swaziland"),
-        ("Belize", "Jamaica", "Tanzania"),
-        ("Bermuda", "Kenya", "Trinidad and Tobago"),
-        ("British Virgin Islands", "Montserrat", "Turks and Caicos Islands"),
-        ("Canada<sup>1</sup>", "Namibia", "Uganda"),
-        ("Cayman Islands", "New Zealand", "United Kingdom"),
-        ("Dominica", "Nigeria", "Zambia"),
-        ("The Gambia", "Singapore", "Zimbabwe"),
-    ),
-    row_headers=False,
-)
-
 body = r'''  </style>
-  <link rel="stylesheet" href="../../styles/rich-text-table.css">
   <script src="https://unpkg.com/@universityofmaryland/web-components-library@@@PIN@@/dist/cdn.js"></script>
 @@CHROME:chrome-css@@
 @@CHROME:gate@@
@@ -174,10 +144,51 @@ body = r'''  </style>
             </div>
 
             <div class="umd-layout-space-vertical-interior-child">
-@@COUNTRIES_TABLE@@
-              <div class="umd-text-rich-advanced umd-text-rich-table-footnotes">
-                <p>1. English proficiency test is required for the French system only.</p>
+              <h3 class="umd-layout-space-vertical-headline-medium text-black umd-sans-large">English-speaking countries</h3>
+              <div class="umd-layout-grid-gap-two">
+                <div class="umd-text-rich-advanced">
+                  <ul>
+                    <li>Antigua</li>
+                    <li>Australia</li>
+                    <li>Bahamas</li>
+                    <li>Barbados</li>
+                    <li>Belize</li>
+                    <li>Bermuda</li>
+                    <li>British Virgin Islands</li>
+                    <li>Canada<sup>1</sup></li>
+                    <li>Cayman Islands</li>
+                    <li>Dominica</li>
+                    <li>The Gambia</li>
+                    <li>Ghana</li>
+                    <li>Grenada</li>
+                    <li>Guyana</li>
+                    <li>Ireland</li>
+                    <li>Jamaica</li>
+                    <li>Kenya</li>
+                  </ul>
+                </div>
+                <div class="umd-text-rich-advanced">
+                  <ul>
+                    <li>Montserrat</li>
+                    <li>Namibia</li>
+                    <li>New Zealand</li>
+                    <li>Nigeria</li>
+                    <li>Singapore</li>
+                    <li>South Africa</li>
+                    <li>St. Lucia</li>
+                    <li>St. Vincent</li>
+                    <li>Swaziland</li>
+                    <li>Tanzania</li>
+                    <li>Trinidad and Tobago</li>
+                    <li>Turks and Caicos Islands</li>
+                    <li>Uganda</li>
+                    <li>United Kingdom</li>
+                    <li>Zambia</li>
+                    <li>Zimbabwe</li>
+                  </ul>
+                </div>
               </div>
+              <p class="umd-sans-smaller">1. English proficiency test is required for the French system only.</p>
             </div>
           </section>
 
@@ -238,7 +249,6 @@ body = r'''  </style>
 '''
 
 body = body.replace("@@PIN@@", pin.group(1))
-body = body.replace("@@COUNTRIES_TABLE@@", countries_table)
 for key in ("chrome-css", "gate", "header", "footer", "chrome-scripts"):
     body = body.replace(f"@@CHROME:{key}@@", _chrome.block(key, OUT))
 
@@ -247,6 +257,9 @@ assert "@@" not in output, "unreplaced build token"
 assert output.count("<umd-element-accordion-item") == 3
 assert output.count("<umd-element-pathway") == 1
 assert output.count("umd-element-banner-promo") >= 1
+assert output.count('<div class="umd-layout-grid-gap-two">') == 1
+assert "<table" not in output
+assert "rich-text-table.css" not in output
 assert '<html lang="en">' in output
 assert (
     f"web-components-library@{pin.group(1)}/dist/cdn.js" in output
