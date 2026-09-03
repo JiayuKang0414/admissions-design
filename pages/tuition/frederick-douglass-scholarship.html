@@ -1325,12 +1325,14 @@ umd-element-scroll-top[data-layout-fixed="true"] {
               <a href="../../pages/tuition/" data-child-ref="tuition"><span>Tuition &amp; Aid</span></a>
             </div>
             <div slot="children-slides">
-              <div data-active data-parent-ref="tuition">
+              <div data-parent-ref="tuition">
                 <a href="../../pages/tuition/cost-of-attendance.html"><span>Cost of Attendance</span></a>
                 <a href="https://admissions.umd.edu/tuition/freshman-merit-scholarships"><span>Freshman Merit Scholarships</span></a>
-                <a href="https://admissions.umd.edu/tuition/transfer-merit-scholarships"><span>Transfer Merit Scholarships</span></a>
-                <a href="../../pages/tuition/frederick-douglass-scholarship.html" data-selected><span>Frederick Douglass Scholarship</span></a>
+                <a href="https://admissions.umd.edu/tuition/transfer-merit-scholarships" data-child-ref="transfer-merit-scholarships"><span>Transfer Merit Scholarships</span></a>
                 <a href="https://financialaid.umd.edu/"><span>Office of Student Financial Aid</span></a>
+              </div>
+              <div data-active data-parent-ref="transfer-merit-scholarships">
+                <a href="../../pages/tuition/frederick-douglass-scholarship.html" data-selected><span>Frederick Douglass Scholarship</span></a>
               </div>
             </div>
           </umd-element-nav-slider>

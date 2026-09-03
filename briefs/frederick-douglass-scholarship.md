@@ -10,11 +10,13 @@
 
 ## Layout treatment
 
-Use the standard interior-page shell: breadcrumb, Tuition & Aid
-`umd-element-nav-slider`, and an 800px editorial content column. Preserve the
-source hierarchy as an introductory figure and text block followed by
-`Eligibility` and `How to Apply` rich-text sections. Lists remain semantic and
-retain their nested supporting items.
+Use the standard interior-page shell: breadcrumb, a three-level Tuition & Aid
+`umd-element-nav-slider`, and an 800px editorial content column. The active
+slider panel is `Transfer Merit Scholarships`, with `Frederick Douglass
+Scholarship` as its selected child rather than a Tuition & Aid sibling.
+Preserve the source hierarchy as an introductory figure and text block followed
+by `Eligibility` and `How to Apply` rich-text sections. Lists remain semantic
+and retain their nested supporting items.
 
 The opening scholarship summary is a bold standard-size paragraph in the
 rich-text block directly above the Frederick Douglass image. It uses the
