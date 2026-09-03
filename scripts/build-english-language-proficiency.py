@@ -142,11 +142,13 @@ body = r'''  </style>
                 <li>English is your first language, you hold a citizenship and/or&nbsp;you have a completed high school or university degree earned from one of the following countries or territories:</li>
               </ul>
             </div>
+          </section>
 
-            <div class="umd-layout-space-vertical-interior-child">
-              <h3 class="umd-layout-space-vertical-headline-medium text-black umd-sans-large">English-speaking countries</h3>
-              <div class="umd-layout-grid-gap-two">
+          <section class="umd-layout-space-vertical-interior">
+            <h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">English-speaking countries</h2>
+            <div class="umd-layout-grid-gap-two umd-layout-space-vertical-interior-child">
                 <div class="umd-text-rich-advanced">
+                  <hr>
                   <ul>
                     <li>Antigua</li>
                     <li>Australia</li>
@@ -168,6 +170,7 @@ body = r'''  </style>
                   </ul>
                 </div>
                 <div class="umd-text-rich-advanced">
+                  <hr>
                   <ul>
                     <li>Montserrat</li>
                     <li>Namibia</li>
@@ -187,9 +190,8 @@ body = r'''  </style>
                     <li>Zimbabwe</li>
                   </ul>
                 </div>
-              </div>
-              <p class="umd-sans-smaller">1. English proficiency test is required for the French system only.</p>
             </div>
+            <p class="umd-sans-smaller">1. English proficiency test is required for the French system only.</p>
           </section>
 
         </div>
@@ -257,7 +259,18 @@ assert "@@" not in output, "unreplaced build token"
 assert output.count("<umd-element-accordion-item") == 3
 assert output.count("<umd-element-pathway") == 1
 assert output.count("umd-element-banner-promo") >= 1
-assert output.count('<div class="umd-layout-grid-gap-two">') == 1
+countries_heading = '<h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">English-speaking countries</h2>'
+assert output.count(countries_heading) == 1
+countries_start = output.index(countries_heading)
+countries_end = output.index("</section>", countries_start)
+countries_markup = output[countries_start:countries_end]
+assert '<div class="umd-layout-grid-gap-two umd-layout-space-vertical-interior-child">' in countries_markup
+assert countries_markup.count('<div class="umd-text-rich-advanced">') == 2
+assert countries_markup.count("<hr>") == 2
+assert countries_markup.count("<li>") == 33
+assert '<p class="umd-sans-smaller">1. English proficiency test is required for the French system only.</p>' in countries_markup
+waivers_start = output.index("Potential Waivers for English Proficiency Requirement")
+assert "</section>" in output[waivers_start:countries_start]
 assert "<table" not in output
 assert "rich-text-table.css" not in output
 assert '<html lang="en">' in output
