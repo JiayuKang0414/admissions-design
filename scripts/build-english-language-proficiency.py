@@ -65,7 +65,7 @@ countries_table = render_rich_text_table(
 
 body = r'''  </style>
   <link rel="stylesheet" href="../../styles/rich-text-table.css">
-  <script src="https://unpkg.com/@universityofmaryland/web-components-library@@PIN@@/dist/cdn.js"></script>
+  <script src="https://unpkg.com/@universityofmaryland/web-components-library@@@PIN@@/dist/cdn.js"></script>
 @@CHROME:chrome-css@@
 @@CHROME:gate@@
 </head>
@@ -235,6 +235,9 @@ assert "@@" not in output, "unreplaced build token"
 assert output.count("umd-element-card data-visual-bordered=\"true\"") == 3
 assert output.count("umd-element-banner-promo") >= 1
 assert '<html lang="en">' in output
+assert (
+    f"web-components-library@{pin.group(1)}/dist/cdn.js" in output
+), "generated component CDN URL is missing its version separator"
 
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 with open(OUT, "w", encoding="utf-8") as handle:
