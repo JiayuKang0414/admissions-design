@@ -177,22 +177,26 @@ body = r'''  </style>
             </div>
           </section>
 
-          <section class="umd-layout-space-vertical-interior">
-            <h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">Resources</h2>
-            <div class="umd-text-rich-advanced">
-              <h3>Maryland English Institute</h3>
-              <p>The Maryland English Institute (MEI) provides English language instruction and assessment at the postsecondary level for speakers of other languages. MEI offers rigorous courses of study while providing a positive and supportive learning community and promoting cross-cultural understanding. </p>
-              <p>In some cases, UMD applicants must complete coursework through MEI before beginning their degree program. Students are notified within their admission decision letter if this is required of them.</p>
-            </div>
-            <div class="umd-layout-space-vertical-interior-child">
-              <umd-element-call-to-action data-display="secondary">
-                <a href="https://marylandenglishinstitute.com/" target="_blank" rel="noopener">Learn More About MEI</a>
-              </umd-element-call-to-action>
-            </div>
-          </section>
         </div>
       </div>
     </div>
+
+    <section class="umd-layout-vertical-landing">
+      <umd-element-pathway data-layout-image-position="left">
+        <img slot="image" src="../../images/apply-now/students-studying.jpg" alt="Students studying inside a building with large windows" />
+        <p slot="eyebrow">Resources</p>
+        <h2 slot="headline">Maryland English Institute</h2>
+        <div slot="text">
+          <p>The Maryland English Institute (MEI) provides English language instruction and assessment at the postsecondary level for speakers of other languages. MEI offers rigorous courses of study while providing a positive and supportive learning community and promoting cross-cultural understanding. </p>
+          <p>In some cases, UMD applicants must complete coursework through MEI before beginning their degree program. Students are notified within their admission decision letter if this is required of them.</p>
+        </div>
+        <div slot="actions">
+          <umd-element-call-to-action data-display="secondary">
+            <a href="https://marylandenglishinstitute.com/" target="_blank" rel="noopener">Learn More About MEI</a>
+          </umd-element-call-to-action>
+        </div>
+      </umd-element-pathway>
+    </section>
 
     <section class="umd-layout-vertical-landing">
       <div class="umd-layout-space-horizontal-larger">
@@ -237,6 +241,7 @@ for key in ("chrome-css", "gate", "header", "footer", "chrome-scripts"):
 output = head + "\n" + body
 assert "@@" not in output, "unreplaced build token"
 assert output.count("umd-element-card data-visual-bordered=\"true\"") == 3
+assert output.count("<umd-element-pathway") == 1
 assert output.count("umd-element-banner-promo") >= 1
 assert '<html lang="en">' in output
 assert (
