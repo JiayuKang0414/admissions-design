@@ -100,7 +100,7 @@ body = r'''  </style>
 
           <section class="umd-layout-space-vertical-interior">
             <h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">Accepted English Proficiency Tests:</h2>
-            <umd-element-accordion-item data-visual-open="true">
+            <umd-element-accordion-item>
               <p slot="headline">Duolingo English Test (DET)</p>
               <div slot="text">
                 <div class="umd-text-rich-advanced">
@@ -257,6 +257,7 @@ for key in ("chrome-css", "gate", "header", "footer", "chrome-scripts"):
 output = head + "\n" + body
 assert "@@" not in output, "unreplaced build token"
 assert output.count("<umd-element-accordion-item") == 3
+assert 'data-visual-open="true"' not in output
 assert output.count("<umd-element-pathway") == 1
 assert output.count("umd-element-banner-promo") >= 1
 countries_heading = '<h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">English-speaking countries</h2>'

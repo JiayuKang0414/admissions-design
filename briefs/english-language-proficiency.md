@@ -10,7 +10,7 @@
 - Dark `umd-element-hero-minimal` for the interior-page title.
 - `umd-element-breadcrumb` and a two-level `umd-element-nav-slider` matching the page hierarchy.
 - Existing rich-text styles for all editorial copy and waiver requirements.
-- Three full-width `umd-element-accordion-item` components for the accepted tests, with the first item initially open.
+- Three full-width `umd-element-accordion-item` components for the accepted tests, all initially closed.
 - A standalone rich-text section using the standard two-column pattern for the alphabetical English-speaking countries and territories list.
 - Standard image-left `umd-element-pathway` for the Maryland English Institute resource and its secondary CTA.
 - The same `umd-element-banner-promo` used on the other Admissions interior pages.
