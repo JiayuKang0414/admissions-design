@@ -37,7 +37,7 @@ Pages using this: `pages/academics/index.html`, `pages/student-life/index.html`,
 
 ## Frederick Douglass feature figure (`.fds-feature-figure`)
 
-Custom light-DOM figure treatment inside an `umd-text-rich-advanced` editorial block. The design-system rich-text pattern provides the surrounding typography but does not constrain standalone figure media or supply a caption treatment, so `.fds-feature-figure` removes the browser figure margin, makes the image responsive, and styles the source caption at 14px with an 8px top gap.
+Custom light-DOM figure treatment inside an `umd-text-rich-advanced` editorial block. The design-system rich-text pattern provides the surrounding typography but does not constrain standalone figure media or supply a caption treatment, so `.fds-feature-figure` replaces the browser figure margin with a controlled 24px top / 32px bottom gap, makes the image responsive, and styles the source caption at 14px with an 8px top gap.
 
 Pages using this: `pages/tuition/frederick-douglass-scholarship.html`.
 
