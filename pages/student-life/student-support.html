@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <meta name="googlebot" content="noindex, nofollow">
-  <title>Engineering &amp; Technology — Undergraduate Admissions | University of Maryland</title>
+  <title>Student Support & Safety — Undergraduate Admissions | University of Maryland</title>
 
   <!-- ============================================================
        UMD Critical CSS — Hybrid CDN + Local
@@ -775,42 +775,7 @@
       padding-top: 0;
     }
     .umd-filter-item[hidden] { display: none !important; }
-
-    /* ============================================================
-       25. INTEREST PAGE — majors grid + careers list
-       Two page-specific needs on top of the DS components:
-       a 4-up grid for the (text-only) major cards, and a two-column
-       list for the careers bullets inside the pathway text slot.
-       ============================================================ */
-
-    /* --- majors list ------------------------------------------
-       NO page CSS for the majors. They are the DS card-list pattern exactly as
-       RULES.md §33 documents it: a plain stack of
-       umd-element-card[data-display="list"] inside a
-       umd-layout-space-horizontal-small (992px) lock. The separator between
-       cards is the DS's own adjacent-sibling rule in web-components.min.css:
-
-         umd-element-card[data-display="list"] + umd-element-card[data-display="list"]
-           { margin-top: 24px; padding-top: 24px; border-top: 1px solid #E6E6E6 }
-
-       That rule is why this must NOT go in a border grid. An earlier revision
-       put these cards in umd-layout-grid-border-two with
-       umd-shell-person-grid-helper, and the two separator systems fought:
-       the sibling rule overrode the helper's 48px padding-top back to 24px on
-       every card but the first, and its 24px margin-top opened bands that the
-       cells' own borders do not paint -- while the border grid's continuous
-       left border ran straight through them. Net effect was misaligned first
-       row, uneven top padding, and rules on the left that stopped on the right.
-       Stacked in one column, the same rule is exactly the list separator this
-       section wants.
-
-       Also note data-visual-bordered has NO effect on data-display="list" --
-       measured, zero bordered nodes in that variant's shadow tree.
-
-       The careers list is likewise unstyled: it is the plain rich-text <ul>
-       the source page uses, single-column, bullets from the DS. */
   </style>
-
   <script src="https://unpkg.com/@universityofmaryland/web-components-library@1.19.5/dist/cdn.js"></script>
   <!-- SHARED:chrome-css:START — generated from shared/chrome.css; do not edit here -->
   <style>
@@ -1134,7 +1099,6 @@ umd-element-scroll-top[data-layout-fixed="true"] {
   <!-- SHARED:gate:END -->
 </head>
 <body>
-
   <!-- SHARED:header:START — generated from shared/header.html; do not edit here -->
   <umd-element-navigation-utility data-alert-off="true" role="navigation" aria-label="Utility navigation"></umd-element-navigation-utility>
   <umd-element-utility-header></umd-element-utility-header>
@@ -1262,7 +1226,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
       <a href="https://admissions.umd.edu/search"><span>Search</span></a>
     </div>
     <div slot="children-slides">
-      <div data-parent-ref="academics" data-active>
+      <div data-parent-ref="academics">
         <a href="../../pages/academics/"><span>Overview</span></a>
         <a href="../../pages/academics/programs.html"><span>All Programs</span></a>
         <a href="../../pages/academics/colleges-schools.html"><span>Colleges &amp; Schools</span></a>
@@ -1270,10 +1234,10 @@ umd-element-scroll-top[data-layout-fixed="true"] {
         <a href="https://admissions.umd.edu/academics/limited-enrollment-programs"><span>Limited Enrollment Programs</span></a>
         <a href="https://ugst.umd.edu/llsop/index.html"><span>Living-Learning &amp; Special Programs</span></a>
       </div>
-      <div data-parent-ref="student-life">
+      <div data-parent-ref="student-life" data-active>
         <a href="../../pages/student-life/"><span>Overview</span></a>
         <a href="https://admissions.umd.edu/student/housing-and-dining"><span>Housing &amp; Dining</span></a>
-        <a href="../../pages/student-life/student-support.html"><span>Student Support &amp; Safety</span></a>
+        <a href="../../pages/student-life/student-support.html" data-selected><span>Student Support &amp; Safety</span></a>
         <a href="https://admissions.umd.edu/student/get-involved"><span>Get Involved on Campus</span></a>
         <a href="https://admissions.umd.edu/student/find-community"><span>Find Your Community</span></a>
       </div>
@@ -1299,293 +1263,141 @@ umd-element-scroll-top[data-layout-fixed="true"] {
   </umd-element-navigation-header>
   <!-- SHARED:header:END -->
 
-  <!-- 3. HERO — small background, left-aligned text -->
-  <section class="umd-layout-vertical-landing">
-    <umd-element-hero data-layout-height="small">
-      <img slot="image" src="../../images/interest/hero-kim-building.jpg" alt="The entrance to the Jeong H. Kim Engineering Building" />
-      <h1 slot="headline">Engineering &amp; Technology</h1>
-      <div slot="text"><p>Turn your passion for creating systems and structures through science and technology into a career.</p></div>
-      <div slot="actions">
-        <umd-element-call-to-action data-display="primary">
-          <a href="programs.html">Explore All Programs</a>
-        </umd-element-call-to-action>
-      </div>
-    </umd-element-hero>
-  </section>
+  <main id="main-content">
+    <section>
+      <umd-element-hero-minimal data-theme="dark">
+        <h1 slot="headline">Student Support &amp; Safety</h1>
+      </umd-element-hero-minimal>
+    </section>
 
-  <!-- 4. INTRO — the interior-page lockup used on how-to-apply.html and
-       colleges-schools.html: narrow -small lock, rule, uppercase lead,
-       rich-text body. Deliberately NOT a pathway. -->
-  <section class="umd-layout-vertical-landing">
-    <div class="umd-layout-space-horizontal-small">
-      <hr style="border:none;border-top:1px solid var(--umd-color-black);margin:0 0 24px 0;" />
-      <p class="umd-sans-large mb-md text-black" style="text-transform:uppercase;">Find the YOU in UMD!</p>
-      <div class="umd-text-rich-advanced">
-        <p>Students interested in Engineering and Technology programs will learn how to innovate the digital and physical world through science and technology.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5. RELATED MAJORS — pathway carries the headline + copy, the DS card-list
-       stack follows it inside the same section (RULES §33: standalone card list
-       takes the umd-layout-space-horizontal-small 992px lock).
-       34 programs tagged "Engineering & Technology".
-
-       The pathway wrapper takes umd-layout-vertical-landing (120px desktop),
-       NOT -child (48px): the pathway and the grid are two components stacked
-       in one section, not a section-intro and the content it introduces. The
-       -child gap belongs on a section intro -- see the colleges section below,
-       where it is what produces the required 48px. -->
-  <section class="umd-layout-vertical-landing">
-    <div class="umd-layout-vertical-landing">
-      <umd-element-pathway data-layout-image-position="right">
-        <img slot="image" src="../../images/interest/wind-tunnel.jpg" alt="Students working in the Glenn L. Martin wind tunnel" />
-        <h2 slot="headline">Related Majors</h2>
-        <div slot="text">
-          <p>Students will learn how to make innovative scientific and technological contributions to an evolving world through research and experimentation to design, build and use an array of different systems, machines and structures.</p>
+    <div class="umd-layout-space-horizontal-larger umd-layout-space-vertical-interior">
+      <umd-element-breadcrumb>
+        <div slot="paths">
+          <a href="../../pages/" aria-label="Return Home"><span aria-hidden="true">Home</span></a>
+          <a href="../../pages/student-life/"><span>Student Life</span></a>
+          <p aria-label="Current Page"><span>Student Support &amp; Safety</span></p>
         </div>
-      </umd-element-pathway>
+      </umd-element-breadcrumb>
     </div>
-    <div class="umd-layout-space-horizontal-small">
-      <div class="interest-majors-grid">
 
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://aces.umd.edu/minor" target="_blank" rel="noopener">Advanced Cybersecurity Experience for Students</a></h3>
-          <p slot="text" class="interest-major-desc">ACES is housed in the Honors College but is open to all undergraduate students in all majors. This minor takes a multidisciplinary approach to cybersecurity education in that students gain knowledge about many of the fields that intersect in cybersecurity. With an emphasis on hands-on experiences, students will gain practical skills through coursework, seminars, group projects, internships, and research, both on and off campus.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://aero.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Aerospace Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">Understanding flight, exploring space and designing components, vehicles and systems are the abiding interests of the faculty and students at the Clark School&#x27;s Department of Aerospace Engineering. Specializations include aeronautics, astronautics, rotorcraft and hypersonics.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Minor</p>
-          <h3 slot="headline"><a href="https://agnr.umd.edu/academics/programs-study/agricultural-science-technology" target="_blank" rel="noopener">Agricultural Science &amp; Technology</a></h3>
-          <p slot="text" class="interest-major-desc">Agricultural Science and Technology offers 3 distinct specializations in Agricultural &amp; Extension Education, Agronomy, and Environmental Horticulture. Specific areas of study include crop science, sustainable production, precision agriculture, agriculture education, greenhouses and nurseries, urban agriculture, viticulture, and much more. Graduates enter a wide range of fields including K-12 teacher, specialty crop and greenhouse production, food safety, and Extension educator.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major</p>
-          <h3 slot="headline"><a href="https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/computer-science/artificial-intelligence-computational-structures-ai-systems-major/" target="_blank" rel="noopener">Artificial Intelligence: Computational Structures for AI Systems</a></h3>
-          <p slot="text" class="interest-major-desc">The Bachelor of Science in Artificial Intelligence: Computational Structures for AI Systems (BSAI) is a highly technical program that trains students to build new AI systems and algorithms from the ground up, understand the training of models from both a data and systems perspective, and then use those techniques in interdisciplinary applications. The first two years of the program develop a strong technical foundation in programming and understanding the theory of statistical learning, symbolic reasoning, and optimization. The following two years focus on deploying those techniques in interdisciplinary applications enabling students to build state-of-the-art AI systems and also think critically about the effective, ethical application of AI. The BSAI will offer specializations in: Generative AI; AI Algorithms; Accessibility; and AI, Society, and Decision Making.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major</p>
-          <h3 slot="headline"><a href="https://biocomp.umd.edu/" target="_blank" rel="noopener">Biocomputational Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">In the Biocomputational Engineering program, students will develop skills in computation and data science that can be applied to the modeling of complex biological systems and the analysis of complex biological data sets. Even more, students will have the opportunity to impact human health by applying skills in computer modeling, bioinformatics, analysis of large and complex data sets, and other important computational skills.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://bioe.umd.edu/undergraduate/bachelor-science" target="_blank" rel="noopener">Bioengineering</a></h3>
-          <p slot="text" class="interest-major-desc">The undergraduate program in Bioengineering is founded in biology, driven by human health issues, and is forward-thinking. Our objective is to marry the principles and applications embedded in engineering with the sciences of biology, medicine, and health.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://chbe.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Chemical Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">The Department of Chemical and Biomolecular Engineering offers a Bachelor of Science in Chemical Engineering, which combines chemical, physical and life sciences with engineering to solve a wide variety of problems. The graduate in this major finds interesting and diverse career opportunities in such fields as petroleum, pharmaceuticals, polymers and biotechnologies.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://cee.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Civil Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">The Department of Civil and Environmental Engineering offers a Bachelor of Science in Civil Engineering, which is a very diverse field, concerned with such things as planning, design, construction and operation of large systems such as buildings and bridges; water purification and distribution systems; traffic and transportation systems; and water and land pollution treatment.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Minor / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://ece.umd.edu/undergraduate/degrees" target="_blank" rel="noopener">Computer Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">Computer engineers apply the principles and techniques of electrical engineering, computer science, and mathematical analysis to the design, development, testing, and evaluation of the software and hardware systems that enable computers to perform increasingly demanding functions. Computer engineers design robots, develop microprocessors, design supercomputers and smart devices, create integrated circuits for semiconductor fabrication, program computer-vision capabilities, create security/cryptographic systems, and develop software systems and network protocols.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Minor / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://undergrad.cs.umd.edu/future" target="_blank" rel="noopener">Computer Science</a></h3>
-          <p slot="text" class="interest-major-desc">Computer science is the study of computers and computational systems: their application, design, development and theory. A computer scientist is concerned with problem solving. Problems range from abstract questions of what problems can be solved with computers to practical matters such as the design of computer systems that are efficient, secure, and easy for people to use.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://pm.umd.edu/program/cpm-minor/" target="_blank" rel="noopener">Construction Project Management</a></h3>
-          <p slot="text" class="interest-major-desc">Undergraduate students wishing to pursue a career in the design or construction of capital projects will have a distinct competitive advantage if they have a working knowledge of the fundamentals of managing construction. The minor, along with completion of your full degree program, will provide you a distinct competitive advantage over other potential job candidates. When completed with the minor, students should have a good understanding of construction project management concepts, tools, and techniques and be able to be productive on project teams in their first employment after graduation. The minor also aligns students with career paths leading to increased management responsibility.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://shadygrove.ece.umd.edu/" target="_blank" rel="noopener">Cyber-Physical Systems Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">The overarching goal of the Cyber-Physical Systems Engineering program is to train the workforce in the areas of software, hardware, and applications involving widely deployed smart devices and their interactions with resources in the cloud.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://www.geol.umd.edu/undergraduate/Geology_Minors.php" target="_blank" rel="noopener">Earth Material Properties</a></h3>
-          <p slot="text" class="interest-major-desc">The undergraduate minor in Earth Material Properties recognizes concentrated study in this designated field in the College of Computer, Mathematical, and Natural Sciences. The award of a minor will be noted on the student&#x27;s transcript at the time of graduation.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://ece.umd.edu/undergraduate/degrees/bs-electrical-engineering" target="_blank" rel="noopener">Electrical Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">Electrical engineers create innovative technology solutions in a wide range of areas from handheld communications to solar panels; from cardiac pacemakers to autonomous robots; from wireless networks to bio-engineered sensors that detect dangerous pathogens; and intelligent surveillance systems that perform face and motion recognition.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major</p>
-          <h3 slot="headline"><a href="https://agnr.umd.edu/academics/programs-study/environmental-science-technology" target="_blank" rel="noopener">Environmental Science &amp; Technology</a></h3>
-          <p slot="text" class="interest-major-desc">Environmental Science and Technology educates and prepares students to work in natural resources management, ecological technology design, soil and watershed science, or ecosystem health. Government agencies, environmental consulting firms, &quot;green&quot;/renewable energy industries, and non-governmental organizations are all potential career paths allowing students to solve grand challenges and contribute to a sustainable future.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://fpe.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Fire Protection Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">Fire Protection Engineering provides graduates with the tools needed to safeguard lives and property from fire. Undergraduate students receive a unique education (see sidebar) that focuses on topics such as fire-related safety, suppression systems, and health and environmental issues.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://geog.umd.edu/undergraduate/gis-minor" target="_blank" rel="noopener">Geographic Information Science</a></h3>
-          <p slot="text" class="interest-major-desc">The GIS minor is designed to give students the technical skills needed to acquire, manage and analyze geographic data. Geographic information science and remote sensing have evolved dramatically in the past few decades. Students in the minor will receive extensive training in digital processing of remote sensing observations and cartographic vector data, spatial analysis, and the display of information products.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://www.geol.umd.edu/undergraduate/Geology_Minors.php" target="_blank" rel="noopener">Geophysics</a></h3>
-          <p slot="text" class="interest-major-desc">The undergraduate minor in Geophysics recognizes concentrated study in this designated field in the College of Computer, Mathematical, and Natural Sciences. The award of a minor will be noted on the student&#x27;s transcript at the time of graduation.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://eng.umd.edu/global/coursework" target="_blank" rel="noopener">Global Engineering Leadership</a></h3>
-          <p slot="text" class="interest-major-desc">The minor in global engineering leadership is designed to develop the skills necessary to lead with a global vision, work effectively with others to address social issues, and engineer solutions that improve communities and organizations.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://imd.umd.edu/about" target="_blank" rel="noopener">Immersive Media Design</a></h3>
-          <p slot="text" class="interest-major-desc">Immersive Media Design (IMD) allows students to unleash their creativity through technology. Students learn to design, develop, and produce various forms of immersive media—ranging from tactical and audio platforms to virtual and augmented reality. Through IMD courses, students integrate technical and artistic skills by studying digital media and collaborating to design immersive media works and build portfolios.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major</p>
-          <h3 slot="headline"><a href="https://ivsp.umd.edu/" target="_blank" rel="noopener">Individual Studies Program</a></h3>
-          <p slot="text" class="interest-major-desc">Individual Studies (IVSP) students enjoy broad academic freedom and flexibility to pursue their degrees in ways that best suit their intellectual interests and passions. Under the guidance of a faculty mentor and the IVSP staff, students create their own unique, interdisciplinary majors that approach important issues, questions, and problems from a range of disciplines and perspectives.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://www.rhsmith.umd.edu/programs/undergraduate/academics/academic-majors" target="_blank" rel="noopener">Information Systems</a></h3>
-          <p slot="text" class="interest-major-desc">Maryland Smith’s Information Systems (IS) major is ranked No. 6 in the country (and the school is No. 11 among publics) by U.S. News &amp; World Report and includes stellar faculty with real-world experience and influential research. The IS major prepares you to effectively plan, use and manage information technologies and systems through a focus on system design and implementation skills, including database and web design.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://mse.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Materials Science &amp; Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">Many major advances in science and technology, from computer chips to hypersonic aircraft, are attributable to advances in the underlying materials systems. Materials Science and Engineering is a multidisciplinary field focused on developing materials and materials systems for future technological advancements.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Minor</p>
-          <h3 slot="headline"><a href="https://www-math.umd.edu/undergraduate/math-majors.html" target="_blank" rel="noopener">Mathematics</a></h3>
-          <p slot="text" class="interest-major-desc">The Department of Mathematics educates its majors in a broad range of modern mathematics while instilling in them a strong ability to solve problems, apply mathematics to other areas, and create rigorous mathematical arguments. The program prepares the majors to further their mathematical education in graduate school, or to teach at the secondary school level, or to work in government or business.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Limited Enrollment Program</p>
-          <h3 slot="headline"><a href="https://enme.umd.edu/undergraduate/degrees/bachelor-science" target="_blank" rel="noopener">Mechanical Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">Mechanical Engineering is a dynamic and expanding field with emphasis in such areas as energy, thermal sciences, and instrumentation. New programs in manufacturing, microelectronics, and nanotechnology prepare our graduates for the emerging technologies of the 21st century.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major</p>
-          <h3 slot="headline"><a href="https://shadygrove.umd.edu/academics/degree-programs/bs-mechatronics-engineering" target="_blank" rel="noopener">Mechatronics Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">Mechatronics is the combination of mechanical, electrical, and information systems engineering. Mechatronics engineers design, develop, and test automated production systems, transportation and vehicle systems, robotics, computer-machine controls, and other integrated systems. Mechatronics engineers also develop new technologies for use in the automotive and aviation industry, advanced manufacturing operations, and often specialize in areas like robotics, autonomous vehicles, and manufacturing systems.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://www.nanocenter.umd.edu/education/nano-minor/" target="_blank" rel="noopener">Nanoscale Science &amp; Technology</a></h3>
-          <p slot="text" class="interest-major-desc">To meet the rapidly growing interest of students in nano, and to prepare students for careers in the exciting, rapidly growing field of nanoscale science and technology, we offer an innovative undergraduate program, the Interdisciplinary Minor Program in Nanoscale Science and Technology (NS&amp;T).</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://enme.umd.edu/undergraduate/degrees/minor-nuclear-engineering" target="_blank" rel="noopener">Nuclear Engineering</a></h3>
-          <p slot="text" class="interest-major-desc">The minor in Nuclear Engineering provides the engineering student with the understanding of nuclear engineering and its application to many different fields, such as power generation, reactor operation, and industrial uses. Students in the minor will learn the fundamentals of nuclear reactor engineering, radiation interactions and measurement, power plant design concepts, and reactor safety.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Major / Minor</p>
-          <h3 slot="headline"><a href="https://umdphysics.umd.edu/academics/undergraduate/ugrad-prospective-students.html" target="_blank" rel="noopener">Physics</a></h3>
-          <p slot="text" class="interest-major-desc">The world-class faculty in the University of Maryland’s Physics Department teach students to think analytically and empirically about the physical world. Whether you plan to continue to study physics in graduate school or work in fields such as engineering, software development, law, business, or education, a bachelor&#x27;s degree in physics from Maryland provides an excellent foundation.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://pm.umd.edu/program/undergraduate-minor-in-project-management/" target="_blank" rel="noopener">Project Management</a></h3>
-          <p slot="text" class="interest-major-desc">Employers increasingly seek candidates whose career preparation includes an understanding of project management fundamentals. Students that complete this minor should have a good understanding of project management concepts, tools, and techniques and be able to be productive on project teams in their first employment after graduation. The minor also aligns students with career paths leading to increased management responsibility.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://geog.umd.edu/undergraduate/remote-sensing-minor" target="_blank" rel="noopener">Remote Sensing of Environmental Change</a></h3>
-          <p slot="text" class="interest-major-desc">The Remote Sensing of Environmental Change minor program (RSEC) is designed to build students’ understanding of global environmental change in order to assess their impacts on the physical and human landscapes, and to use remote sensing as an analytical tool for identifying those impacts.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://robotics.umd.edu/minor" target="_blank" rel="noopener">Robotics &amp; Autonomous Systems</a></h3>
-          <p slot="text" class="interest-major-desc">The undergraduate minor in Robotics and Autonomous Systems (RAS) is a cross-disciplinary program administered by the Maryland Robotics Center in the Institute for Systems Research within the A. James Clark School of Engineering. The minor takes a multidisciplinary approach to robotics in which students gain knowledge about the design, control, programming, and integration of robotics and autonomous systems.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://spp.umd.edu/your-education/undergraduate/minors/science-technology-ethics-and-policy-step-minor" target="_blank" rel="noopener">Science, Technology, Ethics &amp; Policy</a></h3>
-          <p slot="text" class="interest-major-desc">The STEP minor offers you the knowledge and analytical skills to understand and assess the complex interactions among science, technology, ethics and policy. Students in the minor explore the ways that scientific practice and technological development are embedded in social, cultural, humanistic and political systems.</p>
-        </umd-element-card>
-        <umd-element-card data-display="list" class="interest-major">
-          <p slot="eyebrow">Minor</p>
-          <h3 slot="headline"><a href="https://www.mtech.umd.edu/learning/minor-in-technology-entrepreneurship" target="_blank" rel="noopener">Technology Entrepreneurship &amp; Corporate Innovation</a></h3>
-          <p slot="text" class="interest-major-desc">The Minor in Technology Entrepreneurship and Corporate Innovation aims to help students understand the entrepreneurial process and essential skills. Equipped with an entrepreneurial mindset and skill set, aspiring innovators can drive economic growth by launching successful ventures and bringing new products and services to market.</p>
-        </umd-element-card>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- 6. CAREERS — dark overlay pathway, image opposite the majors pathway.
-       data-display="overlay" data-theme="dark" is self-contained: it paints its
-       own black panel inside the content lock, so NO umd-layout-background-full-dark
-       wrapper (OVERRIDES.md § "Overlay pathway as a dark editorial block").
-       The list is the source page's plain rich-text <ul>, single column. -->
-  <section class="umd-layout-vertical-landing">
-    <umd-element-pathway data-display="overlay" data-theme="dark"
-                         data-layout-image-position="left">
-      <img slot="image" src="../../images/interest/neutral-buoyancy.jpg" alt="A diver in the Neutral Buoyancy Research Facility tank" />
-      <h2 slot="headline">Careers in Engineering &amp; Technology</h2>
-      <div slot="text">
-        <ul class="interest-careers-list">
-            <li>Architecture</li>
-            <li>Bioengineering</li>
-            <li>Construction</li>
-            <li>Engineering</li>
-            <li>Entrepreneurship</li>
-            <li>Materials Science</li>
-            <li>Nanoscale Science</li>
-            <li>Policy</li>
-            <li>Project Management</li>
-            <li>Urban Planning</li>
-        </ul>
-      </div>
-    </umd-element-pathway>
-  </section>
-
-  <!-- 7. RELATED COLLEGES & SCHOOLS — 3-up DS cards, curated in
-       briefs/interests-data.json. Page ends here: the live page repeats the
-       majors grid below this point, which is a bug, not a section. -->
-  <section class="umd-layout-vertical-landing">
     <div class="umd-layout-space-horizontal-larger">
-      <umd-element-section-intro class="umd-layout-vertical-landing-child">
-        <h2 slot="headline">Related Colleges &amp; Schools</h2>
-      </umd-element-section-intro>
-      <div class="umd-layout-grid-gap-three" data-animation="off">
+      <div class="umd-layout-space-columns-left">
+        <div id="umd-shell-sidebar-container">
+          <umd-element-nav-slider>
+            <div slot="primary-slide-links">
+              <a href="../../pages/student-life/" data-child-ref="student-life"><span>Student Life</span></a>
+            </div>
+            <div slot="children-slides">
+              <div data-parent-ref="student-life" data-active>
+                <a href="../../pages/student-life/"><span>Overview</span></a>
+                <a href="https://admissions.umd.edu/student/housing-and-dining"><span>Housing &amp; Dining</span></a>
+                <a href="../../pages/student-life/student-support.html" data-selected><span>Student Support &amp; Safety</span></a>
+                <a href="https://admissions.umd.edu/student/get-involved"><span>Get Involved on Campus</span></a>
+                <a href="https://admissions.umd.edu/student/find-community"><span>Find Your Community</span></a>
+              </div>
+            </div>
+          </umd-element-nav-slider>
+        </div>
 
-        <umd-element-card data-visual-image-aligned="true">
-          <a slot="image" href="https://eng.umd.edu/" target="_blank" rel="noopener"><img src="../../images/colleges-schools/engr.jpg" alt="A James Clark School of Engineering ENGR" loading="lazy" /></a>
-          <p slot="eyebrow">ENGR</p>
-          <h3 slot="headline"><a href="https://eng.umd.edu/" target="_blank" rel="noopener">A. James Clark School of Engineering</a></h3>
-          <p slot="text">The A. James Clark School of Engineering is consistently ranked among the world&#x27;s top engineering schools. Its academic programs offer endless opportunities to explore, and our location near Washington, D.C., will give you access to federal research labs and major technology corporations to land internships and jobs.</p>
-        </umd-element-card>
-        <umd-element-card data-visual-image-aligned="true">
-          <a slot="image" href="https://cmns.umd.edu/" target="_blank" rel="noopener"><img src="../../images/colleges-schools/cmns.jpg" alt="Computer Studies" loading="lazy" /></a>
-          <p slot="eyebrow">CMNS</p>
-          <h3 slot="headline"><a href="https://cmns.umd.edu/" target="_blank" rel="noopener">College of Computer, Mathematical, &amp; Natural Sciences</a></h3>
-          <p slot="text">The thirst for new knowledge is at the heart of scientific endeavor and discovery. As we seek to understand our world across a host of complexly interconnected phenomena, our discoveries shape that world. At the forefront of many of these discoveries is the College of Computer, Mathematical, and Natural Sciences.</p>
-        </umd-element-card>
-        <umd-element-card data-visual-image-aligned="true">
-          <a slot="image" href="https://www.rhsmith.umd.edu/" target="_blank" rel="noopener"><img src="../../images/colleges-schools/bmgt.jpg" alt="Business School" loading="lazy" /></a>
-          <p slot="eyebrow">BMGT</p>
-          <h3 slot="headline"><a href="https://www.rhsmith.umd.edu/" target="_blank" rel="noopener">Robert H. Smith School of Business</a></h3>
-          <p slot="text">At the Robert H. Smith School of Business, we&#x27;ll prepare you to succeed in a competitive global economy. Ranked among the nation&#x27;s top 20 undergraduate business schools, it&#x27;s home to outstanding faculty with real-world experience, cutting-edge research and lots of connections.</p>
-        </umd-element-card>
+        <div id="umd-shell-content">
+          <section class="umd-layout-space-vertical-interior">
+            <div class="umd-text-rich-advanced">
+              <p>Safety is the shared responsibility of each campus community member. We know that students thrive in a community they feel safe and supported in and continue to work toward a safer and more secure community.</p>
+            </div>
+          </section>
 
+          <section class="umd-layout-space-vertical-interior">
+            <h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">Academics</h2>
+            <div class="umd-layout-grid-gap-two">
+              <div class="umd-text-rich-advanced">
+                <figure class="umd-layout-alignment-block-stacked">
+                  <img src="../../images/student-life/student-support-academics.jpg" alt="Students sitting around a table in an engineering lab." />
+                </figure>
+              </div>
+              <div class="umd-text-rich-advanced">
+                <hr>
+                <ul>
+                  <li>Tutoring services</li>
+                  <li><a href="https://careers.umd.edu/" target="_blank" rel="noopener noreferrer">Career Center</a> - Whether you’re looking to gain experience through an internship, fine tune your resume, practice your interviewing skills or evaluate a job offer, the Career Center has you covered. You’ll receive support at every stage of your career development and will be prepared to pursue a meaningful career path through high-quality services, resources and instruction.</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section class="umd-layout-space-vertical-interior">
+            <h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">Wellness</h2>
+            <div class="umd-layout-grid-gap-two">
+              <div class="umd-text-rich-advanced">
+                <hr>
+                <ul>
+                  <li><a href="https://health.umd.edu/prospective-students" target="_blank" rel="noopener noreferrer">University Health Center</a> - Provides high-quality, cost-effective health care and wellness programs in order to promote the health of the university community and support academic success.</li>
+                  <li><a href="https://www.counseling.umd.edu/aboutus/" target="_blank" rel="noopener noreferrer">Counseling Center</a> - Provides comprehensive support services that promote the personal, social and academic success of UMD students.</li>
+                  <li><a href="https://recwell.umd.edu/" target="_blank" rel="noopener noreferrer">Recreation &amp; Wellness</a> - Creates a culture of wellness where all members of the university community thrive. Recreation is for everyone and there is something for everyone at RecWell.</li>
+                </ul>
+              </div>
+              <div class="umd-text-rich-advanced">
+                <figure class="umd-layout-alignment-block-stacked">
+                  <img src="../../images/student-life/student-support-wellness.jpg" alt="Front door to the health center." />
+                </figure>
+              </div>
+            </div>
+          </section>
+
+          <section class="umd-layout-space-vertical-interior">
+            <h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">Safety</h2>
+            <div class="umd-layout-grid-gap-two">
+              <div class="umd-text-rich-advanced">
+                <figure class="umd-layout-alignment-block-stacked">
+                  <img src="../../images/student-life/safety@2x.jpg" alt="Safety" />
+                </figure>
+              </div>
+              <div class="umd-text-rich-advanced">
+                <hr>
+                <p>Call University Police at 911 or (301) 405-3555. If you ever see a situation involving fighting between partners or groups, threatening actions or statements, screams, suspicious persons or behavior, weapons, etc., do not hesitate to call police immediately. Then, call your Service Desk or CA.</p>
+                <ul>
+                  <li>Blue Light Program</li>
+                  <li>Police Escorts</li>
+                  <li>Opt-in Safety Alerts</li>
+                  <li>UID Only Accessibility</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section class="umd-layout-space-vertical-interior">
+            <h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">Transportation &amp; Parking</h2>
+            <div class="umd-text-rich-advanced">
+              <p>Whether you live on campus or off, the Department of Transportation Services makes it easy to get around. Shuttle-UM buses operate several campus-based routes and serve a six-mile radius beyond, taking students to Metro station, shops, restaurants and more than two dozen apartment communities. All you need to ride Shuttle-UM is your student ID. It’s also a snap to travel to Washington, D.C., Baltimore and local airports by using Metrorail and MARC trains.</p>
+              <p>If you’re living off campus, permits for campus parking are available for purchase from the Department of Transportation Services.</p>
+              <ul>
+                <li><a href="https://transportation.umd.edu/shuttle-um" target="_blank" rel="noopener noreferrer">Shuttle-UM</a> - DOTS provides routes that circulate around campus, commuter routes to neighboring communities and Park &amp; Ride routes that can be tracked on the Transit app. Students can also use the NITE Ride evening service to get around campus when shuttle routes are not operating.</li>
+                <li><a href="https://transportation.umd.edu/bikeumd-escooters" target="_blank" rel="noopener noreferrer">BikeUMD</a> - Students can bring their own bike to campus or rent one from the RecWell Bike Shop. Community members can also utilize the shared mobility system provided by VEO in partnership with the City of College Park and University Park.</li>
+                <li><a href="https://transportation.umd.edu/sustainable-transportation/local-regional-transit" target="_blank" rel="noopener noreferrer">Local &amp; Regional Transit</a> - College Park connects to many local and regional transit options that make many destinations easily accessible. It’s also a snap to travel to Washington, D.C., Baltimore and local airports by using <a href="https://www.wmata.com/service/rail/" target="_blank" rel="noopener noreferrer">Metrorail</a> and <a href="https://mta.maryland.gov/marc-train" target="_blank" rel="noopener noreferrer">MARC</a> trains.</li>
+                <li><a href="https://transportation.umd.edu/parking" target="_blank" rel="noopener noreferrer">Parking</a> - Flexible parking permit options are available for each individual working, living and learning situation. If you are going to have a car on campus, you will need a parking permit. Permits can be purchased on the Department of Transportation Services website.</li>
+              </ul>
+            </div>
+          </section>
+        </div>
       </div>
     </div>
-  </section>
 
-  <!-- SCROLL TO TOP — fixed 24px from viewport bottom-right (pin lives in shared/chrome.css) -->
-  <umd-element-scroll-top data-layout-fixed="true"></umd-element-scroll-top>
+    <section class="umd-layout-vertical-landing">
+      <div class="umd-layout-space-horizontal-larger">
+        <umd-element-banner-promo>
+          <h2 slot="headline">There is a lot more to learn about UMD</h2>
+          <p slot="text">Let's stay in touch!</p>
+          <div slot="actions" class="banner-promo-actions">
+            <umd-element-call-to-action data-display="primary">
+              <a href="https://admissions.umd.edu/connect/mailing-list">Join the Mailing List</a>
+            </umd-element-call-to-action>
+            <umd-element-call-to-action data-display="secondary">
+              <a href="https://admissions.umd.edu/connect">Connect</a>
+            </umd-element-call-to-action>
+          </div>
+        </umd-element-banner-promo>
+      </div>
+    </section>
+  </main>
 
   <!-- SHARED:footer:START — generated from shared/footer.html; do not edit here -->
   <umd-element-footer data-display="visual">
@@ -1652,6 +1464,16 @@ umd-element-scroll-top[data-layout-fixed="true"] {
   </umd-element-footer>
   <!-- SHARED:footer:END -->
 
+  <script>
+    customElements.whenDefined('umd-element-banner-promo').then(() => {
+      document.querySelectorAll('umd-element-banner-promo').forEach(el => {
+        const style = document.createElement('style');
+        style.textContent = '.banner-promo-actions{display:flex!important;flex-direction:column!important;align-items:flex-end!important;gap:8px!important}';
+        el.shadowRoot && el.shadowRoot.appendChild(style);
+      });
+    });
+  </script>
+
   <!-- SHARED:chrome-scripts:START — generated from shared/chrome-scripts.html; do not edit here -->
   <!-- ============================================================
        SHARED CHROME — shadow injections
@@ -1691,54 +1513,5 @@ umd-element-scroll-top[data-layout-fixed="true"] {
     })();
   </script>
   <!-- SHARED:chrome-scripts:END -->
-
-  <!-- Pathway shadow injection — page-content-driven (OVERRIDES.md).
-       Emitted because this page uses umd-element-pathway.
-
-       1:1 image crop. Selector is the project's documented one
-       (.pathway-image-container / .image-container /
-       .umd-asset-image-wrapper-scaled) — verified against the live shadow tree
-       in cdn.js@1.18.12. The component exposes no CSS variable or ::part hook
-       for the image container. Load-bearing on the overlay variant, not just
-       cosmetic: overlay lays its image out as a grid column, so without the cap
-       a tall source drives the height of the whole component. -->
-  <script>
-  (function () {
-    var CSS = '.pathway-image-container,.image-container,' +
-              '.umd-asset-image-wrapper-scaled' +
-              '{aspect-ratio:1/1 !important;height:auto !important;}' +
-              '.pathway-image-container img,.image-container img' +
-              '{object-fit:cover;width:100%;height:100%;}';
-    function inject(el) {
-      if (!el.shadowRoot || el.dataset.pathwayCssDone) return;
-      var s = document.createElement('style');
-      s.textContent = CSS;
-      el.shadowRoot.appendChild(s);
-      el.dataset.pathwayCssDone = '1';
-    }
-    function run() {
-      document.querySelectorAll('umd-element-pathway').forEach(inject);
-    }
-    if (window.customElements) {
-      customElements.whenDefined('umd-element-pathway').then(function () {
-        run();
-        setTimeout(run, 300);
-      });
-    }
-    document.addEventListener('DOMContentLoaded', run);
-  })();
-  </script>
-
-  <!-- NO description clamp. Program descriptions run 250-875 characters and
-       every one displays in full: truncating a program's description is a
-       content decision, not a layout one, and this page is the reader's index
-       of what a major actually is. An earlier revision shadow-injected a
-       4-line -webkit-line-clamp here; it is deliberately gone. Row heights are
-       evened out by umd-layout-grid-child-fill-height on each card instead, so
-       a long description makes its row taller rather than getting cut. -->
-
-  <!-- Canonical grid-entry animations (page-builder/CLAUDE.md: never inline). -->
-  <script src="../../page-builder/scripts/grid-animations.js"></script>
-
 </body>
 </html>
