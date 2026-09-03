@@ -16,5 +16,6 @@ source hierarchy as an introductory figure and text block followed by
 `Eligibility` and `How to Apply` rich-text sections. Lists remain semantic and
 retain their nested supporting items.
 
-The opening scholarship summary is a standard paragraph in the rich-text block
-directly above the Frederick Douglass image.
+The opening scholarship summary is a bold standard-size paragraph in the
+rich-text block directly above the Frederick Douglass image. It is not a
+section-intro component.
