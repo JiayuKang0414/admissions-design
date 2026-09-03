@@ -17,5 +17,6 @@ source hierarchy as an introductory figure and text block followed by
 retain their nested supporting items.
 
 The opening scholarship summary is a bold standard-size paragraph in the
-rich-text block directly above the Frederick Douglass image. It is not a
+rich-text block directly above the Frederick Douglass image. It uses the
+`.fds-intro-copy` hook to pin the visible type weight to 700 and is not a
 section-intro component.

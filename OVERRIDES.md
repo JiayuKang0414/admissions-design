@@ -35,6 +35,12 @@ Pages using this: `pages/how-to-apply/freshman-applicants.html` (§ "Choosing A 
 
 Pages using this: `pages/academics/index.html`, `pages/student-life/index.html`, `pages/tuition/index.html`, `pages/how-to-apply/freshman-applicants.html`, `pages/tuition/cost-of-attendance.html`, `pages/tuition/frederick-douglass-scholarship.html`.
 
+## Frederick Douglass rich-text introduction (`.fds-intro-copy`)
+
+The opening scholarship summary remains an ordinary paragraph inside `umd-text-rich-advanced`, but `.fds-intro-copy` pins the paragraph and its semantic `<strong>` element to `font-weight: 700 !important`. This ensures the requested emphasis remains visibly bold across the design-system rich-text cascade and font-face loading without promoting the copy to a section-intro treatment.
+
+Pages using this: `pages/tuition/frederick-douglass-scholarship.html`.
+
 ## Frederick Douglass feature figure (`.fds-feature-figure`)
 
 Custom light-DOM figure treatment inside an `umd-text-rich-advanced` editorial block. The design-system rich-text pattern provides the surrounding typography but does not constrain standalone figure media or supply a caption treatment, so `.fds-feature-figure` replaces the browser figure margin with a controlled 24px top / 32px bottom gap, makes the image responsive, and styles the source caption at 14px with an 8px top gap.
