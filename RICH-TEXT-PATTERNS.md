@@ -34,6 +34,7 @@ table_html = render_rich_text_table(
         ("Tuition<sup>2</sup> &amp; Fees<sup>3</sup>", "$12,008", "$41,974"),
         ("TOTAL EST. COST OF ATTENDANCE", "$32,408", "$62,374"),
     ),
+    total_row_indices=(1,),
     footnotes_html=(
         "<em>Footnote copy.</em>",
         '<em>More details are available on the </em><a href="/policy">policy page</a>.',
@@ -48,7 +49,7 @@ The stylesheet provides the established Cost of Attendance treatment:
 - 16px padding on all header and body cells;
 - left-aligned columns and tabular numerals;
 - 64px body rows, 1px dividers and alternating white / `#fafafa` zebra stripes;
-- bold final row; and
+- optional bold total rows selected with `total_row_indices`; and
 - semantic bulleted footnotes at 14px with the standard animated link underline.
 
 `headers_html`, `rows_html`, and `footnotes_html` intentionally accept trusted

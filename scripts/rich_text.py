@@ -36,6 +36,7 @@ def render_rich_text_table(
     rows_html: Sequence[Sequence[str]],
     region_label: str | None = None,
     footnotes_html: Sequence[str] = (),
+    total_row_indices: Sequence[int] = (),
 ) -> str:
     """Render the reusable responsive rich-text table pattern.
 
@@ -48,12 +49,18 @@ def render_rich_text_table(
     headers = tuple(headers_html)
     rows = tuple(tuple(row) for row in rows_html)
     footnotes = tuple(footnotes_html)
+    total_rows = frozenset(total_row_indices)
     if len(headers) < 2:
         raise ValueError("rich-text tables require at least two columns")
     for index, row in enumerate(rows, start=1):
         if len(row) != len(headers):
             raise ValueError(
                 f"row {index} has {len(row)} cells; expected {len(headers)}"
+            )
+    for index in total_rows:
+        if index < 0 or index >= len(rows):
+            raise ValueError(
+                f"total row index {index} is outside the {len(rows)} rendered rows"
             )
 
     safe_caption = escape(caption)
@@ -69,8 +76,9 @@ def render_rich_text_table(
     lines.extend(f'        <th scope="col">{header}</th>' for header in headers)
     lines.extend(["      </tr>", "    </thead>", "    <tbody>"])
 
-    for row in rows:
-        lines.append("      <tr>")
+    for index, row in enumerate(rows):
+        row_class = ' class="umd-text-rich-table-total"' if index in total_rows else ""
+        lines.append(f"      <tr{row_class}>")
         lines.append(f'        <th scope="row">{row[0]}</th>')
         lines.extend(f"        <td>{cell}</td>" for cell in row[1:])
         lines.append("      </tr>")

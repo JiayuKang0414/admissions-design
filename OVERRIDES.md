@@ -33,7 +33,7 @@ Pages using this: `pages/how-to-apply/freshman-applicants.html` (§ "Choosing A 
 
 `umd-element-banner-promo` reprojects `slot="actions"` into its shadow DOM under `.banner-promo-actions` with no gap when actions stack. Shadow-inject `display:flex; flex-direction:column; align-items:flex-end; gap:8px` so primary + secondary CTAs stack with 8px spacing.
 
-Pages using this: `pages/academics/index.html`, `pages/student-life/index.html`, `pages/tuition/index.html`, `pages/how-to-apply/freshman-applicants.html`, `pages/tuition/cost-of-attendance.html`, `pages/tuition/frederick-douglass-scholarship.html`.
+Pages using this: `pages/academics/index.html`, `pages/student-life/index.html`, `pages/tuition/index.html`, `pages/how-to-apply/freshman-applicants.html`, `pages/tuition/cost-of-attendance.html`, `pages/tuition/frederick-douglass-scholarship.html`, `pages/how-to-apply/english-language-proficiency.html`.
 
 ## Frederick Douglass rich-text introduction (`.fds-intro-copy`)
 
@@ -312,11 +312,11 @@ Pages using this: `pages/how-to-apply/freshman-applicants.html`.
 
 Project-owned reusable pattern for responsive data tables and source footnotes inside Admissions editorial content. The design system has no table component, so the pattern builds the treatment from semantic `<table>` markup rather than substituting a component that changes the content structure. Canonical CSS lives in `styles/rich-text-table.css`; canonical markup is emitted by `scripts/rich_text.py::render_rich_text_table()` and documented in `RICH-TEXT-PATTERNS.md`. Do not copy the CSS into individual pages.
 
-`.umd-text-rich-table-scroll` is the horizontally scrollable, keyboard-focusable region used when the table's 680px minimum width does not fit the viewport. `.umd-text-rich-table` supplies the established Cost of Attendance treatment: a black header with 16px padding and white 18px bold type, 64px body rows with the same 16px padding separated by black rules, white / gray-lightest (`#fafafa`) zebra stripes matching Figma node `5968:787`, explicitly left-aligned columns, and a bold unruled final row. `.umd-text-rich-table-heading-parenthetical` keeps header qualifiers on dedicated second lines. `.umd-text-rich-table-footnotes` wraps a semantic list inside `.umd-text-rich-advanced`, retaining the rich-text disc markers; every footnote, including emphasis and links, is fixed at 14px with the project's gradient-underline link treatment.
+`.umd-text-rich-table-scroll` is the horizontally scrollable, keyboard-focusable region used when the table's 680px minimum width does not fit the viewport. `.umd-text-rich-table` supplies the established Cost of Attendance treatment: a black header with 16px padding and white 18px bold type, 64px body rows with the same 16px padding separated by black rules, white / gray-lightest (`#fafafa`) zebra stripes matching Figma node `5968:787`, explicitly left-aligned columns, and optional bold unruled total rows emitted by `total_row_indices`. `.umd-text-rich-table-heading-parenthetical` keeps header qualifiers on dedicated second lines. `.umd-text-rich-table-footnotes` supports both semantic lists and source-faithful paragraphs inside `.umd-text-rich-advanced`; every footnote, including emphasis and links, is fixed at 14px with the project's gradient-underline link treatment.
 
 There is no DS table counterpart in `page-builder/registry/`. Existing DS typography and spacing tokens are reused where possible; the page-built CSS owns the table geometry, numeric alignment, responsive overflow, and the explicit footnote size.
 
-Pages using this: `pages/tuition/cost-of-attendance.html`.
+Pages using this: `pages/tuition/cost-of-attendance.html`, `pages/how-to-apply/english-language-proficiency.html`.
 
 ## Applicant spotlight — stats and deadlines in the pathway `stats` slot
 

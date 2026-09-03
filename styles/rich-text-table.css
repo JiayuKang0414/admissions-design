@@ -62,8 +62,8 @@
   background-color: #fafafa;
 }
 
-.umd-text-rich-table tbody tr:last-child th,
-.umd-text-rich-table tbody tr:last-child td {
+.umd-text-rich-table tbody tr.umd-text-rich-table-total th,
+.umd-text-rich-table tbody tr.umd-text-rich-table-total td {
   border-bottom: 0;
   color: #000000;
   font-weight: 700;
@@ -80,6 +80,11 @@
   font-size: 14px;
   line-height: 1.5;
   margin: 24px 0 0;
+}
+
+.umd-text-rich-table-footnotes > * {
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .umd-text-rich-table-footnotes ul {

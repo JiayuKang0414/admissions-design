@@ -13,6 +13,7 @@ class RichTextTableTests(unittest.TestCase):
             ),
             rows_html=(("Tuition<sup>1</sup>", "$12,008"),),
             footnotes_html=("<em>Estimated amount.</em>",),
+            total_row_indices=(0,),
         )
 
         self.assertIn("Costs &amp; fees", output)
@@ -20,6 +21,7 @@ class RichTextTableTests(unittest.TestCase):
         self.assertIn('<th scope="row">Tuition<sup>1</sup></th>', output)
         self.assertIn("umd-text-rich-table-heading-parenthetical", output)
         self.assertIn("umd-text-rich-table-footnotes", output)
+        self.assertIn('class="umd-text-rich-table-total"', output)
 
     def test_rejects_rows_with_the_wrong_cell_count(self):
         with self.assertRaisesRegex(ValueError, "expected 2"):
@@ -27,6 +29,15 @@ class RichTextTableTests(unittest.TestCase):
                 caption="Costs",
                 headers_html=("Category", "Amount"),
                 rows_html=(("Tuition",),),
+            )
+
+    def test_rejects_total_row_index_outside_rendered_rows(self):
+        with self.assertRaisesRegex(ValueError, "outside the 1 rendered rows"):
+            render_rich_text_table(
+                caption="Costs",
+                headers_html=("Category", "Amount"),
+                rows_html=(("Tuition", "$12,008"),),
+                total_row_indices=(1,),
             )
 
 

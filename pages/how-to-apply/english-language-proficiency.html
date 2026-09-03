@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
   <meta name="googlebot" content="noindex, nofollow">
-  <title>Cost of Attendance — Undergraduate Admissions | University of Maryland</title>
+  <title>English Language Proficiency — Undergraduate Admissions | University of Maryland</title>
 
   <!-- ============================================================
        UMD Critical CSS — Hybrid CDN + Local
@@ -776,11 +776,8 @@
     }
     .umd-filter-item[hidden] { display: none !important; }
   </style>
-
-  <!-- Admissions reusable rich-text table pattern. -->
   <link rel="stylesheet" href="../../styles/rich-text-table.css">
-
-  <script src="https://unpkg.com/@universityofmaryland/web-components-library@1.19.5/dist/cdn.js"></script>
+  <script src="https://unpkg.com/@universityofmaryland/web-components-library1.19.5/dist/cdn.js"></script>
   <!-- SHARED:chrome-css:START — generated from shared/chrome.css; do not edit here -->
   <style>
 /* ============================================================
@@ -1103,11 +1100,6 @@ umd-element-scroll-top[data-layout-fixed="true"] {
   <!-- SHARED:gate:END -->
 </head>
 <body>
-
-  <!-- ========================================
-       1. GLOBAL UNIVERSITY HEADER
-       Hardcoded. Never modified. Zero config.
-  ======================================== -->
   <!-- SHARED:header:START — generated from shared/header.html; do not edit here -->
   <umd-element-navigation-utility data-alert-off="true" role="navigation" aria-label="Utility navigation"></umd-element-navigation-utility>
   <umd-element-utility-header></umd-element-utility-header>
@@ -1250,7 +1242,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
         <a href="https://admissions.umd.edu/student/get-involved"><span>Get Involved on Campus</span></a>
         <a href="https://admissions.umd.edu/student/find-community"><span>Find Your Community</span></a>
       </div>
-      <div data-parent-ref="how-to-apply">
+      <div data-parent-ref="how-to-apply" data-active>
         <a href="../../pages/how-to-apply/"><span>Overview</span></a>
         <a href="../../pages/how-to-apply/freshman-applicants.html"><span>Freshman Applicants</span></a>
         <a href="../../pages/how-to-apply/transfer-applicants.html"><span>Transfer Applicants</span></a>
@@ -1260,9 +1252,9 @@ umd-element-scroll-top[data-layout-fixed="true"] {
         <a href="https://admissions.umd.edu/apply/admission-review-process-factors"><span>Admission Review Process &amp; Factors</span></a>
         <a href="https://admissions.umd.edu/apply/application-faqs"><span>Application FAQs</span></a>
       </div>
-      <div data-parent-ref="tuition" data-active>
+      <div data-parent-ref="tuition">
         <a href="../../pages/tuition/"><span>Overview</span></a>
-        <a href="../../pages/tuition/cost-of-attendance.html" data-selected><span>Cost of Attendance</span></a>
+        <a href="../../pages/tuition/cost-of-attendance.html"><span>Cost of Attendance</span></a>
         <a href="https://admissions.umd.edu/tuition/freshman-merit-scholarships"><span>Freshman Merit Scholarships</span></a>
         <a href="https://admissions.umd.edu/tuition/transfer-merit-scholarships"><span>Transfer Merit Scholarships</span></a>
         <a href="https://financialaid.umd.edu/"><span>Office of Student Financial Aid</span></a>
@@ -1273,20 +1265,19 @@ umd-element-scroll-top[data-layout-fixed="true"] {
   <!-- SHARED:header:END -->
 
   <main id="main-content">
-    <!-- Interior hero: user-specified dark minimal variant. -->
     <section>
       <umd-element-hero-minimal data-theme="dark">
-        <h1 slot="headline">Cost of Attendance</h1>
+        <h1 slot="headline">English Language Proficiency</h1>
       </umd-element-hero-minimal>
     </section>
 
-    <!-- Breadcrumb owns its own horizontal lock and interior spacing. -->
     <div class="umd-layout-space-horizontal-larger umd-layout-space-vertical-interior">
       <umd-element-breadcrumb>
         <div slot="paths">
           <a href="../../pages/" aria-label="Return Home"><span aria-hidden="true">Home</span></a>
-          <a href="../../pages/tuition/"><span>Tuition &amp; Aid</span></a>
-          <p aria-label="Current Page"><span>Cost of Attendance</span></p>
+          <a href="../../pages/how-to-apply/"><span>How To Apply</span></a>
+          <a href="../../pages/how-to-apply/international-applicants.html"><span>International Applicants</span></a>
+          <p aria-label="Current Page"><span>English Language Proficiency</span></p>
         </div>
       </umd-element-breadcrumb>
     </div>
@@ -1296,15 +1287,20 @@ umd-element-scroll-top[data-layout-fixed="true"] {
         <div id="umd-shell-sidebar-container">
           <umd-element-nav-slider>
             <div slot="primary-slide-links">
-              <a href="../../pages/tuition/" data-child-ref="tuition"><span>Tuition &amp; Aid</span></a>
+              <a href="../../pages/how-to-apply/" data-child-ref="how-to-apply"><span>How To Apply</span></a>
             </div>
             <div slot="children-slides">
-              <div data-active data-parent-ref="tuition">
-                <a href="../../pages/tuition/cost-of-attendance.html" data-selected><span>Cost of Attendance</span></a>
-                <a href="https://admissions.umd.edu/tuition/freshman-merit-scholarships"><span>Freshman Merit Scholarships</span></a>
-                <a href="https://admissions.umd.edu/tuition/transfer-merit-scholarships"><span>Transfer Merit Scholarships</span></a>
-                <a href="../../pages/tuition/frederick-douglass-scholarship.html"><span>Frederick Douglass Scholarship</span></a>
-                <a href="https://financialaid.umd.edu/"><span>Office of Student Financial Aid</span></a>
+              <div data-parent-ref="how-to-apply">
+                <a href="../../pages/how-to-apply/freshman-applicants.html"><span>Freshman Applicants</span></a>
+                <a href="../../pages/how-to-apply/transfer-applicants.html"><span>Transfer Applicants</span></a>
+                <a href="../../pages/how-to-apply/international-applicants.html" data-child-ref="international-applicants"><span>International Applicants</span></a>
+                <a href="https://admissions.umd.edu/apply/shady-grove-applicants"><span>Shady Grove Applicants</span></a>
+                <a href="https://admissions.umd.edu/apply/application-deadlines"><span>Application Deadlines</span></a>
+                <a href="https://admissions.umd.edu/apply/admission-review-process-factors"><span>Admission Review Process &amp; Factors</span></a>
+                <a href="https://admissions.umd.edu/apply/application-faqs"><span>Application FAQs</span></a>
+              </div>
+              <div data-parent-ref="international-applicants" data-active>
+                <a href="../../pages/how-to-apply/english-language-proficiency.html" data-selected><span>English Language Proficiency</span></a>
               </div>
             </div>
           </umd-element-nav-slider>
@@ -1313,78 +1309,97 @@ umd-element-scroll-top[data-layout-fixed="true"] {
         <div id="umd-shell-content" class="max-w-[800px]">
           <section class="umd-layout-space-vertical-interior">
             <div class="umd-text-rich-advanced">
-              <p>As a public institution, we are committed to making higher education affordable. Your cost of attendance will include more than just tuition, so we've put together a sample budget as an example of what a year at the University of Maryland (UMD) may cost you, including annual tuition, housing, food and other estimated expenses.</p>
+              <p>If you are a Domestic student and English is not your native language or you are an International student, you must provide the university with verification of your proficiency in English. We may consider waiving the English proficiency test requirement if a student has met certain requirements. Please read below to learn more about approved English proficiency exams and potential waivers.</p>
+              <p>The Office of Undergraduate Admissions employs a holistic review process when considering all applicants and will consider all materials submitted in the application package to determine the level of English language proficiency.</p>
+              <p>Please have an official report of your scores sent directly to the Office of Undergraduate Admissions by the <a href="https://admissions.umd.edu/apply/application-deadlines">appropriate deadline</a>. Submitted scores must be less than two years old.</p>
+              <p>For the University of Maryland (UMD) to receive your scores, <strong>please use the reporting code 5814</strong>.</p>
             </div>
           </section>
 
           <section class="umd-layout-space-vertical-interior">
-            <h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">2025-2026 Estimated Cost of Attendance¹</h2>
-
-            <!-- Reusable pattern: scripts.rich_text.render_rich_text_table() -->
-            <div class="umd-text-rich-table-scroll" tabindex="0" role="region" aria-label="2025-2026 estimated cost of attendance table">
-              <table class="umd-text-rich-table">
-                <caption class="sr-only">2025-2026 estimated cost of attendance for Maryland residents and nonresidents</caption>
-                <thead>
-                  <tr>
-                    <th scope="col"><span class="sr-only">Cost category</span></th>
-                    <th scope="col">Maryland Residents <span class="umd-text-rich-table-heading-parenthetical">(In-State)</span></th>
-                    <th scope="col">Nonresidents <span class="umd-text-rich-table-heading-parenthetical">(Out-of-State)</span></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">Tuition<sup>2</sup> &amp; Fees<sup>3</sup></th>
-                    <td>$12,008</td>
-                    <td>$41,974</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">On-Campus Housing &amp; Food⁴</th>
-                    <td>$16,436</td>
-                    <td>$16,436</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Books &amp; Supplies⁵</th>
-                    <td>$1,250</td>
-                    <td>$1,250</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Transportation⁵</th>
-                    <td>$1,514</td>
-                    <td>$1,514</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Misc. Personal Expenses⁵</th>
-                    <td>$1,200</td>
-                    <td>$1,200</td>
-                  </tr>
-                  <tr class="umd-text-rich-table-total">
-                    <th scope="row">TOTAL EST. COST OF ATTENDANCE</th>
-                    <td>$32,408</td>
-                    <td>$62,374</td>
-                  </tr>
-                </tbody>
-              </table>
+            <h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">Accepted English Proficiency Tests:</h2>
+            <div class="umd-layout-grid-gap-three">
+              <umd-element-card data-visual-bordered="true">
+                <h3 slot="headline">Duolingo English Test (DET)</h3>
+                <div slot="text">
+                  <p>UMD accepts official scores from the <a href="https://englishtest.duolingo.com/applicants" target="_blank" rel="noopener">Duolingo English Test</a>, which can be taken online and on-demand. </p>
+                  <p>UMD passing score: 120</p>
+                  <p>Maryland English Institute score: 115 or lower</p>
+                </div>
+              </umd-element-card>
+              <umd-element-card data-visual-bordered="true">
+                <h3 slot="headline">International English Language Testing System (IELTS)</h3>
+                <div slot="text">
+                  <p>UMD accepts official <a href="http://www.ielts.org/" target="_blank" rel="noopener">IELTS</a> and <a href="https://www.ielts.org/about-ielts/ielts-indicator" target="_blank" rel="noopener">IELTS Indicator</a> scores.</p>
+                  <p>UMD passing score: 7</p>
+                  <p>Maryland English Institute score: 6.5 or lower</p>
+                </div>
+              </umd-element-card>
+              <umd-element-card data-visual-bordered="true">
+                <h3 slot="headline">Test of English as a Foreign Language (TOEFL)</h3>
+                <div slot="text">
+                  <p>UMD accepts official <a href="http://www.ets.org/toefl" target="_blank" rel="noopener">TOEFL</a> and <a href="https://www.ets.org/s/cv/toefl/at-home/" target="_blank" rel="noopener">TOEFL iBT</a>&nbsp;(Home Edition) scores. At this time, we are not accepting TOEFL superscores known as MyBest Scores. <br></p>
+                  <p>UMD passing score: 5 (1-6 point scale),  95 (0-120 point scale)<br><br>Maryland English Institute score: 4.5 or lower (1-6 point scale), 94 or lower (0-120 point scale)<br></p>
+                </div>
+              </umd-element-card>
             </div>
+          </section>
 
+          <section class="umd-layout-space-vertical-interior">
+            <h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">Potential Waivers for English Proficiency Requirement</h2>
             <div class="umd-text-rich-advanced">
-              <p>Please remember, <strong>these are only estimates</strong>. To view current tuition and fee rates for undergraduate students, visit <a href="https://billpay.umd.edu/UndergraduateTuition" target="_blank" rel="noreferrer noopener">billpay.umd.edu</a>. For more information about the cost of attendance, visit <a href="https://go.umd.edu/EstimatedCOA" target="_blank" rel="noreferrer noopener">go.umd.edu/EstimatedCOA</a>.</p>
+              <p>While a passing English proficiency test score is the only absolute way a student can meet the English language proficiency requirement, we may consider waiving the English proficiency test requirement if a student has completed all elements of one of the following waivers by the application deadline:</p>
+              <ul>
+                <li>Four years at a U.S. high school or U.S. accredited high school without enrolling in any English as a Second Language coursework (ESL, ESOL, ELL, ELD, or other English Language Support coursework)</li>
+                <li>Posted associate’s, bachelor’s or master’s degree earned from a regionally accredited U.S. institution</li>
+                <li>Completed 55+ semester credits or 82.5 quarter credits from a regionally accredited U.S. institution with coursework equivalent to English Compositions 1 and 2</li>
+                <li>English is your first language, you hold a citizenship and/or&nbsp;you have a completed high school or university degree earned from one of the following countries or territories:</li>
+              </ul>
             </div>
 
-            <div class="umd-text-rich-advanced umd-text-rich-table-footnotes">
-              <ul>
-                <li><em>¹ Notwithstanding any other provision of this or any university publication, the university reserves the right to make changes in tuition, fees and other charges at any time such changes are deemed necessary by the University System of Maryland Board of Regents. Although changes in tuition, fees and charges ordinarily will be announced in advance, the university reserves the right to make such changes without prior announcement.</em></li>
-                <li><em>² Only students pursuing a major in business, engineering and computer science will be charged additional tuition based on credit hours. Get additional information and a breakdown of these charges on the </em><a href="https://financialaid.umd.edu/resources-policies/differential-tuition-faqs" target="_blank" rel="noreferrer noopener">Differential Tuition FAQs</a><em> page.</em></li>
-                <li><em>³ International students may experience higher living expenses. UMD charges a fee of $125 each semester for enrolled students requiring an I-20 or DS-2019 (for degree seeking students in J-1 status) issued by the University. Students enrolled in an academic program operating on the 12-week calendar, who require an I-20 or DS-2019 issued by UMD, will be charged a fee of $62.50 per term. UMD will use the revenue from this fee to enhance support for our international students to include improved academic support, expanded assistance for students transitioning to the U.S. and international student-focused cultural events to foster an engaged, supportive community.</em></li>
-                <li><em>⁴ Costs for housing and dining can vary depending on whether a student lives on- or off-campus, and the level of food plan they choose from Dining Services.</em></li>
-                <li><em>⁵ These figures are averages and will vary from student to student. They are not billed by the university.</em></li>
-              </ul>
+            <div class="umd-layout-space-vertical-interior-child">
+<div class="umd-text-rich-table-scroll" tabindex="0" role="region" aria-label="English-speaking countries and territories">
+  <table class="umd-text-rich-table">
+    <caption class="sr-only">English-speaking countries</caption>
+    <thead>
+      <tr>
+        <th scope="col">English-speaking countries</th>
+        <th scope="col"><span class="sr-only">English-speaking countries, continued</span></th>
+        <th scope="col"><span class="sr-only">English-speaking countries, continued</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Antigua<br>Australia<br>Bahamas<br>Barbados<br>Belize<br>Bermuda<br>British Virgin Islands<br>Canada<sup>1</sup><br>Cayman Islands<br>Dominica<br>The Gambia</th>
+        <td>Ghana<br>Grenada<br>Guyana<br>Ireland<br>Jamaica<br>Kenya<br>Montserrat<br>Namibia<br>New Zealand<br>Nigeria<br>Singapore</td>
+        <td>South Africa<br>St. Lucia<br>St. Vincent<br>Swaziland<br>Tanzania<br>Trinidad and Tobago<br>Turks and Caicos Islands<br>Uganda<br>United Kingdom<br>Zambia<br>Zimbabwe</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+              <div class="umd-text-rich-advanced umd-text-rich-table-footnotes">
+                <p>1. English proficiency test is required for the French system only.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="umd-layout-space-vertical-interior">
+            <h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">Resources</h2>
+            <div class="umd-text-rich-advanced">
+              <h3>Maryland English Institute</h3>
+              <p>The Maryland English Institute (MEI) provides English language instruction and assessment at the postsecondary level for speakers of other languages. MEI offers rigorous courses of study while providing a positive and supportive learning community and promoting cross-cultural understanding. </p>
+              <p>In some cases, UMD applicants must complete coursework through MEI before beginning their degree program. Students are notified within their admission decision letter if this is required of them.</p>
+            </div>
+            <div class="umd-layout-space-vertical-interior-child">
+              <umd-element-call-to-action data-display="secondary">
+                <a href="https://marylandenglishinstitute.com/" target="_blank" rel="noopener">Learn More About MEI</a>
+              </umd-element-call-to-action>
             </div>
           </section>
         </div>
       </div>
     </div>
 
-    <!-- STAY CONNECTED — matches the Tuition & Aid landing-page banner promo -->
     <section class="umd-layout-vertical-landing">
       <div class="umd-layout-space-horizontal-larger">
         <umd-element-banner-promo>
@@ -1403,11 +1418,6 @@ umd-element-scroll-top[data-layout-fixed="true"] {
     </section>
   </main>
 
-  <!-- ========================================
-       4. FOOTER
-       Visual footer with campus background image.
-       Default image: ../images/large/campus/footer-campus.jpg
-  ======================================== -->
   <!-- SHARED:footer:START — generated from shared/footer.html; do not edit here -->
   <umd-element-footer data-display="visual">
     <a slot="logo" href="../../pages/">
@@ -1474,9 +1484,6 @@ umd-element-scroll-top[data-layout-fixed="true"] {
   <!-- SHARED:footer:END -->
 
   <script>
-    // umd-element-banner-promo — stack actions vertically with 8px gap.
-    // Banner-promo reprojects slot="actions" into shadow DOM under
-    // .banner-promo-actions with no gap when stacked.
     customElements.whenDefined('umd-element-banner-promo').then(() => {
       document.querySelectorAll('umd-element-banner-promo').forEach(el => {
         const style = document.createElement('style');
