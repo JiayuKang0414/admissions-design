@@ -47,6 +47,10 @@ body = r'''    .student-support-media {
       height: 100%;
       object-fit: cover;
     }
+
+    .student-support-copy > h2 {
+      margin-top: 24px;
+    }
   </style>
   <script src="https://unpkg.com/@universityofmaryland/web-components-library@@@PIN@@/dist/cdn.js"></script>
 @@CHROME:chrome-css@@
@@ -105,27 +109,31 @@ body = r'''    .student-support-media {
                   <img src="../../images/student-life/student-support-academics.jpg" alt="Students sitting around a table in an engineering lab." />
                 </figure>
               </div>
-              <div class="umd-text-rich-advanced">
-                <hr>
+              <div class="student-support-copy">
+                <div class="umd-text-rich-advanced"><hr></div>
                 <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">Academics</h2>
+                <div class="umd-text-rich-advanced">
                   <ul>
                     <li>Tutoring services</li>
                     <li><a href="https://careers.umd.edu/" target="_blank" rel="noopener noreferrer">Career Center</a> - Whether you’re looking to gain experience through an internship, fine tune your resume, practice your interviewing skills or evaluate a job offer, the Career Center has you covered. You’ll receive support at every stage of your career development and will be prepared to pursue a meaningful career path through high-quality services, resources and instruction.</li>
                   </ul>
+                </div>
               </div>
             </div>
           </section>
 
           <section class="umd-layout-space-vertical-interior">
             <div class="umd-layout-grid-gap-two">
-              <div class="umd-text-rich-advanced">
-                <hr>
+              <div class="student-support-copy">
+                <div class="umd-text-rich-advanced"><hr></div>
                 <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">Wellness</h2>
+                <div class="umd-text-rich-advanced">
                   <ul>
                     <li><a href="https://health.umd.edu/prospective-students" target="_blank" rel="noopener noreferrer">University Health Center</a> - Provides high-quality, cost-effective health care and wellness programs in order to promote the health of the university community and support academic success.</li>
                     <li><a href="https://www.counseling.umd.edu/aboutus/" target="_blank" rel="noopener noreferrer">Counseling Center</a> - Provides comprehensive support services that promote the personal, social and academic success of UMD students.</li>
                     <li><a href="https://recwell.umd.edu/" target="_blank" rel="noopener noreferrer">Recreation &amp; Wellness</a> - Creates a culture of wellness where all members of the university community thrive. Recreation is for everyone and there is something for everyone at RecWell.</li>
                   </ul>
+                </div>
               </div>
               <div class="umd-text-rich-advanced">
                 <figure class="umd-layout-alignment-block-stacked student-support-media">
@@ -142,9 +150,10 @@ body = r'''    .student-support-media {
                   <img src="../../images/student-life/safety@2x.jpg" alt="Safety" />
                 </figure>
               </div>
-              <div class="umd-text-rich-advanced">
-                <hr>
+              <div class="student-support-copy">
+                <div class="umd-text-rich-advanced"><hr></div>
                 <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">Safety</h2>
+                <div class="umd-text-rich-advanced">
                   <p>Call University Police at 911 or (301) 405-3555. If you ever see a situation involving fighting between partners or groups, threatening actions or statements, screams, suspicious persons or behavior, weapons, etc., do not hesitate to call police immediately. Then, call your Service Desk or CA.</p>
                   <ul>
                     <li>Blue Light Program</li>
@@ -152,6 +161,7 @@ body = r'''    .student-support-media {
                     <li>Opt-in Safety Alerts</li>
                     <li>UID Only Accessibility</li>
                   </ul>
+                </div>
               </div>
             </div>
           </section>
@@ -219,8 +229,9 @@ assert output.count("<umd-element-nav-slider") == 1
 assert output.count('<div class="umd-layout-grid-gap-two">') == 3
 assert output.count('<figure class="umd-layout-alignment-block-stacked student-support-media">') == 3
 assert "aspect-ratio: 4 / 3" in output
+assert output.count('<div class="student-support-copy">') == 3
 assert output.count('<h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">') == 3
-assert output.count('<hr>\n                <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">') == 3
+assert output.count('<div class="umd-text-rich-advanced"><hr></div>\n                <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">') == 3
 assert output.count("umd-element-banner-promo") >= 1
 for heading in ("Academics", "Wellness", "Safety", "Transportation &amp; Parking"):
     assert f">{heading}</h2>" in output
