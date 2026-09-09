@@ -11,10 +11,10 @@
 - `umd-element-breadcrumb` and `umd-element-nav-slider` matching the Student Life hierarchy.
 - An 800px editorial content column matching the standard Content Manager interior-page grid.
 - Standard rich text for the page introduction.
-- Alternating two-column rich-text sections for Academics, Wellness and Safety. Each heading stays in the same column as its text, and every image uses the same 4:3 aspect ratio.
+- Alternating two-column rich-text sections for Academics, Wellness and Safety. Each heading stays in the same column as its text with a rule directly below it, and every desktop image uses the same taller 8:9 aspect ratio.
 - A full-width rich-text section for the longer Transportation & Parking copy and links.
 - The shared Admissions `umd-element-banner-promo` used on the other interior pages, constrained to the same 800px interior content column.
 
 ## Design check
 
-The three image-led topics use the existing responsive two-column editorial pattern and stack in reading order on mobile. Their headings remain grouped with their copy and outside the rich-text typography scope, with each standard rich-text rule directly above its heading. A shared 4:3 crop gives the image columns consistent visual height. Transportation & Parking remains full width because it contains the longest descriptions and the most links. All visible source copy, links and image alt text are preserved. The new page replaces the old external Student Support & Safety link in shared navigation and on the Student Life landing page.
+The three image-led topics use the existing responsive two-column editorial pattern and stack in reading order on mobile. Their headings remain grouped with their copy and outside the rich-text typography scope, with each standard rich-text rule directly below its heading. A shared 8:9 desktop crop gives the image columns a taller, consistent visual height; the crop returns to 4:3 on mobile. Transportation & Parking remains full width because it contains the longest descriptions and the most links. All visible source copy, links and image alt text are preserved. The new page replaces the old external Student Support & Safety link in shared navigation and on the Student Life landing page.

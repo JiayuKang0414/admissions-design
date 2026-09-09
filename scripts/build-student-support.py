@@ -37,7 +37,7 @@ pin = re.search(r"web-components-library@([\d.]+)/dist/cdn\.js", template)
 assert pin, "TEMPLATE.html has no web-components-library cdn.js pin"
 
 body = r'''    .student-support-media {
-      aspect-ratio: 4 / 3;
+      aspect-ratio: 8 / 9;
       overflow: hidden;
     }
 
@@ -49,7 +49,17 @@ body = r'''    .student-support-media {
     }
 
     .student-support-copy > h2 {
-      margin-top: 24px;
+      margin-bottom: 16px;
+    }
+
+    .student-support-title-rule {
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 767px) {
+      .student-support-media {
+        aspect-ratio: 4 / 3;
+      }
     }
   </style>
   <script src="https://unpkg.com/@universityofmaryland/web-components-library@@@PIN@@/dist/cdn.js"></script>
@@ -110,8 +120,8 @@ body = r'''    .student-support-media {
                 </figure>
               </div>
               <div class="student-support-copy">
-                <div class="umd-text-rich-advanced"><hr></div>
                 <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">Academics</h2>
+                <div class="umd-text-rich-advanced student-support-title-rule"><hr></div>
                 <div class="umd-text-rich-advanced">
                   <ul>
                     <li>Tutoring services</li>
@@ -125,8 +135,8 @@ body = r'''    .student-support-media {
           <section class="umd-layout-space-vertical-interior">
             <div class="umd-layout-grid-gap-two">
               <div class="student-support-copy">
-                <div class="umd-text-rich-advanced"><hr></div>
                 <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">Wellness</h2>
+                <div class="umd-text-rich-advanced student-support-title-rule"><hr></div>
                 <div class="umd-text-rich-advanced">
                   <ul>
                     <li><a href="https://health.umd.edu/prospective-students" target="_blank" rel="noopener noreferrer">University Health Center</a> - Provides high-quality, cost-effective health care and wellness programs in order to promote the health of the university community and support academic success.</li>
@@ -151,8 +161,8 @@ body = r'''    .student-support-media {
                 </figure>
               </div>
               <div class="student-support-copy">
-                <div class="umd-text-rich-advanced"><hr></div>
                 <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">Safety</h2>
+                <div class="umd-text-rich-advanced student-support-title-rule"><hr></div>
                 <div class="umd-text-rich-advanced">
                   <p>Call University Police at 911 or (301) 405-3555. If you ever see a situation involving fighting between partners or groups, threatening actions or statements, screams, suspicious persons or behavior, weapons, etc., do not hesitate to call police immediately. Then, call your Service Desk or CA.</p>
                   <ul>
@@ -226,10 +236,10 @@ assert output.count("<umd-element-hero-minimal") == 1
 assert output.count("<umd-element-nav-slider") == 1
 assert output.count('<div class="umd-layout-grid-gap-two">') == 3
 assert output.count('<figure class="umd-layout-alignment-block-stacked student-support-media">') == 3
-assert "aspect-ratio: 4 / 3" in output
+assert "aspect-ratio: 8 / 9" in output
 assert output.count('<div class="student-support-copy">') == 3
 assert output.count('<h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">') == 3
-assert output.count('<div class="umd-text-rich-advanced"><hr></div>\n                <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">') == 3
+assert output.count('</h2>\n                <div class="umd-text-rich-advanced student-support-title-rule"><hr></div>') == 3
 assert output.count("umd-element-banner-promo") >= 1
 banner_start = output.index("<umd-element-banner-promo>")
 shell_start = output.index('<div id="umd-shell-content"')
