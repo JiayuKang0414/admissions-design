@@ -7,7 +7,7 @@
 
 ## Component plan
 
-- Dark `umd-element-hero-minimal` for the interior-page title.
+- A dark overlay, small interior `umd-element-hero` using the extracted three-chevron UMD brand pattern as a scalable SVG background image.
 - `umd-element-breadcrumb` and a two-level `umd-element-nav-slider` matching the page hierarchy.
 - Existing rich-text styles for all editorial copy and waiver requirements.
 - Three full-width `umd-element-accordion-item` components for the accepted tests, all initially closed.
@@ -17,6 +17,6 @@
 
 ## Design check
 
-The three accepted tests contain enough copy that a three-column card grid becomes narrow and vertically stretched, so they use full-width accordions for compact scanning and mobile readability. The country names are a continuous alphabetical list rather than comparative tabular data, so they appear in their own section using the standard responsive two-column rich-text pattern and stack into source order on mobile. The MEI resource also uses the responsive two-column rich-text pattern so it remains within the interior page and stacks in source order on mobile. Dark styling is limited to the minimal hero; the long-form content stays on white for readability.
+The three accepted tests contain enough copy that a three-column card grid becomes narrow and vertically stretched, so they use full-width accordions for compact scanning and mobile readability. The country names are a continuous alphabetical list rather than comparative tabular data, so they appear in their own section using the standard responsive two-column rich-text pattern and stack into source order on mobile. The MEI resource also uses the responsive two-column rich-text pattern so it remains within the interior page and stacks in source order on mobile. The hero uses the source site's gold, red and black SVG chevrons beneath a dark overlay; the long-form content stays on white for readability.
 
 Visible source copy and links are preserved. Navigation and breadcrumbs are adapted to the prototype's local information architecture.

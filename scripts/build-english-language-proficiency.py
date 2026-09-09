@@ -68,10 +68,11 @@ body = r'''    .mei-resource-rule {
 @@CHROME:header@@
 
   <main id="main-content">
-    <section>
-      <umd-element-hero-minimal data-theme="dark">
+    <section class="umd-layout-space-vertical-interior">
+      <umd-element-hero data-display="overlay" data-theme="dark" data-layout-height="small">
+        <img slot="image" src="../../images/how-to-apply/english-language-proficiency-hero.svg" alt="" />
         <h1 slot="headline">English Language Proficiency</h1>
-      </umd-element-hero-minimal>
+      </umd-element-hero>
     </section>
 
     <div class="umd-layout-space-horizontal-larger umd-layout-space-vertical-interior">
@@ -279,6 +280,9 @@ for key in ("chrome-css", "gate", "header", "footer", "chrome-scripts"):
 
 output = head + "\n" + body
 assert "@@" not in output, "unreplaced build token"
+assert output.count("<umd-element-hero ") == 1
+assert "<umd-element-hero-minimal" not in output
+assert 'src="../../images/how-to-apply/english-language-proficiency-hero.svg" alt=""' in output
 assert output.count("<umd-element-accordion-item") == 3
 assert 'data-visual-open="true"' not in output
 assert "<umd-element-pathway" not in output
