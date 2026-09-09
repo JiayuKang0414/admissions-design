@@ -9,10 +9,11 @@
 
 - Dark `umd-element-hero-minimal` for the interior-page title.
 - `umd-element-breadcrumb` and `umd-element-nav-slider` matching the Student Life hierarchy.
+- An 800px editorial content column matching the standard Content Manager interior-page grid.
 - Standard rich text for the page introduction.
 - Alternating two-column rich-text sections for Academics, Wellness and Safety. Each heading stays in the same column as its text, and every image uses the same 4:3 aspect ratio.
 - A full-width rich-text section for the longer Transportation & Parking copy and links.
-- The shared Admissions `umd-element-banner-promo` used on the other interior pages, constrained to this page's interior content column.
+- The shared Admissions `umd-element-banner-promo` used on the other interior pages, constrained to the same 800px interior content column.
 
 ## Design check
 

@@ -95,7 +95,7 @@ body = r'''    .student-support-media {
           </umd-element-nav-slider>
         </div>
 
-        <div id="umd-shell-content">
+        <div id="umd-shell-content" class="max-w-[800px]">
           <section class="umd-layout-space-vertical-interior">
             <div class="umd-text-rich-advanced">
               <p>Safety is the shared responsibility of each campus community member. We know that students thrive in a community they feel safe and supported in and continue to work toward a safer and more secure community.</p>
@@ -235,6 +235,7 @@ banner_start = output.index("<umd-element-banner-promo>")
 shell_start = output.index('<div id="umd-shell-content"')
 shell_end = output.index("</div>\n      </div>\n    </div>", shell_start)
 assert shell_start < banner_start < shell_end
+assert '<div id="umd-shell-content" class="max-w-[800px]">' in output
 for heading in ("Academics", "Wellness", "Safety", "Transportation &amp; Parking"):
     assert f">{heading}</h2>" in output
 for image in (
