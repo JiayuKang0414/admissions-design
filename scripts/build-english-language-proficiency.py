@@ -38,7 +38,10 @@ head = re.sub(r"<title>.*?</title>", f"<title>{TITLE}</title>", head, count=1)
 pin = re.search(r"web-components-library@([\d.]+)/dist/cdn\.js", template)
 assert pin, "TEMPLATE.html has no web-components-library cdn.js pin"
 
-body = r'''  </style>
+body = r'''    .mei-resource-rule {
+      margin-bottom: 24px;
+    }
+  </style>
   <script src="https://unpkg.com/@universityofmaryland/web-components-library@@@PIN@@/dist/cdn.js"></script>
 @@CHROME:chrome-css@@
 @@CHROME:gate@@
@@ -201,11 +204,11 @@ body = r'''  </style>
                   <img src="../../images/apply-now/students-studying.jpg" alt="Students studying inside a building with large windows" />
                 </figure>
               </div>
-              <div>
+              <div class="mei-resource-copy">
+                <div class="umd-text-rich-advanced mei-resource-rule"><hr></div>
                 <p class="umd-sans-large mb-md text-black" style="text-transform:uppercase;">Resources</p>
                 <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">Maryland English Institute</h2>
                 <div class="umd-text-rich-advanced">
-                  <hr>
                   <p>The Maryland English Institute (MEI) provides English language instruction and assessment at the postsecondary level for speakers of other languages. MEI offers rigorous courses of study while providing a positive and supportive learning community and promoting cross-cultural understanding.</p>
                   <p>In some cases, UMD applicants must complete coursework through MEI before beginning their degree program. Students are notified within their admission decision letter if this is required of them.</p>
                   <div class="umd-layout-grid-inline-tablet-rows">
@@ -289,6 +292,7 @@ mei_markup = output[mei_start:mei_end]
 assert '<div class="umd-layout-grid-gap-two">' in mei_markup
 assert mei_markup.count('<div class="umd-text-rich-advanced">') == 2
 assert '<figure class="umd-layout-alignment-block-stacked">' in mei_markup
+assert '<div class="mei-resource-copy">\n                <div class="umd-text-rich-advanced mei-resource-rule"><hr></div>\n                <p class="umd-sans-large mb-md text-black"' in mei_markup
 assert "Learn More About MEI" in mei_markup
 assert "<table" not in output
 assert "rich-text-table.css" not in output
