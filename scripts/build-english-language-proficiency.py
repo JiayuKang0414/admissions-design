@@ -205,7 +205,7 @@ body = r'''    .mei-resource-rule {
                 </figure>
               </div>
               <div class="mei-resource-copy">
-                <p class="umd-sans-large mb-md text-black" style="text-transform:uppercase;">Resources</p>
+                <p class="umd-sans-large mb-md text-black">Resources</p>
                 <div class="umd-text-rich-advanced mei-resource-rule"><hr></div>
                 <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">Maryland English Institute</h2>
                 <div class="umd-text-rich-advanced">
@@ -292,7 +292,7 @@ mei_markup = output[mei_start:mei_end]
 assert '<div class="umd-layout-grid-gap-two">' in mei_markup
 assert mei_markup.count('<div class="umd-text-rich-advanced">') == 2
 assert '<figure class="umd-layout-alignment-block-stacked">' in mei_markup
-assert '<div class="mei-resource-copy">\n                <p class="umd-sans-large mb-md text-black" style="text-transform:uppercase;">Resources</p>\n                <div class="umd-text-rich-advanced mei-resource-rule"><hr></div>\n                <h2' in mei_markup
+assert '<div class="mei-resource-copy">\n                <p class="umd-sans-large mb-md text-black">Resources</p>\n                <div class="umd-text-rich-advanced mei-resource-rule"><hr></div>\n                <h2' in mei_markup
 assert "Learn More About MEI" in mei_markup
 assert "<table" not in output
 assert "rich-text-table.css" not in output
