@@ -194,26 +194,33 @@ body = r'''  </style>
             <p class="umd-sans-smaller">1. English proficiency test is required for the French system only.</p>
           </section>
 
+          <section class="umd-layout-space-vertical-interior">
+            <div class="umd-layout-grid-gap-two">
+              <div class="umd-text-rich-advanced">
+                <figure class="umd-layout-alignment-block-stacked">
+                  <img src="../../images/apply-now/students-studying.jpg" alt="Students studying inside a building with large windows" />
+                </figure>
+              </div>
+              <div>
+                <p class="umd-sans-large mb-md text-black" style="text-transform:uppercase;">Resources</p>
+                <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">Maryland English Institute</h2>
+                <div class="umd-text-rich-advanced">
+                  <hr>
+                  <p>The Maryland English Institute (MEI) provides English language instruction and assessment at the postsecondary level for speakers of other languages. MEI offers rigorous courses of study while providing a positive and supportive learning community and promoting cross-cultural understanding.</p>
+                  <p>In some cases, UMD applicants must complete coursework through MEI before beginning their degree program. Students are notified within their admission decision letter if this is required of them.</p>
+                  <div class="umd-layout-grid-inline-tablet-rows">
+                    <umd-element-call-to-action data-display="secondary">
+                      <a href="https://marylandenglishinstitute.com/" target="_blank" rel="noopener">Learn More About MEI</a>
+                    </umd-element-call-to-action>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
         </div>
       </div>
     </div>
-
-    <section class="umd-layout-vertical-landing">
-      <umd-element-pathway data-layout-image-position="left">
-        <img slot="image" src="../../images/apply-now/students-studying.jpg" alt="Students studying inside a building with large windows" />
-        <p slot="eyebrow">Resources</p>
-        <h2 slot="headline">Maryland English Institute</h2>
-        <div slot="text">
-          <p>The Maryland English Institute (MEI) provides English language instruction and assessment at the postsecondary level for speakers of other languages. MEI offers rigorous courses of study while providing a positive and supportive learning community and promoting cross-cultural understanding. </p>
-          <p>In some cases, UMD applicants must complete coursework through MEI before beginning their degree program. Students are notified within their admission decision letter if this is required of them.</p>
-        </div>
-        <div slot="actions">
-          <umd-element-call-to-action data-display="secondary">
-            <a href="https://marylandenglishinstitute.com/" target="_blank" rel="noopener">Learn More About MEI</a>
-          </umd-element-call-to-action>
-        </div>
-      </umd-element-pathway>
-    </section>
 
     <section class="umd-layout-vertical-landing">
       <div class="umd-layout-space-horizontal-larger">
@@ -258,7 +265,7 @@ output = head + "\n" + body
 assert "@@" not in output, "unreplaced build token"
 assert output.count("<umd-element-accordion-item") == 3
 assert 'data-visual-open="true"' not in output
-assert output.count("<umd-element-pathway") == 1
+assert "<umd-element-pathway" not in output
 assert output.count("umd-element-banner-promo") >= 1
 countries_heading = '<h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">English-speaking countries</h2>'
 assert output.count(countries_heading) == 1
@@ -272,6 +279,15 @@ assert countries_markup.count("<li>") == 33
 assert '<p class="umd-sans-smaller">1. English proficiency test is required for the French system only.</p>' in countries_markup
 waivers_start = output.index("Potential Waivers for English Proficiency Requirement")
 assert "</section>" in output[waivers_start:countries_start]
+mei_heading = '<h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">Maryland English Institute</h2>'
+assert output.count(mei_heading) == 1
+mei_start = output.rindex('<section class="umd-layout-space-vertical-interior">', 0, output.index(mei_heading))
+mei_end = output.index("</section>", output.index(mei_heading))
+mei_markup = output[mei_start:mei_end]
+assert '<div class="umd-layout-grid-gap-two">' in mei_markup
+assert mei_markup.count('<div class="umd-text-rich-advanced">') == 2
+assert '<figure class="umd-layout-alignment-block-stacked">' in mei_markup
+assert "Learn More About MEI" in mei_markup
 assert "<table" not in output
 assert "rich-text-table.css" not in output
 assert '<html lang="en">' in output
