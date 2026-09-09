@@ -12,7 +12,7 @@
 - Existing rich-text styles for all editorial copy and waiver requirements.
 - Three full-width `umd-element-accordion-item` components for the accepted tests, all initially closed.
 - A standalone rich-text section using the standard two-column pattern for the alphabetical English-speaking countries and territories list.
-- A two-column rich-text section inside the interior content area for the Maryland English Institute resource, with its image on the left and the Resources eyebrow above the rule, heading, copy and secondary CTA on the right.
+- A two-column rich-text section inside the interior content area for the Maryland English Institute resource, with a taller cropped image on the left and the uppercase Resources eyebrow above the rule, heading, copy and secondary CTA on the right.
 - The same `umd-element-banner-promo` used on the other Admissions interior pages, constrained to the 800px interior content column.
 
 ## Design check

@@ -778,6 +778,24 @@
     .mei-resource-rule {
       margin-bottom: 24px;
     }
+
+    .mei-resource-media {
+      aspect-ratio: 8 / 9;
+      overflow: hidden;
+    }
+
+    .mei-resource-media img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @media (max-width: 767px) {
+      .mei-resource-media {
+        aspect-ratio: 4 / 3;
+      }
+    }
   </style>
   <script src="https://unpkg.com/@universityofmaryland/web-components-library@1.19.5/dist/cdn.js"></script>
   <!-- SHARED:chrome-css:START — generated from shared/chrome.css; do not edit here -->
@@ -1417,12 +1435,12 @@ umd-element-scroll-top[data-layout-fixed="true"] {
           <section class="umd-layout-space-vertical-interior">
             <div class="umd-layout-grid-gap-two">
               <div class="umd-text-rich-advanced">
-                <figure class="umd-layout-alignment-block-stacked">
+                <figure class="umd-layout-alignment-block-stacked mei-resource-media">
                   <img src="../../images/apply-now/students-studying.jpg" alt="Students studying inside a building with large windows" />
                 </figure>
               </div>
               <div class="mei-resource-copy">
-                <p class="umd-sans-large mb-md text-black">Resources</p>
+                <p class="umd-sans-large mb-md text-black" style="text-transform:uppercase;">Resources</p>
                 <div class="umd-text-rich-advanced mei-resource-rule"><hr></div>
                 <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">Maryland English Institute</h2>
                 <div class="umd-text-rich-advanced">

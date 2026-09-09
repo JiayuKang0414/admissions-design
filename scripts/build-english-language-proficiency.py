@@ -41,6 +41,24 @@ assert pin, "TEMPLATE.html has no web-components-library cdn.js pin"
 body = r'''    .mei-resource-rule {
       margin-bottom: 24px;
     }
+
+    .mei-resource-media {
+      aspect-ratio: 8 / 9;
+      overflow: hidden;
+    }
+
+    .mei-resource-media img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    @media (max-width: 767px) {
+      .mei-resource-media {
+        aspect-ratio: 4 / 3;
+      }
+    }
   </style>
   <script src="https://unpkg.com/@universityofmaryland/web-components-library@@@PIN@@/dist/cdn.js"></script>
 @@CHROME:chrome-css@@
@@ -200,12 +218,12 @@ body = r'''    .mei-resource-rule {
           <section class="umd-layout-space-vertical-interior">
             <div class="umd-layout-grid-gap-two">
               <div class="umd-text-rich-advanced">
-                <figure class="umd-layout-alignment-block-stacked">
+                <figure class="umd-layout-alignment-block-stacked mei-resource-media">
                   <img src="../../images/apply-now/students-studying.jpg" alt="Students studying inside a building with large windows" />
                 </figure>
               </div>
               <div class="mei-resource-copy">
-                <p class="umd-sans-large mb-md text-black">Resources</p>
+                <p class="umd-sans-large mb-md text-black" style="text-transform:uppercase;">Resources</p>
                 <div class="umd-text-rich-advanced mei-resource-rule"><hr></div>
                 <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">Maryland English Institute</h2>
                 <div class="umd-text-rich-advanced">
@@ -291,8 +309,8 @@ mei_end = output.index("</section>", output.index(mei_heading))
 mei_markup = output[mei_start:mei_end]
 assert '<div class="umd-layout-grid-gap-two">' in mei_markup
 assert mei_markup.count('<div class="umd-text-rich-advanced">') == 2
-assert '<figure class="umd-layout-alignment-block-stacked">' in mei_markup
-assert '<div class="mei-resource-copy">\n                <p class="umd-sans-large mb-md text-black">Resources</p>\n                <div class="umd-text-rich-advanced mei-resource-rule"><hr></div>\n                <h2' in mei_markup
+assert '<figure class="umd-layout-alignment-block-stacked mei-resource-media">' in mei_markup
+assert '<div class="mei-resource-copy">\n                <p class="umd-sans-large mb-md text-black" style="text-transform:uppercase;">Resources</p>\n                <div class="umd-text-rich-advanced mei-resource-rule"><hr></div>\n                <h2' in mei_markup
 assert "Learn More About MEI" in mei_markup
 assert "<table" not in output
 assert "rich-text-table.css" not in output
