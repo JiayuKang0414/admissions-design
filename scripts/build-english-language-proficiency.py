@@ -218,26 +218,24 @@ body = r'''  </style>
             </div>
           </section>
 
+          <section class="umd-layout-vertical-landing">
+            <umd-element-banner-promo>
+              <h2 slot="headline">There is a lot more to learn about UMD</h2>
+              <p slot="text">Let's stay in touch!</p>
+              <div slot="actions" class="banner-promo-actions">
+                <umd-element-call-to-action data-display="primary">
+                  <a href="https://admissions.umd.edu/connect/mailing-list">Join the Mailing List</a>
+                </umd-element-call-to-action>
+                <umd-element-call-to-action data-display="secondary">
+                  <a href="https://admissions.umd.edu/connect">Connect</a>
+                </umd-element-call-to-action>
+              </div>
+            </umd-element-banner-promo>
+          </section>
+
         </div>
       </div>
     </div>
-
-    <section class="umd-layout-vertical-landing">
-      <div class="umd-layout-space-horizontal-larger">
-        <umd-element-banner-promo>
-          <h2 slot="headline">There is a lot more to learn about UMD</h2>
-          <p slot="text">Let's stay in touch!</p>
-          <div slot="actions" class="banner-promo-actions">
-            <umd-element-call-to-action data-display="primary">
-              <a href="https://admissions.umd.edu/connect/mailing-list">Join the Mailing List</a>
-            </umd-element-call-to-action>
-            <umd-element-call-to-action data-display="secondary">
-              <a href="https://admissions.umd.edu/connect">Connect</a>
-            </umd-element-call-to-action>
-          </div>
-        </umd-element-banner-promo>
-      </div>
-    </section>
   </main>
 
 @@CHROME:footer@@
@@ -267,6 +265,10 @@ assert output.count("<umd-element-accordion-item") == 3
 assert 'data-visual-open="true"' not in output
 assert "<umd-element-pathway" not in output
 assert output.count("umd-element-banner-promo") >= 1
+banner_start = output.index("<umd-element-banner-promo>")
+shell_start = output.index('<div id="umd-shell-content"')
+shell_end = output.index("</div>\n      </div>\n    </div>", shell_start)
+assert shell_start < banner_start < shell_end
 countries_heading = '<h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">English-speaking countries</h2>'
 assert output.count(countries_heading) == 1
 countries_start = output.index(countries_heading)

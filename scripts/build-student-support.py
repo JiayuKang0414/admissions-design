@@ -179,26 +179,24 @@ body = r'''    .student-support-media {
               </ul>
             </div>
           </section>
+
+          <section class="umd-layout-vertical-landing">
+            <umd-element-banner-promo>
+              <h2 slot="headline">There is a lot more to learn about UMD</h2>
+              <p slot="text">Let's stay in touch!</p>
+              <div slot="actions" class="banner-promo-actions">
+                <umd-element-call-to-action data-display="primary">
+                  <a href="https://admissions.umd.edu/connect/mailing-list">Join the Mailing List</a>
+                </umd-element-call-to-action>
+                <umd-element-call-to-action data-display="secondary">
+                  <a href="https://admissions.umd.edu/connect">Connect</a>
+                </umd-element-call-to-action>
+              </div>
+            </umd-element-banner-promo>
+          </section>
         </div>
       </div>
     </div>
-
-    <section class="umd-layout-vertical-landing">
-      <div class="umd-layout-space-horizontal-larger">
-        <umd-element-banner-promo>
-          <h2 slot="headline">There is a lot more to learn about UMD</h2>
-          <p slot="text">Let's stay in touch!</p>
-          <div slot="actions" class="banner-promo-actions">
-            <umd-element-call-to-action data-display="primary">
-              <a href="https://admissions.umd.edu/connect/mailing-list">Join the Mailing List</a>
-            </umd-element-call-to-action>
-            <umd-element-call-to-action data-display="secondary">
-              <a href="https://admissions.umd.edu/connect">Connect</a>
-            </umd-element-call-to-action>
-          </div>
-        </umd-element-banner-promo>
-      </div>
-    </section>
   </main>
 
 @@CHROME:footer@@
@@ -233,6 +231,10 @@ assert output.count('<div class="student-support-copy">') == 3
 assert output.count('<h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">') == 3
 assert output.count('<div class="umd-text-rich-advanced"><hr></div>\n                <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">') == 3
 assert output.count("umd-element-banner-promo") >= 1
+banner_start = output.index("<umd-element-banner-promo>")
+shell_start = output.index('<div id="umd-shell-content"')
+shell_end = output.index("</div>\n      </div>\n    </div>", shell_start)
+assert shell_start < banner_start < shell_end
 for heading in ("Academics", "Wellness", "Safety", "Transportation &amp; Parking"):
     assert f">{heading}</h2>" in output
 for image in (

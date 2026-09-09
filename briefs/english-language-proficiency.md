@@ -13,7 +13,7 @@
 - Three full-width `umd-element-accordion-item` components for the accepted tests, all initially closed.
 - A standalone rich-text section using the standard two-column pattern for the alphabetical English-speaking countries and territories list.
 - A two-column rich-text section inside the interior content area for the Maryland English Institute resource, with its image on the left and copy and secondary CTA on the right.
-- The same `umd-element-banner-promo` used on the other Admissions interior pages.
+- The same `umd-element-banner-promo` used on the other Admissions interior pages, constrained to the 800px interior content column.
 
 ## Design check
 
