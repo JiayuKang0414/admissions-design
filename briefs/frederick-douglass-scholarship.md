@@ -6,7 +6,7 @@
 - Source image: `images/tuition/frederick-douglass-statue.jpg`
 - Copy source: reconstructed source capture in `tmp/source.html` on 2026-09-02
   after the live CMS returned a Cloudflare challenge
-- Closing banner promo: exact copy of the component on `pages/tuition/index.html`, placed inside the 800px interior content column
+- Closing banner promo: shared four-page interior treatment, placed inside the 800px content column, with mailing-list and Connect inline links plus one “Join the List” CTA
 
 ## Layout treatment
 

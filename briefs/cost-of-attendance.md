@@ -5,7 +5,7 @@
   `5950:1492` and zebra-stripe example node `5968:787`
 - Page role: Tuition & Aid interior page
 - Hero: `umd-element-hero-minimal` with `data-theme="dark"`
-- Closing banner promo: exact copy of the component on `pages/tuition/index.html`, placed inside the 800px interior content column
+- Closing banner promo: shared four-page interior treatment, placed inside the 800px content column, with mailing-list and Connect inline links plus one “Join the List” CTA
 - Copy source: verbatim from the live source page captured on 2026-09-02
 
 ## Table treatment

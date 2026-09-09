@@ -242,13 +242,10 @@ body = r'''    .mei-resource-rule {
           <section class="umd-layout-vertical-landing">
             <umd-element-banner-promo>
               <h2 slot="headline">There is a lot more to learn about UMD</h2>
-              <p slot="text">Let's stay in touch!</p>
+              <p slot="text">Let's stay in touch! <a href="https://apply.umd.edu/register/request-info" target="_blank" rel="noopener">Join the Mailing List</a> or <a href="https://admissions.umd.edu/connect">Connect</a>!</p>
               <div slot="actions" class="banner-promo-actions">
                 <umd-element-call-to-action data-display="primary">
-                  <a href="https://admissions.umd.edu/connect/mailing-list">Join the Mailing List</a>
-                </umd-element-call-to-action>
-                <umd-element-call-to-action data-display="secondary">
-                  <a href="https://admissions.umd.edu/connect">Connect</a>
+                  <a href="https://apply.umd.edu/register/request-info" target="_blank" rel="noopener">Join the List</a>
                 </umd-element-call-to-action>
               </div>
             </umd-element-banner-promo>
@@ -286,6 +283,10 @@ assert output.count("<umd-element-accordion-item") == 3
 assert 'data-visual-open="true"' not in output
 assert "<umd-element-pathway" not in output
 assert output.count("umd-element-banner-promo") >= 1
+assert "Let's stay in touch! <a href=\"https://apply.umd.edu/register/request-info\"" in output
+assert output.count('href="https://apply.umd.edu/register/request-info"') == 2
+assert '>Join the List</a>' in output
+assert '>Join the Mailing List</a> or <a href="https://admissions.umd.edu/connect">Connect</a>!' in output
 banner_start = output.index("<umd-element-banner-promo>")
 shell_start = output.index('<div id="umd-shell-content"')
 shell_end = output.index("</div>\n      </div>\n    </div>", shell_start)
