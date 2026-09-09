@@ -13,7 +13,7 @@
 - Standard rich text for the page introduction.
 - Alternating two-column rich-text sections for Academics, Wellness and Safety. Each heading stays in the same column as its text with a rule directly below it, and every desktop image uses the same taller 8:9 aspect ratio.
 - A full-width rich-text section for the longer Transportation & Parking copy and links.
-- The shared Admissions `umd-element-banner-promo` used on the other interior pages, constrained to the same 800px interior content column.
+- An Admissions `umd-element-banner-promo` constrained to the same 800px interior content column. Its stay-in-touch sentence includes inline links to the mailing list and Connect page, with one “Join the List” primary CTA.
 
 ## Design check
 
