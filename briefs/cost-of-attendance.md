@@ -4,7 +4,7 @@
 - Table design references: Figma file `cnHS6mxwVqK7E8ebkejTcC`, cost table node
   `5950:1492` and zebra-stripe example node `5968:787`
 - Page role: Tuition & Aid interior page
-- Hero: `umd-element-hero-minimal` with `data-theme="dark"`
+- Hero: `umd-element-hero-minimal` with `data-theme="dark"` and the shared enlarged red, gold and white brand-arrow artwork used across the four interior pages
 - Closing banner promo: shared four-page interior treatment, placed inside the 800px content column, with mailing-list and Connect inline links plus one “Join the List” CTA
 - Copy source: verbatim from the live source page captured on 2026-09-02
 

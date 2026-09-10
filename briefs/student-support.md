@@ -7,7 +7,7 @@
 
 ## Component plan
 
-- Dark `umd-element-hero-minimal` for the interior-page title.
+- Dark `umd-element-hero-minimal` for the interior-page title, using the shared enlarged red, gold and white brand-arrow artwork used across the four interior pages.
 - `umd-element-breadcrumb` and `umd-element-nav-slider` matching the Student Life hierarchy.
 - An 800px editorial content column matching the standard Content Manager interior-page grid.
 - Standard rich text for the page introduction.

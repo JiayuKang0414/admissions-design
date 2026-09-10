@@ -72,6 +72,7 @@ body = r'''    .student-support-media {
   <main id="main-content">
     <section>
       <umd-element-hero-minimal data-theme="dark">
+        <img slot="image" src="../../images/how-to-apply/english-language-proficiency-hero.svg?v=brand-chevrons-white-large-v4" alt="" />
         <h1 slot="headline">Student Support &amp; Safety</h1>
       </umd-element-hero-minimal>
     </section>
@@ -230,6 +231,7 @@ for key in ("chrome-css", "gate", "header", "footer", "chrome-scripts"):
 output = head + "\n" + body
 assert "@@" not in output, "unreplaced build token"
 assert output.count("<umd-element-hero-minimal") == 1
+assert 'src="../../images/how-to-apply/english-language-proficiency-hero.svg?v=brand-chevrons-white-large-v4" alt=""' in output
 assert output.count("<umd-element-nav-slider") == 1
 assert output.count('<div class="umd-layout-grid-gap-two">') == 3
 assert output.count('<figure class="umd-layout-alignment-block-stacked student-support-media">') == 3
