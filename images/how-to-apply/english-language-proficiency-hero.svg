@@ -3,10 +3,10 @@
     <style>
       .cls-1 { fill: none; }
       .cls-2 { clip-path: url(#clippath); }
-      .cls-3 { fill: #fff; }
+      .cls-3 { fill: #000; }
       .cls-4 { fill: #ffd200; }
       .cls-5 { fill: #e31933; }
-      .cls-6 { fill: #231f20; }
+      .cls-6 { fill: #000; }
     </style>
     <clipPath id="clippath">
       <rect class="cls-1" width="1032.8" height="400"/>

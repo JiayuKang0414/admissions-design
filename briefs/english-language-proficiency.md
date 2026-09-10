@@ -7,7 +7,7 @@
 
 ## Component plan
 
-- The original dark `umd-element-hero-minimal`, using the supplied Fearlessly Forward SVG pattern as its optional image on the hero's black background.
+- The original dark `umd-element-hero-minimal`, using the supplied Fearlessly Forward SVG pattern as its optional image. Its gray and white shapes are converted to black so they merge into the hero background, leaving the red and gold pattern visible.
 - `umd-element-breadcrumb` and a two-level `umd-element-nav-slider` matching the page hierarchy.
 - Existing rich-text styles for all editorial copy and waiver requirements.
 - Three full-width `umd-element-accordion-item` components for the accepted tests, all initially closed.
