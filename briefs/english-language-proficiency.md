@@ -7,7 +7,7 @@
 
 ## Component plan
 
-- The original dark `umd-element-hero-minimal`, using a clean three-chevron SVG as its optional image. Three complete right-pointing arrows in Maryland red, gold and white sit safely inside the hero's black image area without clipped fragments.
+- The original dark `umd-element-hero-minimal`, using the exact three SVG arrow shapes from the homepage's central UMD brand animation. The original black arrow is recolored white, while the gold-over-red-over-white staggered arrangement sits on the hero's black image area.
 - `umd-element-breadcrumb` and a two-level `umd-element-nav-slider` matching the page hierarchy.
 - Existing rich-text styles for all editorial copy and waiver requirements.
 - Three full-width `umd-element-accordion-item` components for the accepted tests, all initially closed.
@@ -17,6 +17,6 @@
 
 ## Design check
 
-The three accepted tests contain enough copy that a three-column card grid becomes narrow and vertically stretched, so they use full-width accordions for compact scanning and mobile readability. The country names are a continuous alphabetical list rather than comparative tabular data, so they appear in their own section using the standard responsive two-column rich-text pattern and stack into source order on mobile. The MEI resource also uses the responsive two-column rich-text pattern so it remains within the interior page and stacks in source order on mobile. The hero retains the compact dark minimal treatment and uses a simplified red, gold and white chevron composition over its black image area; the long-form content stays on white for readability.
+The three accepted tests contain enough copy that a three-column card grid becomes narrow and vertically stretched, so they use full-width accordions for compact scanning and mobile readability. The country names are a continuous alphabetical list rather than comparative tabular data, so they appear in their own section using the standard responsive two-column rich-text pattern and stack into source order on mobile. The MEI resource also uses the responsive two-column rich-text pattern so it remains within the interior page and stacks in source order on mobile. The hero retains the compact dark minimal treatment and uses the homepage brand animation's original staggered arrow geometry in gold, red and white; the long-form content stays on white for readability.
 
 Visible source copy and links are preserved. Navigation and breadcrumbs are adapted to the prototype's local information architecture.
