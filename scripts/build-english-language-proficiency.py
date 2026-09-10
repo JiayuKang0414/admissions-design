@@ -70,7 +70,7 @@ body = r'''    .mei-resource-rule {
   <main id="main-content">
     <section>
       <umd-element-hero-minimal data-theme="dark">
-        <img slot="image" src="../../images/how-to-apply/english-language-proficiency-hero.svg?v=brand-chevrons-white" alt="" />
+        <img slot="image" src="../../images/how-to-apply/english-language-proficiency-hero.svg?v=brand-chevrons-white-large-v2" alt="" />
         <h1 slot="headline">English Language Proficiency</h1>
       </umd-element-hero-minimal>
     </section>
@@ -282,7 +282,7 @@ output = head + "\n" + body
 assert "@@" not in output, "unreplaced build token"
 assert output.count("<umd-element-hero-minimal") == 1
 assert "<umd-element-hero " not in output
-assert 'src="../../images/how-to-apply/english-language-proficiency-hero.svg?v=brand-chevrons-white" alt=""' in output
+assert 'src="../../images/how-to-apply/english-language-proficiency-hero.svg?v=brand-chevrons-white-large-v2" alt=""' in output
 assert output.count("<umd-element-accordion-item") == 3
 assert 'data-visual-open="true"' not in output
 assert "<umd-element-pathway" not in output
