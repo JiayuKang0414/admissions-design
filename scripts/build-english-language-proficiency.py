@@ -86,7 +86,7 @@ body = r'''    /* Keep long-form text readable within the design-system content 
         <section class="umd-layout-space-vertical-interior">
           <h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">Accepted English Proficiency Tests:</h2>
           <div class="umd-layout-grid-gap-three umd-layout-grid-child-fill-height">
-            <umd-element-card-overlay data-theme="dark">
+            <umd-element-card-overlay data-theme="light">
               <h3 slot="headline"><a href="https://englishtest.duolingo.com/applicants" target="_blank" rel="noopener">Duolingo English Test (DET)</a></h3>
               <div slot="text">
                 <p>UMD accepts official scores from the <a href="https://englishtest.duolingo.com/applicants" target="_blank" rel="noopener">Duolingo English Test</a>, which can be taken online and on-demand. </p>
@@ -94,7 +94,7 @@ body = r'''    /* Keep long-form text readable within the design-system content 
                 <p>Maryland English Institute score: 115 or lower</p>
               </div>
             </umd-element-card-overlay>
-            <umd-element-card-overlay data-theme="dark">
+            <umd-element-card-overlay data-theme="light">
               <h3 slot="headline"><a href="http://www.ielts.org/" target="_blank" rel="noopener">International English Language Testing System (IELTS)</a></h3>
               <div slot="text">
                 <p>UMD accepts official <a href="http://www.ielts.org/" target="_blank" rel="noopener">IELTS</a> and <a href="https://www.ielts.org/about-ielts/ielts-indicator" target="_blank" rel="noopener">IELTS Indicator</a> scores.</p>
@@ -102,7 +102,7 @@ body = r'''    /* Keep long-form text readable within the design-system content 
                 <p>Maryland English Institute score: 6.5 or lower</p>
               </div>
             </umd-element-card-overlay>
-            <umd-element-card-overlay data-theme="dark">
+            <umd-element-card-overlay data-theme="light">
               <h3 slot="headline"><a href="http://www.ets.org/toefl" target="_blank" rel="noopener">Test of English as a Foreign Language (TOEFL)</a></h3>
               <div slot="text">
                 <p>UMD accepts official <a href="http://www.ets.org/toefl" target="_blank" rel="noopener">TOEFL</a> and <a href="https://www.ets.org/s/cv/toefl/at-home/" target="_blank" rel="noopener">TOEFL iBT</a>&nbsp;(Home Edition) scores. At this time, we are not accepting TOEFL superscores known as MyBest Scores. <br></p>
