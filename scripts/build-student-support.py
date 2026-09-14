@@ -41,10 +41,14 @@ body = r'''    /* Keep long-form text readable within the design-system content 
       .student-support-content .umd-text-rich-advanced {
         max-width: 800px;
       }
+
+      .student-support-media .student-support-safety-image {
+        object-position: center 10%;
+      }
     }
 
     .student-support-media {
-      aspect-ratio: 8 / 9;
+      aspect-ratio: 4 / 3;
       overflow: hidden;
     }
 
@@ -63,11 +67,6 @@ body = r'''    /* Keep long-form text readable within the design-system content 
       margin-bottom: 24px;
     }
 
-    @media (max-width: 767px) {
-      .student-support-media {
-        aspect-ratio: 4 / 3;
-      }
-    }
   </style>
   <script src="https://unpkg.com/@universityofmaryland/web-components-library@@@PIN@@/dist/cdn.js"></script>
 @@CHROME:chrome-css@@
@@ -147,7 +146,7 @@ body = r'''    /* Keep long-form text readable within the design-system content 
           <div class="umd-layout-grid-gap-two">
             <div class="umd-text-rich-advanced">
               <figure class="umd-layout-alignment-block-stacked student-support-media">
-                <img src="../../images/student-life/safety@2x.jpg" alt="Safety" />
+                <img class="student-support-safety-image" src="../../images/student-life/safety@2x.jpg" alt="Safety" />
               </figure>
             </div>
             <div class="student-support-copy">
@@ -223,7 +222,7 @@ assert 'src="../../images/admissions/ff-pattern-hero.png" alt=""' in output
 assert "<umd-element-nav-slider" not in output
 assert output.count('<div class="umd-layout-grid-gap-two">') == 3
 assert output.count('<figure class="umd-layout-alignment-block-stacked student-support-media">') == 3
-assert "aspect-ratio: 8 / 9" in output
+assert "aspect-ratio: 4 / 3" in output
 assert output.count('<div class="student-support-copy">') == 3
 assert output.count('<h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">') == 3
 assert output.count('</h2>\n              <div class="umd-text-rich-advanced student-support-title-rule"><hr></div>') == 3

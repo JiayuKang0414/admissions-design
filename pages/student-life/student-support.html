@@ -780,10 +780,14 @@
       .student-support-content .umd-text-rich-advanced {
         max-width: 800px;
       }
+
+      .student-support-media .student-support-safety-image {
+        object-position: center 10%;
+      }
     }
 
     .student-support-media {
-      aspect-ratio: 8 / 9;
+      aspect-ratio: 4 / 3;
       overflow: hidden;
     }
 
@@ -802,11 +806,6 @@
       margin-bottom: 24px;
     }
 
-    @media (max-width: 767px) {
-      .student-support-media {
-        aspect-ratio: 4 / 3;
-      }
-    }
   </style>
   <script src="https://unpkg.com/@universityofmaryland/web-components-library@1.19.5/dist/cdn.js"></script>
   <!-- SHARED:chrome-css:START — generated from shared/chrome.css; do not edit here -->
@@ -1366,7 +1365,7 @@ umd-element-scroll-top[data-layout-fixed="true"] {
           <div class="umd-layout-grid-gap-two">
             <div class="umd-text-rich-advanced">
               <figure class="umd-layout-alignment-block-stacked student-support-media">
-                <img src="../../images/student-life/safety@2x.jpg" alt="Safety" />
+                <img class="student-support-safety-image" src="../../images/student-life/safety@2x.jpg" alt="Safety" />
               </figure>
             </div>
             <div class="student-support-copy">
