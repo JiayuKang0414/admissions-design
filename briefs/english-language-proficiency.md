@@ -9,7 +9,7 @@
 
 - The original dark `umd-element-hero-minimal`, using the exact three SVG arrow shapes from the homepage's central UMD brand animation. The original black arrow is recolored white, while the enlarged gold-over-red-over-white staggered arrangement fills most of the hero's right image area.
 - `umd-element-breadcrumb` matching the page hierarchy; no left navigation.
-- Centered content container up to 960px from 768px viewport width, with long-form rich-text blocks capped at 800px and centered within the container; text remains left-aligned. Headings, accordions, and two-column sections use the full container width. Existing phone gutters, spacing, and stacking are preserved.
+- Centered content container up to 960px from 768px viewport width, with long-form rich text capped at 800px and aligned left. Headings, accordions, and two-column sections use the full container width. Existing phone gutters, spacing, and stacking are preserved.
 - Existing rich-text styles for all editorial copy and waiver requirements.
 - Three full-width `umd-element-accordion-item` components for the accepted tests, all initially closed.
 - A standalone rich-text section using the standard two-column pattern for the alphabetical English-speaking countries and territories list.

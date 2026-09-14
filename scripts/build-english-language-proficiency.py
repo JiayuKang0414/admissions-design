@@ -47,7 +47,6 @@ body = r'''    /* Preserve the existing phone layout; widen the reading area on 
 
       .english-proficiency-content .umd-text-rich-advanced {
         max-width: 800px;
-        margin-inline: auto;
       }
     }
 
