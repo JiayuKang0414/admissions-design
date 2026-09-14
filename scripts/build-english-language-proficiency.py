@@ -38,13 +38,8 @@ head = re.sub(r"<title>.*?</title>", f"<title>{TITLE}</title>", head, count=1)
 pin = re.search(r"web-components-library@([\d.]+)/dist/cdn\.js", template)
 assert pin, "TEMPLATE.html has no web-components-library cdn.js pin"
 
-body = r'''    /* Preserve the existing phone layout; widen the reading area on larger screens. */
+body = r'''    /* Keep long-form text readable within the design-system content container. */
     @media (min-width: 768px) {
-      .english-proficiency-content {
-        max-width: 960px;
-        margin-inline: auto;
-      }
-
       .english-proficiency-content .umd-text-rich-advanced {
         max-width: 800px;
       }
@@ -98,8 +93,8 @@ body = r'''    /* Preserve the existing phone layout; widen the reading area on 
       </umd-element-breadcrumb>
     </div>
 
-    <div class="umd-layout-space-horizontal-larger">
-      <div id="umd-shell-content" class="max-w-[800px] english-proficiency-content">
+    <div class="umd-layout-space-horizontal-normal">
+      <div id="umd-shell-content" class="english-proficiency-content">
         <section class="umd-layout-space-vertical-interior">
           <div class="umd-text-rich-advanced">
             <p>If you are a Domestic student and English is not your native language or you are an International student, you must provide the university with verification of your proficiency in English. We may consider waiving the English proficiency test requirement if a student has met certain requirements. Please read below to learn more about approved English proficiency exams and potential waivers.</p>

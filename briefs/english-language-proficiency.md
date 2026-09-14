@@ -9,12 +9,12 @@
 
 - The original dark `umd-element-hero-minimal`, using the exact three SVG arrow shapes from the homepage's central UMD brand animation. The original black arrow is recolored white, while the enlarged gold-over-red-over-white staggered arrangement fills most of the hero's right image area.
 - `umd-element-breadcrumb` matching the page hierarchy; no left navigation.
-- Centered content container up to 960px from 768px viewport width, with long-form rich text capped at 800px and aligned left. Headings, accordions, and two-column sections use the full container width. Existing phone gutters, spacing, and stacking are preserved.
+- Centered `umd-layout-space-horizontal-normal` content container (1280px maximum with responsive side padding), with long-form rich text capped at 800px and aligned left. Headings, accordions, and two-column sections use the full container width. Existing phone gutters, spacing, and stacking are preserved.
 - Existing rich-text styles for all editorial copy and waiver requirements.
 - Three full-width `umd-element-accordion-item` components for the accepted tests, all initially closed.
 - A standalone rich-text section using the standard two-column pattern for the alphabetical English-speaking countries and territories list.
 - A two-column rich-text section inside the interior content area for the Maryland English Institute resource, with a taller cropped image on the left and the uppercase Resources eyebrow above the rule, heading, copy and secondary CTA on the right.
-- The shared four-page interior `umd-element-banner-promo`, constrained to the 960px content column, with mailing-list and Connect inline links plus one “Join the List” CTA.
+- The shared four-page interior `umd-element-banner-promo`, constrained to the design-system content container, with mailing-list and Connect inline links plus one “Join the List” CTA.
 
 ## Design check
 

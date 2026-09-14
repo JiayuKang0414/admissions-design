@@ -36,13 +36,8 @@ head = re.sub(r"<title>.*?</title>", f"<title>{TITLE}</title>", head, count=1)
 pin = re.search(r"web-components-library@([\d.]+)/dist/cdn\.js", template)
 assert pin, "TEMPLATE.html has no web-components-library cdn.js pin"
 
-body = r'''    /* Preserve the existing phone layout; widen the reading area on larger screens. */
+body = r'''    /* Keep long-form text readable within the design-system content container. */
     @media (min-width: 768px) {
-      .student-support-content {
-        max-width: 960px;
-        margin-inline: auto;
-      }
-
       .student-support-content .umd-text-rich-advanced {
         max-width: 800px;
       }
@@ -99,8 +94,8 @@ body = r'''    /* Preserve the existing phone layout; widen the reading area on 
       </umd-element-breadcrumb>
     </div>
 
-    <div class="umd-layout-space-horizontal-larger">
-      <div id="umd-shell-content" class="max-w-[800px] student-support-content">
+    <div class="umd-layout-space-horizontal-normal">
+      <div id="umd-shell-content" class="student-support-content">
         <section class="umd-layout-space-vertical-interior">
           <div class="umd-text-rich-advanced">
             <p>Safety is the shared responsibility of each campus community member. We know that students thrive in a community they feel safe and supported in and continue to work toward a safer and more secure community.</p>
@@ -241,7 +236,7 @@ banner_start = output.index("<umd-element-banner-promo>")
 shell_start = output.index('<div id="umd-shell-content"')
 shell_end = output.index("</div>\n    </div>\n  </main>", shell_start)
 assert shell_start < banner_start < shell_end
-assert '<div id="umd-shell-content" class="max-w-[800px] student-support-content">' in output
+assert '<div id="umd-shell-content" class="student-support-content">' in output
 for heading in ("Academics", "Wellness", "Safety", "Transportation &amp; Parking"):
     assert f">{heading}</h2>" in output
 for image in (

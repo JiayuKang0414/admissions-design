@@ -775,13 +775,8 @@
       padding-top: 0;
     }
     .umd-filter-item[hidden] { display: none !important; }
-    /* Preserve the existing phone layout; widen the reading area on larger screens. */
+    /* Keep long-form text readable within the design-system content container. */
     @media (min-width: 768px) {
-      .student-support-content {
-        max-width: 960px;
-        margin-inline: auto;
-      }
-
       .student-support-content .umd-text-rich-advanced {
         max-width: 800px;
       }
@@ -1318,8 +1313,8 @@ umd-element-scroll-top[data-layout-fixed="true"] {
       </umd-element-breadcrumb>
     </div>
 
-    <div class="umd-layout-space-horizontal-larger">
-      <div id="umd-shell-content" class="max-w-[800px] student-support-content">
+    <div class="umd-layout-space-horizontal-normal">
+      <div id="umd-shell-content" class="student-support-content">
         <section class="umd-layout-space-vertical-interior">
           <div class="umd-text-rich-advanced">
             <p>Safety is the shared responsibility of each campus community member. We know that students thrive in a community they feel safe and supported in and continue to work toward a safer and more secure community.</p>
