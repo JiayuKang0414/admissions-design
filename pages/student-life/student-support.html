@@ -775,6 +775,18 @@
       padding-top: 0;
     }
     .umd-filter-item[hidden] { display: none !important; }
+    /* Preserve the existing phone layout; widen the reading area on larger screens. */
+    @media (min-width: 768px) {
+      .student-support-content {
+        max-width: 960px;
+        margin-inline: auto;
+      }
+
+      .student-support-content .umd-text-rich-advanced {
+        max-width: 800px;
+      }
+    }
+
     .student-support-media {
       aspect-ratio: 8 / 9;
       overflow: hidden;
@@ -1307,121 +1319,102 @@ umd-element-scroll-top[data-layout-fixed="true"] {
     </div>
 
     <div class="umd-layout-space-horizontal-larger">
-      <div class="umd-layout-space-columns-left">
-        <div id="umd-shell-sidebar-container">
-          <umd-element-nav-slider>
-            <div slot="primary-slide-links">
-              <a href="../../pages/student-life/" data-child-ref="student-life"><span>Student Life</span></a>
-            </div>
-            <div slot="children-slides">
-              <div data-parent-ref="student-life" data-active>
-                <a href="../../pages/student-life/"><span>Overview</span></a>
-                <a href="https://admissions.umd.edu/student/housing-and-dining"><span>Housing &amp; Dining</span></a>
-                <a href="../../pages/student-life/student-support.html" data-selected><span>Student Support &amp; Safety</span></a>
-                <a href="https://admissions.umd.edu/student/get-involved"><span>Get Involved on Campus</span></a>
-                <a href="https://admissions.umd.edu/student/find-community"><span>Find Your Community</span></a>
-              </div>
-            </div>
-          </umd-element-nav-slider>
-        </div>
+      <div id="umd-shell-content" class="max-w-[800px] student-support-content">
+        <section class="umd-layout-space-vertical-interior">
+          <div class="umd-text-rich-advanced">
+            <p>Safety is the shared responsibility of each campus community member. We know that students thrive in a community they feel safe and supported in and continue to work toward a safer and more secure community.</p>
+          </div>
+        </section>
 
-        <div id="umd-shell-content" class="max-w-[800px]">
-          <section class="umd-layout-space-vertical-interior">
+        <section class="umd-layout-space-vertical-interior">
+          <div class="umd-layout-grid-gap-two">
             <div class="umd-text-rich-advanced">
-              <p>Safety is the shared responsibility of each campus community member. We know that students thrive in a community they feel safe and supported in and continue to work toward a safer and more secure community.</p>
+              <figure class="umd-layout-alignment-block-stacked student-support-media">
+                <img src="../../images/student-life/student-support-academics.jpg" alt="Students sitting around a table in an engineering lab." />
+              </figure>
             </div>
-          </section>
-
-          <section class="umd-layout-space-vertical-interior">
-            <div class="umd-layout-grid-gap-two">
+            <div class="student-support-copy">
+              <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">Academics</h2>
+              <div class="umd-text-rich-advanced student-support-title-rule"><hr></div>
               <div class="umd-text-rich-advanced">
-                <figure class="umd-layout-alignment-block-stacked student-support-media">
-                  <img src="../../images/student-life/student-support-academics.jpg" alt="Students sitting around a table in an engineering lab." />
-                </figure>
-              </div>
-              <div class="student-support-copy">
-                <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">Academics</h2>
-                <div class="umd-text-rich-advanced student-support-title-rule"><hr></div>
-                <div class="umd-text-rich-advanced">
-                  <ul>
-                    <li>Tutoring services</li>
-                    <li><a href="https://careers.umd.edu/" target="_blank" rel="noopener noreferrer">Career Center</a> - Whether you’re looking to gain experience through an internship, fine tune your resume, practice your interviewing skills or evaluate a job offer, the Career Center has you covered. You’ll receive support at every stage of your career development and will be prepared to pursue a meaningful career path through high-quality services, resources and instruction.</li>
-                  </ul>
-                </div>
+                <ul>
+                  <li>Tutoring services</li>
+                  <li><a href="https://careers.umd.edu/" target="_blank" rel="noopener noreferrer">Career Center</a> - Whether you’re looking to gain experience through an internship, fine tune your resume, practice your interviewing skills or evaluate a job offer, the Career Center has you covered. You’ll receive support at every stage of your career development and will be prepared to pursue a meaningful career path through high-quality services, resources and instruction.</li>
+                </ul>
               </div>
             </div>
-          </section>
+          </div>
+        </section>
 
-          <section class="umd-layout-space-vertical-interior">
-            <div class="umd-layout-grid-gap-two">
-              <div class="student-support-copy">
-                <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">Wellness</h2>
-                <div class="umd-text-rich-advanced student-support-title-rule"><hr></div>
-                <div class="umd-text-rich-advanced">
-                  <ul>
-                    <li><a href="https://health.umd.edu/prospective-students" target="_blank" rel="noopener noreferrer">University Health Center</a> - Provides high-quality, cost-effective health care and wellness programs in order to promote the health of the university community and support academic success.</li>
-                    <li><a href="https://www.counseling.umd.edu/aboutus/" target="_blank" rel="noopener noreferrer">Counseling Center</a> - Provides comprehensive support services that promote the personal, social and academic success of UMD students.</li>
-                    <li><a href="https://recwell.umd.edu/" target="_blank" rel="noopener noreferrer">Recreation &amp; Wellness</a> - Creates a culture of wellness where all members of the university community thrive. Recreation is for everyone and there is something for everyone at RecWell.</li>
-                  </ul>
-                </div>
-              </div>
+        <section class="umd-layout-space-vertical-interior">
+          <div class="umd-layout-grid-gap-two">
+            <div class="student-support-copy">
+              <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">Wellness</h2>
+              <div class="umd-text-rich-advanced student-support-title-rule"><hr></div>
               <div class="umd-text-rich-advanced">
-                <figure class="umd-layout-alignment-block-stacked student-support-media">
-                  <img src="../../images/student-life/student-support-wellness.jpg" alt="Front door to the health center." />
-                </figure>
+                <ul>
+                  <li><a href="https://health.umd.edu/prospective-students" target="_blank" rel="noopener noreferrer">University Health Center</a> - Provides high-quality, cost-effective health care and wellness programs in order to promote the health of the university community and support academic success.</li>
+                  <li><a href="https://www.counseling.umd.edu/aboutus/" target="_blank" rel="noopener noreferrer">Counseling Center</a> - Provides comprehensive support services that promote the personal, social and academic success of UMD students.</li>
+                  <li><a href="https://recwell.umd.edu/" target="_blank" rel="noopener noreferrer">Recreation &amp; Wellness</a> - Creates a culture of wellness where all members of the university community thrive. Recreation is for everyone and there is something for everyone at RecWell.</li>
+                </ul>
               </div>
             </div>
-          </section>
-
-          <section class="umd-layout-space-vertical-interior">
-            <div class="umd-layout-grid-gap-two">
-              <div class="umd-text-rich-advanced">
-                <figure class="umd-layout-alignment-block-stacked student-support-media">
-                  <img src="../../images/student-life/safety@2x.jpg" alt="Safety" />
-                </figure>
-              </div>
-              <div class="student-support-copy">
-                <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">Safety</h2>
-                <div class="umd-text-rich-advanced student-support-title-rule"><hr></div>
-                <div class="umd-text-rich-advanced">
-                  <p>Call University Police at 911 or (301) 405-3555. If you ever see a situation involving fighting between partners or groups, threatening actions or statements, screams, suspicious persons or behavior, weapons, etc., do not hesitate to call police immediately. Then, call your Service Desk or CA.</p>
-                  <ul>
-                    <li>Blue Light Program</li>
-                    <li>Police Escorts</li>
-                    <li>Opt-in Safety Alerts</li>
-                    <li>UID Only Accessibility</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section class="umd-layout-space-vertical-interior">
-            <h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">Transportation &amp; Parking</h2>
             <div class="umd-text-rich-advanced">
-              <p>Whether you live on campus or off, the Department of Transportation Services makes it easy to get around. Shuttle-UM buses operate several campus-based routes and serve a six-mile radius beyond, taking students to Metro station, shops, restaurants and more than two dozen apartment communities. All you need to ride Shuttle-UM is your student ID. It’s also a snap to travel to Washington, D.C., Baltimore and local airports by using Metrorail and MARC trains.</p>
-              <p>If you’re living off campus, permits for campus parking are available for purchase from the Department of Transportation Services.</p>
-              <ul>
-                <li><a href="https://transportation.umd.edu/shuttle-um" target="_blank" rel="noopener noreferrer">Shuttle-UM</a> - DOTS provides routes that circulate around campus, commuter routes to neighboring communities and Park &amp; Ride routes that can be tracked on the Transit app. Students can also use the NITE Ride evening service to get around campus when shuttle routes are not operating.</li>
-                <li><a href="https://transportation.umd.edu/bikeumd-escooters" target="_blank" rel="noopener noreferrer">BikeUMD</a> - Students can bring their own bike to campus or rent one from the RecWell Bike Shop. Community members can also utilize the shared mobility system provided by VEO in partnership with the City of College Park and University Park.</li>
-                <li><a href="https://transportation.umd.edu/sustainable-transportation/local-regional-transit" target="_blank" rel="noopener noreferrer">Local &amp; Regional Transit</a> - College Park connects to many local and regional transit options that make many destinations easily accessible. It’s also a snap to travel to Washington, D.C., Baltimore and local airports by using <a href="https://www.wmata.com/service/rail/" target="_blank" rel="noopener noreferrer">Metrorail</a> and <a href="https://mta.maryland.gov/marc-train" target="_blank" rel="noopener noreferrer">MARC</a> trains.</li>
-                <li><a href="https://transportation.umd.edu/parking" target="_blank" rel="noopener noreferrer">Parking</a> - Flexible parking permit options are available for each individual working, living and learning situation. If you are going to have a car on campus, you will need a parking permit. Permits can be purchased on the Department of Transportation Services website.</li>
-              </ul>
+              <figure class="umd-layout-alignment-block-stacked student-support-media">
+                <img src="../../images/student-life/student-support-wellness.jpg" alt="Front door to the health center." />
+              </figure>
             </div>
-          </section>
+          </div>
+        </section>
 
-          <section class="umd-layout-vertical-landing">
-            <umd-element-banner-promo>
-              <h2 slot="headline">There is a lot more to learn about UMD</h2>
-              <p slot="text">Let's stay in touch! <a href="https://apply.umd.edu/register/request-info" target="_blank" rel="noopener">Join the Mailing List</a> or <a href="https://admissions.umd.edu/connect">Connect</a>!</p>
-              <div slot="actions" class="banner-promo-actions">
-                <umd-element-call-to-action data-display="primary">
-                  <a href="https://apply.umd.edu/register/request-info" target="_blank" rel="noopener">Join the List</a>
-                </umd-element-call-to-action>
+        <section class="umd-layout-space-vertical-interior">
+          <div class="umd-layout-grid-gap-two">
+            <div class="umd-text-rich-advanced">
+              <figure class="umd-layout-alignment-block-stacked student-support-media">
+                <img src="../../images/student-life/safety@2x.jpg" alt="Safety" />
+              </figure>
+            </div>
+            <div class="student-support-copy">
+              <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">Safety</h2>
+              <div class="umd-text-rich-advanced student-support-title-rule"><hr></div>
+              <div class="umd-text-rich-advanced">
+                <p>Call University Police at 911 or (301) 405-3555. If you ever see a situation involving fighting between partners or groups, threatening actions or statements, screams, suspicious persons or behavior, weapons, etc., do not hesitate to call police immediately. Then, call your Service Desk or CA.</p>
+                <ul>
+                  <li>Blue Light Program</li>
+                  <li>Police Escorts</li>
+                  <li>Opt-in Safety Alerts</li>
+                  <li>UID Only Accessibility</li>
+                </ul>
               </div>
-            </umd-element-banner-promo>
-          </section>
-        </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="umd-layout-space-vertical-interior">
+          <h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">Transportation &amp; Parking</h2>
+          <div class="umd-text-rich-advanced">
+            <p>Whether you live on campus or off, the Department of Transportation Services makes it easy to get around. Shuttle-UM buses operate several campus-based routes and serve a six-mile radius beyond, taking students to Metro station, shops, restaurants and more than two dozen apartment communities. All you need to ride Shuttle-UM is your student ID. It’s also a snap to travel to Washington, D.C., Baltimore and local airports by using Metrorail and MARC trains.</p>
+            <p>If you’re living off campus, permits for campus parking are available for purchase from the Department of Transportation Services.</p>
+            <ul>
+              <li><a href="https://transportation.umd.edu/shuttle-um" target="_blank" rel="noopener noreferrer">Shuttle-UM</a> - DOTS provides routes that circulate around campus, commuter routes to neighboring communities and Park &amp; Ride routes that can be tracked on the Transit app. Students can also use the NITE Ride evening service to get around campus when shuttle routes are not operating.</li>
+              <li><a href="https://transportation.umd.edu/bikeumd-escooters" target="_blank" rel="noopener noreferrer">BikeUMD</a> - Students can bring their own bike to campus or rent one from the RecWell Bike Shop. Community members can also utilize the shared mobility system provided by VEO in partnership with the City of College Park and University Park.</li>
+              <li><a href="https://transportation.umd.edu/sustainable-transportation/local-regional-transit" target="_blank" rel="noopener noreferrer">Local &amp; Regional Transit</a> - College Park connects to many local and regional transit options that make many destinations easily accessible. It’s also a snap to travel to Washington, D.C., Baltimore and local airports by using <a href="https://www.wmata.com/service/rail/" target="_blank" rel="noopener noreferrer">Metrorail</a> and <a href="https://mta.maryland.gov/marc-train" target="_blank" rel="noopener noreferrer">MARC</a> trains.</li>
+              <li><a href="https://transportation.umd.edu/parking" target="_blank" rel="noopener noreferrer">Parking</a> - Flexible parking permit options are available for each individual working, living and learning situation. If you are going to have a car on campus, you will need a parking permit. Permits can be purchased on the Department of Transportation Services website.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="umd-layout-vertical-landing">
+          <umd-element-banner-promo>
+            <h2 slot="headline">There is a lot more to learn about UMD</h2>
+            <p slot="text">Let's stay in touch! <a href="https://apply.umd.edu/register/request-info" target="_blank" rel="noopener">Join the Mailing List</a> or <a href="https://admissions.umd.edu/connect">Connect</a>!</p>
+            <div slot="actions" class="banner-promo-actions">
+              <umd-element-call-to-action data-display="primary">
+                <a href="https://apply.umd.edu/register/request-info" target="_blank" rel="noopener">Join the List</a>
+              </umd-element-call-to-action>
+            </div>
+          </umd-element-banner-promo>
+        </section>
       </div>
     </div>
   </main>
