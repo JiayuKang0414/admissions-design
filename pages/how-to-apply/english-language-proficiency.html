@@ -782,27 +782,6 @@
       }
     }
 
-    .mei-resource-rule {
-      margin-bottom: 24px;
-    }
-
-    .mei-resource-media {
-      aspect-ratio: 8 / 9;
-      overflow: hidden;
-    }
-
-    .mei-resource-media img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    @media (max-width: 767px) {
-      .mei-resource-media {
-        aspect-ratio: 4 / 3;
-      }
-    }
   </style>
   <script src="https://unpkg.com/@universityofmaryland/web-components-library@1.19.5/dist/cdn.js"></script>
   <!-- SHARED:chrome-css:START — generated from shared/chrome.css; do not edit here -->
@@ -1418,26 +1397,18 @@ umd-element-scroll-top[data-layout-fixed="true"] {
         </section>
 
         <section class="umd-layout-space-vertical-interior">
+          <h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">Resources</h2>
           <div class="umd-layout-grid-gap-two">
-            <div class="umd-text-rich-advanced">
-              <figure class="umd-layout-alignment-block-stacked mei-resource-media">
-                <img src="../../images/apply-now/students-studying.jpg" alt="Students studying inside a building with large windows" />
-              </figure>
-            </div>
-            <div class="mei-resource-copy">
-              <p class="umd-sans-large mb-md text-black" style="text-transform:uppercase;">Resources</p>
-              <div class="umd-text-rich-advanced mei-resource-rule"><hr></div>
-              <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">Maryland English Institute</h2>
-              <div class="umd-text-rich-advanced">
+            <umd-element-card-icon>
+              <img slot="image" src="../../page-builder/images/icons/icon-link.svg" alt="" />
+              <h3 slot="headline">
+                <a href="https://marylandenglishinstitute.com/" target="_blank" rel="noopener">Maryland English Institute</a>
+              </h3>
+              <div slot="text">
                 <p>The Maryland English Institute (MEI) provides English language instruction and assessment at the postsecondary level for speakers of other languages. MEI offers rigorous courses of study while providing a positive and supportive learning community and promoting cross-cultural understanding.</p>
                 <p>In some cases, UMD applicants must complete coursework through MEI before beginning their degree program. Students are notified within their admission decision letter if this is required of them.</p>
-                <div class="umd-layout-grid-inline-tablet-rows">
-                  <umd-element-call-to-action data-display="secondary">
-                    <a href="https://marylandenglishinstitute.com/" target="_blank" rel="noopener">Learn More About MEI</a>
-                  </umd-element-call-to-action>
-                </div>
               </div>
-            </div>
+            </umd-element-card-icon>
           </div>
         </section>
 

@@ -45,27 +45,6 @@ body = r'''    /* Keep long-form text readable within the design-system content 
       }
     }
 
-    .mei-resource-rule {
-      margin-bottom: 24px;
-    }
-
-    .mei-resource-media {
-      aspect-ratio: 8 / 9;
-      overflow: hidden;
-    }
-
-    .mei-resource-media img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    @media (max-width: 767px) {
-      .mei-resource-media {
-        aspect-ratio: 4 / 3;
-      }
-    }
   </style>
   <script src="https://unpkg.com/@universityofmaryland/web-components-library@@@PIN@@/dist/cdn.js"></script>
 @@CHROME:chrome-css@@
@@ -201,26 +180,18 @@ body = r'''    /* Keep long-form text readable within the design-system content 
         </section>
 
         <section class="umd-layout-space-vertical-interior">
+          <h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">Resources</h2>
           <div class="umd-layout-grid-gap-two">
-            <div class="umd-text-rich-advanced">
-              <figure class="umd-layout-alignment-block-stacked mei-resource-media">
-                <img src="../../images/apply-now/students-studying.jpg" alt="Students studying inside a building with large windows" />
-              </figure>
-            </div>
-            <div class="mei-resource-copy">
-              <p class="umd-sans-large mb-md text-black" style="text-transform:uppercase;">Resources</p>
-              <div class="umd-text-rich-advanced mei-resource-rule"><hr></div>
-              <h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">Maryland English Institute</h2>
-              <div class="umd-text-rich-advanced">
+            <umd-element-card-icon>
+              <img slot="image" src="../../page-builder/images/icons/icon-link.svg" alt="" />
+              <h3 slot="headline">
+                <a href="https://marylandenglishinstitute.com/" target="_blank" rel="noopener">Maryland English Institute</a>
+              </h3>
+              <div slot="text">
                 <p>The Maryland English Institute (MEI) provides English language instruction and assessment at the postsecondary level for speakers of other languages. MEI offers rigorous courses of study while providing a positive and supportive learning community and promoting cross-cultural understanding.</p>
                 <p>In some cases, UMD applicants must complete coursework through MEI before beginning their degree program. Students are notified within their admission decision letter if this is required of them.</p>
-                <div class="umd-layout-grid-inline-tablet-rows">
-                  <umd-element-call-to-action data-display="secondary">
-                    <a href="https://marylandenglishinstitute.com/" target="_blank" rel="noopener">Learn More About MEI</a>
-                  </umd-element-call-to-action>
-                </div>
               </div>
-            </div>
+            </umd-element-card-icon>
           </div>
         </section>
 
@@ -290,16 +261,18 @@ assert countries_markup.count("<li>") == 33
 assert '<p class="umd-sans-smaller">1. English proficiency test is required for the French system only.</p>' in countries_markup
 waivers_start = output.index("Potential Waivers for English Proficiency Requirement")
 assert "</section>" in output[waivers_start:countries_start]
-mei_heading = '<h2 class="umd-layout-space-vertical-headline-large text-black umd-sans-larger-bold">Maryland English Institute</h2>'
-assert output.count(mei_heading) == 1
-mei_start = output.rindex('<section class="umd-layout-space-vertical-interior">', 0, output.index(mei_heading))
-mei_end = output.index("</section>", output.index(mei_heading))
-mei_markup = output[mei_start:mei_end]
-assert '<div class="umd-layout-grid-gap-two">' in mei_markup
-assert mei_markup.count('<div class="umd-text-rich-advanced">') == 2
-assert '<figure class="umd-layout-alignment-block-stacked mei-resource-media">' in mei_markup
-assert '<div class="mei-resource-copy">\n              <p class="umd-sans-large mb-md text-black" style="text-transform:uppercase;">Resources</p>\n              <div class="umd-text-rich-advanced mei-resource-rule"><hr></div>\n              <h2' in mei_markup
-assert "Learn More About MEI" in mei_markup
+resources_heading = '<h2 class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">Resources</h2>'
+assert output.count(resources_heading) == 1
+resources_start = output.index(resources_heading)
+resources_end = output.index("</section>", resources_start)
+resources_markup = output[resources_start:resources_end]
+assert '<div class="umd-layout-grid-gap-two">' in resources_markup
+assert resources_markup.count("<umd-element-card-icon>") == 1
+assert 'src="../../page-builder/images/icons/icon-link.svg" alt=""' in resources_markup
+assert '<h3 slot="headline">' in resources_markup
+assert 'href="https://marylandenglishinstitute.com/" target="_blank" rel="noopener">Maryland English Institute</a>' in resources_markup
+assert "Students are notified within their admission decision letter" in resources_markup
+assert "mei-resource-" not in output
 assert "<table" not in output
 assert "rich-text-table.css" not in output
 assert '<html lang="en">' in output
