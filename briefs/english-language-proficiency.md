@@ -7,7 +7,7 @@
 
 ## Component plan
 
-- The original dark `umd-element-hero-minimal`, using the exact three SVG arrow shapes from the homepage's central UMD brand animation. The original black arrow is recolored white, while the enlarged gold-over-red-over-white staggered arrangement fills most of the hero's right image area.
+- Dark `umd-element-hero-minimal` using the supplied transparent `images/admissions/ff-pattern-hero.png` artwork, shared across the four interior pages.
 - `umd-element-breadcrumb` matching the page hierarchy; no left navigation.
 - Centered `umd-layout-space-horizontal-normal` content container (1280px maximum with responsive side padding), with long-form rich text capped at 800px and aligned left. Headings, accordions, and two-column sections use the full container width. Existing phone gutters, spacing, and stacking are preserved.
 - Existing rich-text styles for all editorial copy and waiver requirements.
@@ -18,6 +18,6 @@
 
 ## Design check
 
-The three accepted tests contain enough copy that a three-column card grid becomes narrow and vertically stretched, so they use full-width accordions for compact scanning and mobile readability. The country names are a continuous alphabetical list rather than comparative tabular data, so they appear in their own section using the standard responsive two-column rich-text pattern and stack into source order on mobile. The MEI resource uses the standard two-column icon-card grid and explicitly supports a single card without stretching it across both desktop columns. The decorative link icon and linked heading match the Academics page examples. The hero retains the compact dark minimal treatment and uses the homepage brand animation's original staggered arrow geometry in gold, red and white; the long-form content stays on white for readability.
+The three accepted tests contain enough copy that a three-column card grid becomes narrow and vertically stretched, so they use full-width accordions for compact scanning and mobile readability. The country names are a continuous alphabetical list rather than comparative tabular data, so they appear in their own section using the standard responsive two-column rich-text pattern and stack into source order on mobile. The MEI resource uses the standard two-column icon-card grid and explicitly supports a single card without stretching it across both desktop columns. The decorative link icon and linked heading match the Academics page examples. The hero retains the compact dark minimal treatment and uses the supplied FF pattern PNG; the long-form content stays on white for readability.
 
 Visible source copy and links are preserved. Navigation and breadcrumbs are adapted to the prototype's local information architecture.

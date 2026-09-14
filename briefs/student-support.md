@@ -7,7 +7,7 @@
 
 ## Component plan
 
-- Dark `umd-element-hero-minimal` for the interior-page title, using the shared enlarged red, gold and white brand-arrow artwork used across the four interior pages.
+- Dark `umd-element-hero-minimal` for the interior-page title, using the supplied transparent `images/admissions/ff-pattern-hero.png` artwork shared across the four interior pages.
 - `umd-element-breadcrumb` matching the Student Life hierarchy; no left navigation.
 - A centered `umd-layout-space-horizontal-normal` content container (1280px maximum with responsive side padding), with long-form rich text capped at 800px and aligned left. Headings and two-column sections use the full container width. Existing phone gutters, spacing, and stacking are preserved.
 - Standard rich text for the page introduction.

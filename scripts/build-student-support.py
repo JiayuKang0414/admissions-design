@@ -79,7 +79,7 @@ body = r'''    /* Keep long-form text readable within the design-system content 
   <main id="main-content">
     <section>
       <umd-element-hero-minimal data-theme="dark">
-        <img slot="image" src="../../images/how-to-apply/english-language-proficiency-hero.svg?v=brand-chevrons-white-large-v4" alt="" />
+        <img slot="image" src="../../images/admissions/ff-pattern-hero.png" alt="" />
         <h1 slot="headline">Student Support &amp; Safety</h1>
       </umd-element-hero-minimal>
     </section>
@@ -219,7 +219,7 @@ for key in ("chrome-css", "gate", "header", "footer", "chrome-scripts"):
 output = head + "\n" + body
 assert "@@" not in output, "unreplaced build token"
 assert output.count("<umd-element-hero-minimal") == 1
-assert 'src="../../images/how-to-apply/english-language-proficiency-hero.svg?v=brand-chevrons-white-large-v4" alt=""' in output
+assert 'src="../../images/admissions/ff-pattern-hero.png" alt=""' in output
 assert "<umd-element-nav-slider" not in output
 assert output.count('<div class="umd-layout-grid-gap-two">') == 3
 assert output.count('<figure class="umd-layout-alignment-block-stacked student-support-media">') == 3

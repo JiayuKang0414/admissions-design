@@ -2,7 +2,7 @@
 
 - Source page: https://admissions.umd.edu/tuition/frederick-douglass-scholarship
 - Page role: Tuition & Aid interior page
-- Hero: `umd-element-hero-minimal` with `data-theme="dark"` and the shared enlarged red, gold and white brand-arrow artwork used across the four interior pages
+- Hero: `umd-element-hero-minimal` with `data-theme="dark"` and the supplied transparent `images/admissions/ff-pattern-hero.png` artwork shared across the four interior pages
 - Source image: `images/tuition/frederick-douglass-statue.jpg`
 - Copy source: reconstructed source capture in `tmp/source.html` on 2026-09-02
   after the live CMS returned a Cloudflare challenge
