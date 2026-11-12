@@ -1,33 +1,44 @@
-# Interior landing presentation
+# UMD Learning Landing Page
 
-**We Reimagine Learning** — a visual University of Maryland interior page concept.
+A full-width landing presentation titled **We Reimagine Learning**, built with UMD Design System 2.1.0 and page-builder 4cadc21.
 
 View online: https://jiayukang0414.github.io/admissions-design/presentation/interior-landing/
 
-Built with UMD Design System 2.1.0 and page-builder 4cadc21. Includes the default small standard hero, breadcrumb, sidebar, section intro, two-column standard and overlay cards, tabs, accordions, a quote, statistics grid and list, promo banner, curated calendar highlights, a live native Maryland Today News Feed, and a YouTube embed.
+The existing URL is retained for shared links. The page uses landing rules throughout, with no interior sidebar or global 800px content cap.
 
-Content draws on the two supplied Fearlessly Forward reference pages, with source links on the presentation. Calendar highlights are from April 2026; news is fetched dynamically from Maryland Today using the original reference page’s news category. All editorial photographs and logos are included in assets/. UMD components, fonts and YouTube require an internet connection.
+## Layout
 
-This directory is standalone and is published by the repository’s existing GitHub Pages workflow.
+Every section uses native landing spacing: 56px mobile, 80px tablet, 120px desktop. Intro-to-content gaps are 32/40/48px.
 
-The hero now uses the original We Reimagine Learning headline, description and Startup Shell background. Site navigation matches the four source sections. A two-column Do Good Month block uses the original College Park Scholars planting photograph, heading, copy and Learn More destination from the reference page.
+| Section | Native layout / width |
+| --- | --- |
+| Hero | Full-bleed small standard hero, centered title |
+| Original hero description | Text-only section intro below hero |
+| Do Good Month | 992px image + rich-text columns |
+| Standard cards | 1600px gapped two-column grid |
+| Statistics grid | 1600px dark band, three large plain statistics |
+| Visual tabs | 992px, centered section intro |
+| President Pines quote | 1280px, native default size for the 259-character text |
+| YouTube | 992px, responsive 16:9 |
+| Overlay cards | 1600px no-gap two-column image mosaic |
+| Statistics list | 1600px native sticky columns with stacked statistics |
+| Accordions | 992px, adjacent native siblings with 8px gaps |
+| Campus calendar | 1600px featured-event / event-list sticky columns |
+| News Feed | 992px native live news list, three initial articles and load more |
+| Promo banner | 1600px final gold call to action |
 
-News now uses the native `umd-feed-news` component rather than curated article cards: two columns, four initial stories and a native load-more control. It uses the intentionally public read-only feed configuration published on the supplied reference page. GraphQL and GitHub Pages CORS checks passed.
+The two requested image-card grids are retained. The news collection uses a list to preserve landing-page layout variety. The long quote keeps native typography; switching page type changes its width lock, not the text-length size rule.
 
-Spacing/link correction: calendar figure and caption retain32px gaps; fragment scrolling uses one header offset; the quote uses native inline spacing; the tab-column gap is32px; sticky sidebar content can scroll on shorter viewports. Editorial/source/navigation links use native UMD text-link styles, while section actions use native secondary CTAs. CSS cascade checks at375/768/1440px and link/asset/component validation passed. Browser rendering remains unverified due to a browser-runtime connection failure.
+## Content and images
 
-## Native interior quote
+The exact hero title/description, four navigation labels, Do Good Month image/copy and President Pines quotation are retained from the supplied references. Calendar cards are labeled April 2026 highlights; the featured image is a representative campus photograph, not a photograph of the specific event. Source statistics include snapshot/date context.
 
-The President Pines quotation is 259 characters and uses the default inline `umd-element-quote`, without `data-visual-size="large"`, custom font overrides, a gray wrapper or added panel padding. It remains in the 800px interior column with the standard 56px mobile / 80px desktop section gap.
+- https://fearlesslyforward.umd.edu/we-reimagine-learning
+- https://fearlesslyforward.umd.edu/do-good-now
+- https://today.umd.edu/umd-names-inaugural-do-good-campus-signature-initiatives
 
-Native Design System 2.1.0 values:
+All editorial photographs and logos are local. The UMD runtime/fonts, live news and YouTube require an internet connection. The intentionally public read-only news configuration matches the original reference page’s category.
 
-| Viewport | Quote font / line height | Attribution | Title |
-| --- | --- | --- | --- |
-| 375px | Interstate 700, 18px / 25.2px | 16px | 14px italic |
-| 768px | Interstate 700, 20.30px / 28.43px | 17.23px | 15.23px italic |
-| 1440px | Interstate 700, 22px / 27.5px | 18px | 16px italic |
+## Verification
 
-Quote-to-attribution margin is 16px. Native container layout switches at 500px: 24px left and 32px top padding below the breakpoint; 64px left and no top padding above it. Alignment is left. These are the component’s own styles; the campaign screenshot’s centered composition is a separate treatment.
-
-Verified against the pinned component source, typography and spacing tokens. The font-face bundle includes the Interstate 600–700 face. Browser computed-style verification remains unavailable because the Browser connection fails at initialization.
+Landing-rule, component, theme, class-name, stylesheet, source-content, asset and navigation checks passed. Live news pagination was verified against the original data source. Browser visual verification remains unavailable because the Browser connection could not initialize.

@@ -827,66 +827,27 @@
 
   <style>
 
-    /* Presentation composition. Native UMD components retain their own styling.
-       These light-DOM additions handle editorial framing and responsive media. */
+    /* Native landing widths, typography and spacing govern the sections.
+       Page CSS handles editorial media and credits only. */
     html { scroll-behavior: smooth; scroll-padding-top: 124px; }
     body { margin: 0; background: #fff; }
-    #umd-shell-content { width: 100%; min-width: 0; }
-    .umd-learning-section-heading {
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 12px 24px;
-    }
-    .umd-learning-section-heading h2 { margin: 0; }
-    .umd-learning-editorial-link {
-      font-size: 14px; line-height: 1.5; font-weight: 700;
-    }
-    :is(.umd-learning-source-note, .umd-learning-section-navigation,
-        .umd-learning-mobile-navigation, .umd-learning-footer-note) a:focus-visible,
-    .umd-learning-editorial-link:focus-visible,
-    .umd-learning-mobile-navigation summary:focus-visible {
+    .umd-learning-editorial-link { font-size: 14px; line-height: 1.5; font-weight: 700; }
+    :is(.umd-learning-source-note, .umd-learning-footer-note) a:focus-visible,
+    .umd-learning-editorial-link:focus-visible {
       outline: 2px solid #e21833; outline-offset: 4px;
     }
     .umd-learning-footer-note a:focus-visible { outline-color: #ffd200; }
-    .umd-learning-lede { font-size: 22px; line-height: 1.5; color: #242424; }
-    /* Leave the native 32px bottom-spacing utility intact on calendar media. */
-    .umd-learning-photograph { margin-block-start: 0; margin-inline: 0; }
-    .umd-learning-photograph:not(.umd-layout-space-vertical-interior-child) {
-      margin-block-end: 0;
-    }
-    .umd-learning-photograph img {
-      width: 100%; height: 100%; min-height: 300px;
-      display: block; object-fit: cover;
-    }
-    .umd-learning-photograph figcaption,
-    .umd-learning-source-note {
-      font-size: 13px; line-height: 1.6; color: #626262;
-    }
-    .umd-learning-photograph figcaption { padding-top: 12px; }
-    /* The canonical two-column rich-text pattern, inside the interior lock. */
     .umd-learning-rich-text-columns { align-items: center; }
     .umd-learning-rich-text-columns > * { min-width: 0; }
     .umd-learning-rich-text-columns figure { margin: 0; }
-    .umd-learning-rich-text-columns figure img {
-      display: block; width: 100%; height: auto;
+    .umd-learning-rich-text-columns figure img { display: block; width: 100%; height: auto; }
+    .umd-learning-rich-text-columns .umd-text-rich-advanced hr {
+      border: 0; border-top: 1px solid #000; height: 0;
     }
-    .umd-learning-section-navigation {
-      display: grid; gap: 12px; margin-bottom: 24px;
+    .umd-learning-source-note {
+      font-size: 13px; line-height: 1.6; color: #626262; margin-top: 24px;
     }
-    .umd-learning-section-navigation a {
-      font-size: 14px; line-height: 1.5; justify-self: start;
-    }
-    .umd-learning-source-note { margin-top: 24px; }
-    .umd-learning-source-note.umd-layout-space-vertical-interior-child {
-      margin-top: 0;
-    }
-    .umd-learning-statistics-grid {
-      background: #f7f7f7; padding: 32px 24px;
-      border-top: 3px solid #e21833;
-    }
-    .umd-learning-statistics-list { display: grid; gap: 24px; }
-    .umd-learning-statistics-list > umd-element-stat + umd-element-stat {
-      padding-top: 24px; border-top: 1px solid #e6e6e6;
-    }
+    .umd-learning-source-note-dark { color: #d0d0d0; }
     .umd-learning-video { margin: 0; }
     .umd-learning-video iframe {
       aspect-ratio: 16 / 9; display: block; width: 100%; height: auto;
@@ -898,29 +859,8 @@
       color: #626262; line-height: 1.6;
     }
     .umd-learning-accordion-figure {
-      display: block; width: 100%; max-height: 250px; object-fit: cover;
+      display: block; width: 100%; max-height: 280px; object-fit: cover;
       margin: 0 0 24px;
-    }
-    .umd-learning-calendar-list > umd-element-event {
-      display: block; border-bottom: 1px solid #e6e6e6;
-      padding-bottom: 24px; margin-bottom: 24px;
-    }
-    .umd-learning-calendar-list > umd-element-event:last-child {
-      border: 0; margin-bottom: 0; padding-bottom: 0;
-    }
-    .umd-learning-mobile-navigation {
-      border-top: 1px solid #e6e6e6; border-bottom: 1px solid #e6e6e6;
-      margin-bottom: 32px; padding: 18px 0;
-    }
-    .umd-learning-mobile-navigation summary { cursor: pointer; font-weight: 700; }
-    .umd-learning-mobile-navigation nav { display: grid; gap: 16px; padding-top: 20px; }
-    .umd-learning-mobile-navigation a { justify-self: start; }
-    .umd-learning-sidebar-note { border-top: 1px solid #d0d0d0; margin-top: 32px; padding-top: 24px; }
-    .umd-learning-sidebar-note p { font-size: 14px; line-height: 1.6; color: #626262; margin-bottom: 16px; }
-    .umd-learning-sidebar-label {
-      font-size: 12px; line-height: 1.5; letter-spacing: .07em;
-      text-transform: uppercase; font-weight: 700; color: #626262;
-      display: block; margin: 0 0 16px;
     }
     .umd-learning-footer-note {
       background: #171717; color: #c7c7c7; padding: 20px 24px;
@@ -929,23 +869,6 @@
     umd-element-navigation-header [slot="logo"] img { width: 284px; max-width: 100%; height: auto; }
     umd-element-navigation-header div[slot="utility-navigation"] a { color: #242424; text-decoration: none; }
     umd-element-scroll-top { right: 24px; bottom: 24px; }
-    @media (min-width: 1024px) {
-      #umd-shell-sidebar-container {
-        position: sticky; top: 132px;
-        max-height: calc(100vh - 156px);
-        max-height: calc(100dvh - 156px);
-        overflow-y: auto; overscroll-behavior: contain;
-        scrollbar-width: thin;
-      }
-      .umd-learning-mobile-navigation { display: none; }
-    }
-    @media (max-width: 649px) {
-      .umd-learning-statistics-grid { padding: 24px; }
-      .umd-learning-statistics-grid umd-element-stat + umd-element-stat {
-        padding-top: 24px; border-top: 1px solid #d0d0d0;
-      }
-      .umd-learning-photograph img { min-height: 220px; max-height: 340px; }
-    }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
   </style>
@@ -956,112 +879,84 @@
   <umd-element-navigation-utility data-alert-off="true" role="navigation" aria-label="University navigation"></umd-element-navigation-utility>
   <umd-element-navigation-header sticky class="umd-layout-space-horizontal-full">
     <a slot="logo" href="https://umd.edu"><img src="assets/maryland-logo.svg" alt="University of Maryland" width="284" height="46"></a>
-    <nav slot="main-navigation" aria-label="Main navigation">
-      <umd-element-nav-item><a slot="primary-link" href="https://fearlesslyforward.umd.edu/"><span style="display:block;max-width:225px;">Home</span></a></umd-element-nav-item><umd-element-nav-item><a slot="primary-link" href="#main-content" data-selected aria-current="page" title="UMD is changing teaching and learning to prepare tomorrow's leaders to adapt to the future of work."><span style="display:block;max-width:225px;">Innovations in Teaching and Learning</span></a></umd-element-nav-item><umd-element-nav-item><a slot="primary-link" href="https://fearlesslyforward.umd.edu/do-good-now" title="As the nation's first Do Good Campus, UMD is dedicating significant resources to courses, internships and mentoring programs that equip Terps with the skills and expertise needed to make real impact in their communities now."><span style="display:block;max-width:225px;">A Do Good Campus</span></a></umd-element-nav-item><umd-element-nav-item><a slot="primary-link" href="https://fearlesslyforward.umd.edu/ai" title="The University of Maryland is developing the next generation of artificial intelligence education, technology and leaders through interdisciplinary research that focuses on the responsible and ethical use of AI."><span style="display:block;max-width:225px;">The Future of AI</span></a></umd-element-nav-item>
-    </nav>
+    <nav slot="main-navigation" aria-label="Main navigation"><umd-element-nav-item><a slot="primary-link" href="https://fearlesslyforward.umd.edu/"><span style="display:block;max-width:225px;">Home</span></a></umd-element-nav-item><umd-element-nav-item><a slot="primary-link" href="#main-content" data-selected aria-current="page" title="UMD is changing teaching and learning to prepare tomorrow's leaders to adapt to the future of work."><span style="display:block;max-width:225px;">Innovations in Teaching and Learning</span></a></umd-element-nav-item><umd-element-nav-item><a slot="primary-link" href="https://fearlesslyforward.umd.edu/do-good-now" title="As the nation's first Do Good Campus, UMD is dedicating significant resources to courses, internships and mentoring programs that equip Terps with the skills and expertise needed to make real impact in their communities now."><span style="display:block;max-width:225px;">A Do Good Campus</span></a></umd-element-nav-item><umd-element-nav-item><a slot="primary-link" href="https://fearlesslyforward.umd.edu/ai" title="The University of Maryland is developing the next generation of artificial intelligence education, technology and leaders through interdisciplinary research that focuses on the responsible and ethical use of AI."><span style="display:block;max-width:225px;">The Future of AI</span></a></umd-element-nav-item></nav>
     <div slot="utility-navigation"><a href="https://giving.umd.edu/">Support Maryland <span aria-hidden="true">↗</span></a></div>
     <div slot="primary-slide-links"><a href="https://fearlesslyforward.umd.edu/"><span>Home</span></a><a href="#main-content" data-selected aria-current="page" title="UMD is changing teaching and learning to prepare tomorrow's leaders to adapt to the future of work."><span>Innovations in Teaching and Learning</span></a><a href="https://fearlesslyforward.umd.edu/do-good-now" title="As the nation's first Do Good Campus, UMD is dedicating significant resources to courses, internships and mentoring programs that equip Terps with the skills and expertise needed to make real impact in their communities now."><span>A Do Good Campus</span></a><a href="https://fearlesslyforward.umd.edu/ai" title="The University of Maryland is developing the next generation of artificial intelligence education, technology and leaders through interdisciplinary research that focuses on the responsible and ethical use of AI."><span>The Future of AI</span></a></div>
   </umd-element-navigation-header>
 
   <main id="main-content">
-    <!-- The native default interior hero: standard, small, centered. -->
-    <section aria-label="We Reimagine Learning">
+    <!-- Non-home landing: small standard hero, title/photo only (RULES §22). -->
+    <section class="umd-layout-vertical-landing" aria-label="We Reimagine Learning">
       <umd-element-hero data-display="standard" data-layout-height="small" data-layout-text="center" data-theme="dark">
         <h1 slot="headline">We Reimagine Learning</h1>
-        <div slot="text"><p>The University of Maryland is changing teaching and learning to prepare tomorrow's leaders to adapt to the future of work.</p></div>
         <img slot="image" src="assets/reimagine-learning-hero.jpg" alt="Students collaborating on a hands-on project at Startup Shell" loading="eager" onerror="this.onerror=null;this.src='assets/campus.jpg';">
       </umd-element-hero>
     </section>
 
-    <div class="umd-layout-space-horizontal-larger umd-layout-space-vertical-interior">
-      <umd-element-breadcrumb><div slot="paths">
-        <a href="https://umd.edu/" aria-label="Return Home"><span aria-hidden="true">Home</span></a>
-        <a href="https://fearlesslyforward.umd.edu/"><span>Fearlessly Forward</span></a>
-        <p aria-label="Current Page"><span>We Reimagine Learning</span></p>
-      </div></umd-element-breadcrumb>
-    </div>
+    <section id="overview" class="umd-layout-vertical-landing" aria-label="Our approach to learning">
+      <div class="umd-layout-space-horizontal-larger">
+        <umd-element-section-intro><div slot="text"><p>The University of Maryland is changing teaching and learning to prepare tomorrow's leaders to adapt to the future of work.</p></div></umd-element-section-intro>
+      </div>
+    </section>
 
-    <div class="umd-layout-space-horizontal-larger">
-      <div class="umd-layout-space-columns-left">
-        <aside id="umd-shell-sidebar-container" aria-label="In this section">
-          <umd-element-nav-slider>
-            <div slot="primary-slide-links"><a href="https://fearlesslyforward.umd.edu/" data-child-ref="learning"><span>Home</span></a></div>
-            <div slot="children-slides"><div data-active data-parent-ref="learning"><a href="#main-content" data-selected aria-current="page" title="UMD is changing teaching and learning to prepare tomorrow's leaders to adapt to the future of work."><span>Innovations in Teaching and Learning</span></a><a href="https://fearlesslyforward.umd.edu/do-good-now" title="As the nation's first Do Good Campus, UMD is dedicating significant resources to courses, internships and mentoring programs that equip Terps with the skills and expertise needed to make real impact in their communities now."><span>A Do Good Campus</span></a><a href="https://fearlesslyforward.umd.edu/ai" title="The University of Maryland is developing the next generation of artificial intelligence education, technology and leaders through interdisciplinary research that focuses on the responsible and ethical use of AI."><span>The Future of AI</span></a></div></div>
-          </umd-element-nav-slider>
-          <div class="umd-learning-sidebar-note">
-            <span class="umd-learning-sidebar-label">On this page</span>
-            <nav class="umd-learning-section-navigation" aria-label="On this page"><a class="umd-text-link-red" href="#overview">Overview</a><a class="umd-text-link-red" href="#do-good-month">Do Good Month</a><a class="umd-text-link-red" href="#opportunities">Explore opportunities</a><a class="umd-text-link-red" href="#impact">Our impact</a><a class="umd-text-link-red" href="#in-action">Learning in action</a><a class="umd-text-link-red" href="#get-involved">Get involved</a><a class="umd-text-link-red" href="#events">Campus events</a><a class="umd-text-link-red" href="#news">News Feed</a></nav>
-            <a class="umd-text-link-red umd-learning-editorial-link" href="https://fearlesslyforward.umd.edu/">Explore our vision <span aria-hidden="true">↗</span></a>
-          </div>
-        </aside>
-
-        <div id="umd-shell-content" class="max-w-[800px]">
-          <details class="umd-learning-mobile-navigation"><summary>On this page</summary><nav aria-label="On this page"><a class="umd-text-link-red" href="#overview">Overview</a><a class="umd-text-link-red" href="#do-good-month">Do Good Month</a><a class="umd-text-link-red" href="#opportunities">Explore opportunities</a><a class="umd-text-link-red" href="#impact">Our impact</a><a class="umd-text-link-red" href="#in-action">Learning in action</a><a class="umd-text-link-red" href="#get-involved">Get involved</a><a class="umd-text-link-red" href="#events">Campus events</a><a class="umd-text-link-red" href="#news">News Feed</a></nav></details>
-
-          <section id="overview" class="umd-learning-content-section umd-layout-space-vertical-interior">
-            <!-- Section intro is included by explicit request for this hybrid. -->
-            <umd-element-section-intro include-separator class="umd-layout-space-vertical-interior-child">
-              <h2 slot="headline">Big ideas.<br>Real-world impact.</h2>
-              <div slot="text"><p>At Maryland, learning reaches beyond the classroom. Discover new perspectives, work across disciplines and turn what you know into something that matters.</p></div>
-            </umd-element-section-intro>
-            <figure class="umd-learning-photograph">
-              <img src="assets/learning-together.jpg" alt="Maryland students exchanging ideas around a table" loading="eager">
-              <figcaption>Where curiosity becomes collaboration—and collaboration becomes possibility.</figcaption>
-            </figure>
-          </section>
-
-          <section id="do-good-month" class="umd-learning-content-section umd-layout-space-vertical-interior" aria-labelledby="do-good-month-heading">
-            <div class="umd-layout-grid-gap-two umd-learning-rich-text-columns" data-animation="off">
-              <figure class="umd-layout-alignment-block-stacked">
-                <img src="assets/do-good-month.jpg" alt="Students Planting at College Park Scholars Event" width="1100" height="1877" loading="lazy">
-              </figure>
-              <div>
-                <h2 id="do-good-month-heading" class="text-black umd-sans-larger-bold umd-layout-space-vertical-interior-child">APRIL IS DO GOOD MONTH</h2>
-                <div class="umd-text-rich-advanced">
-                  <p>In April, Terps come together to accelerate impact in our communities.</p>
-                  <div class="umd-layout-grid-inline-tablet-rows">
-                    <umd-element-call-to-action data-display="primary"><a href="https://umd.edu/">Learn More</a></umd-element-call-to-action>
-                  </div>
-                </div>
-              </div>
+    <section id="do-good-month" class="umd-layout-vertical-landing" aria-labelledby="do-good-month-heading">
+      <div class="umd-layout-space-horizontal-small">
+        <div class="umd-layout-grid-gap-two umd-learning-rich-text-columns" data-animation="off">
+          <figure class="umd-layout-alignment-block-stacked">
+            <img src="assets/do-good-month.jpg" alt="Students Planting at College Park Scholars Event" width="1100" height="1877" loading="lazy">
+          </figure>
+          <div>
+            <h2 id="do-good-month-heading" class="text-black umd-sans-extralarge-bold umd-layout-space-vertical-headline-large">APRIL IS DO GOOD MONTH</h2>
+            <div class="umd-text-rich-advanced">
+              <hr>
+              <p>In April, Terps come together to accelerate impact in our communities.</p>
+              <div class="umd-layout-grid-inline-tablet-rows"><umd-element-call-to-action data-display="primary"><a href="https://umd.edu/">Learn More</a></umd-element-call-to-action></div>
             </div>
-          </section>
+          </div>
+        </div>
+      </div>
+    </section>
 
-          <section id="opportunities" class="umd-learning-content-section umd-layout-space-vertical-interior">
-            <div class="umd-learning-section-heading umd-layout-space-vertical-interior-child"><h2 class="text-black umd-sans-larger-bold">Find a different way forward</h2></div>
-            <div class="umd-layout-grid-gap-two" data-animation="off">
-              <umd-element-card data-visual-image-aligned="true" data-visual-bordered="true">
+    <section id="opportunities" class="umd-layout-vertical-landing">
+      <div class="umd-layout-space-horizontal-larger">
+        <div class="umd-layout-vertical-landing-child"><umd-element-section-intro-wide><h2 slot="headline">Find a different way forward</h2></umd-element-section-intro-wide></div>
+        <div class="umd-layout-grid-gap-two" data-animation="off">
+          <umd-element-card data-visual-image-aligned="true" data-visual-bordered="true">
       <a slot="image" href="https://innovation.umd.edu/"><img src="assets/idea-factory.jpg" alt="The light-filled E. A. Fernandez IDEA Factory at Maryland" loading="lazy" onerror="this.onerror=null;this.src='assets/campus.jpg';"></a>
       <h3 slot="headline"><a href="https://innovation.umd.edu/">Create what comes next</a></h3>
       <p slot="text">Experiment, make connections and build an entrepreneurial mindset through hands-on learning.</p>
       <div slot="actions"><umd-element-call-to-action data-display="secondary"><a href="https://innovation.umd.edu/">Explore the program</a></umd-element-call-to-action></div>
     </umd-element-card>
-              <umd-element-card data-visual-image-aligned="true" data-visual-bordered="true">
+          <umd-element-card data-visual-image-aligned="true" data-visual-bordered="true">
       <a slot="image" href="https://dogood.umd.edu/"><img src="assets/service-day.jpg" alt="Maryland students working together during a community service day" loading="lazy" onerror="this.onerror=null;this.src='assets/campus.jpg';"></a>
       <h3 slot="headline"><a href="https://dogood.umd.edu/">Put purpose into practice</a></h3>
       <p slot="text">Connect an idea for social change with mentoring, skills and a community ready to help.</p>
       <div slot="actions"><umd-element-call-to-action data-display="secondary"><a href="https://dogood.umd.edu/">Explore the program</a></umd-element-call-to-action></div>
     </umd-element-card>
-            </div>
-          </section>
+        </div>
+      </div>
+    </section>
 
-          <section id="impact" class="umd-learning-content-section umd-layout-space-vertical-interior">
-            <div class="umd-learning-section-heading umd-layout-space-vertical-interior-child"><h2 class="text-black umd-sans-larger-bold">Small sparks. Extraordinary possibilities.</h2></div>
-            <div class="umd-layout-grid-gap-three umd-learning-statistics-grid" data-animation="off">
-              <umd-element-stat data-decoration-line><span slot="stat">100+</span><div slot="text"><p>courses exploring innovation and creative thinking</p></div></umd-element-stat>
-              <umd-element-stat data-decoration-line><span slot="stat">28</span><div slot="text"><p>Terps recognized by Forbes 30 Under 30 since 2011</p></div></umd-element-stat>
-              <umd-element-stat data-decoration-line><span slot="stat">10</span><div slot="text"><p>years in the undergraduate entrepreneurship top 10</p></div></umd-element-stat>
-            </div>
-            <p class="umd-learning-source-note">A snapshot from <a class="umd-text-link-red" href="https://fearlesslyforward.umd.edu/we-reimagine-learning">We Reimagine Learning</a>. Figures reflect the supplied reference page.</p>
-          </section>
+    <section id="impact" class="umd-layout-background-full-dark umd-layout-vertical-landing">
+      <div class="umd-layout-space-horizontal-larger">
+        <div class="umd-layout-vertical-landing-child"><umd-element-section-intro-wide data-theme="dark"><h2 slot="headline">Small sparks. Extraordinary possibilities.</h2></umd-element-section-intro-wide></div>
+        <div class="umd-layout-grid-gap-three" data-animation="off">
+          <umd-element-stat data-visual-size="large" data-theme="dark" data-decoration-line><span slot="stat">100+</span><div slot="text"><p>courses exploring innovation and creative thinking</p></div></umd-element-stat>
+          <umd-element-stat data-visual-size="large" data-theme="dark" data-decoration-line><span slot="stat">28</span><div slot="text"><p>Terps recognized by Forbes 30 Under 30 since 2011</p></div></umd-element-stat>
+          <umd-element-stat data-visual-size="large" data-theme="dark" data-decoration-line><span slot="stat">10</span><div slot="text"><p>years in the undergraduate entrepreneurship top 10</p></div></umd-element-stat>
+        </div>
+        <p class="umd-learning-source-note umd-learning-source-note-dark">A snapshot from <a class="umd-text-link-white" href="https://fearlesslyforward.umd.edu/we-reimagine-learning">We Reimagine Learning</a>. Figures reflect the supplied reference page.</p>
+      </div>
+    </section>
 
-          <section id="in-action" class="umd-learning-content-section umd-layout-space-vertical-interior">
-            <div class="umd-learning-section-heading umd-layout-space-vertical-interior-child"><h2 class="text-black umd-sans-larger-bold">A classroom without walls</h2></div>
-            <umd-element-tabs data-layout-position="100">
-              <div slot="tabs">
-                <div data-title="Explore & create">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:32px;align-items:center;">
-        <img src="assets/arts-discovery.jpg" alt="A Maryland arts experience brings people and ideas together" loading="lazy" style="display:block;width:100%;height:280px;object-fit:cover;">
+    <section id="in-action" class="umd-layout-vertical-landing">
+      <div class="umd-layout-space-horizontal-small">
+        <umd-element-section-intro class="umd-layout-vertical-landing-child"><h2 slot="headline">A classroom without walls</h2></umd-element-section-intro>
+        <umd-element-tabs data-layout-position="124">
+          <div slot="tabs">
+            <div data-title="Explore & create">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:32px;align-items:center;">
+        <img src="assets/arts-discovery.jpg" alt="A Maryland arts experience brings people and ideas together" loading="lazy" style="display:block;width:100%;height:320px;object-fit:cover;">
         <div>
           <h3 style="font-size:26px;line-height:1.2;font-weight:700;color:#000;margin:0 0 16px;">Creativity crosses every discipline.</h3>
           <p style="font-size:18px;line-height:1.55;color:#454545;margin:0 0 24px;">Bring a new lens to a familiar question. Explore the connections between art, science and technology—and discover what happens when different ways of thinking meet.</p>
@@ -1069,9 +964,9 @@
         </div>
       </div>
     </div>
-                <div data-title="Innovate & build">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:32px;align-items:center;">
-        <img src="assets/research.jpg" alt="A Maryland researcher studies brain scans on a large digital display" loading="lazy" style="display:block;width:100%;height:280px;object-fit:cover;">
+            <div data-title="Innovate & build">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:32px;align-items:center;">
+        <img src="assets/research.jpg" alt="A Maryland researcher studies brain scans on a large digital display" loading="lazy" style="display:block;width:100%;height:320px;object-fit:cover;">
         <div>
           <h3 style="font-size:26px;line-height:1.2;font-weight:700;color:#000;margin:0 0 16px;">Turn a question into a possibility.</h3>
           <p style="font-size:18px;line-height:1.55;color:#454545;margin:0 0 24px;">Go beyond the lecture. Research, build and test ideas with people whose perspectives are different from your own.</p>
@@ -1079,9 +974,9 @@
         </div>
       </div>
     </div>
-                <div data-title="Serve & lead">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:32px;align-items:center;">
-        <img src="assets/service-day.jpg" alt="Students putting learning into practice through community service" loading="lazy" style="display:block;width:100%;height:280px;object-fit:cover;">
+            <div data-title="Serve & lead">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:32px;align-items:center;">
+        <img src="assets/service-day.jpg" alt="Students putting learning into practice through community service" loading="lazy" style="display:block;width:100%;height:320px;object-fit:cover;">
         <div>
           <h3 style="font-size:26px;line-height:1.2;font-weight:700;color:#000;margin:0 0 16px;">Make your next step count.</h3>
           <p style="font-size:18px;line-height:1.55;color:#454545;margin:0 0 24px;">Find a cause you care about. Work with a community, share your skills and learn by taking action.</p>
@@ -1089,128 +984,152 @@
         </div>
       </div>
     </div>
-              </div>
-            </umd-element-tabs>
-          </section>
+          </div>
+        </umd-element-tabs>
+      </div>
+    </section>
 
-          <section id="president-quote" class="umd-layout-space-vertical-interior" aria-label="A statement from President Darryll J. Pines">
-            <!-- Long quote: native default inline size and spacing (RULES §12). -->
-            <umd-element-quote>
-              <blockquote slot="quote">Public research universities are uniquely positioned to make a positive difference in the lives of our citizens and across the globe, because universities have a combination of values, assets and problem-solving approaches that simply doesn’t exist elsewhere.</blockquote>
-              <p slot="attribution">Darryll J. Pines</p>
-              <p slot="attribution-sub-text">President, University of Maryland</p>
-            </umd-element-quote>
-          </section>
+    <section id="president-quote" class="umd-layout-vertical-landing" aria-label="A statement from President Darryll J. Pines">
+      <div class="umd-layout-space-horizontal-normal">
+        <!-- Quote size follows text length on landing pages too (RULES §12). -->
+        <umd-element-quote>
+          <blockquote slot="quote">Public research universities are uniquely positioned to make a positive difference in the lives of our citizens and across the globe, because universities have a combination of values, assets and problem-solving approaches that simply doesn’t exist elsewhere.</blockquote>
+          <p slot="attribution">Darryll J. Pines</p>
+          <p slot="attribution-sub-text">President, University of Maryland</p>
+        </umd-element-quote>
+      </div>
+    </section>
 
-          <section class="umd-layout-space-vertical-interior" aria-labelledby="video-heading">
-            <h2 id="video-heading" class="umd-layout-space-vertical-interior-child text-black umd-sans-larger-bold">See an idea take shape</h2>
-            <figure class="umd-learning-video">
-              <iframe src="https://www.youtube-nocookie.com/embed/pi61E9Tsqjo" title="xFoundry at the University of Maryland: multidisciplinary collaboration and innovation" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-              <figcaption><span>Meet xFoundry at the University of Maryland.</span><a class="umd-text-link-red umd-learning-editorial-link" href="https://www.youtube.com/watch?v=pi61E9Tsqjo">Watch on YouTube <span aria-hidden="true">↗</span></a></figcaption>
-            </figure>
-          </section>
+    <section id="video" class="umd-layout-vertical-landing">
+      <div class="umd-layout-space-horizontal-small">
+        <umd-element-section-intro class="umd-layout-vertical-landing-child"><h2 slot="headline">See an idea take shape</h2></umd-element-section-intro>
+        <figure class="umd-learning-video">
+          <iframe src="https://www.youtube-nocookie.com/embed/pi61E9Tsqjo" title="xFoundry at the University of Maryland: multidisciplinary collaboration and innovation" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <figcaption><span>Meet xFoundry at the University of Maryland.</span><a class="umd-text-link-red umd-learning-editorial-link" href="https://www.youtube.com/watch?v=pi61E9Tsqjo">Watch on YouTube <span aria-hidden="true">↗</span></a></figcaption>
+        </figure>
+      </div>
+    </section>
 
-          <section class="umd-layout-space-vertical-interior" aria-label="Explore Maryland initiatives">
-            <div class="umd-learning-section-heading umd-layout-space-vertical-interior-child"><h2 class="text-black umd-sans-larger-bold">Where your interests meet your impact</h2></div>
-            <div class="umd-layout-grid-gap-two" data-animation="off">
-              <umd-element-card-overlay type="image" data-theme="dark">
+    <section id="initiatives" class="umd-layout-vertical-landing">
+      <div class="umd-layout-space-horizontal-larger">
+        <div class="umd-layout-vertical-landing-child"><umd-element-section-intro-wide><h2 slot="headline">Where your interests meet your impact</h2></umd-element-section-intro-wide></div>
+        <div class="umd-layout-grid-columns-two" data-animation="off">
+          <umd-element-card-overlay type="image" data-theme="dark" class="size-large">
       <img slot="image" src="assets/arts-discovery.jpg" alt="Creative expression brings the Maryland community together" loading="lazy" onerror="this.onerror=null;this.src='assets/campus.jpg';">
       <h3 slot="headline"><a href="https://arts.umd.edu/">A more creative world</a></h3>
       <a slot="cta-icon" href="https://arts.umd.edu/" aria-label="Explore A more creative world">Explore</a>
     </umd-element-card-overlay>
-              <umd-element-card-overlay type="image" data-theme="dark">
+          <umd-element-card-overlay type="image" data-theme="dark" class="size-large">
       <img slot="image" src="assets/service-day.jpg" alt="Terps volunteer alongside one another in the community" loading="lazy" onerror="this.onerror=null;this.src='assets/campus.jpg';">
       <h3 slot="headline"><a href="https://fearlesslyforward.umd.edu/do-good-now">A community of changemakers</a></h3>
       <a slot="cta-icon" href="https://fearlesslyforward.umd.edu/do-good-now" aria-label="Explore A community of changemakers">Explore</a>
     </umd-element-card-overlay>
-            </div>
-          </section>
+        </div>
+      </div>
+    </section>
 
-          <section class="umd-layout-space-vertical-interior" aria-label="Do Good community impact">
-            <div class="umd-learning-section-heading umd-layout-space-vertical-interior-child"><h2 class="text-black umd-sans-larger-bold">Learning with a purpose. Impact at scale.</h2></div>
-            <div class="umd-layout-grid-gap-two" data-animation="off">
-              <figure class="umd-learning-photograph"><img src="assets/community.jpg" alt="People working together on Maryland’s commitment to the public good" loading="lazy"></figure>
-              <div class="umd-learning-statistics-list">
-                <umd-element-stat data-decoration-line><span slot="stat">6</span><div slot="text"><p>inaugural Do Good Campus Signature Initiatives</p></div></umd-element-stat>
-                <umd-element-stat data-decoration-line><span slot="stat">27</span><div slot="text"><p>campus proposals considered for the first cohort</p></div></umd-element-stat>
-                <umd-element-stat data-decoration-line><span slot="stat">240+</span><div slot="text"><p>UMD Fellows students participating each year</p></div></umd-element-stat>
-              </div>
-            </div>
-            <p class="umd-learning-source-note">Source: <a class="umd-text-link-red" href="https://today.umd.edu/umd-names-inaugural-do-good-campus-signature-initiatives">Maryland Today, April 30, 2026</a>.</p>
-          </section>
+    <section id="impact-in-action" class="umd-layout-vertical-landing" aria-labelledby="impact-in-action-heading">
+      <umd-element-sticky-columns class="umd-layout-space-horizontal-larger" data-layout-position="124px">
+        <div slot="sticky-column">
+          <h2 id="impact-in-action-heading" class="umd-sans-largest-uppercase mb-md">Learning with a purpose.<br>Impact at scale.</h2>
+          <div class="umd-text-rich-advanced mb-sm"><p>Maryland’s Do Good Campus Signature Initiatives connect classroom learning with hands-on opportunities to serve communities.</p></div>
+          <div class="umd-layout-grid-inline-tablet-rows"><umd-element-call-to-action data-display="secondary"><a href="https://today.umd.edu/umd-names-inaugural-do-good-campus-signature-initiatives">Explore the initiatives</a></umd-element-call-to-action></div>
+          <p class="umd-learning-source-note">Source: <a class="umd-text-link-red" href="https://today.umd.edu/umd-names-inaugural-do-good-campus-signature-initiatives">Maryland Today, April 30, 2026</a>.</p>
+        </div>
+        <div slot="static-column">
+          <div class="umd-layout-grid-gap-stacked" data-animation="off">
+            <umd-element-stat data-visual-size="large" data-animation="offset" data-decoration-line><span slot="stat">6</span><div slot="text"><p>inaugural Do Good Campus Signature Initiatives</p></div></umd-element-stat>
+            <umd-element-stat data-visual-size="large" data-animation="offset" data-decoration-line><span slot="stat">27</span><div slot="text"><p>campus proposals considered for the first cohort</p></div></umd-element-stat>
+            <umd-element-stat data-visual-size="large" data-animation="offset" data-decoration-line><span slot="stat">240+</span><div slot="text"><p>UMD Fellows students participating each year</p></div></umd-element-stat>
+          </div>
+        </div>
+      </umd-element-sticky-columns>
+    </section>
 
-          <section id="get-involved" class="umd-learning-content-section umd-layout-space-vertical-interior">
-            <div class="umd-learning-section-heading umd-layout-space-vertical-interior-child"><h2 class="text-black umd-sans-larger-bold">Your next step starts here</h2></div>
-            <div class="umd-shell-accordion-group">
-              <umd-element-accordion-item>
+    <section id="get-involved" class="umd-layout-vertical-landing">
+      <div class="umd-layout-space-horizontal-small">
+        <umd-element-section-intro class="umd-layout-vertical-landing-child"><h2 slot="headline">Your next step starts here</h2></umd-element-section-intro>
+        <!-- Adjacent native siblings supply the built-in 8px accordion gap. -->
+        <umd-element-accordion-item>
       <span slot="headline">I have an idea. How can I develop it?</span>
       <div slot="text" class="umd-text-rich-advanced"><img class="umd-learning-accordion-figure" src="assets/idea-factory.jpg" alt="The IDEA Factory, a place for collaboration and invention" loading="lazy"><p>Start with the Academy for Innovation and Entrepreneurship. Explore courses and workshops that help you experiment, collaborate and move an idea forward.</p><p><a href="https://innovation.umd.edu/">Explore this opportunity <span aria-hidden="true">→</span></a></p></div>
     </umd-element-accordion-item>
-              <umd-element-accordion-item>
+        <umd-element-accordion-item>
       <span slot="headline">How can I make a difference in my community?</span>
       <div slot="text" class="umd-text-rich-advanced"><img class="umd-learning-accordion-figure" src="assets/service-day.jpg" alt="Maryland students taking part in a local service project" loading="lazy"><p>The Do Good Institute connects students with ways to serve, learn and grow. Explore mentoring and support for your own social impact project.</p><p><a href="https://dogood.umd.edu/">Explore this opportunity <span aria-hidden="true">→</span></a></p></div>
     </umd-element-accordion-item>
-              <umd-element-accordion-item>
+        <umd-element-accordion-item>
       <span slot="headline">Can I explore beyond my major?</span>
       <div slot="text" class="umd-text-rich-advanced"><img class="umd-learning-accordion-figure" src="assets/arts-discovery.jpg" alt="Students discovering creative possibilities at Maryland" loading="lazy"><p>Arts for All brings creative perspectives into conversation with other disciplines. Follow a new interest through events, projects and opportunities across campus.</p><p><a href="https://arts.umd.edu/">Explore this opportunity <span aria-hidden="true">→</span></a></p></div>
     </umd-element-accordion-item>
-            </div>
-          </section>
+      </div>
+    </section>
 
-          <section class="umd-layout-space-vertical-interior" aria-label="Do Good invitation">
-            <umd-element-banner-promo data-visual-icon="seal">
-              <h2 slot="headline">Big change starts with you.</h2>
-              <p slot="text">Bring your curiosity. Find your purpose. Join a campus that puts ideas into action.</p>
-              <div slot="actions"><umd-element-call-to-action data-display="secondary"><a href="https://dogood.umd.edu/">Do Good at Maryland</a></umd-element-call-to-action></div>
-            </umd-element-banner-promo>
-          </section>
-
-          <section id="events" class="umd-learning-content-section umd-layout-space-vertical-interior">
-            <div class="umd-learning-section-heading umd-layout-space-vertical-interior-child"><h2 class="text-black umd-sans-larger-bold">Come together. Make something happen.</h2><umd-element-call-to-action data-display="secondary"><a href="https://calendar.umd.edu/">Campus calendar</a></umd-element-call-to-action></div>
-            <figure class="umd-learning-photograph umd-layout-space-vertical-interior-child"><img src="assets/maryland-day.jpg" alt="Maryland students connecting with organizations and one another on campus" loading="lazy"></figure>
-            <p class="umd-learning-source-note umd-layout-space-vertical-interior-child">Do Good Month highlights · April 2026</p>
-            <div class="umd-learning-calendar-list">
-              <umd-element-event data-display="list" data-visual-time="true">
-      <h3 slot="headline"><a href="https://calendar.umd.edu/">Terps Earth Day Park Clean Up</a></h3>
-      <div slot="start-date-iso">2026-04-22T09:00:00</div><div slot="end-date-iso">2026-04-22T11:00:00</div>
-      <p slot="location">College Park community</p><p slot="text">Join neighbors and fellow Terps for a morning of community care.</p>
-    </umd-element-event>
-              <umd-element-event data-display="list" data-visual-time="true">
+    <section id="events" class="umd-layout-vertical-landing">
+      <div class="umd-layout-space-horizontal-larger">
+        <div class="umd-layout-vertical-landing-child"><umd-element-section-intro-wide><h2 slot="headline">Campus Calendar</h2><div slot="actions"><umd-element-call-to-action data-display="secondary"><a href="https://calendar.umd.edu/">View all events</a></umd-element-call-to-action></div></umd-element-section-intro-wide></div>
+      </div>
+      <umd-element-sticky-columns class="umd-layout-space-horizontal-larger" data-layout-position="124px">
+        <div slot="sticky-column" class="umd-layout-grid-gap-stacked">
+          <umd-element-event display="promo" data-theme="dark" data-visual-time="true">
+      <img slot="image" src="assets/maryland-day.jpg" alt="Maryland students coming together on campus" loading="lazy" onerror="this.onerror=null;this.src='assets/campus.jpg';"><p slot="eyebrow">Featured Event</p>
       <h3 slot="headline"><a href="https://calendar.umd.edu/do-good-challenge-finals-3?start=26-04-23">Do Good Challenge</a></h3>
       <div slot="start-date-iso">2026-04-23T18:15:00</div><div slot="end-date-iso">2026-04-23T21:00:00</div>
       <p slot="location">Samuel Riggs IV Alumni Center</p><p slot="text">Celebrate student teams turning their commitment to change into action.</p>
     </umd-element-event>
-              <umd-element-event data-display="list" data-visual-time="true">
+          <p class="umd-learning-source-note">Do Good Month highlights · April 2026</p>
+        </div>
+        <div slot="static-column">
+          <div class="umd-layout-grid-gap-stacked" data-animation="off">
+            <umd-element-event data-display="list" data-visual-time="true">
+
+      <h3 slot="headline"><a href="https://calendar.umd.edu/">Terps Earth Day Park Clean Up</a></h3>
+      <div slot="start-date-iso">2026-04-22T09:00:00</div><div slot="end-date-iso">2026-04-22T11:00:00</div>
+      <p slot="location">College Park community</p><p slot="text">Join neighbors and fellow Terps for a morning of community care.</p>
+    </umd-element-event>
+            <umd-element-event data-display="list" data-visual-time="true">
+
       <h3 slot="headline"><a href="https://marylandday.umd.edu/">Maryland Day</a></h3>
       <div slot="start-date-iso">2026-04-25T10:00:00</div><div slot="end-date-iso">2026-04-25T16:00:00</div>
       <p slot="location">University of Maryland, College Park</p><p slot="text">Explore campus through a day of discovery, creativity and hands-on experiences.</p>
     </umd-element-event>
-            </div>
-          </section>
+            <umd-element-event data-display="list" data-visual-time="true">
 
-          <section id="news" class="umd-learning-content-section umd-layout-space-vertical-interior">
-            <div class="umd-learning-section-heading umd-layout-space-vertical-interior-child"><h2 class="text-black umd-sans-larger-bold">News Feed</h2><umd-element-call-to-action data-display="secondary"><a href="https://today.umd.edu/">All Maryland news</a></umd-element-call-to-action></div>
-            <!-- Native live feed: original reference-page category. The
-                 component fetches current Maryland Today stories itself. -->
-            <umd-feed-news
-              id="maryland-news-feed"
-              data-token="RP0ufmM8RWqCiOhdi5KOU_QF4jTqw8Ni"
-              data-filter-group-ids="802177"
-              data-layout-column-count="2"
-              data-layout-row-count="2"
-              data-lazy-load="true">
-            </umd-feed-news>
-            <noscript><p class="umd-learning-source-note">Read the latest stories at <a class="umd-text-link-red" href="https://today.umd.edu/">Maryland Today</a>.</p></noscript>
-          </section>
+      <h3 slot="headline"><a href="https://calendar.umd.edu/">Terps Against Hunger Do Good Month Service Project</a></h3>
+      <div slot="start-date-iso">2026-04-26T10:00:00</div><div slot="end-date-iso">2026-04-26T14:00:00</div>
+      <p slot="location">Samuel Riggs IV Alumni Center</p><p slot="text">Help pack nutritious meals for individuals and families facing food insecurity in our community.</p>
+    </umd-element-event>
+          </div>
         </div>
+      </umd-element-sticky-columns>
+    </section>
+
+    <section id="news" class="umd-layout-vertical-landing">
+      <div class="umd-layout-space-horizontal-small">
+        <umd-element-section-intro class="umd-layout-vertical-landing-child"><h2 slot="headline">News Feed</h2><div slot="actions"><umd-element-call-to-action data-display="secondary"><a href="https://today.umd.edu/">All Maryland news</a></umd-element-call-to-action></div></umd-element-section-intro>
+        <!-- A live list feed preserves the page's two image-card-grid budget. -->
+        <umd-feed-news-list id="maryland-news-feed" data-token="RP0ufmM8RWqCiOhdi5KOU_QF4jTqw8Ni"
+          data-filter-group-ids="802177" data-layout-row-count="3" data-lazy-load="true">
+        </umd-feed-news-list>
+        <noscript><p class="umd-learning-source-note">Read the latest stories at <a class="umd-text-link-red" href="https://today.umd.edu/">Maryland Today</a>.</p></noscript>
       </div>
-    </div>
+    </section>
+
+    <section id="take-action" class="umd-layout-vertical-landing" aria-label="Do Good invitation">
+      <div class="umd-layout-space-horizontal-larger">
+        <umd-element-banner-promo data-visual-icon="seal">
+          <h2 slot="headline">Big change starts with you.</h2>
+          <p slot="text">Bring your curiosity. Find your purpose. Join a campus that puts ideas into action.</p>
+          <div slot="actions"><umd-element-call-to-action data-display="secondary"><a href="https://dogood.umd.edu/">Do Good at Maryland</a></umd-element-call-to-action></div>
+        </umd-element-banner-promo>
+      </div>
+    </section>
   </main>
 
   <footer>
     <umd-element-footer data-display="visual">
       <a slot="logo" href="https://umd.edu/"><img src="assets/maryland-logo-white.svg" alt="University of Maryland" width="314" height="50"></a>
-      <img slot="image" src="assets/campus.jpg" alt="" loading="lazy" onerror="this.onerror=null;this.src='assets/campus.jpg';">
+      <img slot="image" src="assets/campus.jpg" alt="The University of Maryland campus" loading="lazy" onerror="this.onerror=null;this.src='assets/campus.jpg';">
     </umd-element-footer>
     <div class="umd-learning-footer-note">Presentation concept · University of Maryland · Content inspired by <a class="umd-text-link-white" href="https://fearlesslyforward.umd.edu/we-reimagine-learning">We Reimagine Learning</a> and <a class="umd-text-link-white" href="https://fearlesslyforward.umd.edu/do-good-now">Do Good Campus</a>.</div>
   </footer>
