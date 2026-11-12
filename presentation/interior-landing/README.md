@@ -1,6 +1,6 @@
-# UMD Learning Landing Page
+# UMD Do Good Landing Page
 
-A full-width landing presentation titled **We Reimagine Learning**, built with UMD Design System 2.1.0 and page-builder 4cadc21.
+A full-width landing presentation titled **Building a Do Good Campus**, built with UMD Design System 2.1.0 and page-builder 4cadc21.
 
 View online: https://jiayukang0414.github.io/admissions-design/presentation/interior-landing/
 
@@ -12,8 +12,7 @@ Every section uses native landing spacing: 56px mobile, 80px tablet, 120px deskt
 
 | Section | Native layout / width |
 | --- | --- |
-| Hero | Full-bleed small standard hero, centered title |
-| Original hero description | Text-only section intro below hero |
+| Hero | Full-bleed small standard hero, centered Do Good Campus title and complete introductory text over the original sculpture photo |
 | Do Good Month | Full-bleed native standard dark Pathway; cropped image left, text right |
 | Do Good, Now | 1600px gapped four-column Standard Card Group, eight cards |
 | Standard cards | 1600px gapped two-column grid |
@@ -33,7 +32,7 @@ The original two-column standard and overlay grids are retained. A third, four-c
 
 ## Content and images
 
-The exact hero title/description, four navigation labels, Do Good Month image/copy and President Pines quotation are retained from the supplied references. Site Events with Feature uses a dark section and Do Good Challenge as the Large Feature Event, with Do Good Service Challenge, Terps Earth Day Park Clean Up, Maryland Day and Terps Against Hunger in the dark List. The feature uses the native image-above-text composition, large date sign and Featured Event eyebrow ribbon. All five use the reference page's original photos, text and destination URLs. Calendar cards are labeled April 2026 highlights. Source statistics include snapshot/date context.
+The hero now uses the supplied Building a Do Good Campus title, complete introduction and original Do Good sculpture photo. The image focal position matches the source hero at 71.21% 45.81%. The introductory paragraph lives directly in the hero as requested; the previous separate Learning overview is removed. Four navigation labels, Do Good Month image/copy and President Pines quotation are retained. Site Events with Feature uses a dark section and Do Good Challenge as the Large Feature Event, with Do Good Service Challenge, Terps Earth Day Park Clean Up, Maryland Day and Terps Against Hunger in the dark List. The feature uses the native image-above-text composition, large date sign and Featured Event eyebrow ribbon. All five use the reference page's original photos, text and destination URLs. Calendar cards are labeled April 2026 highlights. Source statistics include snapshot/date context.
 
 - https://fearlesslyforward.umd.edu/we-reimagine-learning
 - https://fearlesslyforward.umd.edu/do-good-now
