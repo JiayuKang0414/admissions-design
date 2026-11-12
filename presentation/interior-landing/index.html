@@ -6,7 +6,7 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="description" content="Explore how the University of Maryland connects learning, creativity and service to turn bold ideas into meaningful change.">
   <link rel="icon" href="assets/maryland-logo.svg" type="image/svg+xml">
-  <title>Learning that makes a difference — Fearlessly Forward | University of Maryland</title>
+  <title>We Reimagine Learning — Fearlessly Forward | University of Maryland</title>
 
   <!-- ============================================================
        UMD Critical CSS — Hybrid CDN + Local
@@ -857,6 +857,20 @@
       font-size: 13px; line-height: 1.6; color: #626262;
     }
     .umd-learning-photograph figcaption { padding-top: 12px; }
+    /* The canonical two-column rich-text pattern, inside the interior lock. */
+    .umd-learning-rich-text-columns { align-items: center; }
+    .umd-learning-rich-text-columns > * { min-width: 0; }
+    .umd-learning-rich-text-columns figure { margin: 0; }
+    .umd-learning-rich-text-columns figure img {
+      display: block; width: 100%; height: auto;
+    }
+    .umd-learning-section-navigation {
+      display: grid; gap: 12px; margin-bottom: 24px;
+    }
+    .umd-learning-section-navigation a {
+      color: #242424; font-size: 14px; line-height: 1.5;
+      text-decoration: underline; text-underline-offset: 4px;
+    }
     .umd-learning-source-note { margin: 20px 0 0; }
     .umd-learning-source-note a { color: inherit; text-underline-offset: 3px; }
     .umd-learning-statistics-grid {
@@ -933,21 +947,19 @@
   <umd-element-navigation-header sticky class="umd-layout-space-horizontal-full">
     <a slot="logo" href="https://umd.edu"><img src="assets/maryland-logo.svg" alt="University of Maryland" width="284" height="46"></a>
     <nav slot="main-navigation" aria-label="Main navigation">
-      <umd-element-nav-item><a slot="primary-link" href="https://fearlesslyforward.umd.edu/">Our vision</a></umd-element-nav-item>
-      <umd-element-nav-item><a slot="primary-link" href="#overview">Learning</a></umd-element-nav-item>
-      <umd-element-nav-item><a slot="primary-link" href="#get-involved">Do Good</a></umd-element-nav-item>
-      <umd-element-nav-item><a slot="primary-link" href="#news">Our impact</a></umd-element-nav-item>
+      <umd-element-nav-item><a slot="primary-link" href="https://fearlesslyforward.umd.edu/"><span style="display:block;max-width:225px;">Home</span></a></umd-element-nav-item><umd-element-nav-item><a slot="primary-link" href="#main-content" data-selected aria-current="page" title="UMD is changing teaching and learning to prepare tomorrow's leaders to adapt to the future of work."><span style="display:block;max-width:225px;">Innovations in Teaching and Learning</span></a></umd-element-nav-item><umd-element-nav-item><a slot="primary-link" href="https://fearlesslyforward.umd.edu/do-good-now" title="As the nation's first Do Good Campus, UMD is dedicating significant resources to courses, internships and mentoring programs that equip Terps with the skills and expertise needed to make real impact in their communities now."><span style="display:block;max-width:225px;">A Do Good Campus</span></a></umd-element-nav-item><umd-element-nav-item><a slot="primary-link" href="https://fearlesslyforward.umd.edu/ai" title="The University of Maryland is developing the next generation of artificial intelligence education, technology and leaders through interdisciplinary research that focuses on the responsible and ethical use of AI."><span style="display:block;max-width:225px;">The Future of AI</span></a></umd-element-nav-item>
     </nav>
     <div slot="utility-navigation"><a href="https://giving.umd.edu/">Support Maryland <span aria-hidden="true">↗</span></a></div>
-    <div slot="primary-slide-links"><a href="https://fearlesslyforward.umd.edu/"><span>Our vision</span></a><a href="#overview"><span>Learning</span></a><a href="#get-involved"><span>Do Good</span></a><a href="#news"><span>Our impact</span></a></div>
+    <div slot="primary-slide-links"><a href="https://fearlesslyforward.umd.edu/"><span>Home</span></a><a href="#main-content" data-selected aria-current="page" title="UMD is changing teaching and learning to prepare tomorrow's leaders to adapt to the future of work."><span>Innovations in Teaching and Learning</span></a><a href="https://fearlesslyforward.umd.edu/do-good-now" title="As the nation's first Do Good Campus, UMD is dedicating significant resources to courses, internships and mentoring programs that equip Terps with the skills and expertise needed to make real impact in their communities now."><span>A Do Good Campus</span></a><a href="https://fearlesslyforward.umd.edu/ai" title="The University of Maryland is developing the next generation of artificial intelligence education, technology and leaders through interdisciplinary research that focuses on the responsible and ethical use of AI."><span>The Future of AI</span></a></div>
   </umd-element-navigation-header>
 
   <main id="main-content">
     <!-- The native default interior hero: standard, small, centered. -->
-    <section aria-label="Learning that makes a difference">
+    <section aria-label="We Reimagine Learning">
       <umd-element-hero data-display="standard" data-layout-height="small" data-layout-text="center" data-theme="dark">
-        <h1 slot="headline">Learning that makes a difference</h1>
-        <img slot="image" src="assets/hero-learning.jpg" alt="Students moving through the bright, open learning spaces of Edward St. John Learning and Teaching Center" loading="eager" onerror="this.onerror=null;this.src='assets/campus.jpg';">
+        <h1 slot="headline">We Reimagine Learning</h1>
+        <div slot="text"><p>The University of Maryland is changing teaching and learning to prepare tomorrow's leaders to adapt to the future of work.</p></div>
+        <img slot="image" src="assets/reimagine-learning-hero.jpg" alt="Students collaborating on a hands-on project at Startup Shell" loading="eager" onerror="this.onerror=null;this.src='assets/campus.jpg';">
       </umd-element-hero>
     </section>
 
@@ -955,7 +967,7 @@
       <umd-element-breadcrumb><div slot="paths">
         <a href="https://umd.edu/" aria-label="Return Home"><span aria-hidden="true">Home</span></a>
         <a href="https://fearlesslyforward.umd.edu/"><span>Fearlessly Forward</span></a>
-        <p aria-label="Current Page"><span>Learning &amp; impact</span></p>
+        <p aria-label="Current Page"><span>We Reimagine Learning</span></p>
       </div></umd-element-breadcrumb>
     </div>
 
@@ -963,18 +975,18 @@
       <div class="umd-layout-space-columns-left">
         <aside id="umd-shell-sidebar-container" aria-label="In this section">
           <umd-element-nav-slider>
-            <div slot="primary-slide-links"><a href="#overview" data-child-ref="learning"><span>Learning &amp; impact</span></a></div>
-            <div slot="children-slides"><div data-active data-parent-ref="learning"><a href="#overview" data-selected><span>Overview</span></a><a href="#opportunities"><span>Explore opportunities</span></a><a href="#impact"><span>Our impact</span></a><a href="#in-action"><span>Learning in action</span></a><a href="#get-involved"><span>Get involved</span></a><a href="#events"><span>Campus events</span></a><a href="#news"><span>News & stories</span></a></div></div>
+            <div slot="primary-slide-links"><a href="https://fearlesslyforward.umd.edu/" data-child-ref="learning"><span>Home</span></a></div>
+            <div slot="children-slides"><div data-active data-parent-ref="learning"><a href="#main-content" data-selected aria-current="page" title="UMD is changing teaching and learning to prepare tomorrow's leaders to adapt to the future of work."><span>Innovations in Teaching and Learning</span></a><a href="https://fearlesslyforward.umd.edu/do-good-now" title="As the nation's first Do Good Campus, UMD is dedicating significant resources to courses, internships and mentoring programs that equip Terps with the skills and expertise needed to make real impact in their communities now."><span>A Do Good Campus</span></a><a href="https://fearlesslyforward.umd.edu/ai" title="The University of Maryland is developing the next generation of artificial intelligence education, technology and leaders through interdisciplinary research that focuses on the responsible and ethical use of AI."><span>The Future of AI</span></a></div></div>
           </umd-element-nav-slider>
           <div class="umd-learning-sidebar-note">
-            <span class="umd-learning-sidebar-label">One Maryland. Many possibilities.</span>
-            <p>Follow your curiosity. Find your community. Put your ideas to work.</p>
+            <span class="umd-learning-sidebar-label">On this page</span>
+            <nav class="umd-learning-section-navigation" aria-label="On this page"><a href="#overview">Overview</a><a href="#do-good-month">Do Good Month</a><a href="#opportunities">Explore opportunities</a><a href="#impact">Our impact</a><a href="#in-action">Learning in action</a><a href="#get-involved">Get involved</a><a href="#events">Campus events</a><a href="#news">News & stories</a></nav>
             <a class="umd-learning-editorial-link" href="https://fearlesslyforward.umd.edu/">Explore our vision <span aria-hidden="true">↗</span></a>
           </div>
         </aside>
 
         <div id="umd-shell-content" class="max-w-[800px]">
-          <details class="umd-learning-mobile-navigation"><summary>On this page</summary><nav aria-label="On this page"><a href="#overview">Overview</a><a href="#opportunities">Explore opportunities</a><a href="#impact">Our impact</a><a href="#in-action">Learning in action</a><a href="#get-involved">Get involved</a><a href="#events">Campus events</a><a href="#news">News & stories</a></nav></details>
+          <details class="umd-learning-mobile-navigation"><summary>On this page</summary><nav aria-label="On this page"><a href="#overview">Overview</a><a href="#do-good-month">Do Good Month</a><a href="#opportunities">Explore opportunities</a><a href="#impact">Our impact</a><a href="#in-action">Learning in action</a><a href="#get-involved">Get involved</a><a href="#events">Campus events</a><a href="#news">News & stories</a></nav></details>
 
           <section id="overview" class="umd-learning-content-section umd-layout-space-vertical-interior">
             <!-- Section intro is included by explicit request for this hybrid. -->
@@ -986,6 +998,23 @@
               <img src="assets/learning-together.jpg" alt="Maryland students exchanging ideas around a table" loading="eager">
               <figcaption>Where curiosity becomes collaboration—and collaboration becomes possibility.</figcaption>
             </figure>
+          </section>
+
+          <section id="do-good-month" class="umd-learning-content-section umd-layout-space-vertical-interior" aria-labelledby="do-good-month-heading">
+            <div class="umd-layout-grid-gap-two umd-learning-rich-text-columns" data-animation="off">
+              <figure class="umd-layout-alignment-block-stacked">
+                <img src="assets/do-good-month.jpg" alt="Students Planting at College Park Scholars Event" width="1100" height="1877" loading="lazy">
+              </figure>
+              <div>
+                <h2 id="do-good-month-heading" class="text-black umd-sans-larger-bold umd-layout-space-vertical-interior-child">APRIL IS DO GOOD MONTH</h2>
+                <div class="umd-text-rich-advanced">
+                  <p>In April, Terps come together to accelerate impact in our communities.</p>
+                  <div class="umd-layout-grid-inline-tablet-rows">
+                    <umd-element-call-to-action data-display="primary"><a href="https://umd.edu/">Learn More</a></umd-element-call-to-action>
+                  </div>
+                </div>
+              </div>
+            </div>
           </section>
 
           <section id="opportunities" class="umd-learning-content-section umd-layout-space-vertical-interior">
