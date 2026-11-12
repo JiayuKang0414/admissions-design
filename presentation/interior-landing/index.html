@@ -837,13 +837,6 @@
       outline: 2px solid #e21833; outline-offset: 4px;
     }
     .umd-learning-footer-note a:focus-visible { outline-color: #ffd200; }
-    .umd-learning-rich-text-columns { align-items: center; }
-    .umd-learning-rich-text-columns > * { min-width: 0; }
-    .umd-learning-rich-text-columns figure { margin: 0; }
-    .umd-learning-rich-text-columns figure img { display: block; width: 100%; height: auto; }
-    .umd-learning-rich-text-columns .umd-text-rich-advanced hr {
-      border: 0; border-top: 1px solid #000; height: 0;
-    }
     .umd-learning-source-note {
       font-size: 13px; line-height: 1.6; color: #626262; margin-top: 24px;
     }
@@ -899,22 +892,13 @@
       </div>
     </section>
 
-    <section id="do-good-month" class="umd-layout-vertical-landing" aria-labelledby="do-good-month-heading">
-      <div class="umd-layout-space-horizontal-small">
-        <div class="umd-layout-grid-gap-two umd-learning-rich-text-columns" data-animation="off">
-          <figure class="umd-layout-alignment-block-stacked">
-            <img src="assets/do-good-month.jpg" alt="Students Planting at College Park Scholars Event" width="1100" height="1877" loading="lazy">
-          </figure>
-          <div>
-            <h2 id="do-good-month-heading" class="text-black umd-sans-extralarge-bold umd-layout-space-vertical-headline-large">APRIL IS DO GOOD MONTH</h2>
-            <div class="umd-text-rich-advanced">
-              <hr>
-              <p>In April, Terps come together to accelerate impact in our communities.</p>
-              <div class="umd-layout-grid-inline-tablet-rows"><umd-element-call-to-action data-display="primary"><a href="https://umd.edu/">Learn More</a></umd-element-call-to-action></div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <section id="do-good-month" class="umd-layout-vertical-landing" aria-label="Do Good Month">
+      <umd-element-pathway data-display="overlay" data-theme="light" data-layout-image-position="left">
+        <img slot="image" src="assets/do-good-month.jpg" alt="Students Planting at College Park Scholars Event" loading="lazy" onerror="this.onerror=null;this.src='assets/campus.jpg';">
+        <h2 slot="headline">APRIL IS DO GOOD MONTH</h2>
+        <p slot="text">In April, Terps come together to accelerate impact in our communities.</p>
+        <div slot="actions"><umd-element-call-to-action data-display="primary"><a href="https://umd.edu/">Learn More</a></umd-element-call-to-action></div>
+      </umd-element-pathway>
     </section>
 
     <section id="opportunities" class="umd-layout-vertical-landing">

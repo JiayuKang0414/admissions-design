@@ -14,7 +14,7 @@ Every section uses native landing spacing: 56px mobile, 80px tablet, 120px deskt
 | --- | --- |
 | Hero | Full-bleed small standard hero, centered title |
 | Original hero description | Text-only section intro below hero |
-| Do Good Month | 992px image + rich-text columns |
+| Do Good Month | Full-bleed native light overlay Pathway; image left, text right |
 | Standard cards | 1600px gapped two-column grid |
 | Statistics grid | 1600px dark band, three large plain statistics |
 | Visual tabs | 992px, centered section intro |
