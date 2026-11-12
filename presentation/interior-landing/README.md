@@ -41,7 +41,7 @@ The exact hero title/description, four navigation labels, Do Good Month image/co
 
 All editorial photographs and logos are local. The new eight-card collection is a fixed editorial snapshot matching the supplied screenshot, with text and images verified from Maryland Today on November 12, 2026. It is separate from the existing live News Feed. The Pathway retains the original photo and crops its display to at most 480px high, with the people kept in focus. The UMD runtime/fonts, live news and YouTube require an internet connection. The intentionally public read-only news configuration matches the original reference page’s category.
 
-The supplied United in Purpose declaration appears in a native Image Expand directly before the Promo Banner. It reuses the original 4000px Do Good sculpture photo from the reference page. The native component controls image expansion, overlay and scrolling; the heading uses white UMD typography. Its content is constrained to 800px, while the component itself remains full bleed. No custom animation or internal CSS override is added.
+The supplied United in Purpose declaration appears in a native Image Expand directly before the Promo Banner. It reuses the original 4000px Do Good sculpture photo from the reference page. The native component controls image expansion, overlay and scrolling; the heading uses white UMD typography. The content matches the [UMD homepage](https://umd.edu/) Image Expand: a right-aligned 480px column and a native 2px red vertical divider 24px left of the heading. The component itself remains full bleed. Production markup and CSS were checked directly; the existing native utilities provide these styles, with no custom animation or internal CSS override added.
 
 ## Local development
 
