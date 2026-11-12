@@ -19,7 +19,7 @@ Every section uses native landing spacing: 56px mobile, 80px tablet, 120px deskt
 | Standard cards | 1600px gapped two-column grid |
 | Statistics grid | 1600px dark band, three large plain statistics |
 | Visual tabs | 992px, centered section intro |
-| President Pines quote | 1280px, native default size for the 259-character text |
+| President Pines quote | 1280px native Feature Quote Light, default size for the 259-character text |
 | YouTube | 992px, responsive 16:9 |
 | Overlay cards | 1600px no-gap two-column image mosaic |
 | Statistics list | 1600px native sticky columns with stacked statistics |
@@ -28,7 +28,7 @@ Every section uses native landing spacing: 56px mobile, 80px tablet, 120px deskt
 | News Feed | 992px native live news list, three initial articles and load more |
 | Promo banner | 1600px final gold call to action |
 
-The original two-column standard and overlay grids are retained. A third, four-column Standard Card Group was explicitly requested directly after the Pathway. The separate live news collection still uses a list. The long quote keeps native typography; switching page type changes its width lock, not the text-length size rule.
+The original two-column standard and overlay grids are retained. A third, four-column Standard Card Group was explicitly requested directly after the Pathway. The separate live news collection still uses a list. The Pines section uses native Feature Quote Light with its light-gray panel and background texture; the long quote keeps the native default text size. Its exact quotation, attribution and title are retained.
 
 ## Content and images
 
