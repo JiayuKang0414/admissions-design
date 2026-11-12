@@ -26,7 +26,7 @@ Every section uses native landing spacing: 56px mobile, 80px tablet, 120px deskt
 | Accordions | 992px, adjacent native siblings with 8px gaps |
 | Site Events with Feature | Dark section, 1600px sticky columns: one Large Feature Event and four dark List events |
 | News Feed | 992px native live news list, three initial articles and load more |
-| United in Purpose | Full-bleed Image Expand with the complete declaration, white native heading and Do Good sculpture photograph |
+| United in Purpose | Full-bleed Image Expand with a short white heading, supporting body text and Do Good sculpture photograph |
 | Promo banner | 1600px final gold call to action |
 
 The original two-column standard and overlay grids are retained. A third, four-column Standard Card Group was explicitly requested directly after the Pathway. The separate live news collection still uses a list. The Pines section uses native Feature Quote Light with its light-gray panel and background texture; the long quote keeps the native default text size. Its exact quotation, attribution and title are retained.
@@ -41,7 +41,7 @@ The exact hero title/description, four navigation labels, Do Good Month image/co
 
 All editorial photographs and logos are local. The new eight-card collection is a fixed editorial snapshot matching the supplied screenshot, with text and images verified from Maryland Today on November 12, 2026. It is separate from the existing live News Feed. The Pathway retains the original photo and crops its display to at most 480px high, with the people kept in focus. The UMD runtime/fonts, live news and YouTube require an internet connection. The intentionally public read-only news configuration matches the original reference page’s category.
 
-The supplied United in Purpose declaration appears in a native Image Expand directly before the Promo Banner. It reuses the original 4000px Do Good sculpture photo from the reference page. The native component controls image expansion, overlay and scrolling; the heading uses white UMD typography. The content matches the [UMD homepage](https://umd.edu/) Image Expand: a right-aligned 480px column and a native 2px red vertical divider 24px left of the heading. The component itself remains full bleed. Production markup and CSS were checked directly; the existing native utilities provide these styles, with no custom animation or internal CSS override added.
+The supplied United in Purpose declaration appears in a native Image Expand directly before the Promo Banner. Its heading is "We are united in purpose to do good"; "Another way the University of Maryland is leading Fearlessly Forward." appears below as native dark-background body text, with the standard heading-to-content gap. It reuses the original 4000px Do Good sculpture photo from the reference page. The native component controls image expansion, overlay and scrolling. The content matches the [UMD homepage](https://umd.edu/) Image Expand: a right-aligned 480px column and a native 2px red vertical divider 24px left of the heading. The component itself remains full bleed. Production markup and CSS were checked directly; the existing native utilities provide these styles, with no custom animation or internal CSS override added.
 
 ## Local development
 
