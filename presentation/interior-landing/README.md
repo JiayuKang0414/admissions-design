@@ -14,7 +14,8 @@ Every section uses native landing spacing: 56px mobile, 80px tablet, 120px deskt
 | --- | --- |
 | Hero | Full-bleed small standard hero, centered title |
 | Original hero description | Text-only section intro below hero |
-| Do Good Month | Full-bleed native light overlay Pathway; image left, text right |
+| Do Good Month | Full-bleed native standard dark Pathway; cropped image left, text right |
+| Do Good, Now | 1600px gapped four-column Standard Card Group, eight cards |
 | Standard cards | 1600px gapped two-column grid |
 | Statistics grid | 1600px dark band, three large plain statistics |
 | Visual tabs | 992px, centered section intro |
@@ -27,7 +28,7 @@ Every section uses native landing spacing: 56px mobile, 80px tablet, 120px deskt
 | News Feed | 992px native live news list, three initial articles and load more |
 | Promo banner | 1600px final gold call to action |
 
-The two requested image-card grids are retained. The news collection uses a list to preserve landing-page layout variety. The long quote keeps native typography; switching page type changes its width lock, not the text-length size rule.
+The original two-column standard and overlay grids are retained. A third, four-column Standard Card Group was explicitly requested directly after the Pathway. The separate live news collection still uses a list. The long quote keeps native typography; switching page type changes its width lock, not the text-length size rule.
 
 ## Content and images
 
@@ -37,8 +38,16 @@ The exact hero title/description, four navigation labels, Do Good Month image/co
 - https://fearlesslyforward.umd.edu/do-good-now
 - https://today.umd.edu/umd-names-inaugural-do-good-campus-signature-initiatives
 
-All editorial photographs and logos are local. The UMD runtime/fonts, live news and YouTube require an internet connection. The intentionally public read-only news configuration matches the original reference page’s category.
+All editorial photographs and logos are local. The new eight-card collection is a fixed editorial snapshot matching the supplied screenshot, with text and images verified from Maryland Today on November 12, 2026. It is separate from the existing live News Feed. The Pathway retains the original photo and crops its display to at most 480px high, with the people kept in focus. The UMD runtime/fonts, live news and YouTube require an internet connection. The intentionally public read-only news configuration matches the original reference page’s category.
 
-## Verification
+## Local development
 
-Landing-rule, component, theme, class-name, stylesheet, source-content, asset and navigation checks passed. Live news pagination was verified against the original data source. Browser visual verification remains unavailable because the Browser connection could not initialize.
+Source: build.py. Run `python3 build.py` from this folder to generate `dist/index.html`; the build uses `../../page-builder/TEMPLATE.html`, `do-good-stories.json` and the local `news-feed-config.json`. `asset-sources.json` records photograph provenance. Custom composition notes are in `OVERRIDES.md`.
+
+For local viewing, run `python3 -m http.server 4173 --directory dist`, then open http://localhost:4173.
+
+## Validation
+
+Passed: theme and class-name validators; canonical critical CSS; landing-rule and component inventory audit; correct per-component locks; source copy; local assets and anchors; unique IDs; ISO event dates and stat length limits; published landing spacing rules at 375/768/1440px; stylesheet parsing; native live-news initial and next-three pagination. The latest change preserves all other sections and adds eight native standard cards with original images, article links, summaries and dates. Native four-column grid rules provide one mobile column, two at 650px and four at 1024px.
+
+Browser visual/interaction verification remains unavailable: supported Browser initialization fails with “Cannot redefine property: process.” No screenshots or computed-style verification were claimed.
