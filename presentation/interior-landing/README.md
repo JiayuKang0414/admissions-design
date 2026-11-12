@@ -24,7 +24,7 @@ Every section uses native landing spacing: 56px mobile, 80px tablet, 120px deskt
 | Overlay cards | 1600px no-gap two-column image mosaic |
 | Statistics list | 1600px native sticky columns with stacked statistics |
 | Accordions | 992px, adjacent native siblings with 8px gaps |
-| Site Events with Feature | 1600px sticky columns: one Event Overlay Card and four List events |
+| Site Events with Feature | Dark section, 1600px sticky columns: one Large Feature Event and four dark List events |
 | News Feed | 992px native live news list, three initial articles and load more |
 | Promo banner | 1600px final gold call to action |
 
@@ -32,7 +32,7 @@ The original two-column standard and overlay grids are retained. A third, four-c
 
 ## Content and images
 
-The exact hero title/description, four navigation labels, Do Good Month image/copy and President Pines quotation are retained from the supplied references. Site Events with Feature uses Do Good Challenge as the Event Overlay Card, with Do Good Service Challenge, Terps Earth Day Park Clean Up, Maryland Day and Terps Against Hunger in the List. All five use the reference page's original photos, text and destination URLs. Calendar cards are labeled April 2026 highlights. Source statistics include snapshot/date context.
+The exact hero title/description, four navigation labels, Do Good Month image/copy and President Pines quotation are retained from the supplied references. Site Events with Feature uses a dark section and Do Good Challenge as the Large Feature Event, with Do Good Service Challenge, Terps Earth Day Park Clean Up, Maryland Day and Terps Against Hunger in the dark List. The feature uses the native image-above-text composition, large date sign and Featured Event eyebrow ribbon. All five use the reference page's original photos, text and destination URLs. Calendar cards are labeled April 2026 highlights. Source statistics include snapshot/date context.
 
 - https://fearlesslyforward.umd.edu/we-reimagine-learning
 - https://fearlesslyforward.umd.edu/do-good-now
@@ -48,6 +48,6 @@ For local viewing, run `python3 -m http.server 4173 --directory dist`, then open
 
 ## Validation
 
-Passed: theme and class-name validators; canonical critical CSS; landing-rule and component inventory audit; correct per-component locks; source copy; local assets and anchors; unique IDs; ISO event dates and stat length limits; published landing spacing rules at 375/768/1440px; stylesheet parsing; native live-news initial and next-three pagination. The eight standard cards retain original images, article links, summaries and dates; native grid rules provide one mobile column, two at 650px and four at 1024px. The latest Site Events change preserves all other sections and validates one native overlay event, four List events, five source photographs, destination URLs, complete date ranges and the overlay's themed secondary CTA.
+Passed: theme and class-name validators; canonical critical CSS; landing-rule and component inventory audit; correct per-component locks; source copy; local assets and anchors; unique IDs; ISO event dates and stat length limits; published landing spacing rules at 375/768/1440px; stylesheet parsing; native live-news initial and next-three pagination. The eight standard cards retain original images, article links, summaries and dates; native grid rules provide one mobile column, two at 650px and four at 1024px. The latest Site Events change preserves all other sections and validates one native Large Feature Event, four List events, section-wide dark theme coverage, five source photographs, destination URLs, complete date ranges and themed CTAs.
 
 Browser visual/interaction verification remains unavailable: supported Browser initialization fails with “Cannot redefine property: process.” No screenshots or computed-style verification were claimed.
