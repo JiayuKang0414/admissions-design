@@ -1098,39 +1098,46 @@
       </div>
     </section>
 
-    <section id="events" class="umd-layout-vertical-landing">
+    <section id="events" class="umd-layout-vertical-landing" aria-label="Do Good Month events">
       <div class="umd-layout-space-horizontal-larger">
-        <div class="umd-layout-vertical-landing-child"><umd-element-section-intro-wide><h2 slot="headline">Campus Calendar</h2><div slot="actions"><umd-element-call-to-action data-display="secondary"><a href="https://calendar.umd.edu/">View all events</a></umd-element-call-to-action></div></umd-element-section-intro-wide></div>
+        <div class="umd-layout-vertical-landing-child"><umd-element-section-intro-wide><h2 slot="headline">Do Good Month</h2><div slot="actions"><umd-element-call-to-action data-display="secondary"><a href="https://calendar.umd.edu/">View all events</a></umd-element-call-to-action></div></umd-element-section-intro-wide></div>
       </div>
+      <!-- Site Events with Feature: native event overlay + four native list events. -->
       <umd-element-sticky-columns class="umd-layout-space-horizontal-larger" data-layout-position="124px">
-        <div slot="sticky-column" class="umd-layout-grid-gap-stacked">
-          <umd-element-event display="promo" data-theme="dark" data-visual-time="true">
-      <img slot="image" src="assets/maryland-day.jpg" alt="Maryland students coming together on campus" loading="lazy" onerror="this.onerror=null;this.src='assets/campus.jpg';"><p slot="eyebrow">Featured Event</p>
+        <div slot="sticky-column">
+          <p class="umd-text-decoration-eyebrow mb-sm">Featured Event</p>
+          <div class="umd-layout-grid-gap-stacked">
+            <umd-element-event display="promo" data-theme="dark" data-visual-time="true">
+      <img slot="image" src="assets/event-do-good-challenge.png" alt="do good challenge winners holding big checks" loading="lazy" onerror="this.onerror=null;this.src='assets/campus.jpg';">
       <h3 slot="headline"><a href="https://calendar.umd.edu/do-good-challenge-finals-3?start=26-04-23">Do Good Challenge</a></h3>
       <div slot="start-date-iso">2026-04-23T18:15:00</div><div slot="end-date-iso">2026-04-23T21:00:00</div>
-      <p slot="location">Samuel Riggs IV Alumni Center</p><p slot="text">Celebrate student teams turning their commitment to change into action.</p>
+      <p slot="location">Samuel Riggs IV Alumni Center</p><p slot="text">Students from across campus spend the year advocating, fundraising, volunteering and developing solutions for pressing social issues. The challenge culminates in a finals event where six teams pitch their project or venture and the impact they’ve made for the chance to win a cash prize.</p><div slot="actions"><umd-element-call-to-action data-display="secondary" data-theme="dark"><a href="https://calendar.umd.edu/do-good-challenge-finals-3?start=26-04-23">Learn More</a></umd-element-call-to-action></div>
     </umd-element-event>
+          </div>
           <p class="umd-learning-source-note">Do Good Month highlights · April 2026</p>
         </div>
         <div slot="static-column">
           <div class="umd-layout-grid-gap-stacked" data-animation="off">
             <umd-element-event data-display="list" data-visual-time="true">
-
-      <h3 slot="headline"><a href="https://calendar.umd.edu/">Terps Earth Day Park Clean Up</a></h3>
+      <img slot="image" src="assets/event-do-good-service.jpg" alt="Do Good sculpture on campus." loading="lazy" onerror="this.onerror=null;this.src='assets/campus.jpg';">
+      <h3 slot="headline"><a href="https://alumni.umd.edu/volunteer/do-good-month">Do Good Service Challenge</a></h3>
+      <div slot="start-date-iso">2026-04-01T00:00:00</div><div slot="end-date-iso">2026-04-30T23:59:00</div>
+      <p slot="text">Do Good in your communities this month. We challenge you to take action and join Terps, everywhere, in one or more ways to give back.</p>
+    </umd-element-event><umd-element-event data-display="list" data-visual-time="true">
+      <img slot="image" src="assets/event-earth-day.jpg" alt="members of the alumni association holding trash bags after litter clean up" loading="lazy" onerror="this.onerror=null;this.src='assets/campus.jpg';">
+      <h3 slot="headline"><a href="https://calendar.umd.edu/terps-earth-day-park-clean-up">Terps Earth Day Park Clean Up</a></h3>
       <div slot="start-date-iso">2026-04-22T09:00:00</div><div slot="end-date-iso">2026-04-22T11:00:00</div>
-      <p slot="location">College Park community</p><p slot="text">Join neighbors and fellow Terps for a morning of community care.</p>
-    </umd-element-event>
-            <umd-element-event data-display="list" data-visual-time="true">
-
-      <h3 slot="headline"><a href="https://marylandday.umd.edu/">Maryland Day</a></h3>
+      <p slot="text">Celebrate Earth Day! Wear your favorite shade of green and join College Park neighbors for a community clean up.</p>
+    </umd-element-event><umd-element-event data-display="list" data-visual-time="true">
+      <img slot="image" src="assets/event-maryland-day.webp" alt="Families with young kids are enjoying the fountain on McKeldin Mall" loading="lazy" onerror="this.onerror=null;this.src='assets/campus.jpg';">
+      <h3 slot="headline"><a href="https://marylandday.umd.edu">Maryland Day</a></h3>
       <div slot="start-date-iso">2026-04-25T10:00:00</div><div slot="end-date-iso">2026-04-25T16:00:00</div>
-      <p slot="location">University of Maryland, College Park</p><p slot="text">Explore campus through a day of discovery, creativity and hands-on experiences.</p>
-    </umd-element-event>
-            <umd-element-event data-display="list" data-visual-time="true">
-
-      <h3 slot="headline"><a href="https://calendar.umd.edu/">Terps Against Hunger Do Good Month Service Project</a></h3>
+      <p slot="text">Five learning neighborhoods. Hundreds of activities. One unforgettable day of fun and discovery. Bring family and friends to the University of Maryland&#x27;s annual springtime open house, and learn more about our Do Good campus.</p>
+    </umd-element-event><umd-element-event data-display="list" data-visual-time="true">
+      <img slot="image" src="assets/event-terps-against-hunger.jpg" alt="alumni volunteers at donation center" loading="lazy" onerror="this.onerror=null;this.src='assets/campus.jpg';">
+      <h3 slot="headline"><a href="https://calendar.umd.edu/terps-against-hunger-do-good-month-service-project?start=26-04-26">Terps Against Hunger Do Good Month Service Project</a></h3>
       <div slot="start-date-iso">2026-04-26T10:00:00</div><div slot="end-date-iso">2026-04-26T14:00:00</div>
-      <p slot="location">Samuel Riggs IV Alumni Center</p><p slot="text">Help pack nutritious meals for individuals and families facing food insecurity in our community.</p>
+      <p slot="location">Samuel Riggs IV Alumni Center</p><p slot="text">Roll up your sleeves and help pack nutritious meals for individuals and families facing food insecurity in our community.</p>
     </umd-element-event>
           </div>
         </div>
