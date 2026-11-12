@@ -897,7 +897,6 @@
       flex-wrap: wrap; padding-top: 16px; font-size: 14px;
       color: #626262; line-height: 1.6;
     }
-    .umd-learning-quote { background: #f7f7f7; padding: 24px; }
     .umd-learning-accordion-figure {
       display: block; width: 100%; max-height: 250px; object-fit: cover;
       margin: 0 0 24px;
@@ -938,7 +937,6 @@
         overflow-y: auto; overscroll-behavior: contain;
         scrollbar-width: thin;
       }
-      .umd-learning-quote { padding: 32px; }
       .umd-learning-mobile-navigation { display: none; }
     }
     @media (max-width: 649px) {
@@ -1095,14 +1093,13 @@
             </umd-element-tabs>
           </section>
 
-          <section class="umd-layout-space-vertical-interior" aria-label="Learning through collaboration">
-            <div class="umd-learning-quote">
-              <umd-element-quote data-visual-size="large">
-                <blockquote slot="quote">We’re equipping our students with the skills, confidence, and real-world experience to lead the way.</blockquote>
-                <p slot="attribution">Jennifer King Rice</p>
-                <p slot="attribution-sub-text">Senior Vice President and Provost</p>
-              </umd-element-quote>
-            </div>
+          <section id="president-quote" class="umd-layout-space-vertical-interior" aria-label="A statement from President Darryll J. Pines">
+            <!-- Long quote: native default inline size and spacing (RULES §12). -->
+            <umd-element-quote>
+              <blockquote slot="quote">Public research universities are uniquely positioned to make a positive difference in the lives of our citizens and across the globe, because universities have a combination of values, assets and problem-solving approaches that simply doesn’t exist elsewhere.</blockquote>
+              <p slot="attribution">Darryll J. Pines</p>
+              <p slot="attribution-sub-text">President, University of Maryland</p>
+            </umd-element-quote>
           </section>
 
           <section class="umd-layout-space-vertical-interior" aria-labelledby="video-heading">
