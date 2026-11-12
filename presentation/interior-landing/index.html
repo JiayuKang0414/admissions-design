@@ -980,13 +980,13 @@
           </umd-element-nav-slider>
           <div class="umd-learning-sidebar-note">
             <span class="umd-learning-sidebar-label">On this page</span>
-            <nav class="umd-learning-section-navigation" aria-label="On this page"><a href="#overview">Overview</a><a href="#do-good-month">Do Good Month</a><a href="#opportunities">Explore opportunities</a><a href="#impact">Our impact</a><a href="#in-action">Learning in action</a><a href="#get-involved">Get involved</a><a href="#events">Campus events</a><a href="#news">News & stories</a></nav>
+            <nav class="umd-learning-section-navigation" aria-label="On this page"><a href="#overview">Overview</a><a href="#do-good-month">Do Good Month</a><a href="#opportunities">Explore opportunities</a><a href="#impact">Our impact</a><a href="#in-action">Learning in action</a><a href="#get-involved">Get involved</a><a href="#events">Campus events</a><a href="#news">News Feed</a></nav>
             <a class="umd-learning-editorial-link" href="https://fearlesslyforward.umd.edu/">Explore our vision <span aria-hidden="true">↗</span></a>
           </div>
         </aside>
 
         <div id="umd-shell-content" class="max-w-[800px]">
-          <details class="umd-learning-mobile-navigation"><summary>On this page</summary><nav aria-label="On this page"><a href="#overview">Overview</a><a href="#do-good-month">Do Good Month</a><a href="#opportunities">Explore opportunities</a><a href="#impact">Our impact</a><a href="#in-action">Learning in action</a><a href="#get-involved">Get involved</a><a href="#events">Campus events</a><a href="#news">News & stories</a></nav></details>
+          <details class="umd-learning-mobile-navigation"><summary>On this page</summary><nav aria-label="On this page"><a href="#overview">Overview</a><a href="#do-good-month">Do Good Month</a><a href="#opportunities">Explore opportunities</a><a href="#impact">Our impact</a><a href="#in-action">Learning in action</a><a href="#get-involved">Get involved</a><a href="#events">Campus events</a><a href="#news">News Feed</a></nav></details>
 
           <section id="overview" class="umd-learning-content-section umd-layout-space-vertical-interior">
             <!-- Section intro is included by explicit request for this hybrid. -->
@@ -1180,29 +1180,18 @@
           </section>
 
           <section id="news" class="umd-learning-content-section umd-layout-space-vertical-interior">
-            <div class="umd-learning-section-heading umd-layout-space-vertical-interior-child"><h2 class="text-black umd-sans-larger-bold">Ideas in motion</h2><a href="https://today.umd.edu/">More Maryland stories <span aria-hidden="true">→</span></a></div>
-            <!-- Curated feed presentation: native article components; no API
-                 credentials or brittle client-side feed dependency. -->
-            <div class="umd-layout-grid-gap-stacked">
-              <umd-element-article data-display="list" data-visual-image-aligned="true">
-      <img slot="image" src="assets/research.jpg" alt="Research and new ideas at Maryland" loading="lazy" onerror="this.onerror=null;this.src='assets/campus.jpg';">
-      <h3 slot="headline"><a href="https://today.umd.edu/briefs/xfoundry-launches-new-student-venture-competition">A new challenge for student innovators</a></h3>
-      <time slot="date" datetime="2026-10-21">October 21, 2026</time>
-      <p slot="text">xFoundry invites student teams to build tools that bring context back to online information.</p>
-    </umd-element-article>
-              <umd-element-article data-display="list" data-visual-image-aligned="true">
-      <img slot="image" src="assets/service-day.jpg" alt="Students serving a local community" loading="lazy" onerror="this.onerror=null;this.src='assets/campus.jpg';">
-      <h3 slot="headline"><a href="https://today.umd.edu/how-terps-spent-the-summer-doing-good-in-2026">A summer of purpose, near and far</a></h3>
-      <time slot="date" datetime="2026-09-08">September 8, 2026</time>
-      <p slot="text">Terps put their learning to work through internships, volunteering and community partnerships.</p>
-    </umd-element-article>
-              <umd-element-article data-display="list" data-visual-image-aligned="true">
-      <img slot="image" src="assets/arts-discovery.jpg" alt="The arts connect Maryland students across disciplines" loading="lazy" onerror="this.onerror=null;this.src='assets/campus.jpg';">
-      <h3 slot="headline"><a href="https://today.umd.edu/briefs/17-projects-awarded-artsamp-grants">Creative thinking gets a boost</a></h3>
-      <time slot="date" datetime="2026-05-08">May 8, 2026</time>
-      <p slot="text">Seventeen ArtsAMP projects connect artistic practice with new ideas and shared challenges.</p>
-    </umd-element-article>
-            </div>
+            <div class="umd-learning-section-heading umd-layout-space-vertical-interior-child"><h2 class="text-black umd-sans-larger-bold">News Feed</h2><a href="https://today.umd.edu/">All Maryland news <span aria-hidden="true">→</span></a></div>
+            <!-- Native live feed: original reference-page category. The
+                 component fetches current Maryland Today stories itself. -->
+            <umd-feed-news
+              id="maryland-news-feed"
+              data-token="RP0ufmM8RWqCiOhdi5KOU_QF4jTqw8Ni"
+              data-filter-group-ids="802177"
+              data-layout-column-count="2"
+              data-layout-row-count="2"
+              data-lazy-load="true">
+            </umd-feed-news>
+            <noscript><p class="umd-learning-source-note">Read the latest stories at <a href="https://today.umd.edu/">Maryland Today</a>.</p></noscript>
           </section>
         </div>
       </div>
