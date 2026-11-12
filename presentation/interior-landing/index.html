@@ -831,9 +831,7 @@
        Page CSS handles editorial media and credits only. */
     html { scroll-behavior: smooth; scroll-padding-top: 124px; }
     body { margin: 0; background: #fff; }
-    .umd-learning-editorial-link { font-size: 14px; line-height: 1.5; font-weight: 700; }
-    :is(.umd-learning-source-note, .umd-learning-footer-note) a:focus-visible,
-    .umd-learning-editorial-link:focus-visible {
+    :is(.umd-learning-source-note, .umd-learning-footer-note) a:focus-visible {
       outline: 2px solid #e21833; outline-offset: 4px;
     }
     .umd-learning-footer-note a:focus-visible { outline-color: #ffd200; }
@@ -841,20 +839,6 @@
       font-size: 13px; line-height: 1.6; color: #626262; margin-top: 24px;
     }
     .umd-learning-source-note-dark { color: #d0d0d0; }
-    .umd-learning-video { margin: 0; }
-    .umd-learning-video iframe {
-      aspect-ratio: 16 / 9; display: block; width: 100%; height: auto;
-      border: 0; background: #151515;
-    }
-    .umd-learning-video figcaption {
-      display: flex; gap: 8px 24px; justify-content: space-between;
-      flex-wrap: wrap; padding-top: 16px; font-size: 14px;
-      color: #626262; line-height: 1.6;
-    }
-    .umd-learning-accordion-figure {
-      display: block; width: 100%; max-height: 280px; object-fit: cover;
-      margin: 0 0 24px;
-    }
     .umd-learning-footer-note {
       background: #171717; color: #c7c7c7; padding: 20px 24px;
       text-align: center; font-size: 12px; line-height: 1.6;
@@ -945,78 +929,6 @@
       </div>
     </section>
 
-    <section id="opportunities" class="umd-layout-vertical-landing">
-      <div class="umd-layout-space-horizontal-larger">
-        <div class="umd-layout-vertical-landing-child"><umd-element-section-intro-wide><h2 slot="headline">Find a different way forward</h2></umd-element-section-intro-wide></div>
-        <div class="umd-layout-grid-gap-two" data-animation="off">
-          <umd-element-card data-visual-image-aligned="true" data-visual-bordered="true">
-      <a slot="image" href="https://innovation.umd.edu/"><img src="assets/idea-factory.jpg" alt="The light-filled E. A. Fernandez IDEA Factory at Maryland" loading="lazy" onerror="this.onerror=null;this.src='assets/campus.jpg';"></a>
-      <h3 slot="headline"><a href="https://innovation.umd.edu/">Create what comes next</a></h3>
-      <p slot="text">Experiment, make connections and build an entrepreneurial mindset through hands-on learning.</p>
-      <div slot="actions"><umd-element-call-to-action data-display="secondary"><a href="https://innovation.umd.edu/">Explore the program</a></umd-element-call-to-action></div>
-    </umd-element-card>
-          <umd-element-card data-visual-image-aligned="true" data-visual-bordered="true">
-      <a slot="image" href="https://dogood.umd.edu/"><img src="assets/service-day.jpg" alt="Maryland students working together during a community service day" loading="lazy" onerror="this.onerror=null;this.src='assets/campus.jpg';"></a>
-      <h3 slot="headline"><a href="https://dogood.umd.edu/">Put purpose into practice</a></h3>
-      <p slot="text">Connect an idea for social change with mentoring, skills and a community ready to help.</p>
-      <div slot="actions"><umd-element-call-to-action data-display="secondary"><a href="https://dogood.umd.edu/">Explore the program</a></umd-element-call-to-action></div>
-    </umd-element-card>
-        </div>
-      </div>
-    </section>
-
-    <section id="impact" class="umd-layout-background-full-dark umd-layout-vertical-landing">
-      <div class="umd-layout-space-horizontal-larger">
-        <div class="umd-layout-vertical-landing-child"><umd-element-section-intro-wide data-theme="dark"><h2 slot="headline">Small sparks. Extraordinary possibilities.</h2></umd-element-section-intro-wide></div>
-        <div class="umd-layout-grid-gap-three" data-animation="off">
-          <umd-element-stat data-visual-size="large" data-theme="dark" data-decoration-line><span slot="stat">100+</span><div slot="text"><p>courses exploring innovation and creative thinking</p></div></umd-element-stat>
-          <umd-element-stat data-visual-size="large" data-theme="dark" data-decoration-line><span slot="stat">28</span><div slot="text"><p>Terps recognized by Forbes 30 Under 30 since 2011</p></div></umd-element-stat>
-          <umd-element-stat data-visual-size="large" data-theme="dark" data-decoration-line><span slot="stat">10</span><div slot="text"><p>years in the undergraduate entrepreneurship top 10</p></div></umd-element-stat>
-        </div>
-        <p class="umd-learning-source-note umd-learning-source-note-dark">A snapshot from <a class="umd-text-link-white" href="https://fearlesslyforward.umd.edu/we-reimagine-learning">We Reimagine Learning</a>. Figures reflect the supplied reference page.</p>
-      </div>
-    </section>
-
-    <section id="in-action" class="umd-layout-vertical-landing">
-      <div class="umd-layout-space-horizontal-small">
-        <umd-element-section-intro class="umd-layout-vertical-landing-child"><h2 slot="headline">A classroom without walls</h2></umd-element-section-intro>
-        <umd-element-tabs data-layout-position="124">
-          <div slot="tabs">
-            <div data-title="Explore & create">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:32px;align-items:center;">
-        <img src="assets/arts-discovery.jpg" alt="A Maryland arts experience brings people and ideas together" loading="lazy" style="display:block;width:100%;height:320px;object-fit:cover;">
-        <div>
-          <h3 style="font-size:26px;line-height:1.2;font-weight:700;color:#000;margin:0 0 16px;">Creativity crosses every discipline.</h3>
-          <p style="font-size:18px;line-height:1.55;color:#454545;margin:0 0 24px;">Bring a new lens to a familiar question. Explore the connections between art, science and technology—and discover what happens when different ways of thinking meet.</p>
-          <umd-element-call-to-action data-display="secondary"><a href="https://arts.umd.edu/">Discover Arts for All</a></umd-element-call-to-action>
-        </div>
-      </div>
-    </div>
-            <div data-title="Innovate & build">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:32px;align-items:center;">
-        <img src="assets/research.jpg" alt="A Maryland researcher studies brain scans on a large digital display" loading="lazy" style="display:block;width:100%;height:320px;object-fit:cover;">
-        <div>
-          <h3 style="font-size:26px;line-height:1.2;font-weight:700;color:#000;margin:0 0 16px;">Turn a question into a possibility.</h3>
-          <p style="font-size:18px;line-height:1.55;color:#454545;margin:0 0 24px;">Go beyond the lecture. Research, build and test ideas with people whose perspectives are different from your own.</p>
-          <umd-element-call-to-action data-display="secondary"><a href="https://xfoundry.umd.edu/">Explore xFoundry</a></umd-element-call-to-action>
-        </div>
-      </div>
-    </div>
-            <div data-title="Serve & lead">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:32px;align-items:center;">
-        <img src="assets/service-day.jpg" alt="Students putting learning into practice through community service" loading="lazy" style="display:block;width:100%;height:320px;object-fit:cover;">
-        <div>
-          <h3 style="font-size:26px;line-height:1.2;font-weight:700;color:#000;margin:0 0 16px;">Make your next step count.</h3>
-          <p style="font-size:18px;line-height:1.55;color:#454545;margin:0 0 24px;">Find a cause you care about. Work with a community, share your skills and learn by taking action.</p>
-          <umd-element-call-to-action data-display="secondary"><a href="https://dogood.umd.edu/">Find your way to Do Good</a></umd-element-call-to-action>
-        </div>
-      </div>
-    </div>
-          </div>
-        </umd-element-tabs>
-      </div>
-    </section>
-
     <section id="president-quote" class="umd-layout-vertical-landing" aria-label="A statement from President Darryll J. Pines">
       <div class="umd-layout-space-horizontal-normal">
         <!-- Feature Quote defaults to the light palette; long text keeps default type size. -->
@@ -1025,71 +937,6 @@
           <p slot="attribution">Darryll J. Pines</p>
           <p slot="attribution-sub-text">President, University of Maryland</p>
         </umd-element-quote>
-      </div>
-    </section>
-
-    <section id="video" class="umd-layout-vertical-landing">
-      <div class="umd-layout-space-horizontal-small">
-        <umd-element-section-intro class="umd-layout-vertical-landing-child"><h2 slot="headline">See an idea take shape</h2></umd-element-section-intro>
-        <figure class="umd-learning-video">
-          <iframe src="https://www.youtube-nocookie.com/embed/pi61E9Tsqjo" title="xFoundry at the University of Maryland: multidisciplinary collaboration and innovation" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-          <figcaption><span>Meet xFoundry at the University of Maryland.</span><a class="umd-text-link-red umd-learning-editorial-link" href="https://www.youtube.com/watch?v=pi61E9Tsqjo">Watch on YouTube <span aria-hidden="true">↗</span></a></figcaption>
-        </figure>
-      </div>
-    </section>
-
-    <section id="initiatives" class="umd-layout-vertical-landing">
-      <div class="umd-layout-space-horizontal-larger">
-        <div class="umd-layout-vertical-landing-child"><umd-element-section-intro-wide><h2 slot="headline">Where your interests meet your impact</h2></umd-element-section-intro-wide></div>
-        <div class="umd-layout-grid-columns-two" data-animation="off">
-          <umd-element-card-overlay type="image" data-theme="dark" class="size-large">
-      <img slot="image" src="assets/arts-discovery.jpg" alt="Creative expression brings the Maryland community together" loading="lazy" onerror="this.onerror=null;this.src='assets/campus.jpg';">
-      <h3 slot="headline"><a href="https://arts.umd.edu/">A more creative world</a></h3>
-      <a slot="cta-icon" href="https://arts.umd.edu/" aria-label="Explore A more creative world">Explore</a>
-    </umd-element-card-overlay>
-          <umd-element-card-overlay type="image" data-theme="dark" class="size-large">
-      <img slot="image" src="assets/service-day.jpg" alt="Terps volunteer alongside one another in the community" loading="lazy" onerror="this.onerror=null;this.src='assets/campus.jpg';">
-      <h3 slot="headline"><a href="https://fearlesslyforward.umd.edu/do-good-now">A community of changemakers</a></h3>
-      <a slot="cta-icon" href="https://fearlesslyforward.umd.edu/do-good-now" aria-label="Explore A community of changemakers">Explore</a>
-    </umd-element-card-overlay>
-        </div>
-      </div>
-    </section>
-
-    <section id="impact-in-action" class="umd-layout-vertical-landing" aria-labelledby="impact-in-action-heading">
-      <umd-element-sticky-columns class="umd-layout-space-horizontal-larger" data-layout-position="124px">
-        <div slot="sticky-column">
-          <h2 id="impact-in-action-heading" class="umd-sans-largest-uppercase mb-md">Learning with a purpose.<br>Impact at scale.</h2>
-          <div class="umd-text-rich-advanced mb-sm"><p>Maryland’s Do Good Campus Signature Initiatives connect classroom learning with hands-on opportunities to serve communities.</p></div>
-          <div class="umd-layout-grid-inline-tablet-rows"><umd-element-call-to-action data-display="secondary"><a href="https://today.umd.edu/umd-names-inaugural-do-good-campus-signature-initiatives">Explore the initiatives</a></umd-element-call-to-action></div>
-          <p class="umd-learning-source-note">Source: <a class="umd-text-link-red" href="https://today.umd.edu/umd-names-inaugural-do-good-campus-signature-initiatives">Maryland Today, April 30, 2026</a>.</p>
-        </div>
-        <div slot="static-column">
-          <div class="umd-layout-grid-gap-stacked" data-animation="off">
-            <umd-element-stat data-visual-size="large" data-animation="offset" data-decoration-line><span slot="stat">6</span><div slot="text"><p>inaugural Do Good Campus Signature Initiatives</p></div></umd-element-stat>
-            <umd-element-stat data-visual-size="large" data-animation="offset" data-decoration-line><span slot="stat">27</span><div slot="text"><p>campus proposals considered for the first cohort</p></div></umd-element-stat>
-            <umd-element-stat data-visual-size="large" data-animation="offset" data-decoration-line><span slot="stat">240+</span><div slot="text"><p>UMD Fellows students participating each year</p></div></umd-element-stat>
-          </div>
-        </div>
-      </umd-element-sticky-columns>
-    </section>
-
-    <section id="get-involved" class="umd-layout-vertical-landing">
-      <div class="umd-layout-space-horizontal-small">
-        <umd-element-section-intro class="umd-layout-vertical-landing-child"><h2 slot="headline">Your next step starts here</h2></umd-element-section-intro>
-        <!-- Adjacent native siblings supply the built-in 8px accordion gap. -->
-        <umd-element-accordion-item>
-      <span slot="headline">I have an idea. How can I develop it?</span>
-      <div slot="text" class="umd-text-rich-advanced"><img class="umd-learning-accordion-figure" src="assets/idea-factory.jpg" alt="The IDEA Factory, a place for collaboration and invention" loading="lazy"><p>Start with the Academy for Innovation and Entrepreneurship. Explore courses and workshops that help you experiment, collaborate and move an idea forward.</p><p><a href="https://innovation.umd.edu/">Explore this opportunity <span aria-hidden="true">→</span></a></p></div>
-    </umd-element-accordion-item>
-        <umd-element-accordion-item>
-      <span slot="headline">How can I make a difference in my community?</span>
-      <div slot="text" class="umd-text-rich-advanced"><img class="umd-learning-accordion-figure" src="assets/service-day.jpg" alt="Maryland students taking part in a local service project" loading="lazy"><p>The Do Good Institute connects students with ways to serve, learn and grow. Explore mentoring and support for your own social impact project.</p><p><a href="https://dogood.umd.edu/">Explore this opportunity <span aria-hidden="true">→</span></a></p></div>
-    </umd-element-accordion-item>
-        <umd-element-accordion-item>
-      <span slot="headline">Can I explore beyond my major?</span>
-      <div slot="text" class="umd-text-rich-advanced"><img class="umd-learning-accordion-figure" src="assets/arts-discovery.jpg" alt="Students discovering creative possibilities at Maryland" loading="lazy"><p>Arts for All brings creative perspectives into conversation with other disciplines. Follow a new interest through events, projects and opportunities across campus.</p><p><a href="https://arts.umd.edu/">Explore this opportunity <span aria-hidden="true">→</span></a></p></div>
-    </umd-element-accordion-item>
       </div>
     </section>
 
@@ -1138,17 +985,6 @@
       </umd-element-sticky-columns>
     </section>
 
-    <section id="news" class="umd-layout-vertical-landing">
-      <div class="umd-layout-space-horizontal-small">
-        <umd-element-section-intro class="umd-layout-vertical-landing-child"><h2 slot="headline">News Feed</h2><div slot="actions"><umd-element-call-to-action data-display="secondary"><a href="https://today.umd.edu/">All Maryland news</a></umd-element-call-to-action></div></umd-element-section-intro>
-        <!-- A live list feed preserves the page's two image-card-grid budget. -->
-        <umd-feed-news-list id="maryland-news-feed" data-token="RP0ufmM8RWqCiOhdi5KOU_QF4jTqw8Ni"
-          data-filter-group-ids="802177" data-layout-row-count="3" data-lazy-load="true">
-        </umd-feed-news-list>
-        <noscript><p class="umd-learning-source-note">Read the latest stories at <a class="umd-text-link-red" href="https://today.umd.edu/">Maryland Today</a>.</p></noscript>
-      </div>
-    </section>
-
     <section id="united-in-purpose" class="umd-layout-vertical-landing" aria-labelledby="purpose-heading">
       <umd-layout-image-expand>
         <div slot="content" class="block max-w-[480px] w-full ml-auto">
@@ -1161,15 +997,6 @@
       </umd-layout-image-expand>
     </section>
 
-    <section id="take-action" class="umd-layout-vertical-landing" aria-label="Do Good invitation">
-      <div class="umd-layout-space-horizontal-larger">
-        <umd-element-banner-promo data-visual-icon="seal">
-          <h2 slot="headline">Big change starts with you.</h2>
-          <p slot="text">Bring your curiosity. Find your purpose. Join a campus that puts ideas into action.</p>
-          <div slot="actions"><umd-element-call-to-action data-display="secondary"><a href="https://dogood.umd.edu/">Do Good at Maryland</a></umd-element-call-to-action></div>
-        </umd-element-banner-promo>
-      </div>
-    </section>
   </main>
 
   <footer>
