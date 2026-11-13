@@ -11,20 +11,20 @@ The existing URL is retained for shared links. This is a landing page with seven
 | Section | Native layout / width |
 | --- | --- |
 | Hero | Full-bleed small centered hero with the Do Good Campus title, complete introduction and original sculpture photo |
-| Do Good Month | Full-bleed standard dark Pathway; cropped image left, text right |
+| Do Good Month | Full-bleed standard light Pathway; cropped image left, text right, content-driven height |
 | Do Good, Now | 1600px gapped four-column Standard Card Group, eight cards |
 | President Pines quote | 1280px Feature Quote Light, native default text size |
 | Site Events with Feature | Dark section, 1600px sticky columns: one Large Feature Event and four List events |
 | United in Purpose | Full-bleed Image Expand with a short heading and supporting body text |
 | Connect with Maryland | 1600px native three-column Image Overlay Card grid; five links in 3+2 |
 
-The user requested removal of the complete Find a different way forward, Small sparks. Extraordinary possibilities., A classroom without walls, See an idea take shape, Where your interests meet your impact, Learning with a purpose., Your next step starts here, News Feed and Promo Banner sections. Those sections remain removed. A separately approved five-link navigation group now follows the six retained sections, whose content and settings remain unchanged.
+The user requested removal of the complete Find a different way forward, Small sparks. Extraordinary possibilities., A classroom without walls, See an idea take shape, Where your interests meet your impact, Learning with a purpose., Your next step starts here, News Feed and Promo Banner sections. Those sections remain removed. A separately approved five-link navigation group now follows the six retained sections, whose approved content is retained.
 
 Native landing spacing remains 56px mobile, 80px tablet and 120px desktop; intro-to-content gaps are 32/40/48px.
 
 ## Content and images
 
-The hero uses the supplied Building a Do Good Campus title and complete introduction, with the original Do Good sculpture photo at focal position 71.21% 45.81%. The Pathway retains its original photo and copy, with image display height capped at 480px. The four-column group is a fixed snapshot of eight Maryland Today articles matching the supplied screenshot, including original summaries, dates, links and local photos.
+The hero uses the supplied Building a Do Good Campus title and complete introduction, with the original Do Good sculpture photo at focal position 71.21% 45.81%. The Pathway retains its original photo and copy, with a white background, native black/gray text and the image capped at 480px. A narrowly scoped stylesheet removes its 56vh minimum height so the row follows the image and text rather than the viewport. Standard landing section margins remain unchanged. The four-column group is a fixed snapshot of eight Maryland Today articles matching the supplied screenshot, including original summaries, dates, links and local photos.
 
 The Pines quotation and attribution are preserved. Site Events retains the five original source photographs and activity descriptions, including the full April 1–30 service challenge range. Events are labelled as April 2026 highlights.
 
@@ -39,6 +39,8 @@ The final group contains Apply, Join, Support, Connect and Cheer, using the five
 Run `python3 build.py` from this folder to generate `dist/index.html`. Build inputs are `../../page-builder/TEMPLATE.html`, `do-good-stories.json`, `site-events.json` and `action-links.json`. The removed feed configuration is no longer a build dependency. `asset-sources.json` records image provenance; `OVERRIDES.md` records composition details.
 
 For local viewing, run `python3 -m http.server 4173 --directory dist`, then open http://localhost:4173.
+
+`assets/pathway-layout.js` applies this single-section spacing adjustment through the native component-ready event and custom-element readiness, including lazy initialization. It is included in the published page and download ZIP.
 
 ## Validation
 
