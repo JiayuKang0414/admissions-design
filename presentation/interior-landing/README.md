@@ -22,6 +22,8 @@ The user requested removal of the complete Find a different way forward, Small s
 
 Native landing spacing remains 56px mobile, 80px tablet and 120px desktop; intro-to-content gaps are 32/40/48px.
 
+Desktop navigation labels remain on one line; the old 225px cap has been removed. Narrow screens keep the native menu drawer. Support Maryland uses the native small utility-link typography, a standard external-link SVG and aligned spacing, including hover and keyboard-focus states.
+
 ## Content and images
 
 The hero uses the supplied Building a Do Good Campus title and complete introduction, with the original Do Good sculpture photo at focal position 71.21% 45.81%. The Pathway retains its original photo and copy, with a white background, native black/gray text and the image capped at 480px. A narrowly scoped stylesheet removes its 56vh minimum height so the row follows the image and text rather than the viewport. Standard landing section margins remain unchanged. The four-column group is a fixed snapshot of eight Maryland Today articles matching the supplied screenshot, including original summaries, dates, links and local photos.

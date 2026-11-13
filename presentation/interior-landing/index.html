@@ -844,7 +844,16 @@
       text-align: center; font-size: 12px; line-height: 1.6;
     }
     umd-element-navigation-header [slot="logo"] img { width: 284px; max-width: 100%; height: auto; }
-    umd-element-navigation-header div[slot="utility-navigation"] a { color: #242424; text-decoration: none; }
+    umd-element-navigation-header div[slot="utility-navigation"] a {
+      display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+      color: #242424; text-decoration: none;
+    }
+    umd-element-navigation-header div[slot="utility-navigation"] a svg {
+      width: 12px; height: 12px; flex: 0 0 12px; fill: currentColor;
+    }
+    umd-element-navigation-header div[slot="utility-navigation"] a:focus-visible {
+      outline: 2px solid #e21833; outline-offset: 4px;
+    }
     umd-element-scroll-top { right: 24px; bottom: 24px; }
     @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
@@ -856,8 +865,8 @@
   <umd-element-navigation-utility data-alert-off="true" role="navigation" aria-label="University navigation"></umd-element-navigation-utility>
   <umd-element-navigation-header sticky class="umd-layout-space-horizontal-full">
     <a slot="logo" href="https://umd.edu"><img src="assets/maryland-logo.svg" alt="University of Maryland" width="284" height="46"></a>
-    <nav slot="main-navigation" aria-label="Main navigation"><umd-element-nav-item><a slot="primary-link" href="https://fearlesslyforward.umd.edu/"><span style="display:block;max-width:225px;">Home</span></a></umd-element-nav-item><umd-element-nav-item><a slot="primary-link" href="#main-content" data-selected aria-current="page" title="UMD is changing teaching and learning to prepare tomorrow's leaders to adapt to the future of work."><span style="display:block;max-width:225px;">Innovations in Teaching and Learning</span></a></umd-element-nav-item><umd-element-nav-item><a slot="primary-link" href="https://fearlesslyforward.umd.edu/do-good-now" title="As the nation's first Do Good Campus, UMD is dedicating significant resources to courses, internships and mentoring programs that equip Terps with the skills and expertise needed to make real impact in their communities now."><span style="display:block;max-width:225px;">A Do Good Campus</span></a></umd-element-nav-item><umd-element-nav-item><a slot="primary-link" href="https://fearlesslyforward.umd.edu/ai" title="The University of Maryland is developing the next generation of artificial intelligence education, technology and leaders through interdisciplinary research that focuses on the responsible and ethical use of AI."><span style="display:block;max-width:225px;">The Future of AI</span></a></umd-element-nav-item></nav>
-    <div slot="utility-navigation"><a href="https://giving.umd.edu/">Support Maryland <span aria-hidden="true">↗</span></a></div>
+    <nav slot="main-navigation" aria-label="Main navigation"><umd-element-nav-item><a slot="primary-link" href="https://fearlesslyforward.umd.edu/"><span style="white-space:nowrap;">Home</span></a></umd-element-nav-item><umd-element-nav-item><a slot="primary-link" href="#main-content" data-selected aria-current="page" title="UMD is changing teaching and learning to prepare tomorrow's leaders to adapt to the future of work."><span style="white-space:nowrap;">Innovations in Teaching and Learning</span></a></umd-element-nav-item><umd-element-nav-item><a slot="primary-link" href="https://fearlesslyforward.umd.edu/do-good-now" title="As the nation's first Do Good Campus, UMD is dedicating significant resources to courses, internships and mentoring programs that equip Terps with the skills and expertise needed to make real impact in their communities now."><span style="white-space:nowrap;">A Do Good Campus</span></a></umd-element-nav-item><umd-element-nav-item><a slot="primary-link" href="https://fearlesslyforward.umd.edu/ai" title="The University of Maryland is developing the next generation of artificial intelligence education, technology and leaders through interdisciplinary research that focuses on the responsible and ethical use of AI."><span style="white-space:nowrap;">The Future of AI</span></a></umd-element-nav-item></nav>
+    <div slot="utility-navigation"><a class="umd-sans-smaller" href="https://giving.umd.edu/">Support Maryland <svg viewBox="0 0 10.42 10.67" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.67,2.28H1.28S3.63,0,3.63,0h4.49s2.29,0,2.29,0h0s0,2.28,0,2.28h0v4.49s-2.29,2.35-2.29,2.35V3.95S1.55,10.67,1.55,10.67l-1.55-1.55L6.67,2.28Z"/></svg></a></div>
     <div slot="primary-slide-links"><a href="https://fearlesslyforward.umd.edu/"><span>Home</span></a><a href="#main-content" data-selected aria-current="page" title="UMD is changing teaching and learning to prepare tomorrow's leaders to adapt to the future of work."><span>Innovations in Teaching and Learning</span></a><a href="https://fearlesslyforward.umd.edu/do-good-now" title="As the nation's first Do Good Campus, UMD is dedicating significant resources to courses, internships and mentoring programs that equip Terps with the skills and expertise needed to make real impact in their communities now."><span>A Do Good Campus</span></a><a href="https://fearlesslyforward.umd.edu/ai" title="The University of Maryland is developing the next generation of artificial intelligence education, technology and leaders through interdisciplinary research that focuses on the responsible and ethical use of AI."><span>The Future of AI</span></a></div>
   </umd-element-navigation-header>
 
