@@ -12,16 +12,16 @@ Reference: https://fearlesslyforward.umd.edu/we-reimagine-learning, captured Nov
 | --- | --- |
 | We Reimagine Learning title, full introduction and Startup Shell photo | Small, centered, standard Hero, full bleed |
 | Here at UMD, education is edu-action. | Ordinary light Pathway, image left, original body and Learn More destination |
-| Latest News | Native News List in a 992px lock, three initial articles and native load-more pagination |
+| Latest News | Native News Feed cards in a 1600px lock, three columns and one initial row, with native load-more pagination |
 | Three innovation and entrepreneurship statistics | Three native large Stats with red dividers in a 1600px gapped grid |
-| Ecosystem heading and xFoundry video | Wide Section Intro, followed by a responsive 16:9 YouTube embed and the original caption in a 992px lock |
+| Ecosystem heading and xFoundry video | Wide Section Intro, followed by a responsive 16:9 YouTube embed and the original caption in a 992px lock; caption title uses native 18px bold sentence-case text |
 | Academy, Arts for All, Do Good Accelerator and Pitch Dingman | Four aligned Standard Cards with original photographs, in a 1600px two-column grid |
 | Jennifer King Rice quotation | Feature Quote Light in a 1280px lock, native default text size for the full quotation |
 | Apply, Join, Support, Connect, Cheer | Five Image Overlay Cards in the native three-column grid, arranged 3+2 |
 
 There are seven top-level sections: the ecosystem heading, video and four program cards belong to one section. Landing margins use 56/80/120px; child gaps use 32/40/48px. The source has no carousel or side navigation.
 
-All editorial copy, statistics, link destinations and photographs come from the source snapshot. The statistics are reproduced source content, not independently updated claims. The source news grid displayed nine articles; this presentation uses a compact list with three initial articles and access to more through native pagination and the original Read More destination. Action-card descriptions remain in accessible link labels.
+All editorial copy, statistics, link destinations and photographs come from the source snapshot. The statistics are reproduced source content, not independently updated claims. The source news grid displayed nine articles; this presentation uses the user-requested cards layout with three initial articles and access to more through native pagination and the original Read More destination. Action-card descriptions remain in accessible link labels. The xFoundry title and paragraph are supplementary video copy inside its figcaption, not an additional section heading. The caption starts 16px below the video.
 
 The new page reuses the user-approved navigation and visual footer from the Do Good presentation at build time. Desktop labels remain on one line, with the native drawer at narrower widths. Support Maryland retains the approved native utility typography and external-link SVG. Published assets are copied locally, so viewing this page does not require the Do Good page to be present.
 

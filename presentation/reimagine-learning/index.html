@@ -865,7 +865,7 @@
       display: block; width: 100%; height: auto; aspect-ratio: 16 / 9;
       border: 0; background: #000;
     }
-    .umd-learning-video figcaption { margin-top: 32px; }
+    .umd-learning-video figcaption { margin-top: 16px; }
 
   </style>
 </head>
@@ -899,9 +899,9 @@
     </section>
 
     <section id="latest-news" class="umd-layout-vertical-landing" aria-label="Latest News">
-      <div class="umd-layout-space-horizontal-small">
-        <umd-element-section-intro class="umd-layout-vertical-landing-child"><h2 slot="headline">Latest News</h2><div slot="actions"><umd-element-call-to-action data-display="secondary"><a href="https://today.umd.edu/search?categories=we-reimagine-learning" target="_blank" rel="noopener">Read More</a></umd-element-call-to-action></div></umd-element-section-intro>
-        <umd-feed-news-list data-token="RP0ufmM8RWqCiOhdi5KOU_QF4jTqw8Ni" data-filter-group-ids="802177" data-layout-row-count="3" data-lazy-load="true"></umd-feed-news-list>
+      <div class="umd-layout-space-horizontal-larger">
+        <div class="umd-layout-vertical-landing-child"><umd-element-section-intro-wide><h2 slot="headline">Latest News</h2><div slot="actions"><umd-element-call-to-action data-display="secondary"><a href="https://today.umd.edu/search?categories=we-reimagine-learning" target="_blank" rel="noopener">Read More</a></umd-element-call-to-action></div></umd-element-section-intro-wide></div>
+        <umd-feed-news data-token="RP0ufmM8RWqCiOhdi5KOU_QF4jTqw8Ni" data-filter-group-ids="802177" data-layout-column-count="3" data-layout-row-count="1" data-lazy-load="true"></umd-feed-news>
         <noscript><div class="umd-text-rich-advanced"><p><a href="https://today.umd.edu/search?categories=we-reimagine-learning" target="_blank" rel="noopener">Read More</a></p></div></noscript>
       </div>
     </section>
@@ -931,7 +931,7 @@
         <figure class="umd-learning-video">
           <iframe src="https://www.youtube-nocookie.com/embed/pi61E9Tsqjo" title="xFoundry@UMD is a new initiative at the University of Maryland, launched out of the E.A. Fernandez IDEA Factory, that promotes technology innovations and advancements through multidisciplinary collaborations and competitions, empowering students to become agents of change" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           <figcaption>
-            <h3 class="umd-sans-largest-uppercase mb-sm">Launch a funded venture with xFoundry at UMD</h3>
+            <p class="umd-sans-large text-black mb-sm">Launch a funded venture with xFoundry at UMD</p>
             <div class="umd-text-rich-advanced"><p>Initiated in the university’s E.A. Fernandez IDEA Factory, xFoundry&#x27;s bold learning experiences include a competition to found a venture to solve a major societal challenge and win up to $2M in investment capital.</p></div>
           </figcaption>
         </figure>
