@@ -19,7 +19,7 @@ Reference: https://fearlesslyforward.umd.edu/we-reimagine-learning, captured Nov
 | Jennifer King Rice quotation | Feature Quote Light in a 1280px lock, native default text size for the full quotation |
 | Apply, Join, Support, Connect, Cheer | Five Image Overlay Cards in the native three-column grid, arranged 3+2 |
 
-There are seven top-level sections: the ecosystem heading, video and four program cards belong to one section. Landing margins use 56/80/120px; child gaps use 32/40/48px. The source has no carousel or side navigation.
+There are eight top-level sections: Hero, Pathway, News, Statistics, ecosystem heading with video, program cards, Quote and action cards. The video with its caption and the four program cards are separate sections, giving them the same 120px desktop separation as the other major components. Landing margins use 56px below 768px, 80px at 768–1023px and 120px at 1024px and above. Intro-to-content gaps use 32/40/48px. The source has no carousel or side navigation.
 
 All editorial copy, statistics, link destinations and photographs come from the source snapshot. The statistics are reproduced source content, not independently updated claims. The source news grid displayed nine articles; this presentation uses the user-requested cards layout with three initial articles and access to more through native pagination and the original Read More destination. Action-card descriptions remain in accessible link labels. The xFoundry title and paragraph are supplementary video copy inside its figcaption, not an additional section heading. The caption starts 16px below the video.
 
