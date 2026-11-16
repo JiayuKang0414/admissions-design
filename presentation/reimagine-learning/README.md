@@ -4,7 +4,7 @@ Independent landing-page presentation using UMD Design System 2.1.0 and page-bui
 
 View: https://jiayukang0414.github.io/admissions-design/presentation/reimagine-learning/
 
-Reference: https://fearlesslyforward.umd.edu/we-reimagine-learning, captured November 14, 2026. The existing Do Good presentation remains at its original URL and is unchanged.
+Reference: https://fearlesslyforward.umd.edu/we-reimagine-learning, captured November 14, 2026. The Do Good presentation keeps its separate original URL.
 
 ## Page composition
 
@@ -24,6 +24,8 @@ There are eight top-level sections: Hero, Pathway, News, Statistics, ecosystem h
 All editorial copy, statistics, link destinations and photographs come from the source snapshot. The statistics are reproduced source content, not independently updated claims. The source news grid displayed nine articles; this presentation uses the user-requested cards layout with three initial articles and access to more through native pagination and the original Read More destination. Action-card descriptions remain in accessible link labels. The xFoundry title and paragraph are supplementary video copy inside its figcaption, not an additional section heading. The caption starts 16px below the video.
 
 The new page reuses the user-approved navigation and visual footer from the Do Good presentation at build time. Desktop labels remain on one line, with the native drawer at narrower widths. Support Maryland retains the approved native utility typography and external-link SVG. Published assets are copied locally, so viewing this page does not require the Do Good page to be present.
+
+Current-navigation state is applied separately on each page: Innovations in Teaching and Learning is selected here, and A Do Good Campus is selected on the Do Good page. Desktop and mobile menus agree. Both entries link to their respective published presentation pages.
 
 ## Build and files
 
@@ -47,6 +49,6 @@ Open http://localhost:4173. UMD component bundles, fonts, live news and YouTube 
 
 ## Verification
 
-Checked theme values, house class names, canonical critical CSS, verbatim source copy, component slots, section order, local image hashes and paths, image descriptions, unique IDs, internal anchors and original card destinations. The news API returned two distinct batches of three articles, including images. Hash checks confirm that the Do Good builder, HTML, documentation and Pathway helper remain unchanged.
+Checked theme values, house class names, canonical critical CSS, verbatim source copy, component slots, section order, local image hashes and paths, image descriptions, unique IDs, internal anchors and original card destinations. The news API returned two distinct batches of three articles, including images. Navigation checks verify each page's own selected item and destination in desktop and mobile menus, with main content unchanged by the navigation correction.
 
 Browser visual and interaction verification is incomplete: the supported Browser connection fails with `Cannot redefine property: process`. No screenshot, computed-style, responsive rendering or load-more interaction check is claimed.
